@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>KELION - Data Storage Consent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Cormorant+Garamond&display=swap"
+        rel="stylesheet">
+    <!-- Note: 3D model preload removed - was causing console warnings and not helping since model loads on app.html -->
+    <style>
+        /* Reset robust */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* Dynamic viewport units */
+        :root {
+            --vvw: 100vw;
+            --vvh: 100vh;
+        }
+
+        @supports (height: 100dvh) {
+            :root {
+                --vvh: 100dvh;
+            }
+        }
+
+        @supports (width: 100dvw) {
+            :root {
+                --vvw: 100dvw;
+            }
+        }
+
+        /* Stage fills visible viewport */
+        #stage {
+            position: fixed;
+            inset: 0;
+            width: var(--vvw);
+            height: var(--vvh);
+            padding-top: env(safe-area-inset-top);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        /* Foldables support */
+        @media (horizontal-viewport-segments: 2) {
+            #stage {
+                width: env(viewport-segment-width 0 0);
+                height: env(viewport-segment-height 0 0);
+                left: env(viewport-segment-left 0 0);
+                top: env(viewport-segment-top 0 0);
+            }
+        }
+
+        @media (vertical-viewport-segments: 2) {
+            #stage {
+                width: env(viewport-segment-width 0 0);
+                height: env(viewport-segment-height 0 0);
+                left: env(viewport-segment-left 0 0);
+                top: env(viewport-segment-top 0 0);
+            }
+        }
+
+        .page-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .page-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Active GDPR Frame Panel - transparent, positioned over image frame */
+        .gdpr-frame {
+            position: absolute;
+            left: 37.4%;
+            top: 49.2%;
+            transform: translate(-50%, -50%);
+            width: 26%;
+            max-width: 280px;
+            height: 30%;
+            max-height: 200px;
+            background: transparent;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        /* Buttons container */
+        .buttons-container {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 40px;
+        }
+
+        /* 3D Relief Buttons */
+        .btn-3d {
+            padding: 16px 50px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 3px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-start {
+            background: linear-gradient(180deg, #1a5a3a 0%, #0d3d28 50%, #052015 100%);
+            color: #ffd700;
+            text-shadow: 0 2px 0 #0a2a1a, 0 3px 5px rgba(0, 0, 0, 0.5);
+            box-shadow:
+                0 6px 0 #021008,
+                0 8px 15px rgba(0, 0, 0, 0.6),
+                inset 0 2px 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #021008, 0 11px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .btn-start:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #021008, 0 5px 10px rgba(0, 0, 0, 0.6);
+        }
+
+        .btn-exit {
+            background: linear-gradient(180deg, #8b2020 0%, #5a1515 50%, #2a0808 100%);
+            color: #fff;
+            text-shadow: 0 2px 0 #3a0a0a, 0 3px 5px rgba(0, 0, 0, 0.5);
+            box-shadow:
+                0 6px 0 #150303,
+                0 8px 15px rgba(0, 0, 0, 0.6),
+                inset 0 2px 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-exit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #150303, 0 11px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .btn-exit:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #150303, 0 5px 10px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Contact button */
+        .btn-contact {
+            position: absolute;
+            bottom: 3%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            border: none;
+            color: #888;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 10px 25px;
+            transition: color 0.3s;
+        }
+
+        .btn-contact:hover {
+            color: #d4af37;
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(180deg, #1a2a4a 0%, #0a1a3a 100%);
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-content h2 {
+            color: #ffd700;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            color: #fff;
+            font-family: inherit;
+        }
+
+        .modal-content input::placeholder,
+        .modal-content textarea::placeholder {
+            color: #888;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-send,
+        .btn-cancel,
+        .btn-ok {
+            padding: 12px 30px;
+            border: 2px solid #d4af37;
+            border-radius: 5px;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+        }
+
+        .btn-send,
+        .btn-ok {
+            background: #1a5a3a;
+            color: #ffd700;
+        }
+
+        .btn-cancel {
+            background: #5a1515;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="stage">
+        <div class="page-wrapper">
+            <img src="images/page2.png" alt="Data Storage Consent" class="page-image">
+
+            <!-- GDPR Text Overlay (no frame - V3 style) -->
+            <div id="gdpr-text" style="
+            position: absolute;
+            left: 38%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 24%;
+            max-width: 260px;
+            color: #d4af37;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+            text-align: center;
+        "></div>
+            <div id="flag-container" style="
+            position: absolute;
+            left: 38%;
+            top: 65%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        "></div>
+
+
+            <script>
+                const gdprTexts = [
+                    { lang: 'en', flag: 'https://flagcdn.com/w40/gb.png', text: 'We store only your IP, country and access date. Camera access is user-initiated only. We do NOT store any video or photos.' },
+                    { lang: 'ro', flag: 'https://flagcdn.com/w40/ro.png', text: 'Stocăm doar IP-ul, țara și data accesării. Accesul la cameră este doar la cererea utilizatorului. NU stocăm video sau fotografii.' },
+                    { lang: 'es', flag: 'https://flagcdn.com/w40/es.png', text: 'Solo almacenamos IP, país y fecha de acceso. El acceso a la cámara es solo a solicitud del usuario. NO almacenamos video ni fotos.' },
+                    { lang: 'fr', flag: 'https://flagcdn.com/w40/fr.png', text: 'Nous stockons uniquement IP, pays et date. L\'accès caméra est à la demande de l\'utilisateur. Nous NE stockons PAS de vidéos ou photos.' },
+                    { lang: 'de', flag: 'https://flagcdn.com/w40/de.png', text: 'Wir speichern nur IP, Land und Zugriffsdatum. Kamerazugriff erfolgt nur auf Nutzeranfrage. Wir speichern KEINE Videos oder Fotos.' },
+                    { lang: 'it', flag: 'https://flagcdn.com/w40/it.png', text: 'Memorizziamo solo IP, paese e data. L\'accesso alla fotocamera è solo su richiesta. NON memorizziamo video o foto.' },
+                    { lang: 'pt', flag: 'https://flagcdn.com/w40/pt.png', text: 'Armazenamos apenas IP, país e data. O acesso à câmera é apenas por solicitação. NÃO armazenamos vídeos ou fotos.' },
+                    { lang: 'nl', flag: 'https://flagcdn.com/w40/nl.png', text: 'We slaan alleen IP, land en datum op. Cameratoegang is alleen op verzoek. Wij slaan GEEN video\'s of foto\'s op.' },
+                    { lang: 'pl', flag: 'https://flagcdn.com/w40/pl.png', text: 'Przechowujemy tylko IP, kraj i datę. Dostęp do kamery tylko na życzenie. NIE przechowujemy wideo ani zdjęć.' },
+                    { lang: 'sv', flag: 'https://flagcdn.com/w40/se.png', text: 'Vi lagrar endast IP, land och datum. Kameraåtkomst sker endast på begäran. Vi lagrar INTE video eller foton.' },
+                    { lang: 'hu', flag: 'https://flagcdn.com/w40/hu.png', text: 'Csak IP-t, országot és dátumot tárolunk. A kamerahozzáférés csak kérésre történik. NEM tárolunk videót vagy fotót.' },
+                    { lang: 'cs', flag: 'https://flagcdn.com/w40/cz.png', text: 'Ukládáme pouze IP, zemi a datum. Přístup ke kameře je pouze na vyžádání. NEUKLÁDÁME video ani fotografie.' },
+                    { lang: 'zh', flag: 'https://flagcdn.com/w40/cn.png', text: '我们仅存储IP、国家和访问日期。摄像头访问仅在用户请求时进行。我们不存储任何视频或照片。' },
+                    { lang: 'ja', flag: 'https://flagcdn.com/w40/jp.png', text: 'IP、国、アクセス日のみ保存します。カメラアクセスはユーザーの要求時のみです。動画や写真は保存しません。' },
+                    { lang: 'ar', flag: 'https://flagcdn.com/w40/sa.png', text: 'نحن نخزن فقط IP والبلد والتاريخ. الوصول للكاميرا بناءً على طلب المستخدم فقط. لا نخزن أي فيديو أو صور.' },
+                    { lang: 'hi', flag: 'https://flagcdn.com/w40/in.png', text: 'हम केवल IP, देश और तिथि संग्रहीत करते हैं। कैमरा एक्सेस केवल उपयोगकर्ता के अनुरोध पर। हम कोई वीडियो या फोटो संग्रहीत नहीं करते।' },
+                    { lang: 'tr', flag: 'https://flagcdn.com/w40/tr.png', text: 'Sadece IP, ülke ve tarih saklıyoruz. Kamera erişimi sadece kullanıcı isteğiyle. Video veya fotoğraf SAKLAMIYORUZ.' },
+                    { lang: 'el', flag: 'https://flagcdn.com/w40/gr.png', text: 'Αποθηκεύουμε μόνο IP, χώρα και ημερομηνία. Πρόσβαση κάμερας μόνο κατόπιν αιτήματος. ΔΕΝ αποθηκεύουμε βίντεο ή φωτογραφίες.' }
+                ];
+
+                let currentIndex = 0;
+                const textEl = document.getElementById('gdpr-text');
+                const flagEl = document.getElementById('flag-container');
+
+                function showText(index) {
+                    const item = gdprTexts[index];
+
+                    // Fade out
+                    textEl.style.opacity = '0';
+                    flagEl.style.opacity = '0';
+
+                    setTimeout(() => {
+                        textEl.textContent = item.text;
+                        flagEl.innerHTML = '<img src="' + item.flag + '" alt="' + item.lang + '" style="width: 40px; height: auto; border-radius: 3px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);">';
+
+                        // Fade in with cinematic effect
+                        textEl.style.opacity = '1';
+                        flagEl.style.opacity = '1';
+                    }, 500);
+                }
+
+                // Initial show
+                showText(0);
+
+                // Rotate every 3 seconds
+                setInterval(() => {
+                    currentIndex = (currentIndex + 1) % gdprTexts.length;
+                    showText(currentIndex);
+                }, 4000);
+            </script>
+            <div class="buttons-container">
+                <button class="btn-3d btn-start" onclick="acceptConsent()">ACCEPT</button>
+                <button class="btn-3d btn-exit" onclick="declineConsent()">EXIT</button>
+            </div>
+
+            <button class="btn-contact" onclick="openContactModal()">Contact</button>
+
+            <!-- Contact Modal -->
+            <div class="modal-overlay" id="contactModal">
+                <div class="modal-content">
+                    <h2>Contact Us</h2>
+                    <form id="contactForm">
+                        <input type="text" id="contactName" placeholder="Your Name" required>
+                        <input type="email" id="contactEmail" placeholder="Your Email" required>
+                        <input type="text" id="contactSubject" placeholder="Subject" required>
+                        <textarea id="contactMessage" placeholder="Your Message" rows="4" required></textarea>
+                        <div class="modal-buttons">
+                            <button type="submit" class="btn-send">Send</button>
+                            <button type="button" class="btn-cancel" onclick="closeContactModal()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Goodbye Modal -->
+            <div class="modal-overlay" id="goodbyeModal">
+                <div class="modal-content goodbye-content">
+                    <h2>Goodbye!</h2>
+                    <p>Thank you for visiting KELION. We hope to see you again!</p>
+                    <button class="btn-ok" onclick="exitSite()">OK</button>
+                </div>
+            </div>
+
+            <!-- Choice Modal - After GDPR Consent -->
+            <div class="modal-overlay" id="choiceModal">
+                <div class="modal-content" style="max-width: 500px;">
+                    <img src="images/kelion_blazon.png" alt="Kelion" style="height: 70px; margin-bottom: 15px;">
+                    <h2 style="margin-bottom: 10px;">Welcome to KELION</h2>
+                    <p style="font-size: 0.95rem; margin-bottom: 25px;">Choose how you want to continue:</p>
+
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <!-- Free Trial Option -->
+                        <button onclick="startFreeTrial()" class="btn-3d btn-start" style="width: 100%; padding: 18px;">
+                            ⏱️ FREE TRIAL
+                            <br><span style="font-size: 0.75rem; font-weight: normal; letter-spacing: 1px;">60 minutes
+                                free
+                                access</span>
+                        </button>
+
+                        <!-- Login Option -->
+                        <button onclick="goToLogin()"
+                            style="width: 100%; padding: 15px; background: linear-gradient(180deg, #1a3a6c 0%, #0a2a5c 100%); color: #d4af37; border: 2px solid #d4af37; border-radius: 8px; font-family: 'Cinzel', serif; font-size: 1rem; cursor: pointer;">
+                            🔐 LOGIN
+                            <br><span style="font-size: 0.75rem; font-weight: normal;">Already subscribed? Sign
+                                in</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Generate browser fingerprint
+            function getFingerprint() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                ctx.textBaseline = 'top';
+                ctx.font = '14px Arial';
+                ctx.fillText('fp', 0, 0);
+                return canvas.toDataURL().slice(-20) + navigator.language + screen.width;
+            }
+
+            async function acceptConsent() {
+                localStorage.setItem('kelion_consent', 'accepted');
+                localStorage.setItem('kelion_consent_date', new Date().toISOString());
+
+                // Show choice modal - let user choose Free Trial or Login
+                document.getElementById('choiceModal').classList.add('active');
+            }
+
+            // Start Free Trial - go to app with trial mode
+            async function startFreeTrial() {
+                const btn = event.target;
+                btn.textContent = 'LOADING...';
+                btn.disabled = true;
+
+                try {
+                    // Check if trial is blocked
+                    const response = await fetch('/.netlify/functions/free-trial', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Fingerprint': getFingerprint()
+                        },
+                        body: JSON.stringify({ action: 'start' })
+                    });
+
+                    // Even if trial expired, still go to app.html (user can login there)
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Trial check:', data);
+                    }
+                } catch (e) {
+                    console.warn('Trial check skipped:', e.message);
+                }
+
+                // Always go to app.html - user can login there if needed
+                localStorage.removeItem('kelion_auth_token');
+                localStorage.removeItem('kelion_user');
+                localStorage.setItem('kelion_mode', 'free_trial');
+                localStorage.setItem('kelion_session_start', new Date().toISOString());
+                window.location.href = 'app.html';
+            }
+
+            // Go to Login - show login modal on app page
+            function goToLogin() {
+                localStorage.setItem('kelion_show_login', 'true');
+                window.location.href = 'app.html';
+            }
+
+            // Go to Subscribe page
+            function goToSubscribe() {
+                window.location.href = 'subscribe.html';
+            }
+
+            function declineConsent() {
+                document.getElementById('goodbyeModal').classList.add('active');
+            }
+
+            function exitSite() {
+                window.location.href = 'https://google.com';
+            }
+
+            function openContactModal() {
+                document.getElementById('contactModal').classList.add('active');
+            }
+
+            function closeContactModal() {
+                document.getElementById('contactModal').classList.remove('active');
+            }
+
+            document.getElementById('contactForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const name = document.getElementById('contactName').value;
+                const email = document.getElementById('contactEmail').value;
+                const subject = document.getElementById('contactSubject').value;
+                const message = document.getElementById('contactMessage').value;
+
+                const mailtoLink = `mailto:contact@kelionai.app?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+                window.location.href = mailtoLink;
+                closeContactModal();
+            });
+        </script>
+
+        <!-- Ticker Bar -->
+        <style>
+            .ticker-bar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 55px;
+                background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 20, 40, 0.95) 50%, rgba(0, 0, 0, 0.95) 100%);
+                border-top: 1px solid rgba(212, 175, 55, 0.6);
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+                z-index: 9999;
+            }
+
+            .ticker-brand {
+                background: linear-gradient(135deg, #d4af37 0%, #f4d47c 50%, #d4af37 100%);
+                color: #000;
+                font-family: 'Cinzel', serif;
+                font-weight: 700;
+                font-size: 0.65rem;
+                padding: 8px 12px;
+                letter-spacing: 1px;
+            }
+
+            .ticker-content {
+                flex: 1;
+                overflow: hidden;
+            }
+
+            .ticker-text {
+                color: #d4af37;
+                font-family: 'Cormorant Garamond', serif;
+                font-size: 0.8rem;
+                white-space: nowrap;
+                animation: ticker-scroll 30s linear infinite;
+                padding-left: 100%;
+            }
+
+            @keyframes ticker-scroll {
+                0% {
+                    transform: translateX(0);
+                }
+
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+        </style>
+        <div class="ticker-bar">
+            <div class="ticker-brand"><img src="images/ae_logo.png" alt="AE" style="height: 50px; width: auto;"></div>
+            <div class="ticker-content">
+                <div class="ticker-text" id="ticker-text2"></div>
+            </div>
+        </div>
+        <script>
+            const msgs2 = [
+                '✧ Imagined & developed by AE Creative Studio together with Google Gemini • OpenAI • ElevenLabs ✧',
+                '★ Project KELION — The first AI you can see • Bridging dimensions through technology ★',
+                '◆ Where imagination meets innovation • Powered by the most brilliant AI minds ◆'
+            ];
+            let mi2 = 0;
+            const tt2 = document.getElementById('ticker-text2');
+            function updateTicker2() {
+                tt2.style.opacity = '0';
+                setTimeout(() => { tt2.textContent = msgs2[mi2] + ' • ' + msgs2[mi2]; tt2.style.opacity = '1'; mi2 = (mi2 + 1) % msgs2.length; }, 300);
+            }
+            updateTicker2();
+            setInterval(updateTicker2, 10000);
+        </script>
+
+        <!-- Responsive Viewport Script -->
+        <script>
+            (function () {
+                const root = document.documentElement;
+                let scheduled = false;
+                function setVars(vw, vh) { root.style.setProperty('--vvw', vw + 'px'); root.style.setProperty('--vvh', vh + 'px'); }
+                function updateViewportVars() {
+                    const vv = window.visualViewport;
+                    if (vv) { setVars(Math.round(vv.width), Math.round(vv.height)); }
+                    else { setVars(Math.round(window.innerWidth), Math.round(window.innerHeight)); }
+                }
+                function scheduleUpdate() { if (scheduled) return; scheduled = true; requestAnimationFrame(() => { scheduled = false; updateViewportVars(); }); }
+                updateViewportVars();
+                window.addEventListener('resize', scheduleUpdate, { passive: true });
+                window.addEventListener('orientationchange', scheduleUpdate, { passive: true });
+                if (window.visualViewport) { window.visualViewport.addEventListener('resize', scheduleUpdate, { passive: true }); window.visualViewport.addEventListener('scroll', scheduleUpdate, { passive: true }); }
+                const mqH = window.matchMedia?.('(horizontal-viewport-segments: 2)'); const mqV = window.matchMedia?.('(vertical-viewport-segments: 2)');
+                mqH?.addEventListener?.('change', scheduleUpdate); mqV?.addEventListener?.('change', scheduleUpdate);
+            })();
+        </script>
+    </div><!-- end #stage -->
+</body>
+
+<!-- Page Tracking -->
+<script src="components/tracking.js"></script>
+
+</html>

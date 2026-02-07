@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-02-06T13:33:09.398Z",
+  "total": 12,
+  "passing": 9,
+  "failing": 3,
+  "results": [
+    {
+      "name": "health",
+      "status": 200,
+      "body": "{\n  \"healthy\": true,\n  \"timestamp\": \"2026-02-06T13:32:36.468Z\",\n  \"environment\": {\n    \"configured\": 7,\n    \"total\": 7,\n    \"details\": {\n      \"LLM_API_KEY\": true,\n      \"TTS_API_KEY\": true,\n      \"SEARCH_API_KEY\": true,\n      \"DB_URL\": true,\n      \"VECTOR_DB_API_KEY\": true,\n      \"ENCRYPTION_KEY\": true,\n      \"JWT_SIGNING_KEY\": true\n    }\n  },\n  \"services\": {\n    \"chat\": \"ready\",\n    \"tts\": \"ready\",\n    \"search\": \"ready\",\n    \"memory\": \"ready\",\n    \"encryption\": \"ready\"\n  }\n}",
+      "success": true
+    },
+    {
+      "name": "realtime-token",
+      "status": 200,
+      "body": "{\"object\":\"realtime.session\",\"id\":\"sess_D6GEnlzcjVWPhCfHXcfO2\",\"model\":\"gpt-4o-realtime\",\"modalities\":[\"audio\",\"text\"],\"instructions\":\"You are K (Kelion), a friendly AI hologram assistant with a camera.\\n\\nCURRENT TIME: Friday, 6 February 2026 at 13:32 (UK timezone)\\n\\nCRITICAL LOCATION RULE:\\n- NEVER assume the user is in any specific country or city\\n- ALWAYS use ONLY the GPS location data provided to you\\n- The user's REAL location is in the system context - USE IT\\n- For \\\"tomorrow\\\" or futu",
+      "success": true
+    },
+    {
+      "name": "chat",
+      "status": 200,
+      "body": "{\"choices\":[{\"message\":{\"role\":\"assistant\",\"content\":\"你好！我是Kimi，来自月之暗面科技有限公司开发的人工智能助手。有什么可以帮助你的吗？别担心，我可是个聊天高手哦！\"}}],\"model\":\"moonshot-v1-128k\",\"source\":\"kimi\"}",
+      "success": true
+    },
+    {
+      "name": "chat-stream",
+      "status": 200,
+      "body": "data: {\"token\":\"Hello\",\"fullText\":\"Hello\"}\n\ndata: {\"token\":\"!\",\"fullText\":\"Hello!\"}\n\ndata: {\"token\":\" How\",\"fullText\":\"Hello! How\"}\n\ndata: {\"token\":\" can\",\"fullText\":\"Hello! How can\"}\n\ndata: {\"token\":\" I\",\"fullText\":\"Hello! How can I\"}\n\ndata: {\"token\":\" assist\",\"fullText\":\"Hello! How can I assist\"}\n\ndata: {\"token\":\" you\",\"fullText\":\"Hello! How can I assist you\"}\n\ndata: {\"token\":\" today\",\"fullText\":\"Hello! How can I assist you today\"}\n\ndata: {\"token\":\"?\",\"fullText\":\"Hello! How can I assist you to",
+      "success": true
+    },
+    {
+      "name": "smart-brain",
+      "status": 200,
+      "body": "{\"success\":true,\"answer\":\"How can I assist you today?\",\"confidence\":92,\"verified\":true,\"source\":\"gpt-4o (confirmed by claude)\",\"gptOriginal\":null,\"verificationNote\":\"The AI appropriately responded to the ambiguous test input by asking how it can help, which is a standard and accurate response for unclear queries\"}",
+      "success": true
+    },
+    {
+      "name": "vision-compliment",
+      "status": 200,
+      "body": "{\"text\":\"It's great to see you here!\"}",
+      "success": true
+    },
+    {
+      "name": "memory-cleanup",
+      "status": 200,
+      "body": "{\"success\":true,\"deleted\":0,\"checked_at\":\"2026-02-06T13:32:44.763Z\",\"message\":\"Cleanup complete. Deleted 0 expired memories.\"}",
+      "success": true
+    },
+    {
+      "name": "generate-image",
+      "status": 200,
+      "body": "{\"success\":true,\"imageUrl\":\"https://oaidalleapiprodscus.blob.core.windows.net/private/org-EaCn8ubYI8hJUCzjyTL4roJl/user-CNtfGSOd4lSz1net9nJyXD9Q/img-a4FsZ7RWCMj3L9VKOQR6SzUp.png?st=2026-02-06T12%3A32%3A55Z&se=2026-02-06T14%3A32%3A55Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=c6569cb0-0faa-463d-9694-97df3dc1dfb1&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-02-05T23%3A38%3A06Z&ske=2026-02-06T23%3A38%3A06Z&sks=b&skv=2026-02-06&sig=8aZRYyp5JZeIVXfg18yAnzJh%2BqkUCMlS95hNxYpUduI%",
+      "success": true
+    },
+    {
+      "name": "dalle",
+      "status": 200,
+      "body": "{\"success\":true,\"imageUrl\":\"https://oaidalleapiprodscus.blob.core.windows.net/private/org-EaCn8ubYI8hJUCzjyTL4roJl/user-CNtfGSOd4lSz1net9nJyXD9Q/img-6D4xly2uni0JMpM3Tr52ihKH.png?st=2026-02-06T12%3A33%3A08Z&se=2026-02-06T14%3A33%3A08Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=b2c0e1c0-cf97-4e19-8986-8073905d5723&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-02-06T02%3A54%3A23Z&ske=2026-02-07T02%3A54%3A23Z&sks=b&skv=2026-02-06&sig=CCjMNv7JQJI62r38u0a2cs71uPgYGI/h3fKtx7AE%2Bfo%",
+      "success": true
+    },
+    {
+      "name": "run-migration",
+      "status": 503,
+      "body": "{\"error\":\"Database connection failed\",\"message\":\"getaddrinfo ENOTFOUND db.lqhkqznjdrkuvtpsgwhq.supabase.co\",\"hint\":\"Check DATABASE_URL format and credentials\",\"config_issue\":true}",
+      "success": false
+    },
+    {
+      "name": "whisper",
+      "status": 400,
+      "body": "{\"error\":\"Audio data required (base64)\"}",
+      "success": false
+    },
+    {
+      "name": "vision",
+      "status": 400,
+      "body": "{\"error\":\"Image (base64) is required\"}",
+      "success": false
+    }
+  ]
+}

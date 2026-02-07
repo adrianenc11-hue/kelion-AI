@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K Marketing Assistant — Kelion AI</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cinzel:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --c: #00ffff;
+            --b: #0066ff;
+            --g: #d4af37;
+            --d: #030311;
+            --glass: rgba(255, 255, 255, 0.02)
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--d);
+            color: #fff;
+            min-height: 100vh
+        }
+
+        /* ═══ HEADER ═══ */
+        .mkt-header {
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04)
+        }
+
+        .mkt-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #fff
+        }
+
+        .mkt-brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--g), #b8860b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #000
+        }
+
+        .mkt-brand-text {
+            font-size: 1rem;
+            font-weight: 700
+        }
+
+        .mkt-brand-text span {
+            color: var(--g);
+            font-size: .7rem;
+            display: block;
+            font-weight: 400;
+            opacity: .5
+        }
+
+        .mkt-back {
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: .8rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .3s
+        }
+
+        .mkt-back:hover {
+            border-color: var(--g);
+            color: var(--g)
+        }
+
+        /* ═══ TABS ═══ */
+        .mkt-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 16px 30px;
+            background: rgba(255, 255, 255, 0.01);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            overflow-x: auto
+        }
+
+        .mkt-tab {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: .82rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .3s;
+            white-space: nowrap
+        }
+
+        .mkt-tab:hover {
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.03)
+        }
+
+        .mkt-tab.active {
+            background: rgba(212, 175, 55, 0.08);
+            color: var(--g)
+        }
+
+        /* ═══ CONTENT AREA ═══ */
+        .mkt-content {
+            padding: 30px;
+            max-width: 900px;
+            margin: 0 auto
+        }
+
+        .mkt-panel {
+            display: none;
+            animation: fadeUp .3s ease
+        }
+
+        .mkt-panel.active {
+            display: block
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .mkt-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 6px
+        }
+
+        .mkt-title span {
+            background: linear-gradient(135deg, var(--g), #f4d47c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .mkt-sub {
+            color: rgba(255, 255, 255, 0.25);
+            font-size: .82rem;
+            margin-bottom: 24px
+        }
+
+        /* ═══ FORM ELEMENTS ═══ */
+        .mkt-form-group {
+            margin-bottom: 16px
+        }
+
+        .mkt-label {
+            display: block;
+            font-size: .75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: .5px
+        }
+
+        .mkt-input,
+        .mkt-select,
+        .mkt-textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            color: #fff;
+            font-size: .88rem;
+            font-family: inherit;
+            outline: none;
+            transition: all .3s
+        }
+
+        .mkt-input:focus,
+        .mkt-select:focus,
+        .mkt-textarea:focus {
+            border-color: rgba(212, 175, 55, 0.3);
+            background: rgba(212, 175, 55, 0.02)
+        }
+
+        .mkt-input::placeholder,
+        .mkt-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.1)
+        }
+
+        .mkt-select {
+            appearance: none;
+            cursor: pointer
+        }
+
+        .mkt-select option {
+            background: #0a0a1a;
+            color: #fff
+        }
+
+        .mkt-textarea {
+            resize: vertical;
+            min-height: 80px
+        }
+
+        .mkt-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px
+        }
+
+        .mkt-generate-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--g), #b8860b);
+            color: #000;
+            font-size: .95rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .3s;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px
+        }
+
+        .mkt-generate-btn:hover:not(:disabled) {
+            box-shadow: 0 6px 24px rgba(212, 175, 55, 0.3);
+            transform: translateY(-1px)
+        }
+
+        .mkt-generate-btn:disabled {
+            opacity: .5;
+            cursor: not-allowed
+        }
+
+        /* ═══ OUTPUT ═══ */
+        .mkt-output {
+            margin-top: 24px;
+            padding: 20px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(212, 175, 55, 0.08);
+            display: none
+        }
+
+        .mkt-output.active {
+            display: block
+        }
+
+        .mkt-output-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px
+        }
+
+        .mkt-output-title {
+            font-size: .85rem;
+            font-weight: 700;
+            color: var(--g)
+        }
+
+        .mkt-copy-btn {
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 100, 0.2);
+            background: rgba(0, 255, 100, 0.04);
+            color: rgba(0, 255, 100, 0.6);
+            font-size: .72rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .3s;
+            font-family: inherit
+        }
+
+        .mkt-copy-btn:hover {
+            background: rgba(0, 255, 100, 0.1);
+            color: rgba(0, 255, 100, 0.9)
+        }
+
+        .mkt-output-body {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: .85rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-wrap: break-word
+        }
+
+        /* ═══ CAMPAIGN TRACKER ═══ */
+        .campaign-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .campaign-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all .3s
+        }
+
+        .campaign-item:hover {
+            background: rgba(255, 255, 255, 0.04)
+        }
+
+        .ci-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0
+        }
+
+        .ci-status.sent {
+            background: #ffc800
+        }
+
+        .ci-status.opened {
+            background: var(--c)
+        }
+
+        .ci-status.replied {
+            background: #00ff64
+        }
+
+        .ci-status.draft {
+            background: rgba(255, 255, 255, 0.15)
+        }
+
+        .ci-company {
+            font-weight: 600;
+            font-size: .88rem;
+            flex: 1
+        }
+
+        .ci-date {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: .72rem
+        }
+
+        .ci-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: .65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px
+        }
+
+        .ci-badge.sent {
+            background: rgba(255, 200, 0, 0.1);
+            color: #ffc800
+        }
+
+        .ci-badge.opened {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--c)
+        }
+
+        .ci-badge.replied {
+            background: rgba(0, 255, 100, 0.1);
+            color: #00ff64
+        }
+
+        .ci-badge.draft {
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.3)
+        }
+
+        .add-campaign-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px dashed rgba(212, 175, 55, 0.15);
+            background: transparent;
+            color: rgba(212, 175, 55, 0.3);
+            font-size: .82rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .3s;
+            margin-top: 12px
+        }
+
+        .add-campaign-btn:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            color: var(--g)
+        }
+
+        .campaign-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px
+        }
+
+        .cs-card {
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            text-align: center
+        }
+
+        .cs-num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--g)
+        }
+
+        .cs-label {
+            font-size: .68rem;
+            color: rgba(255, 255, 255, 0.25);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-top: 4px
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: rgba(255, 255, 255, 0.15)
+        }
+
+        .empty-state .empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 14px
+        }
+
+        .empty-state p {
+            font-size: .85rem;
+            margin-bottom: 6px
+        }
+
+        /* ═══ SPINNER ═══ */
+        .gen-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            border-top-color: #000;
+            border-radius: 50%;
+            animation: spin .6s linear infinite;
+            display: none
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        /* ═══ RESPONSIVE ═══ */
+        @media(max-width:700px) {
+            .mkt-content {
+                padding: 20px 16px
+            }
+
+            .mkt-row {
+                grid-template-columns: 1fr
+            }
+
+            .campaign-stats {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .mkt-tabs {
+                padding: 12px 16px
+            }
+
+            .mkt-header {
+                padding: 16px 16px
+            }
+        }
+
+        @media(max-width:500px) {
+            .campaign-stats {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ═══ HEADER ═══ -->
+    <div class="mkt-header">
+        <a href="/admin.html" class="mkt-brand">
+            <div class="mkt-brand-icon">K</div>
+            <div class="mkt-brand-text">Marketing Assistant<span>Powered by AI</span></div>
+        </a>
+        <a href="/admin.html" class="mkt-back">← Back to Admin</a>
+    </div>
+
+    <!-- ═══ TABS ═══ -->
+    <div class="mkt-tabs">
+        <button class="mkt-tab active" onclick="switchTab('email')">✉️ Email Templates</button>
+        <button class="mkt-tab" onclick="switchTab('social')">📱 Social Media</button>
+        <button class="mkt-tab" onclick="switchTab('pitch')">📊 Pitch Deck</button>
+        <button class="mkt-tab" onclick="switchTab('tracker')">📈 Campaign Tracker</button>
+    </div>
+
+    <!-- ═══ CONTENT ═══ -->
+    <div class="mkt-content">
+
+        <!-- ════ EMAIL TEMPLATES ════ -->
+        <div class="mkt-panel active" id="panel-email">
+            <h2 class="mkt-title">✉️ Email <span>Template Generator</span></h2>
+            <p class="mkt-sub">AI generates personalized cold outreach emails. You review & send manually.</p>
+
+            <div class="mkt-row">
+                <div class="mkt-form-group">
+                    <label class="mkt-label">Company Name</label>
+                    <input class="mkt-input" id="email-company" placeholder="e.g. Tesla, Spotify, Samsung">
+                </div>
+                <div class="mkt-form-group">
+                    <label class="mkt-label">Industry</label>
+                    <select class="mkt-select" id="email-industry">
+                        <option>Technology</option>
+                        <option>Automotive</option>
+                        <option>Healthcare</option>
+                        <option>Finance</option>
+                        <option>Entertainment</option>
+                        <option>Education</option>
+                        <option>Retail</option>
+                        <option>Real Estate</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mkt-row">
+                <div class="mkt-form-group">
+                    <label class="mkt-label">Contact Person (optional)</label>
+                    <input class="mkt-input" id="email-contact" placeholder="e.g. John Smith, CTO">
+                </div>
+                <div class="mkt-form-group">
+                    <label class="mkt-label">Email Tone</label>
+                    <select class="mkt-select" id="email-tone">
+                        <option>Professional</option>
+                        <option>Friendly & Casual</option>
+                        <option>Executive / Formal</option>
+                        <option>Innovative / Bold</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mkt-form-group">
+                <label class="mkt-label">Partnership Angle (what you offer them)</label>
+                <textarea class="mkt-textarea" id="email-angle"
+                    placeholder="e.g. We'd like to integrate K hologram in your showrooms for interactive product demos..."></textarea>
+            </div>
+            <button class="mkt-generate-btn" onclick="generateEmail()">
+                <span class="gen-spinner" id="email-spinner"></span>
+                ✨ Generate Email Template
+            </button>
+
+            <div class="mkt-output" id="email-output">
+                <div class="mkt-output-header">
+                    <span class="mkt-output-title">📧 Generated Email</span>
+                    <button class="mkt-copy-btn" onclick="copyOutput('email-result')">📋 Copy</button>
+                </div>
+                <div class="mkt-output-body" id="email-result"></div>
+            </div>
+        </div>
+
+        <!-- ════ SOCIAL MEDIA ════ -->
+        <div class="mkt-panel" id="panel-social">
+            <h2 class="mkt-title">📱 Social Media <span>Post Generator</span></h2>
+            <p class="mkt-sub">Ready-to-publish posts for LinkedIn, Twitter/X, and Facebook.</p>
+
+            <div class="mkt-row">
+                <div class="mkt-form-group">
+                    <label class="mkt-label">Platform</label>
+                    <select class="mkt-select" id="social-platform">
+                        <option>LinkedIn</option>
+                        <option>Twitter/X</option>
+                        <option>Facebook</option>
+                        <option>Instagram Caption</option>
+                        <option>All Platforms</option>
+                    </select>
+                </div>
+                <div class="mkt-form-group">
+                    <label class="mkt-label">Post Type</label>
+                    <select class="mkt-select" id="social-type">
+                        <option>Product Launch</option>
+                        <option>Feature Highlight</option>
+                        <option>Partnership Announcement</option>
+                        <option>Milestone / Achievement</option>
+                        <option>Behind the Scenes</option>
+                        <option>User Testimonial</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mkt-form-group">
+                <label class="mkt-label">Key Message / Topic</label>
+                <textarea class="mkt-textarea" id="social-topic"
+                    placeholder="e.g. K is the first holographic AI assistant that can see, hear, and respond in 3D..."></textarea>
+            </div>
+            <button class="mkt-generate-btn" onclick="generateSocial()">
+                <span class="gen-spinner" id="social-spinner"></span>
+                ✨ Generate Social Posts
+            </button>
+
+            <div class="mkt-output" id="social-output">
+                <div class="mkt-output-header">
+                    <span class="mkt-output-title">📱 Generated Posts</span>
+                    <button class="mkt-copy-btn" onclick="copyOutput('social-result')">📋 Copy All</button>
+                </div>
+                <div class="mkt-output-body" id="social-result"></div>
+            </div>
+        </div>
+
+        <!-- ════ PITCH DECK ════ -->
+        <div class="mkt-panel" id="panel-pitch">
+            <h2 class="mkt-title">📊 Pitch Deck <span>Generator</span></h2>
+            <p class="mkt-sub">AI creates key talking points, value propositions, and pitch structure for presentations.
+            </p>
+
+            <div class="mkt-row">
+                <div class="mkt-form-group">
+                    <label class="mkt-label">Audience</label>
+                    <select class="mkt-select" id="pitch-audience">
+                        <option>Potential Investors</option>
+                        <option>Corporate Partners</option>
+                        <option>Tech Conference</option>
+                        <option>Press / Media</option>
+                        <option>End Users / Consumers</option>
+                    </select>
+                </div>
+                <div class="mkt-form-group">
+                    <label class="mkt-label">Pitch Duration</label>
+                    <select class="mkt-select" id="pitch-duration">
+                        <option>30 seconds (Elevator Pitch)</option>
+                        <option>2 minutes</option>
+                        <option>5 minutes</option>
+                        <option>15 minutes (Full Pitch)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mkt-form-group">
+                <label class="mkt-label">Focus Areas (optional)</label>
+                <textarea class="mkt-textarea" id="pitch-focus"
+                    placeholder="e.g. Focus on voice AI capabilities, hologram technology, and the subscription model..."></textarea>
+            </div>
+            <button class="mkt-generate-btn" onclick="generatePitch()">
+                <span class="gen-spinner" id="pitch-spinner"></span>
+                ✨ Generate Pitch Deck
+            </button>
+
+            <div class="mkt-output" id="pitch-output">
+                <div class="mkt-output-header">
+                    <span class="mkt-output-title">📊 Pitch Content</span>
+                    <button class="mkt-copy-btn" onclick="copyOutput('pitch-result')">📋 Copy</button>
+                </div>
+                <div class="mkt-output-body" id="pitch-result"></div>
+            </div>
+        </div>
+
+        <!-- ════ CAMPAIGN TRACKER ════ -->
+        <div class="mkt-panel" id="panel-tracker">
+            <h2 class="mkt-title">📈 Campaign <span>Tracker</span></h2>
+            <p class="mkt-sub">Track your outreach efforts, responses, and pipeline status.</p>
+
+            <div class="campaign-stats">
+                <div class="cs-card">
+                    <div class="cs-num" id="stat-total">0</div>
+                    <div class="cs-label">Total Sent</div>
+                </div>
+                <div class="cs-card">
+                    <div class="cs-num" id="stat-opened" style="color:#00ffff">0</div>
+                    <div class="cs-label">Opened</div>
+                </div>
+                <div class="cs-card">
+                    <div class="cs-num" id="stat-replied" style="color:#00ff64">0</div>
+                    <div class="cs-label">Replied</div>
+                </div>
+                <div class="cs-card">
+                    <div class="cs-num" id="stat-rate" style="color:#a855f7">0%</div>
+                    <div class="cs-label">Response Rate</div>
+                </div>
+            </div>
+
+            <div class="campaign-list" id="campaign-list">
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <p>No campaigns yet</p>
+                    <p style="font-size:.72rem">Generate an email template, then add it as a campaign to track</p>
+                </div>
+            </div>
+            <button class="add-campaign-btn" onclick="showAddCampaign()">+ Add Campaign Entry</button>
+        </div>
+    </div>
+
+    <script>
+        // ═══ TAB SWITCHING ═══
+        function switchTab(tab) {
+            document.querySelectorAll('.mkt-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.mkt-panel').forEach(p => p.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(`panel-${tab}`).classList.add('active');
+        }
+
+        // ═══ KELION AI CONTEXT ═══
+        const K_CONTEXT = `Kelion AI (K) is the world's first holographic AI assistant. 
+Key features:
+- 3D holographic AI you can see and talk to
+- 4 AI engines: Google Gemini, OpenAI GPT, Kimi K2.5, DeepSeek
+- Voice conversation (real-time, natural)
+- Computer vision (K can see through your camera)
+- GPS navigation & live weather maps
+- Email management (read, compose, send)
+- Image & video generation (DALL-E 3, Replicate)
+- Multi-language support
+- Available as web app at kelionai.app
+- Pricing: Pro £15/mo, Family £25/mo (5 users), Business £99/mo (25-50 users)
+- Free 60-minute trial available
+- Created by AE Creative Studio, London UK
+- Tagline: "The first AI you can see"`;
+
+        // ═══ AI GENERATION ═══
+        async function callAI(prompt) {
+            try {
+                const r = await fetch('/.netlify/functions/smart-brain', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: prompt,
+                        context: 'marketing_assistant'
+                    })
+                });
+                const d = await r.json();
+                return d.reply || d.response || d.message || 'Error generating content.';
+            } catch (e) {
+                console.error('AI error:', e);
+                return 'Failed to connect to AI. Please check your connection.';
+            }
+        }
+
+        function setSpinner(id, on) {
+            const sp = document.getElementById(id);
+            sp.style.display = on ? 'inline-block' : 'none';
+            sp.closest('button').disabled = on;
+        }
+
+        // ═══ EMAIL GENERATOR ═══
+        async function generateEmail() {
+            const company = document.getElementById('email-company').value.trim();
+            if (!company) { alert('Please enter a company name.'); return }
+            const industry = document.getElementById('email-industry').value;
+            const contact = document.getElementById('email-contact').value.trim();
+            const tone = document.getElementById('email-tone').value;
+            const angle = document.getElementById('email-angle').value.trim();
+
+            setSpinner('email-spinner', true);
+            const prompt = `${K_CONTEXT}
+
+Generate a ${tone.toLowerCase()} cold outreach email to ${company} (${industry} industry)${contact ? ` addressed to ${contact}` : ''}.
+
+${angle ? `Partnership angle: ${angle}` : 'Propose a technology partnership or sponsorship opportunity.'}
+
+Format:
+Subject: [compelling subject line]
+
+[email body - 3-4 paragraphs, professional, with clear value proposition and call-to-action]
+
+Best regards,
+[Name]
+Kelion AI / AE Creative Studio`;
+
+            const result = await callAI(prompt);
+            document.getElementById('email-result').textContent = result;
+            document.getElementById('email-output').classList.add('active');
+            setSpinner('email-spinner', false);
+        }
+
+        // ═══ SOCIAL MEDIA GENERATOR ═══
+        async function generateSocial() {
+            const platform = document.getElementById('social-platform').value;
+            const type = document.getElementById('social-type').value;
+            const topic = document.getElementById('social-topic').value.trim();
+
+            setSpinner('social-spinner', true);
+            const prompt = `${K_CONTEXT}
+
+Generate ${platform === 'All Platforms' ? 'posts for LinkedIn, Twitter/X, and Facebook' : `a ${platform} post`} about Kelion AI.
+
+Post type: ${type}
+${topic ? `Topic: ${topic}` : ''}
+
+Requirements:
+- ${platform === 'Twitter/X' ? 'Max 280 characters' : 'Optimal length for the platform'}
+- Include relevant hashtags
+- Include call-to-action (visit kelionai.app)
+- Make it engaging, shareable, and professional
+- Use emojis where appropriate
+${platform === 'All Platforms' ? '- Clearly label each platform section' : ''}`;
+
+            const result = await callAI(prompt);
+            document.getElementById('social-result').textContent = result;
+            document.getElementById('social-output').classList.add('active');
+            setSpinner('social-spinner', false);
+        }
+
+        // ═══ PITCH DECK GENERATOR ═══
+        async function generatePitch() {
+            const audience = document.getElementById('pitch-audience').value;
+            const duration = document.getElementById('pitch-duration').value;
+            const focus = document.getElementById('pitch-focus').value.trim();
+
+            setSpinner('pitch-spinner', true);
+            const prompt = `${K_CONTEXT}
+
+Generate a ${duration} pitch for Kelion AI targeting ${audience}.
+
+${focus ? `Focus areas: ${focus}` : ''}
+
+Structure the pitch with:
+1. HOOK — Opening statement that captures attention
+2. PROBLEM — What problem does K solve?
+3. SOLUTION — How K is unique (holographic, multi-AI, etc.)
+4. DEMO POINTS — What to show in a live demo
+5. TRACTION — Key metrics and achievements
+6. BUSINESS MODEL — Pricing, revenue potential
+7. ASK — What you want from the audience (investment, partnership, etc.)
+8. CLOSING — Memorable final statement
+
+Make it compelling, data-driven where possible, and memorable.`;
+
+            const result = await callAI(prompt);
+            document.getElementById('pitch-result').textContent = result;
+            document.getElementById('pitch-output').classList.add('active');
+            setSpinner('pitch-spinner', false);
+        }
+
+        // ═══ COPY TO CLIPBOARD ═══
+        function copyOutput(id) {
+            const text = document.getElementById(id).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const orig = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.borderColor = 'rgba(0,255,100,0.4)';
+                setTimeout(() => { btn.textContent = orig; btn.style.borderColor = '' }, 2000);
+            });
+        }
+
+        // ═══ CAMPAIGN TRACKER ═══
+        let campaigns = JSON.parse(localStorage.getItem('kelion_campaigns') || '[]');
+
+        function renderCampaigns() {
+            const list = document.getElementById('campaign-list');
+            if (campaigns.length === 0) {
+                list.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><p>No campaigns yet</p><p style="font-size:.72rem">Generate an email template, then add it as a campaign to track</p></div>';
+            } else {
+                list.innerHTML = campaigns.map((c, i) => `
+                    <div class="campaign-item">
+                        <div class="ci-status ${c.status}"></div>
+                        <div class="ci-company">${c.company}</div>
+                        <div class="ci-date">${c.date}</div>
+                        <span class="ci-badge ${c.status}">${c.status}</span>
+                        <select style="background:transparent;border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);border-radius:6px;padding:4px 8px;font-size:.68rem;cursor:pointer" onchange="updateStatus(${i},this.value)">
+                            <option value="draft" ${c.status === 'draft' ? 'selected' : ''}>Draft</option>
+                            <option value="sent" ${c.status === 'sent' ? 'selected' : ''}>Sent</option>
+                            <option value="opened" ${c.status === 'opened' ? 'selected' : ''}>Opened</option>
+                            <option value="replied" ${c.status === 'replied' ? 'selected' : ''}>Replied</option>
+                        </select>
+                    </div>
+                `).join('');
+            }
+            // Update stats
+            const total = campaigns.filter(c => c.status !== 'draft').length;
+            const opened = campaigns.filter(c => c.status === 'opened' || c.status === 'replied').length;
+            const replied = campaigns.filter(c => c.status === 'replied').length;
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-opened').textContent = opened;
+            document.getElementById('stat-replied').textContent = replied;
+            document.getElementById('stat-rate').textContent = total > 0 ? Math.round(replied / total * 100) + '%' : '0%';
+        }
+
+        function updateStatus(index, status) {
+            campaigns[index].status = status;
+            localStorage.setItem('kelion_campaigns', JSON.stringify(campaigns));
+            renderCampaigns();
+        }
+
+        function showAddCampaign() {
+            const company = prompt('Company name:');
+            if (!company) return;
+            campaigns.unshift({
+                company: company,
+                date: new Date().toLocaleDateString('en-GB'),
+                status: 'draft'
+            });
+            localStorage.setItem('kelion_campaigns', JSON.stringify(campaigns));
+            renderCampaigns();
+        }
+
+        // Init
+        renderCampaigns();
+    </script>
+</body>
+
+</html>

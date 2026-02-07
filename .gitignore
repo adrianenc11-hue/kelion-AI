@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+.netlify/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build
+dist/
+.cache/
+
+# Backups
+.k1_backups/
+.k1_restore_safety/
+
+# Test files with API keys (NEVER commit)
+test-*.js
+test-*.ps1
+test-output.txt
+test-results.txt
+test_audio.mp3
+deep-debug.js
+audit_complete.js
+k1-*.js
+extracted_js.js
+validate-code.js
+temp_request.json
+
+# Backup files
+*.bak*
+*_backup.*

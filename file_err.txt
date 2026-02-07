@@ -1,0 +1,16 @@
+K1 FORENSIC AUDIT - file_err
+==============================================================================================================
+time_utc: 2026-02-06T13:30:16.218Z
+base: https://kelionai.app
+
+COUNTS: total=12 ok=7 needs_input=3 5xx=2 other_fail=0
+
+PRIORITY 5xx:
+❌ dalle HTTP 500 kind=SERVER_BUG
+   hint: Unhandled exception in function. Add try/catch + structured error output + check logs.
+❌ run-migration HTTP 503 kind=DB
+   hint: Database/storage connectivity/config issue (Supabase URL/key, tables, migrations).
+
+SAVED:
+- C:\Users\adria\Downloads\k new\kelionat_clean\audit_report.json
+- C:\Users\adria\Downloads\k new\kelionat_clean\audit_report.md

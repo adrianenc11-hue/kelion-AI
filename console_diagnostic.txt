@@ -1,0 +1,145 @@
+K1 VOICE BROWSER DIAGNOSTIC
+============================
+
+INSTRUCTIONS:
+1. Open https://kelionai-app.netlify.app/app.html
+2. Press F12 (open DevTools)
+3. Go to "Console" tab
+4. Copy-paste the code below
+5. Press Enter
+6. Read the output
+
+DIAGNOSTIC CODE:
+----------------
+
+
+// ============================================================
+// K1 VOICE DIAGNOSTIC (paste in browser console - F12)
+// ============================================================
+
+console.log("🔍 K1 VOICE DIAGNOSTIC START\n");
+
+// 1. Check Voice Mode
+console.log("1️⃣ VOICE MODE:");
+console.log("   Current:", window.K1_VOICE_MODE || "NOT SET");
+console.log("   localStorage:", localStorage.getItem("K1_VOICE_MODE") || "NOT SET");
+console.log("");
+
+// 2. Check Realtime State
+console.log("2️⃣ REALTIME STATE:");
+console.log("   kelionRealtime exists:", !!window.kelionRealtime);
+if (window.kelionRealtime) {
+    console.log("   isActive:", typeof window.kelionRealtime.isActive === "function" ? window.kelionRealtime.isActive() : "N/A");
+}
+console.log("");
+
+// 3. Check Audio Context
+console.log("3️⃣ AUDIO CONTEXT:");
+if (window.audioContext) {
+    console.log("   State:", window.audioContext.state);
+    console.log("   Sample Rate:", window.audioContext.sampleRate);
+    if (window.audioContext.state === "suspended") {
+        console.log("   ⚠️  AUDIO CONTEXT SUSPENDED - needs user interaction!");
+        console.log("   Fix: Click anywhere on page or call audioContext.resume()");
+    }
+} else {
+    console.log("   ❌ audioContext not initialized");
+}
+console.log("");
+
+// 4. Check Current Audio
+console.log("4️⃣ CURRENT AUDIO:");
+console.log("   currentAudio exists:", !!window.currentAudio);
+if (window.currentAudio) {
+    console.log("   src:", window.currentAudio.src);
+    console.log("   paused:", window.currentAudio.paused);
+    console.log("   duration:", window.currentAudio.duration);
+    console.log("   currentTime:", window.currentAudio.currentTime);
+}
+console.log("");
+
+// 5. Test /speak endpoint
+console.log("5️⃣ TESTING /speak ENDPOINT:");
+const testText = "Test voice diagnostic";
+const endpoint = location.origin + "/.netlify/functions/speak";
+
+fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: testText })
+})
+.then(res => {
+    console.log("   HTTP Status:", res.status);
+    console.log("   Content-Type:", res.headers.get("content-type"));
+    
+    if (res.status === 200) {
+        return res.blob().then(blob => {
+            console.log("   ✅ /speak returned audio!");
+            console.log("   Blob size:", blob.size, "bytes");
+            console.log("   Blob type:", blob.type);
+            
+            // Try to play it
+            const url = URL.createObjectURL(blob);
+            const audio = new Audio(url);
+            
+            console.log("   🔊 Attempting playback...");
+            audio.oncanplaythrough = () => console.log("   ✅ Audio ready to play");
+            audio.onplay = () => console.log("   ▶️  Audio playing!");
+            audio.onended = () => {
+                console.log("   ✅ Audio finished");
+                URL.revokeObjectURL(url);
+            };
+            audio.onerror = (e) => console.error("   ❌ Audio playback error:", e);
+            
+            audio.play()
+                .then(() => console.log("   ✅ play() promise resolved"))
+                .catch(err => console.error("   ❌ play() failed:", err.message));
+        });
+    } else {
+        return res.text().then(text => {
+            console.error("   ❌ /speak failed");
+            console.error("   Response:", text);
+        });
+    }
+})
+.catch(err => console.error("   ❌ /speak request failed:", err.message));
+
+// 6. Browser Permissions
+console.log("");
+console.log("6️⃣ BROWSER PERMISSIONS:");
+if (navigator.permissions) {
+    navigator.permissions.query({ name: 'microphone' })
+        .then(result => console.log("   Microphone:", result.state))
+        .catch(() => console.log("   Microphone: query not supported"));
+} else {
+    console.log("   Permissions API not supported");
+}
+
+// 7. Check speak function
+console.log("");
+console.log("7️⃣ SPEAK FUNCTION:");
+console.log("   window.speak exists:", typeof window.speak === "function");
+console.log("   K1_tryRealtimeSpeak exists:", typeof window.K1_tryRealtimeSpeak === "function");
+
+console.log("");
+console.log("🔍 K1 VOICE DIAGNOSTIC COMPLETE");
+console.log("");
+console.log("📋 QUICK FIXES:");
+console.log("   1. If Audio Context suspended → click page + run: audioContext.resume()");
+console.log("   2. If /speak fails → check TTS_API_KEY in Netlify");
+console.log("   3. Hard refresh: Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac)");
+console.log("   4. Check browser console for errors during speak()");
+console.log("");
+
+
+EXPECTED OUTPUT:
+- Voice mode set to TTS/AUTO/REALTIME
+- Audio context state (running/suspended)
+- /speak endpoint test (should return audio blob)
+- Playback test (should hear "Test voice diagnostic")
+
+COMMON ISSUES:
+- Audio Context suspended → click page to activate
+- /speak returns 500 → TTS_API_KEY missing
+- /speak returns 200 but no sound → check browser volume
+- Network error → CORS or endpoint down

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K Avatar Demo — Local Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0f;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        /* Holographic scanline overlay */
+        .holo-scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px,
+                    rgba(0, 200, 255, 0.012) 2px, rgba(0, 200, 255, 0.012) 4px);
+            pointer-events: none;
+            z-index: 10;
+            animation: scanMove 10s linear infinite;
+        }
+
+        @keyframes scanMove {
+            100% {
+                background-position: 0 300px;
+            }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            background: rgba(0, 200, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 5;
+            animation: pfloat 7s ease-in-out infinite;
+        }
+
+        @keyframes pfloat {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: translateY(-40px) scale(1.3);
+                opacity: 0.9;
+            }
+        }
+
+        /* Base glow */
+        .holo-base {
+            position: fixed;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            height: 10px;
+            background: radial-gradient(ellipse, rgba(0, 200, 255, 0.35), transparent 70%);
+            border-radius: 50%;
+            z-index: 2;
+            animation: basePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes basePulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: translateX(-50%) scaleX(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scaleX(1.3);
+            }
+        }
+
+        /* Subtitle bar */
+        .subtitle-bar {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 600px;
+            width: 90%;
+            padding: 12px 24px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 200, 255, 0.15);
+            border-radius: 12px;
+            color: #e8e8e8;
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: center;
+            z-index: 20;
+            backdrop-filter: blur(10px);
+            min-height: 20px;
+            transition: opacity 0.3s;
+        }
+
+        .subtitle-bar:empty {
+            opacity: 0;
+        }
+
+        .subtitle-bar .speaking-word {
+            color: #00c8ff;
+            font-weight: 600;
+        }
+
+        /* Status bar */
+        .status-bar {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 200, 255, 0.2);
+            border-radius: 20px;
+            color: #00c8ff;
+            font-size: 12px;
+            z-index: 20;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .status-bar small {
+            color: #666;
+            display: block;
+            margin-top: 2px;
+            font-size: 10px;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 20;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 95vw;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 200, 255, 0.25);
+            background: rgba(0, 200, 255, 0.06);
+            color: #00c8ff;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background: rgba(0, 200, 255, 0.15);
+            border-color: rgba(0, 200, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.2);
+        }
+
+        .btn.active {
+            background: rgba(0, 200, 255, 0.25);
+            border-color: #00c8ff;
+        }
+
+        /* Loading */
+        .loading {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: opacity 0.6s;
+        }
+
+        .loading.done {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 200, 255, 0.15);
+            border-top-color: #00c8ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading p {
+            margin-top: 12px;
+            color: #00c8ff;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="loading" id="loader">
+        <div class="spinner"></div>
+        <p id="load-msg">Se încarcă K Avatar...</p>
+    </div>
+
+    <div class="holo-scanlines"></div>
+    <div class="holo-base"></div>
+    <div id="scene"></div>
+
+    <div class="status-bar">
+        <span id="status">🟢 K Avatar Demo</span>
+        <small>Previzualizare locală — site-ul NU e modificat</small>
+    </div>
+
+    <div class="subtitle-bar" id="subtitle"></div>
+
+    <div class="controls">
+        <button class="btn" onclick="speakRomanian()">🗣️ Vorbește Română</button>
+        <button class="btn" onclick="speakIntro()">👋 Salut, sunt K!</button>
+        <button class="btn" onclick="doBlink()">👁️ Clipire</button>
+        <button class="btn" onclick="emotion('happy')">😊 Vesel</button>
+        <button class="btn" onclick="emotion('surprised')">😮 Surprins</button>
+        <button class="btn" onclick="emotion('thinking')">🤔 Gândește</button>
+        <button class="btn" onclick="emotion('neutral')">😐 Neutru</button>
+        <button class="btn" onclick="toggleHolo()">✨ Hologram</button>
+        <button class="btn" onclick="toggleSpin()">🔄 Rotire</button>
+    </div>
+
+    <script>
+        // Generate particles
+        for (let i = 0; i < 25; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.cssText = `left:${Math.random() * 100}vw;top:${Math.random() * 100}vh;width:${2 + Math.random() * 3}px;height:${2 + Math.random() * 3}px;animation-delay:${Math.random() * 7}s;animation-duration:${5 + Math.random() * 5}s`;
+            document.body.appendChild(p);
+        }
+    </script>
+
+    <script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}
+</script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // ═══════════════════════════════════════════
+        // SCENE
+        // ═══════════════════════════════════════════
+        const W = window.innerWidth, H = window.innerHeight;
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(28, W / H, 0.1, 100);
+        camera.position.set(0, 1.55, 2.8);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(W, H);
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.3;
+        document.getElementById('scene').appendChild(renderer.domElement);
+
+        const orbit = new OrbitControls(camera, renderer.domElement);
+        orbit.target.set(0, 1.4, 0);
+        orbit.enableDamping = true;
+        orbit.dampingFactor = 0.05;
+        orbit.minDistance = 1.2;
+        orbit.maxDistance = 5;
+        orbit.update();
+
+        // ═══════════════════════════════════════════
+        // LIGHTS
+        // ═══════════════════════════════════════════
+        scene.add(new THREE.AmbientLight(0x404060, 0.4));
+
+        const keyL = new THREE.DirectionalLight(0x00c8ff, 1.8);
+        keyL.position.set(2, 3, 2);
+        scene.add(keyL);
+
+        const fillL = new THREE.DirectionalLight(0x4060ff, 0.5);
+        fillL.position.set(-2, 1, 1);
+        scene.add(fillL);
+
+        const rimL = new THREE.DirectionalLight(0x00ffcc, 0.7);
+        rimL.position.set(0, 2, -2);
+        scene.add(rimL);
+
+        const hL1 = new THREE.PointLight(0x00c8ff, 1, 5);
+        hL1.position.set(0, 0.5, 1.5);
+        scene.add(hL1);
+
+        const hL2 = new THREE.PointLight(0x8040ff, 0.4, 5);
+        hL2.position.set(1, 2.5, -1);
+        scene.add(hL2);
+
+        // ═══════════════════════════════════════════
+        // STATE
+        // ═══════════════════════════════════════════
+        let avatar = null;
+        let morphMeshes = [];
+        let isSpeaking = false;
+        let holoOn = true;
+        let spinning = false;
+        const clock = new THREE.Clock();
+
+        // ═══════════════════════════════════════════
+        // LOAD AVATAR
+        // ═══════════════════════════════════════════
+        const RPM_URL = 'https://models.readyplayer.me/6460d95f9ae1c45d4018f5d0.glb?morphTargets=ARKit,Oculus%20Visemes&textureAtlas=1024';
+
+        function status(t) { document.getElementById('status').textContent = t; }
+        function loadMsg(t) { document.getElementById('load-msg').textContent = t; }
+
+        const loader = new GLTFLoader();
+
+        loader.load(RPM_URL, gltf => {
+            avatar = gltf.scene;
+            avatar.position.set(0, 0.25, 0);
+            avatar.scale.setScalar(1.15);
+
+            avatar.traverse(ch => {
+                if (!ch.isMesh) return;
+                // Collect morph meshes
+                if (ch.morphTargetDictionary && ch.morphTargetInfluences) {
+                    morphMeshes.push(ch);
+                }
+                // Holographic look
+                const mats = Array.isArray(ch.material) ? ch.material : [ch.material];
+                mats.forEach(m => {
+                    m.transparent = true;
+                    m.opacity = 0.9;
+                    if (m.emissive) { m.emissive.set(0x001830); m.emissiveIntensity = 0.2; }
+                });
+            });
+
+            scene.add(avatar);
+            hideLoader();
+            status('🟢 Avatar încărcat! Apasă butoanele.');
+            console.log('Morph meshes:', morphMeshes.length,
+                morphMeshes.length ? Object.keys(morphMeshes[0].morphTargetDictionary) : 'none');
+
+        }, xhr => {
+            if (xhr.total) loadMsg(`Se încarcă... ${Math.round(xhr.loaded / xhr.total * 100)}%`);
+        }, err => {
+            console.warn('RPM load failed, using fallback:', err);
+            createFallback();
+            hideLoader();
+            status('⚠️ Avatar fallback (RPM indisponibil). Funcțiile merg!');
+        });
+
+        function hideLoader() {
+            document.getElementById('loader').classList.add('done');
+        }
+
+        // ═══════════════════════════════════════════
+        // FALLBACK — geometric avatar
+        // ═══════════════════════════════════════════
+        function createFallback() {
+            const g = new THREE.Group();
+            const hMat = new THREE.MeshPhongMaterial({ color: 0x00aadd, transparent: true, opacity: 0.75, emissive: 0x003355 });
+
+            // Head
+            const head = new THREE.Mesh(new THREE.SphereGeometry(0.28, 32, 32), hMat);
+            head.position.y = 1.6;
+            g.add(head);
+
+            // Neck + shoulders
+            const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.15, 12), hMat.clone());
+            neck.position.y = 1.28;
+            g.add(neck);
+
+            const shoulders = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.22, 0.45, 16), hMat.clone());
+            shoulders.material.opacity = 0.5;
+            shoulders.position.y = 1.0;
+            g.add(shoulders);
+
+            // Eyes
+            const eMat = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+            const lEye = new THREE.Mesh(new THREE.SphereGeometry(0.035, 12, 12), eMat);
+            lEye.position.set(-0.09, 1.64, 0.24);
+            g.add(lEye);
+            const rEye = lEye.clone();
+            rEye.position.x = 0.09;
+            g.add(rEye);
+
+            // Mouth (for animation)
+            const mouthMat = new THREE.MeshBasicMaterial({ color: 0x00c8ff });
+            const mouth = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.02), mouthMat);
+            mouth.position.set(0, 1.52, 0.27);
+            mouth.name = 'fallback_mouth';
+            g.add(mouth);
+
+            avatar = g;
+            avatar.userData.fallback = true;
+            scene.add(avatar);
+        }
+
+        // ═══════════════════════════════════════════
+        // MORPH HELPERS
+        // ═══════════════════════════════════════════
+        function setMorph(name, val) {
+            morphMeshes.forEach(m => {
+                const i = m.morphTargetDictionary[name];
+                if (i !== undefined) m.morphTargetInfluences[i] = val;
+            });
+        }
+
+        function clearMorphs() {
+            morphMeshes.forEach(m => {
+                if (m.morphTargetInfluences) m.morphTargetInfluences.fill(0);
+            });
+        }
+
+        // ═══════════════════════════════════════════
+        // BLINK
+        // ═══════════════════════════════════════════
+        function doBlink() {
+            if (!morphMeshes.length) return;
+            setMorph('eyeBlinkLeft', 1);
+            setMorph('eyeBlinkRight', 1);
+            setTimeout(() => {
+                setMorph('eyeBlinkLeft', 0);
+                setMorph('eyeBlinkRight', 0);
+            }, 130);
+        }
+
+        // Auto blink
+        (function autoB() {
+            doBlink();
+            setTimeout(autoB, 2500 + Math.random() * 4000);
+        })();
+
+        // ═══════════════════════════════════════════
+        // EMOTIONS
+        // ═══════════════════════════════════════════
+        function emotion(type) {
+            clearMorphs();
+            const s = {
+                happy: () => {
+                    setMorph('mouthSmileLeft', 0.7); setMorph('mouthSmileRight', 0.7);
+                    setMorph('cheekSquintLeft', 0.4); setMorph('cheekSquintRight', 0.4);
+                    status('😊 K e vesel');
+                },
+                surprised: () => {
+                    setMorph('eyeWideLeft', 0.8); setMorph('eyeWideRight', 0.8);
+                    setMorph('browInnerUp', 0.7); setMorph('browOuterUpLeft', 0.5);
+                    setMorph('browOuterUpRight', 0.5); setMorph('jawOpen', 0.35);
+                    status('😮 K e surprins');
+                },
+                thinking: () => {
+                    setMorph('browDownLeft', 0.5); setMorph('eyeSquintLeft', 0.3);
+                    setMorph('mouthPressLeft', 0.3); setMorph('mouthLeft', 0.2);
+                    status('🤔 K gândește...');
+                },
+                neutral: () => { status('😐 K — neutru'); }
+            };
+            if (s[type]) s[type]();
+        }
+
+        // ═══════════════════════════════════════════
+        // SPEECH — Romanian TTS + Lip Sync
+        // ═══════════════════════════════════════════
+        const TEXTS = {
+            intro: 'Salut! Sunt K, asistentul tău inteligent. Sunt aici să te ajut cu orice ai nevoie. Pot vorbi, pot vedea, pot căuta informații și pot genera imagini. Ce dorești?',
+            demo: 'Bună ziua! Eu sunt Kelion, dar prietenii îmi spun K. Am fost creat să fiu cel mai bun asistent virtual din lume. Pot să răspund la întrebări, să generez imagini, să traduc în orice limbă, și chiar să recunosc obiecte prin cameră. Funcționez douăzeci și patru de ore pe zi, șapte zile pe săptămână, fără pauză. Sunt mereu aici pentru tine!'
+        };
+
+        let speechRef = null;
+        const subtitle = document.getElementById('subtitle');
+        const visemes = ['viseme_PP', 'viseme_aa', 'viseme_E', 'viseme_I', 'viseme_O', 'viseme_U', 'viseme_FF', 'viseme_TH', 'viseme_SS', 'viseme_nn', 'viseme_RR', 'viseme_CH', 'viseme_kk'];
+
+        // Map Romanian characters to rough viseme indices
+        function charToViseme(ch) {
+            ch = ch.toLowerCase();
+            const map = {
+                'a': 1, 'ă': 1, 'â': 1, 'e': 2, 'é': 2, 'i': 3, 'î': 3, 'o': 4, 'u': 5,
+                'p': 0, 'b': 0, 'm': 0, 'f': 6, 'v': 6, 't': 7, 'd': 7, 'ț': 7, 's': 8, 'ș': 8, 'z': 8,
+                'n': 9, 'r': 10, 'c': 12, 'k': 12, 'g': 12, 'h': 12, 'l': 11, 'j': 11
+            };
+            return map[ch] !== undefined ? map[ch] : -1;
+        }
+
+        let lipTimer = null;
+        let lipPos = 0;
+        let currentText = '';
+
+        function startLipSync(text) {
+            isSpeaking = true;
+            currentText = text;
+            lipPos = 0;
+            const avgCharTime = 65; // ms per character (approx speech rate)
+
+            function nextChar() {
+                if (!isSpeaking || lipPos >= currentText.length) {
+                    stopLipSync();
+                    return;
+                }
+                const ch = currentText[lipPos];
+
+                // Clear previous visemes
+                visemes.forEach(v => setMorph(v, 0));
+                setMorph('jawOpen', 0);
+
+                if (ch !== ' ' && ch !== '.' && ch !== ',' && ch !== '!') {
+                    const vi = charToViseme(ch);
+                    if (vi >= 0 && visemes[vi]) {
+                        setMorph(visemes[vi], 0.4 + Math.random() * 0.4);
+                        setMorph('jawOpen', 0.08 + Math.random() * 0.2);
+                    }
+                }
+
+                // Fallback mouth animation
+                if (avatar && avatar.userData.fallback) {
+                    const mouth = avatar.getObjectByName('fallback_mouth');
+                    if (mouth) {
+                        const isVowel = 'aăâeéiîouyAĂÂEÉIÎOUY'.includes(ch);
+                        mouth.scale.y = isVowel ? 3 : 1;
+                    }
+                }
+
+                lipPos++;
+                lipTimer = setTimeout(nextChar, avgCharTime);
+            }
+            nextChar();
+        }
+
+        function stopLipSync() {
+            isSpeaking = false;
+            clearTimeout(lipTimer);
+            visemes.forEach(v => setMorph(v, 0));
+            setMorph('jawOpen', 0);
+            if (avatar && avatar.userData.fallback) {
+                const mouth = avatar.getObjectByName('fallback_mouth');
+                if (mouth) mouth.scale.y = 1;
+            }
+        }
+
+        function speak(text) {
+            // Stop any current speech
+            if (speechRef) {
+                window.speechSynthesis.cancel();
+                stopLipSync();
+            }
+
+            subtitle.textContent = '';
+            status('🗣️ K vorbește...');
+
+            // Get Romanian voice
+            const voices = window.speechSynthesis.getVoices();
+            let roVoice = voices.find(v => v.lang.startsWith('ro'));
+            if (!roVoice) roVoice = voices.find(v => v.lang.includes('RO'));
+
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'ro-RO';
+            utter.rate = 0.9;
+            utter.pitch = 0.95;
+            if (roVoice) utter.voice = roVoice;
+
+            // Show subtitle
+            subtitle.textContent = text;
+
+            // Word boundary — highlight current word
+            let wordIdx = 0;
+            utter.onboundary = (e) => {
+                if (e.name === 'word') {
+                    const before = text.substring(0, e.charIndex);
+                    const word = text.substring(e.charIndex, e.charIndex + e.charLength);
+                    const after = text.substring(e.charIndex + e.charLength);
+                    subtitle.innerHTML = before + '<span class="speaking-word">' + word + '</span>' + after;
+                }
+            };
+
+            utter.onend = () => {
+                stopLipSync();
+                subtitle.textContent = '';
+                status('🟢 K Avatar Demo');
+                speechRef = null;
+            };
+
+            utter.onerror = (e) => {
+                console.warn('Speech error:', e);
+                stopLipSync();
+                subtitle.textContent = '';
+                status('⚠️ TTS error — încearcă alt browser');
+                speechRef = null;
+            };
+
+            speechRef = utter;
+            startLipSync(text);
+            window.speechSynthesis.speak(utter);
+        }
+
+        function speakRomanian() { speak(TEXTS.demo); }
+        function speakIntro() { speak(TEXTS.intro); }
+
+        // ═══════════════════════════════════════════
+        // HOLOGRAM TOGGLE
+        // ═══════════════════════════════════════════
+        function toggleHolo() {
+            holoOn = !holoOn;
+            if (!avatar) return;
+            avatar.traverse(ch => {
+                if (!ch.isMesh) return;
+                const mats = Array.isArray(ch.material) ? ch.material : [ch.material];
+                mats.forEach(m => {
+                    m.opacity = holoOn ? 0.85 : 1.0;
+                    if (m.emissive) {
+                        m.emissive.set(holoOn ? 0x001830 : 0x000000);
+                        m.emissiveIntensity = holoOn ? 0.2 : 0;
+                    }
+                });
+            });
+            document.querySelector('.holo-scanlines').style.display = holoOn ? '' : 'none';
+            status(holoOn ? '✨ Hologram ON' : '👤 Mod realist');
+        }
+
+        function toggleSpin() { spinning = !spinning; }
+
+        // Make global
+        window.speakRomanian = speakRomanian;
+        window.speakIntro = speakIntro;
+        window.doBlink = doBlink;
+        window.emotion = emotion;
+        window.toggleHolo = toggleHolo;
+        window.toggleSpin = toggleSpin;
+
+        // Preload voices
+        if ('speechSynthesis' in window) {
+            speechSynthesis.getVoices();
+            speechSynthesis.addEventListener('voiceschanged', () => {
+                const v = speechSynthesis.getVoices();
+                const ro = v.filter(x => x.lang.startsWith('ro'));
+                console.log('Romanian voices:', ro.map(x => x.name));
+            });
+        }
+
+        // ═══════════════════════════════════════════
+        // ANIMATION LOOP
+        // ═══════════════════════════════════════════
+        function animate() {
+            requestAnimationFrame(animate);
+            const dt = clock.getDelta();
+            orbit.update();
+
+            if (avatar) {
+                // Idle breathing
+                avatar.position.y = 0.25 + Math.sin(Date.now() * 0.0018) * 0.006;
+                // Slow spin
+                if (spinning) avatar.rotation.y += 0.008;
+            }
+
+            // Pulsing hologram lights
+            if (holoOn) {
+                hL1.intensity = 0.7 + Math.sin(Date.now() * 0.003) * 0.4;
+                hL2.intensity = 0.3 + Math.sin(Date.now() * 0.002 + 1) * 0.2;
+            }
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = innerWidth / innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(innerWidth, innerHeight);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe - Kelion AI Premium</title>
+    <link rel="icon" href="/favicon.ico">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cinzel:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --c: #00ffff;
+            --b: #0066ff;
+            --g: #d4af37;
+            --d: #030311;
+            --glass: rgba(255, 255, 255, 0.025);
+            --glow: rgba(0, 255, 255, 0.08)
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--d);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden
+        }
+
+        /* ═══ STARFIELD ═══ */
+        #stars {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none
+        }
+
+        /* ═══ ORBS ═══ */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            right: -200px;
+            background: rgba(0, 255, 255, 0.025);
+            animation: orbF 22s ease-in-out infinite
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            bottom: 100px;
+            left: -200px;
+            background: rgba(0, 100, 255, 0.025);
+            animation: orbF 28s ease-in-out infinite reverse
+        }
+
+        @keyframes orbF {
+
+            0%,
+            100% {
+                transform: translate(0, 0)
+            }
+
+            25% {
+                transform: translate(40px, -50px)
+            }
+
+            50% {
+                transform: translate(-30px, 40px)
+            }
+
+            75% {
+                transform: translate(50px, 25px)
+            }
+        }
+
+        /* ═══ SPLIT LAYOUT ═══ */
+        .split {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1
+        }
+
+        .split-left {
+            flex: 0 0 420px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 40px;
+            background: rgba(0, 255, 255, 0.01);
+            border-right: 1px solid rgba(255, 255, 255, 0.03);
+            position: relative;
+            overflow: hidden
+        }
+
+        .split-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(transparent, rgba(0, 255, 255, 0.15), transparent)
+        }
+
+        .split-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 30px 40px 100px
+        }
+
+        /* Left panel content */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 50px
+        }
+
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--c), var(--b));
+            color: #000;
+            font-weight: 900;
+            font-size: .9rem;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3)
+        }
+
+        .brand-name {
+            font-size: 1.1rem;
+            font-weight: 700
+        }
+
+        .left-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 16px
+        }
+
+        .left-title span {
+            background: linear-gradient(135deg, var(--c), #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .left-desc {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: .88rem;
+            line-height: 1.7;
+            margin-bottom: 36px
+        }
+
+        .left-features {
+            list-style: none
+        }
+
+        .left-features li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: .85rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02)
+        }
+
+        .left-features li:last-child {
+            border: 0
+        }
+
+        .lf-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem;
+            background: rgba(0, 255, 255, 0.04);
+            flex-shrink: 0
+        }
+
+        .left-trust {
+            margin-top: auto;
+            padding-top: 30px
+        }
+
+        .left-trust p {
+            color: rgba(255, 255, 255, 0.15);
+            font-size: .7rem;
+            text-align: center
+        }
+
+        /* ═══ RIGHT: STEPS ═══ */
+        .step-view {
+            display: none;
+            animation: fadeUp .4s ease
+        }
+
+        .step-view.active {
+            display: block
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        /* Progress */
+        .progress {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 36px;
+            padding-top: 20px
+        }
+
+        .prog-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            position: relative
+        }
+
+        .prog-step::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+            margin: 0 12px
+        }
+
+        .prog-step:last-child::after {
+            display: none
+        }
+
+        .prog-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .72rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all .3s;
+            flex-shrink: 0
+        }
+
+        .prog-step.done .prog-dot {
+            background: var(--c);
+            border-color: var(--c);
+            color: #000
+        }
+
+        .prog-step.cur .prog-dot {
+            border-color: var(--c);
+            color: var(--c);
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.15)
+        }
+
+        .prog-label {
+            font-size: .72rem;
+            color: rgba(255, 255, 255, 0.25);
+            white-space: nowrap
+        }
+
+        .prog-step.cur .prog-label {
+            color: var(--c)
+        }
+
+        /* Titles */
+        .view-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 6px
+        }
+
+        .view-sub {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: .85rem;
+            margin-bottom: 28px
+        }
+
+        /* ═══ STEP 1: AUTH ═══ */
+        .social-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+            color: #fff;
+            font-size: .88rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all .3s;
+            font-family: inherit;
+            width: 100%
+        }
+
+        .social-btn:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-1px)
+        }
+
+        .social-btn svg {
+            width: 18px;
+            height: 18px
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 20px 0;
+            color: rgba(255, 255, 255, 0.15);
+            font-size: .75rem
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06)
+        }
+
+        .form-group {
+            margin-bottom: 14px
+        }
+
+        .form-group label {
+            display: block;
+            font-size: .75rem;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 5px;
+            font-weight: 500
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            color: #fff;
+            font-size: .9rem;
+            font-family: inherit;
+            transition: all .3s;
+            outline: none
+        }
+
+        .form-group input:focus {
+            border-color: rgba(0, 255, 255, 0.3);
+            background: rgba(0, 255, 255, 0.015);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.04)
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.12)
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 13px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--c), var(--b));
+            color: #000;
+            font-size: .95rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .3s;
+            margin-top: 8px
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 24px rgba(0, 255, 255, 0.25);
+            transform: translateY(-1px)
+        }
+
+        .btn-primary:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 13px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: 0;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: .88rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .3s;
+            margin-top: 6px
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--c);
+            color: var(--c)
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 16px;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: .78rem
+        }
+
+        .form-footer a {
+            color: var(--c);
+            text-decoration: none;
+            font-weight: 500
+        }
+
+        /* ═══ STEP 2: PLANS ═══ */
+        .billing-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 22px;
+            background: rgba(255, 255, 255, 0.025);
+            border-radius: 12px;
+            padding: 4px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .billing-toggle button {
+            padding: 9px 22px;
+            border-radius: 10px;
+            border: none;
+            background: 0;
+            color: rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: .82rem;
+            font-family: inherit;
+            transition: all .3s
+        }
+
+        .billing-toggle button.active {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--c)
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px
+        }
+
+        .plan-card {
+            padding: 22px 18px;
+            border-radius: 16px;
+            border: 1.5px solid rgba(255, 255, 255, 0.05);
+            background: var(--glass);
+            cursor: pointer;
+            transition: all .4s;
+            position: relative;
+            overflow: hidden
+        }
+
+        .plan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity .3s
+        }
+
+        .plan-card:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px)
+        }
+
+        .plan-card:hover::before {
+            opacity: 1
+        }
+
+        .plan-card.selected {
+            border-color: rgba(0, 255, 255, 0.3);
+            background: rgba(0, 255, 255, 0.015);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.04)
+        }
+
+        .plan-card.selected::before {
+            opacity: 1
+        }
+
+        .plan-pop {
+            position: absolute;
+            top: -1px;
+            right: 16px;
+            background: linear-gradient(135deg, var(--g), #f4d47c);
+            color: #000;
+            padding: 3px 10px;
+            border-radius: 0 0 8px 8px;
+            font-size: .55rem;
+            font-weight: 700;
+            letter-spacing: .5px
+        }
+
+        .plan-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .plan-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--c);
+            margin-bottom: 2px
+        }
+
+        .plan-price span {
+            font-size: .7rem;
+            color: rgba(255, 255, 255, 0.25);
+            font-weight: 400
+        }
+
+        .plan-save {
+            color: var(--g);
+            font-size: .68rem;
+            font-weight: 600;
+            min-height: 16px;
+            margin-bottom: 6px
+        }
+
+        .plan-radio {
+            position: absolute;
+            top: 20px;
+            right: 18px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .plan-card.selected .plan-radio {
+            border-color: var(--c)
+        }
+
+        .plan-card.selected .plan-radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--c)
+        }
+
+        .plan-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: .58rem;
+            font-weight: 700;
+            margin-bottom: 8px
+        }
+
+        .plan-badge.fam {
+            background: rgba(168, 85, 247, 0.1);
+            color: #a855f7
+        }
+
+        .plan-badge.biz {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-top: 10px
+        }
+
+        .plan-features li {
+            padding: 3px 0;
+            color: rgba(255, 255, 255, 0.35);
+            font-size: .74rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px
+        }
+
+        .plan-features li::before {
+            content: '✓';
+            color: var(--c);
+            font-weight: 700;
+            font-size: .68rem;
+            margin-top: 1px
+        }
+
+        .plans-continue {
+            margin-top: 22px
+        }
+
+        /* ═══ PLAN DESCRIPTION + REFUND ═══ */
+        .plan-desc {
+            color: rgba(255, 255, 255, 0.25);
+            font-size: .7rem;
+            font-style: italic;
+            margin-bottom: 8px;
+            line-height: 1.4
+        }
+
+        .plan-refund {
+            margin-top: 10px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            background: rgba(212, 175, 55, 0.04);
+            border: 1px solid rgba(212, 175, 55, 0.08);
+            cursor: pointer;
+            transition: all .3s
+        }
+
+        .plan-refund:hover {
+            border-color: rgba(212, 175, 55, 0.2)
+        }
+
+        .plan-refund-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .68rem;
+            font-weight: 600;
+            color: var(--g)
+        }
+
+        .plan-refund-header .arrow {
+            transition: transform .3s;
+            font-size: .6rem
+        }
+
+        .plan-refund.open .arrow {
+            transform: rotate(90deg)
+        }
+
+        .plan-refund-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s ease;
+            font-size: .65rem;
+            color: rgba(255, 255, 255, 0.35);
+            line-height: 1.5
+        }
+
+        .plan-refund.open .plan-refund-body {
+            max-height: 120px;
+            margin-top: 6px
+        }
+
+        .plan-refund-body strong {
+            color: var(--g);
+            font-weight: 600
+        }
+
+        /* ═══ REFUND CHECKBOX ═══ */
+        .refund-agree {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: rgba(212, 175, 55, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.08);
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: border-color .3s
+        }
+
+        .refund-agree:hover {
+            border-color: rgba(212, 175, 55, 0.2)
+        }
+
+        .refund-agree input[type=checkbox] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: var(--g);
+            flex-shrink: 0;
+            cursor: pointer
+        }
+
+        .refund-agree-text {
+            font-size: .75rem;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.5
+        }
+
+        .refund-agree-text strong {
+            color: var(--g)
+        }
+
+        .refund-warn {
+            text-align: center;
+            color: #ef4444;
+            font-size: .75rem;
+            margin-bottom: 12px;
+            display: none
+        }
+
+        /* ═══ STEP 3: PAYMENT ═══ */
+        .order-summary {
+            padding: 20px;
+            border-radius: 14px;
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-bottom: 22px
+        }
+
+        .os-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: .85rem;
+            color: rgba(255, 255, 255, 0.5)
+        }
+
+        .os-row.total {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin-top: 8px;
+            padding-top: 12px;
+            font-weight: 700;
+            color: #fff;
+            font-size: 1rem
+        }
+
+        .os-row .os-val {
+            color: var(--c);
+            font-weight: 600
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .pay-btn {
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%
+        }
+
+        .pay-btn.paypal {
+            background: linear-gradient(135deg, #ffc439, #ffaa00);
+            color: #003087
+        }
+
+        .pay-btn.paypal:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 196, 57, 0.2)
+        }
+
+        .pay-btn.stripe {
+            background: linear-gradient(135deg, var(--g), #f4d47c);
+            color: #000
+        }
+
+        .pay-btn.stripe:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2)
+        }
+
+        .pay-btn:disabled {
+            opacity: .5;
+            cursor: not-allowed
+        }
+
+        .pay-secure {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.15);
+            font-size: .72rem;
+            margin-top: 16px
+        }
+
+        .terms {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.12);
+            font-size: .68rem;
+            margin-top: 12px
+        }
+
+        .terms a {
+            color: rgba(0, 255, 255, 0.35);
+            text-decoration: none
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            display: inline-block
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        /* ═══ MESSAGE ═══ */
+        .message {
+            text-align: center;
+            padding: 14px 20px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: .88rem;
+            backdrop-filter: blur(10px)
+        }
+
+        .message.success {
+            display: block;
+            background: rgba(74, 222, 128, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            color: #4ade80
+        }
+
+        .message.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #ef4444
+        }
+
+        /* ═══ TICKER BAR ═══ */
+        .ticker-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 55px;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 20, 40, 0.95) 50%, rgba(0, 0, 0, 0.95) 100%);
+            border-top: 1px solid rgba(212, 175, 55, 0.6);
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            z-index: 9999
+        }
+
+        .ticker-brand {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d47c 50%, #d4af37 100%);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center
+        }
+
+        .ticker-content {
+            flex: 1;
+            overflow: hidden
+        }
+
+        .ticker-text {
+            color: #d4af37;
+            font-size: .8rem;
+            white-space: nowrap;
+            animation: tkScroll 30s linear infinite;
+            padding-left: 100%;
+            transition: opacity .3s
+        }
+
+        @keyframes tkScroll {
+            0% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(-100%)
+            }
+        }
+
+        /* ═══ RESPONSIVE ═══ */
+        @media(max-width:900px) {
+            .split {
+                flex-direction: column
+            }
+
+            .split-left {
+                flex: 0 0 auto;
+                padding: 30px 24px;
+                border-right: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.03)
+            }
+
+            .split-left::before {
+                display: none
+            }
+
+            .left-features {
+                display: none
+            }
+
+            .left-trust {
+                display: none
+            }
+
+            .brand {
+                margin-bottom: 20px
+            }
+
+            .left-title {
+                font-size: 1.3rem;
+                margin-bottom: 10px
+            }
+
+            .split-right {
+                padding: 20px 20px 100px
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:500px) {
+            .split-right {
+                padding: 16px 14px 100px
+            }
+
+            .social-btns {
+                gap: 8px
+            }
+
+            .view-title {
+                font-size: 1.2rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="stars"></canvas>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="split">
+        <!-- LEFT PANEL — Brand + Features -->
+        <div class="split-left">
+            <a href="/landing.html" class="brand" style="text-decoration:none;color:#fff">
+                <div class="brand-icon">K</div>
+                <div class="brand-name">Kelion AI</div>
+            </a>
+            <h1 class="left-title">The only AI you can <span>see, hear & touch</span></h1>
+            <p class="left-desc">Meet K — your 3D holographic AI assistant</p>
+
+            <!-- K Hologram Preview -->
+            <div
+                style="position:relative;width:160px;height:160px;margin:16px auto;display:flex;align-items:center;justify-content:center">
+                <div
+                    style="position:absolute;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,255,0.12),rgba(0,102,255,0.06),transparent 70%);animation:kPulse 3s ease infinite">
+                </div>
+                <div
+                    style="position:absolute;width:90px;height:90px;border-radius:50%;border:1.5px solid rgba(0,255,255,0.15);animation:kSpin 8s linear infinite">
+                </div>
+                <div
+                    style="position:absolute;width:60px;height:60px;border-radius:50%;border:1px solid rgba(212,175,55,0.12);animation:kSpin 12s linear infinite reverse">
+                </div>
+                <div style="font-size:2.8rem;z-index:1;filter:drop-shadow(0 0 20px rgba(0,255,255,0.3))">🌐</div>
+            </div>
+            <style>
+                @keyframes kPulse {
+
+                    0%,
+                    100% {
+                        transform: scale(1);
+                        opacity: .7
+                    }
+
+                    50% {
+                        transform: scale(1.1);
+                        opacity: 1
+                    }
+                }
+
+                @keyframes kSpin {
+                    to {
+                        transform: rotate(360deg)
+                    }
+                }
+            </style>
+
+            <!-- Feature Buttons Grid -->
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px"
+                class="left-features">
+                <div style="background:rgba(0,255,255,0.04);border:1px solid rgba(0,255,255,0.08);border-radius:12px;padding:12px 8px;text-align:center;transition:all .3s;cursor:default"
+                    onmouseover="this.style.borderColor='rgba(0,255,255,0.2)'"
+                    onmouseout="this.style.borderColor='rgba(0,255,255,0.08)'">
+                    <div style="font-size:1.3rem;margin-bottom:4px">🎙️</div>
+                    <div style="font-size:.62rem;color:rgba(255,255,255,0.4);font-weight:600">Voice AI</div>
+                </div>
+                <div style="background:rgba(0,255,255,0.04);border:1px solid rgba(0,255,255,0.08);border-radius:12px;padding:12px 8px;text-align:center;transition:all .3s;cursor:default"
+                    onmouseover="this.style.borderColor='rgba(0,255,255,0.2)'"
+                    onmouseout="this.style.borderColor='rgba(0,255,255,0.08)'">
+                    <div style="font-size:1.3rem;margin-bottom:4px">👁️</div>
+                    <div style="font-size:.62rem;color:rgba(255,255,255,0.4);font-weight:600">Vision</div>
+                </div>
+                <div style="background:rgba(0,255,255,0.04);border:1px solid rgba(0,255,255,0.08);border-radius:12px;padding:12px 8px;text-align:center;transition:all .3s;cursor:default"
+                    onmouseover="this.style.borderColor='rgba(0,255,255,0.2)'"
+                    onmouseout="this.style.borderColor='rgba(0,255,255,0.08)'">
+                    <div style="font-size:1.3rem;margin-bottom:4px">📍</div>
+                    <div style="font-size:.62rem;color:rgba(255,255,255,0.4);font-weight:600">GPS Maps</div>
+                </div>
+                <div style="background:rgba(0,255,255,0.04);border:1px solid rgba(0,255,255,0.08);border-radius:12px;padding:12px 8px;text-align:center;transition:all .3s;cursor:default"
+                    onmouseover="this.style.borderColor='rgba(0,255,255,0.2)'"
+                    onmouseout="this.style.borderColor='rgba(0,255,255,0.08)'">
+                    <div style="font-size:1.3rem;margin-bottom:4px">📧</div>
+                    <div style="font-size:.62rem;color:rgba(255,255,255,0.4);font-weight:600">Email</div>
+                </div>
+                <div style="background:rgba(0,255,255,0.04);border:1px solid rgba(0,255,255,0.08);border-radius:12px;padding:12px 8px;text-align:center;transition:all .3s;cursor:default"
+                    onmouseover="this.style.borderColor='rgba(0,255,255,0.2)'"
+                    onmouseout="this.style.borderColor='rgba(0,255,255,0.08)'">
+                    <div style="font-size:1.3rem;margin-bottom:4px">💬</div>
+                    <div style="font-size:.62rem;color:rgba(255,255,255,0.4);font-weight:600">Group Chat</div>
+                </div>
+                <div style="background:rgba(0,255,255,0.04);border:1px solid rgba(0,255,255,0.08);border-radius:12px;padding:12px 8px;text-align:center;transition:all .3s;cursor:default"
+                    onmouseover="this.style.borderColor='rgba(0,255,255,0.2)'"
+                    onmouseout="this.style.borderColor='rgba(0,255,255,0.08)'">
+                    <div style="font-size:1.3rem;margin-bottom:4px">🌤️</div>
+                    <div style="font-size:.62rem;color:rgba(255,255,255,0.4);font-weight:600">Weather</div>
+                </div>
+            </div>
+
+            <!-- AI Engines Bar -->
+            <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:14px"
+                class="left-features">
+                <span
+                    style="padding:4px 10px;border-radius:20px;background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.1);font-size:.6rem;color:rgba(212,175,55,0.6);font-weight:600">Gemini</span>
+                <span
+                    style="padding:4px 10px;border-radius:20px;background:rgba(0,255,255,0.04);border:1px solid rgba(0,255,255,0.08);font-size:.6rem;color:rgba(0,255,255,0.5);font-weight:600">GPT-4o</span>
+                <span
+                    style="padding:4px 10px;border-radius:20px;background:rgba(100,200,255,0.04);border:1px solid rgba(100,200,255,0.08);font-size:.6rem;color:rgba(100,200,255,0.5);font-weight:600">DeepSeek</span>
+                <span
+                    style="padding:4px 10px;border-radius:20px;background:rgba(255,200,100,0.04);border:1px solid rgba(255,200,100,0.08);font-size:.6rem;color:rgba(255,200,100,0.5);font-weight:600">ElevenLabs</span>
+            </div>
+
+            <div class="left-trust">
+                <p>🔒 256-bit encryption · GDPR compliant · Cancel anytime</p>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL — Steps -->
+        <div class="split-right">
+            <div id="message" class="message"></div>
+
+            <!-- Progress -->
+            <div class="progress">
+                <div class="prog-step cur" id="ps1">
+                    <div class="prog-dot">1</div><span class="prog-label">Account</span>
+                </div>
+                <div class="prog-step" id="ps2">
+                    <div class="prog-dot">2</div><span class="prog-label">Plan</span>
+                </div>
+                <div class="prog-step" id="ps3">
+                    <div class="prog-dot">3</div><span class="prog-label">Payment</span>
+                </div>
+            </div>
+
+            <!-- ════════ STEP 1: Account ════════ -->
+            <div class="step-view active" id="view-1">
+                <h2 class="view-title" id="view-title-1">Create your account</h2>
+                <p class="view-sub">Start free, upgrade anytime. No card required.</p>
+
+                <div class="social-btns">
+                    <button class="social-btn" onclick="socialLogin('google')">
+                        <svg viewBox="0 0 24 24">
+                            <path fill="#4285F4"
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
+                            <path fill="#34A853"
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                            <path fill="#FBBC05"
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                            <path fill="#EA4335"
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                        </svg>
+                        Continue with Google
+                    </button>
+                    <button class="social-btn" onclick="socialLogin('apple')">
+                        <svg viewBox="0 0 24 24" fill="#fff">
+                            <path
+                                d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
+                        </svg>
+                        Continue with Apple
+                    </button>
+                </div>
+
+                <div class="divider">or continue with email</div>
+
+                <div class="form-group"><label for="email">Email address</label><input type="email" id="email"
+                        placeholder="you@example.com" autocomplete="email"></div>
+                <div class="form-group"><label for="password">Password</label><input type="password" id="password"
+                        placeholder="Min. 6 characters" autocomplete="new-password"></div>
+
+                <button class="btn-primary" id="btn-continue" onclick="continueToPlans()">Continue →</button>
+                <button class="btn-secondary" id="btn-login" onclick="loginExistingUser()" style="display:none">🔓
+                    Login</button>
+
+                <div class="form-footer">
+                    <span id="toggle-mode">Already have an account? <a href="#" onclick="toggleAuthMode(event)">Log
+                            in</a></span>
+                </div>
+            </div>
+
+            <!-- ════════ STEP 2: Plan ════════ -->
+            <div class="step-view" id="view-2">
+                <h2 class="view-title">Choose your plan</h2>
+                <p class="view-sub">All plans include the full K hologram experience</p>
+
+                <div class="billing-toggle">
+                    <button id="toggle-monthly" class="active" onclick="setBilling('monthly')">Monthly</button>
+                    <button id="toggle-annual" onclick="setBilling('annual')">Annual <span
+                            style="color:var(--g);font-size:.65rem">Save 44%</span></button>
+                </div>
+
+                <div class="plans-grid">
+                    <div class="plan-card selected" onclick="selectPlan('pro')" id="plan-pro">
+                        <div class="plan-radio"></div>
+                        <div class="plan-name">⚡ Pro</div>
+                        <div class="plan-desc">Full AI hologram experience for individuals</div>
+                        <div class="plan-price" id="price-pro">£15 <span>/mo</span></div>
+                        <div class="plan-save" id="save-pro">&nbsp;</div>
+                        <ul class="plan-features">
+                            <li>1 user account</li>
+                            <li>All 4 AI engines</li>
+                            <li>Voice, Vision, Hologram</li>
+                            <li>Email management</li>
+                            <li>GPS & navigation</li>
+                            <li>Image & video generation</li>
+                        </ul>
+                        <div class="plan-refund" onclick="event.stopPropagation();this.classList.toggle('open')">
+                            <div class="plan-refund-header"><span class="arrow">▶</span> Cancellation & Refund Policy
+                            </div>
+                            <div class="plan-refund-body">
+                                <strong>Monthly:</strong> The current billing month is non-refundable. Service continues
+                                until the end of the paid period.<br>
+                                <strong>Annual:</strong> If cancelled, the current month completes normally. The
+                                remaining unused months are refunded pro-rata.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plan-card" onclick="selectPlan('family')" id="plan-family">
+                        <div class="plan-pop">POPULAR</div>
+                        <div class="plan-radio"></div>
+                        <div class="plan-name">👪 Family</div>
+                        <div class="plan-desc">Share K with up to 5 family members</div>
+                        <div class="plan-price" id="price-family">£25 <span>/mo</span></div>
+                        <div class="plan-save" id="save-family">&nbsp;</div>
+                        <span class="plan-badge fam">UP TO 5 MEMBERS</span>
+                        <ul class="plan-features">
+                            <li>Everything in Pro</li>
+                            <li>5 linked accounts</li>
+                            <li>Live GPS tracking</li>
+                            <li>Family messenger</li>
+                            <li>Parental controls</li>
+                        </ul>
+                        <div class="plan-refund" onclick="event.stopPropagation();this.classList.toggle('open')">
+                            <div class="plan-refund-header"><span class="arrow">▶</span> Cancellation & Refund Policy
+                            </div>
+                            <div class="plan-refund-body">
+                                <strong>Monthly:</strong> The current billing month is non-refundable. Service continues
+                                until the end of the paid period.<br>
+                                <strong>Annual:</strong> If cancelled, the current month completes normally. The
+                                remaining unused months are refunded pro-rata.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plan-card" onclick="selectPlan('business')" id="plan-business">
+                        <div class="plan-radio"></div>
+                        <div class="plan-name">🏢 Business</div>
+                        <div class="plan-desc">Enterprise-grade AI for your entire team</div>
+                        <div class="plan-price" id="price-business">£99 <span>/mo</span></div>
+                        <div class="plan-save" id="save-business">&nbsp;</div>
+                        <span class="plan-badge biz">25–50 MEMBERS</span>
+                        <ul class="plan-features">
+                            <li>Everything in Family</li>
+                            <li>25–50 team members</li>
+                            <li>Admin dashboard & analytics</li>
+                            <li>API access</li>
+                            <li>Priority 24/7 SLA</li>
+                            <li>Custom branding</li>
+                        </ul>
+                        <div class="plan-refund" onclick="event.stopPropagation();this.classList.toggle('open')">
+                            <div class="plan-refund-header"><span class="arrow">▶</span> Cancellation & Refund Policy
+                            </div>
+                            <div class="plan-refund-body">
+                                <strong>Monthly:</strong> The current billing month is non-refundable. Service continues
+                                until the end of the paid period.<br>
+                                <strong>Annual:</strong> If cancelled, the current month completes normally. The
+                                remaining unused months are refunded pro-rata.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plans-continue">
+                    <button class="btn-primary" onclick="goToPayment()">Continue to payment →</button>
+                    <button class="btn-secondary" onclick="goStep(1)">← Back</button>
+                </div>
+            </div>
+
+            <!-- ════════ STEP 3: Payment ════════ -->
+            <div class="step-view" id="view-3">
+                <h2 class="view-title">Complete payment</h2>
+                <p class="view-sub">Secure checkout — cancel anytime</p>
+
+                <div class="order-summary">
+                    <div class="os-row"><span>Plan</span><span class="os-val" id="os-plan">Pro</span></div>
+                    <div class="os-row"><span>Billing</span><span class="os-val" id="os-billing">Monthly</span></div>
+                    <div class="os-row"><span>Account</span><span class="os-val" id="os-email">—</span></div>
+                    <div class="os-row total"><span>Total</span><span class="os-val" id="os-total">£15/mo</span></div>
+                </div>
+
+                <!-- Refund policy acknowledgement -->
+                <label class="refund-agree" for="refund-check">
+                    <input type="checkbox" id="refund-check" onchange="updatePayButtons()">
+                    <div class="refund-agree-text">
+                        I understand and agree to the cancellation policy: <strong>Monthly</strong> — the current
+                        billing month is non-refundable. <strong>Annual</strong> — the current month completes and
+                        remaining unused months are refunded.
+                    </div>
+                </label>
+                <div class="refund-warn" id="refund-warn">⚠️ Please read and accept the cancellation policy to continue
+                </div>
+
+                <div class="payment-methods">
+                    <button class="pay-btn paypal" onclick="payWithPayPal()" id="btn-paypal" disabled>
+                        <span class="btn-text">💳 Pay with PayPal or Card</span>
+                        <span class="loading" style="display:none"><span class="spinner"></span></span>
+                    </button>
+                    <div style="text-align:center;margin-top:8px;font-size:.65rem;color:rgba(255,255,255,0.25)">
+                        Accepts PayPal, Visa, Mastercard, Amex & more
+                    </div>
+                </div>
+
+                <div class="pay-secure">🔒 Secured by 256-bit SSL encryption</div>
+                <p class="terms">By subscribing, you agree to our <a href="/gdpr.html">Terms</a> and <a
+                        href="/gdpr.html">Privacy Policy</a></p>
+                <button class="btn-secondary" onclick="goStep(2)" style="margin-top:12px">← Change plan</button>
+                <div style="text-align:center;margin-top:16px">
+                    <a href="/app.html"
+                        style="color:rgba(255,255,255,0.2);font-size:.78rem;text-decoration:none;transition:color .3s"
+                        onmouseover="this.style.color='var(--c)'"
+                        onmouseout="this.style.color='rgba(255,255,255,0.2)'">or try K free instead →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticker Bar -->
+    <div class="ticker-bar">
+        <div class="ticker-brand"><img src="images/ae_logo.png" alt="AE" style="height:50px;width:auto"></div>
+        <div class="ticker-content">
+            <div class="ticker-text" id="ticker-text"></div>
+        </div>
+    </div>
+
+    <script>
+        // ═══ STARFIELD ═══
+        const sc = document.getElementById('stars'), sx = sc.getContext('2d');
+        let SW, SH; function sR() { SW = innerWidth; SH = innerHeight; sc.width = SW; sc.height = SH } sR(); addEventListener('resize', sR);
+        const sa = []; for (let i = 0; i < 200; i++)sa.push({ x: Math.random() * 2000 - 500, y: Math.random() * 2000 - 500, z: Math.random() * 1500 + 500, r: Math.random() * 1.2 + .3, tw: Math.random() * Math.PI * 2 });
+        function dS(t) { sx.clearRect(0, 0, SW, SH); const cx = SW / 2, cy = SH / 2; sa.forEach(s => { s.z -= .12; if (s.z <= 1) { s.z = 1500; s.x = Math.random() * 2000 - 500; s.y = Math.random() * 2000 - 500 } const px = cx + (s.x / s.z) * 300, py = cy + (s.y / s.z) * 300; if (px < 0 || px > SW || py < 0 || py > SH) return; const sz = s.r * (1 - s.z / 1500) * 2; const tw = .3 + Math.abs(Math.sin(t * .001 + s.tw)) * .7; const a = (1 - s.z / 1500) * tw; sx.beginPath(); sx.arc(px, py, Math.max(sz, .3), 0, Math.PI * 2); sx.fillStyle = `rgba(200,220,255,${a})`; sx.fill() }); requestAnimationFrame(dS) }
+        requestAnimationFrame(dS);
+
+        // ═══ TICKER ═══
+        const msgs = ['✧ Imagined & developed by AE Creative Studio together with Google Gemini • OpenAI • ElevenLabs ✧', '★ Project KELION — The first AI you can see • Bridging dimensions through technology ★', '◆ Where imagination meets innovation • Powered by the most brilliant AI minds ◆'];
+        let mi = 0; const tt = document.getElementById('ticker-text');
+        function updateTicker() { tt.style.opacity = '0'; setTimeout(() => { tt.textContent = msgs[mi] + ' • ' + msgs[mi]; tt.style.opacity = '1'; mi = (mi + 1) % msgs.length }, 300) }
+        updateTicker(); setInterval(updateTicker, 10000);
+
+        // ═══ STATE ═══
+        let selectedTier = 'pro', billingCycle = 'monthly', authMode = 'signup', currentStep = 1;
+        const PRICING = { pro: { monthly: 15, annual: 100, savePct: 44 }, family: { monthly: 25, annual: 180, savePct: 40 }, business: { monthly: 99, annual: 800, savePct: 33 } };
+
+        // ═══ STEP NAVIGATION ═══
+        function goStep(n) {
+            currentStep = n;
+            document.querySelectorAll('.step-view').forEach(v => v.classList.remove('active'));
+            document.getElementById(`view-${n}`).classList.add('active');
+            // Update progress
+            for (let i = 1; i <= 3; i++) {
+                const ps = document.getElementById(`ps${i}`);
+                ps.classList.remove('cur', 'done');
+                if (i < n) ps.classList.add('done');
+                else if (i === n) ps.classList.add('cur');
+            }
+            // Update order summary when going to step 3
+            if (n === 3) updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const tier = selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1);
+            const price = PRICING[selectedTier][billingCycle];
+            const suffix = billingCycle === 'monthly' ? '/mo' : '/yr';
+            document.getElementById('os-plan').textContent = tier;
+            document.getElementById('os-billing').textContent = billingCycle === 'monthly' ? 'Monthly' : 'Annual';
+            document.getElementById('os-email').textContent = document.getElementById('email').value || '—';
+            document.getElementById('os-total').textContent = `£${price}${suffix}`;
+        }
+
+        // ═══ AUTH ═══
+        function toggleAuthMode(e) {
+            e.preventDefault();
+            authMode = authMode === 'signup' ? 'login' : 'signup';
+            const title = document.getElementById('view-title-1');
+            const btnContinue = document.getElementById('btn-continue');
+            const btnLogin = document.getElementById('btn-login');
+            const toggle = document.getElementById('toggle-mode');
+            if (authMode === 'login') {
+                title.textContent = 'Welcome back';
+                btnContinue.style.display = 'none';
+                btnLogin.style.display = 'block';
+                toggle.innerHTML = 'New here? <a href="#" onclick="toggleAuthMode(event)">Create account</a>';
+            } else {
+                title.textContent = 'Create your account';
+                btnContinue.style.display = 'block';
+                btnLogin.style.display = 'none';
+                toggle.innerHTML = 'Already have an account? <a href="#" onclick="toggleAuthMode(event)">Log in</a>';
+            }
+        }
+
+        function continueToPlans() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            if (!email || !email.includes('@')) { showMessage('Please enter a valid email.', 'error'); return }
+            if (password.length < 6) { showMessage('Password must be at least 6 characters.', 'error'); return }
+            goStep(2);
+        }
+
+        function goToPayment() { goStep(3) }
+
+        function socialLogin(provider) {
+            showMessage(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login — coming soon! Use email for now.`, 'error');
+        }
+
+        async function loginExistingUser() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            if (!email || !email.includes('@')) { showMessage('Please enter a valid email.', 'error'); return }
+            if (!password) { showMessage('Please enter your password.', 'error'); return }
+            const btn = document.getElementById('btn-login');
+            btn.disabled = true; btn.textContent = '⏳ Logging in...';
+            try {
+                const r = await fetch('/.netlify/functions/auth-login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+                const d = await r.json();
+                if (d.success && d.user) {
+                    localStorage.setItem('kelion_user', JSON.stringify(d.user));
+                    if (d.accessToken) localStorage.setItem('kelion_auth_token', d.accessToken);
+                    if (d.refreshToken) localStorage.setItem('kelion_refresh', d.refreshToken);
+                    showMessage('🎉 Login successful! Redirecting...', 'success');
+                    setTimeout(() => { window.location.href = '/app.html' }, 1500);
+                } else { showMessage(d.error || 'Invalid email or password.', 'error'); btn.disabled = false; btn.textContent = '🔓 Login' }
+            } catch (e) { console.error(e); showMessage('Network error.', 'error'); btn.disabled = false; btn.textContent = '🔓 Login' }
+        }
+
+        // ═══ BILLING ═══
+        function setBilling(cycle) {
+            billingCycle = cycle;
+            document.getElementById('toggle-monthly').classList.toggle('active', cycle === 'monthly');
+            document.getElementById('toggle-annual').classList.toggle('active', cycle === 'annual');
+            for (const [tier, p] of Object.entries(PRICING)) {
+                const prEl = document.getElementById(`price-${tier}`);
+                const svEl = document.getElementById(`save-${tier}`);
+                if (cycle === 'monthly') { prEl.innerHTML = `£${p.monthly} <span>/mo</span>`; svEl.innerHTML = '&nbsp;' }
+                else { prEl.innerHTML = `£${p.annual} <span>/yr</span>`; svEl.innerHTML = `Save ${p.savePct}% — £${Math.round(p.annual / 12)}/mo` }
+            }
+        }
+
+        function getPlanType() { return selectedTier === 'pro' ? billingCycle : `${selectedTier}_${billingCycle}` }
+
+        function selectPlan(tier) {
+            selectedTier = tier;
+            document.querySelectorAll('.plan-card').forEach(p => p.classList.remove('selected'));
+            document.getElementById(`plan-${tier}`).classList.add('selected');
+        }
+
+        // ═══ REFUND CHECKBOX ═══
+        function updatePayButtons() {
+            const checked = document.getElementById('refund-check').checked;
+            document.getElementById('btn-paypal').disabled = !checked;
+            document.getElementById('refund-warn').style.display = 'none';
+        }
+
+        // ═══ PAYMENT ═══
+        function showMessage(text, type) { const m = document.getElementById('message'); m.textContent = text; m.className = `message ${type}`; m.scrollIntoView({ behavior: 'smooth', block: 'nearest' }) }
+        function setLoading(id, on) { const b = document.getElementById(id); const t = b.querySelector('.btn-text'); const l = b.querySelector('.loading'); if (on) { t.style.display = 'none'; l.style.display = 'flex'; b.disabled = true } else { t.style.display = 'inline'; l.style.display = 'none'; b.disabled = false } }
+
+        async function payWithPayPal() {
+            if (!document.getElementById('refund-check').checked) {
+                document.getElementById('refund-warn').style.display = 'block';
+                showMessage('Please accept the cancellation policy, or try K free instead.', 'error');
+                setTimeout(() => { window.location.href = '/app.html' }, 3000);
+                return;
+            }
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            setLoading('btn-paypal', true);
+            try {
+                const r = await fetch('/.netlify/functions/subscription', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'create', planType: getPlanType(), email, password }) });
+                const d = await r.json();
+                if (d.success && d.approvalUrl) { sessionStorage.setItem('pendingEmail', email); sessionStorage.setItem('pendingPassword', password); window.location.href = d.approvalUrl }
+                else { showMessage(d.error || 'Failed to start PayPal.', 'error'); setLoading('btn-paypal', false) }
+            } catch (e) { console.error(e); showMessage('Network error.', 'error'); setLoading('btn-paypal', false) }
+        }
+
+        async function payWithStripe() {
+            if (!document.getElementById('refund-check').checked) {
+                document.getElementById('refund-warn').style.display = 'block';
+                showMessage('Please accept the cancellation policy, or try K free instead.', 'error');
+                setTimeout(() => { window.location.href = '/app.html' }, 3000);
+                return;
+            }
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            setLoading('btn-stripe', true);
+            try {
+                const r = await fetch('/.netlify/functions/stripe-checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'create', planType: getPlanType(), email, password }) });
+                const d = await r.json();
+                if (d.success && d.checkoutUrl) { sessionStorage.setItem('pendingEmail', email); sessionStorage.setItem('pendingPassword', password); window.location.href = d.checkoutUrl }
+                else { showMessage(d.error || 'Failed to start checkout.', 'error'); setLoading('btn-stripe', false) }
+            } catch (e) { console.error(e); showMessage('Network error.', 'error'); setLoading('btn-stripe', false) }
+        }
+
+        // ═══ INIT ═══
+        document.addEventListener('DOMContentLoaded', () => {
+            const p = new URLSearchParams(location.search);
+            if (p.get('success') === 'true') { showMessage('🎉 Payment successful!', 'success'); setTimeout(() => { location.href = '/app.html' }, 3000) }
+            if (p.get('canceled') === 'true') showMessage('Payment cancelled. Try again.', 'error');
+            if (p.get('tab') === 'existing' || p.get('tab') === 'signup') toggleAuthMode({ preventDefault: () => { } });
+            const plan = p.get('plan');
+            if (plan && ['pro', 'family', 'business'].includes(plan)) { selectPlan(plan); goStep(2) }
+        });
+    </script>
+    <script src="components/gdpr-contact.js"></script>
+    <script src="components/cookie-banner.js"></script>
+    <script src="components/age-gate.js"></script>
+    <script src="components/tracking.js"></script>
+    <script src="components/version-badge.js"></script>
+</body>
+
+</html>

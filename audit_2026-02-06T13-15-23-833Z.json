@@ -1,0 +1,255 @@
+{
+  "meta": {
+    "time_utc": "2026-02-06T13:15:14.901Z",
+    "base": "https://kelionai.app",
+    "timeoutMs": 25000,
+    "authProvided": false
+  },
+  "results": [
+    {
+      "name": "health",
+      "method": "GET",
+      "url": "https://kelionai.app/.netlify/functions/health",
+      "status": 200,
+      "ms": 1003,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\n  \"healthy\": true,\n  \"timestamp\": \"2026-02-06T13:15:15.644Z\",\n  \"environment\": {\n    \"configured\": 7,\n    \"total\": 7,\n    \"details\": {\n      \"LLM_API_KEY\": true,\n      \"TTS_API_KEY\": true,\n      \"SEARCH_API_KEY\": true,\n      \"DB_URL\": true,\n      \"VECTOR_DB_API_KEY\": true,\n      \"ENCRYPTION_KEY\": true,\n      \"JWT_SIGNING_KEY\": true\n    }\n  },\n  \"services\": {\n    \"chat\": \"ready\",\n    \"tts\": \"ready\",\n    \"search\": \"ready\",\n    \"memory\": \"ready\",\n    \"encryption\": \"ready\"\n  }\n}",
+      "classification": {
+        "kind": "OTHER",
+        "hint": "Check response body/headers."
+      }
+    },
+    {
+      "name": "realtime-token",
+      "method": "GET",
+      "url": "https://kelionai.app/.netlify/functions/realtime-token",
+      "status": 200,
+      "ms": 818,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"object\":\"realtime.session\",\"id\":\"sess_D6Fy0viUNcWkTS8XCY80y\",\"model\":\"gpt-4o-realtime\",\"modalities\":[\"audio\",\"text\"],\"instructions\":\"You are K (Kelion), a friendly AI hologram assistant with a camera.\\n\\nCURRENT TIME: Friday, 6 February 2026 at 13:15 (UK timezone)\\n\\nCRITICAL LOCATION RULE:\\n- NEVER assume the user is in any specific country or city\\n- ALWAYS use ONLY the GPS location data provided to you\\n- The user's REAL location is in the system context - USE IT\\n- For \\\"tomorrow\\\" or future weather, use the SAME GPS location, not a different country\\n- ONLY use a different location if the user EXPLICITLY names a city\\n\\nLOGIC VERIFICATION (CRITICAL):\\nYou MUST continuously verify the LOGIC of everything:\\n1. TIME AWARENESS: If user says \\\"good morning\\\" but it's evening, politely correct them: \\\"Actually, it's evening now - good evening!\\\"\\n2. REALITY CHECK: Verify facts and statements against known reality\\n3. CONSISTENCY: Point out contradictions in what user says (politely)\\n4. CONTEXT: Consider time of day, season, location in your responses\\n5. Be helpful when correcting - don't be rude, just gently inform\\n\\nCRITICAL SILENCE RULES:\\n1. IGNORE background voices, TV, rad…(truncated)",
+      "classification": {
+        "kind": "OTHER",
+        "hint": "Check response body/headers."
+      }
+    },
+    {
+      "name": "chat",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/chat",
+      "status": 200,
+      "ms": 1467,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"choices\":[{\"message\":{\"role\":\"assistant\",\"content\":\"Hello! How can I help you today? If you have any questions or need information, feel free to ask.\"}}],\"model\":\"moonshot-v1-128k\",\"source\":\"kimi\"}",
+      "classification": {
+        "kind": "OTHER",
+        "hint": "Check response body/headers."
+      }
+    },
+    {
+      "name": "chat-stream",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/chat-stream",
+      "status": 500,
+      "ms": 1147,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"OpenAI API error: 401\"}",
+      "classification": {
+        "kind": "SERVER_BUG",
+        "hint": "Unhandled exception in function. Add try/catch + structured error output + check logs."
+      }
+    },
+    {
+      "name": "smart-brain",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/smart-brain",
+      "status": 400,
+      "ms": 477,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"Question is required\"}",
+      "classification": {
+        "kind": "NEEDS_INPUT",
+        "hint": "400: endpoint needs body/params (normal for whisper/vision etc.)"
+      }
+    },
+    {
+      "name": "vision-compliment",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/vision-compliment",
+      "status": 500,
+      "ms": 1216,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"OpenAI API error: 401\"}",
+      "classification": {
+        "kind": "SERVER_BUG",
+        "hint": "Unhandled exception in function. Add try/catch + structured error output + check logs."
+      }
+    },
+    {
+      "name": "memory-cleanup",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/memory-cleanup",
+      "status": 500,
+      "ms": 612,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"column user_memories.expires_at does not exist\"}",
+      "classification": {
+        "kind": "SERVER_BUG",
+        "hint": "Unhandled exception in function. Add try/catch + structured error output + check logs."
+      }
+    },
+    {
+      "name": "generate-image",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/generate-image",
+      "status": 500,
+      "ms": 617,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"success\":false,\"error\":\"You have insufficient permissions for this operation. Missing scopes: api.model.images.request. Check that you have the correct role in your organization (Reader, Writer, Owner) and project (Member, Owner), and if you're using a restricted API key, that it has the necessary scopes.\"}",
+      "classification": {
+        "kind": "UPSTREAM_AUTH",
+        "hint": "Upstream provider auth failed (OpenAI/Replicate/etc). Check env keys in Netlify."
+      }
+    },
+    {
+      "name": "dalle",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/dalle",
+      "status": 500,
+      "ms": 540,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"401 You have insufficient permissions for this operation. Missing scopes: api.model.images.request. Check that you have the correct role in your organization (Reader, Writer, Owner) and project (Member, Owner), and if you're using a restricted API key, that it has the necessary scopes.\"}",
+      "classification": {
+        "kind": "UPSTREAM_AUTH",
+        "hint": "Upstream provider auth failed (OpenAI/Replicate/etc). Check env keys in Netlify."
+      }
+    },
+    {
+      "name": "run-migration",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/run-migration",
+      "status": 500,
+      "ms": 338,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"getaddrinfo ENOTFOUND db.lqhkqznjdrkuvtpsgwhq.supabase.co\",\"results\":[],\"hint\":\"Check DATABASE_URL format and credentials\"}",
+      "classification": {
+        "kind": "DB",
+        "hint": "Database/storage connectivity/config issue (Supabase URL/key, tables, migrations)."
+      }
+    },
+    {
+      "name": "whisper",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/whisper",
+      "status": 400,
+      "ms": 371,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"Audio data required (base64)\"}",
+      "classification": {
+        "kind": "NEEDS_INPUT",
+        "hint": "400: endpoint needs body/params (normal for whisper/vision etc.)"
+      }
+    },
+    {
+      "name": "vision",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/vision",
+      "status": 400,
+      "ms": 314,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"Image (base64) is required\"}",
+      "classification": {
+        "kind": "NEEDS_INPUT",
+        "hint": "400: endpoint needs body/params (normal for whisper/vision etc.)"
+      }
+    }
+  ],
+  "summary": {
+    "counts": {
+      "total": 12,
+      "ok_2xx": 3,
+      "needs_input_400": 3,
+      "server_5xx": 6,
+      "other_fail": 0
+    },
+    "priorities": [
+      {
+        "endpoint": "chat-stream",
+        "status": 500,
+        "kind": "SERVER_BUG",
+        "hint": "Unhandled exception in function. Add try/catch + structured error output + check logs.",
+        "proof": "{\"error\":\"OpenAI API error: 401\"}"
+      },
+      {
+        "endpoint": "vision-compliment",
+        "status": 500,
+        "kind": "SERVER_BUG",
+        "hint": "Unhandled exception in function. Add try/catch + structured error output + check logs.",
+        "proof": "{\"error\":\"OpenAI API error: 401\"}"
+      },
+      {
+        "endpoint": "memory-cleanup",
+        "status": 500,
+        "kind": "SERVER_BUG",
+        "hint": "Unhandled exception in function. Add try/catch + structured error output + check logs.",
+        "proof": "{\"error\":\"column user_memories.expires_at does not exist\"}"
+      },
+      {
+        "endpoint": "generate-image",
+        "status": 500,
+        "kind": "UPSTREAM_AUTH",
+        "hint": "Upstream provider auth failed (OpenAI/Replicate/etc). Check env keys in Netlify.",
+        "proof": "{\"success\":false,\"error\":\"You have insufficient permissions for this operation. Missing scopes: api.model.images.request. Check that you have the correct role in your organization (Reader, Writer, Owner) and project (Member, Owner), and if "
+      },
+      {
+        "endpoint": "dalle",
+        "status": 500,
+        "kind": "UPSTREAM_AUTH",
+        "hint": "Upstream provider auth failed (OpenAI/Replicate/etc). Check env keys in Netlify.",
+        "proof": "{\"error\":\"401 You have insufficient permissions for this operation. Missing scopes: api.model.images.request. Check that you have the correct role in your organization (Reader, Writer, Owner) and project (Member, Owner), and if you're using"
+      },
+      {
+        "endpoint": "run-migration",
+        "status": 500,
+        "kind": "DB",
+        "hint": "Database/storage connectivity/config issue (Supabase URL/key, tables, migrations).",
+        "proof": "{\"error\":\"getaddrinfo ENOTFOUND db.lqhkqznjdrkuvtpsgwhq.supabase.co\",\"results\":[],\"hint\":\"Check DATABASE_URL format and credentials\"}"
+      }
+    ]
+  }
+}

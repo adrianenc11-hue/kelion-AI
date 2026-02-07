@@ -1,0 +1,234 @@
+{
+  "meta": {
+    "time_utc": "2026-02-06T13:20:35.723Z",
+    "base": "https://kelionai.app",
+    "timeoutMs": 25000,
+    "authProvided": false
+  },
+  "results": [
+    {
+      "name": "health",
+      "method": "GET",
+      "url": "https://kelionai.app/.netlify/functions/health",
+      "status": 200,
+      "ms": 1063,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\n  \"healthy\": true,\n  \"timestamp\": \"2026-02-06T13:20:36.648Z\",\n  \"environment\": {\n    \"configured\": 7,\n    \"total\": 7,\n    \"details\": {\n      \"LLM_API_KEY\": true,\n      \"TTS_API_KEY\": true,\n      \"SEARCH_API_KEY\": true,\n      \"DB_URL\": true,\n      \"VECTOR_DB_API_KEY\": true,\n      \"ENCRYPTION_KEY\": true,\n      \"JWT_SIGNING_KEY\": true\n    }\n  },\n  \"services\": {\n    \"chat\": \"ready\",\n    \"tts\": \"ready\",\n    \"search\": \"ready\",\n    \"memory\": \"ready\",\n    \"encryption\": \"ready\"\n  }\n}",
+      "classification": {
+        "kind": "OTHER",
+        "hint": "Check response body/headers."
+      }
+    },
+    {
+      "name": "realtime-token",
+      "method": "GET",
+      "url": "https://kelionai.app/.netlify/functions/realtime-token",
+      "status": 200,
+      "ms": 1319,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"object\":\"realtime.session\",\"id\":\"sess_D6G3BS900ICXDBEO2ddSG\",\"model\":\"gpt-4o-realtime\",\"modalities\":[\"audio\",\"text\"],\"instructions\":\"You are K (Kelion), a friendly AI hologram assistant with a camera.\\n\\nCURRENT TIME: Friday, 6 February 2026 at 13:20 (UK timezone)\\n\\nCRITICAL LOCATION RULE:\\n- NEVER assume the user is in any specific country or city\\n- ALWAYS use ONLY the GPS location data provided to you\\n- The user's REAL location is in the system context - USE IT\\n- For \\\"tomorrow\\\" or future weather, use the SAME GPS location, not a different country\\n- ONLY use a different location if the user EXPLICITLY names a city\\n\\nLOGIC VERIFICATION (CRITICAL):\\nYou MUST continuously verify the LOGIC of everything:\\n1. TIME AWARENESS: If user says \\\"good morning\\\" but it's evening, politely correct them: \\\"Actually, it's evening now - good evening!\\\"\\n2. REALITY CHECK: Verify facts and statements against known reality\\n3. CONSISTENCY: Point out contradictions in what user says (politely)\\n4. CONTEXT: Consider time of day, season, location in your responses\\n5. Be helpful when correcting - don't be rude, just gently inform\\n\\nCRITICAL SILENCE RULES:\\n1. IGNORE background voices, TV, rad…(truncated)",
+      "classification": {
+        "kind": "OTHER",
+        "hint": "Check response body/headers."
+      }
+    },
+    {
+      "name": "chat",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/chat",
+      "status": 200,
+      "ms": 1980,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"choices\":[{\"message\":{\"role\":\"assistant\",\"content\":\"Hello! How can I help you today? If you have any questions or need assistance, feel free to ask.\"}}],\"model\":\"moonshot-v1-128k\",\"source\":\"kimi\"}",
+      "classification": {
+        "kind": "OTHER",
+        "hint": "Check response body/headers."
+      }
+    },
+    {
+      "name": "chat-stream",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/chat-stream",
+      "status": 200,
+      "ms": 2016,
+      "ok_transport": true,
+      "content_type": "text/event-stream",
+      "json_ok": false,
+      "json_error": "Unexpected token 'd', \"data: {\"to\"... is not valid JSON",
+      "body_preview": "data: {\"token\":\"¿\",\"fullText\":\"¿\"}\n\ndata: {\"token\":\"Te\",\"fullText\":\"¿Te\"}\n\ndata: {\"token\":\" ref\",\"fullText\":\"¿Te ref\"}\n\ndata: {\"token\":\"ieres\",\"fullText\":\"¿Te refieres\"}\n\ndata: {\"token\":\" a\",\"fullText\":\"¿Te refieres a\"}\n\ndata: {\"token\":\" un\",\"fullText\":\"¿Te refieres a un\"}\n\ndata: {\"token\":\" \\\"\",\"fullText\":\"¿Te refieres a un \\\"\"}\n\ndata: {\"token\":\"ping\",\"fullText\":\"¿Te refieres a un \\\"ping\"}\n\ndata: {\"token\":\"\\\"\",\"fullText\":\"¿Te refieres a un \\\"ping\\\"\"}\n\ndata: {\"token\":\" en\",\"fullText\":\"¿Te refieres a un \\\"ping\\\" en\"}\n\ndata: {\"token\":\" el\",\"fullText\":\"¿Te refieres a un \\\"ping\\\" en el\"}\n\ndata: {\"token\":\" contexto\",\"fullText\":\"¿Te refieres a un \\\"ping\\\" en el contexto\"}\n\ndata: {\"token\":\" de\",\"fullText\":\"¿Te refieres a un \\\"ping\\\" en el contexto de\"}\n\ndata: {\"token\":\" auditor\",\"fullText\":\"¿Te refieres a un \\\"ping\\\" en el contexto de auditor\"}\n\ndata: {\"token\":\"ía\",\"fullText\":\"¿Te refieres a un \\\"ping\\\" en el contexto de auditoría\"}\n\ndata: {\"token\":\" K\",\"fullText\":\"¿Te refieres a un \\\"ping\\\" en el contexto de auditoría K\"}\n\ndata: {\"token\":\"1\",\"fullText\":\"¿Te refieres a un \\\"ping\\\" en el contexto de auditoría K1\"}\n\ndata: {\"token\":\"?\",\"fullText\":\"¿Te refieres a un \\\"ping\\\" en el contexto de …(truncated)",
+      "classification": {
+        "kind": "OTHER",
+        "hint": "Check response body/headers."
+      }
+    },
+    {
+      "name": "smart-brain",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/smart-brain",
+      "status": 400,
+      "ms": 637,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"Question is required\"}",
+      "classification": {
+        "kind": "NEEDS_INPUT",
+        "hint": "400: endpoint needs body/params (normal for whisper/vision etc.)"
+      }
+    },
+    {
+      "name": "vision-compliment",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/vision-compliment",
+      "status": 200,
+      "ms": 1436,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"text\":\"It's great to have you here!\"}",
+      "classification": {
+        "kind": "OTHER",
+        "hint": "Check response body/headers."
+      }
+    },
+    {
+      "name": "memory-cleanup",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/memory-cleanup",
+      "status": 500,
+      "ms": 1216,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"column user_memories.expires_at does not exist\"}",
+      "classification": {
+        "kind": "SERVER_BUG",
+        "hint": "Unhandled exception in function. Add try/catch + structured error output + check logs."
+      }
+    },
+    {
+      "name": "generate-image",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/generate-image",
+      "status": 200,
+      "ms": 13702,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"success\":true,\"imageUrl\":\"https://oaidalleapiprodscus.blob.core.windows.net/private/org-EaCn8ubYI8hJUCzjyTL4roJl/user-CNtfGSOd4lSz1net9nJyXD9Q/img-1rNO7AjUhRD2yb35yEJ4OcrK.png?st=2026-02-06T12%3A20%3A58Z&se=2026-02-06T14%3A20%3A58Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=38e27a3b-6174-4d3e-90ac-d7d9ad49543f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-02-05T22%3A20%3A02Z&ske=2026-02-06T22%3A20%3A02Z&sks=b&skv=2026-02-06&sig=1dW4HZWW48K33qRZRHNtYNMCUfWPelNp%2B9%2BzsROwHek%3D\",\"revisedPrompt\":\"An image illustrating the concept of a K1 audit, featuring a large balance sheet with various calculations on it. In the background, a diverse group of professionals can be seen reviewing the numbers, consisting of an Asian female auditor, a Middle Eastern male accountant, and a Black female data analyst. They are surrounded by pie charts, bar graphs, and spreadsheets of financial data on a large projector screen.\",\"originalPrompt\":\"K1 audit test image\"}",
+      "classification": {
+        "kind": "OTHER",
+        "hint": "Check response body/headers."
+      }
+    },
+    {
+      "name": "dalle",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/dalle",
+      "status": 500,
+      "ms": 1354,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"400 Invalid value: '512x512'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'.\"}",
+      "classification": {
+        "kind": "SERVER_BUG",
+        "hint": "Unhandled exception in function. Add try/catch + structured error output + check logs."
+      }
+    },
+    {
+      "name": "run-migration",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/run-migration",
+      "status": 500,
+      "ms": 706,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"getaddrinfo ENOTFOUND db.lqhkqznjdrkuvtpsgwhq.supabase.co\",\"results\":[],\"hint\":\"Check DATABASE_URL format and credentials\"}",
+      "classification": {
+        "kind": "DB",
+        "hint": "Database/storage connectivity/config issue (Supabase URL/key, tables, migrations)."
+      }
+    },
+    {
+      "name": "whisper",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/whisper",
+      "status": 400,
+      "ms": 667,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"Audio data required (base64)\"}",
+      "classification": {
+        "kind": "NEEDS_INPUT",
+        "hint": "400: endpoint needs body/params (normal for whisper/vision etc.)"
+      }
+    },
+    {
+      "name": "vision",
+      "method": "POST",
+      "url": "https://kelionai.app/.netlify/functions/vision",
+      "status": 400,
+      "ms": 570,
+      "ok_transport": true,
+      "content_type": "application/json",
+      "json_ok": true,
+      "json_error": null,
+      "body_preview": "{\"error\":\"Image (base64) is required\"}",
+      "classification": {
+        "kind": "NEEDS_INPUT",
+        "hint": "400: endpoint needs body/params (normal for whisper/vision etc.)"
+      }
+    }
+  ],
+  "summary": {
+    "counts": {
+      "total": 12,
+      "ok_2xx": 6,
+      "needs_input_400": 3,
+      "server_5xx": 3,
+      "other_fail": 0
+    },
+    "priorities": [
+      {
+        "endpoint": "memory-cleanup",
+        "status": 500,
+        "kind": "SERVER_BUG",
+        "hint": "Unhandled exception in function. Add try/catch + structured error output + check logs.",
+        "proof": "{\"error\":\"column user_memories.expires_at does not exist\"}"
+      },
+      {
+        "endpoint": "dalle",
+        "status": 500,
+        "kind": "SERVER_BUG",
+        "hint": "Unhandled exception in function. Add try/catch + structured error output + check logs.",
+        "proof": "{\"error\":\"400 Invalid value: '512x512'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'.\"}"
+      },
+      {
+        "endpoint": "run-migration",
+        "status": 500,
+        "kind": "DB",
+        "hint": "Database/storage connectivity/config issue (Supabase URL/key, tables, migrations).",
+        "proof": "{\"error\":\"getaddrinfo ENOTFOUND db.lqhkqznjdrkuvtpsgwhq.supabase.co\",\"results\":[],\"hint\":\"Check DATABASE_URL format and credentials\"}"
+      }
+    ]
+  }
+}

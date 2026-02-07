@@ -1,0 +1,173 @@
+[96m[1mÔÇï[22m[39m
+[96m[1mNetlify Build                                                 [22m[39m
+[96m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Version[22m[39m
+  @netlify/build 35.5.10
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Flags[22m[39m
+  accountId: 69765b7039690e594f1e9ac6
+  dry: false
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Current directory[22m[39m
+  C:\Users\adria\Downloads\k new\kelionat_clean
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Config file[22m[39m
+  C:\Users\adria\Downloads\k new\kelionat_clean\netlify.toml
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Context[22m[39m
+  production
+[96m[1mÔÇï[22m[39m
+[96m[1mFunctions bundling                                            [22m[39m
+[96m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+ÔÇï
+Packaging Functions from [36mnetlify\functions[39m directory:
+ - admin-traffic.js
+ - agent-tasks.js
+ - ai-credits.js
+ - analyze-screen.js
+ - api-subscription.js
+ - ask-kimi.js
+ - auth-forgot-password.js
+ - auth-login.js
+ - auth-logout.js
+ - auth-me.js
+ - auth-refresh.js
+ - auth-register.js
+ - auth-resend-verification.js
+ - auth-reset-password.js
+ - auth-verify-email.js
+ - auth.js
+ - chat-stream.js
+ - chat.js
+ - check-user.js
+ - claude-audit.js
+ - code-audit.js
+ - dalle.js
+ - deep-research.js
+ - detect-emotion.js
+ - elevenlabs-tts.js
+ - email-alerts.js
+ - embeddings.js
+ - env-check.js
+ - free-trial.js
+ - gdpr-cleanup.js
+ - gemini-live-token.js
+ - generate-image.js
+ - generate-video.js
+ - get-porcupine-key.js
+ - health.js
+ - k-agi.js
+ - k-execute.js
+ - k-filesystem.js
+ - memory-cleanup.js
+ - memory.js
+ - page-tracking.js
+ - paypal-webhook.js
+ - realtime-token.js
+ - run-migration.js
+ - search.js
+ - setup-admin.js
+ - setup-memory-table.js
+ - setup-permanent-user.js
+ - smart-brain.js
+ - sound-effects.js
+ - speak.js
+ - stripe-checkout.js
+ - stripe-webhook.js
+ - supreme-brain.js
+ - test-claude-simple.js
+ - test-credits.js
+ - vector-store.js
+ - vision-compliment.js
+ - vision-memory.js
+ - vision.js
+ - voice-clone.js
+ - weather.js
+ - whisper.js
+ÔÇï
+X [ERROR] Could not resolve "bcryptjs"
+
+    netlify/functions/auth-login.js:7:23:
+      7 Ôöé const bcrypt = require('bcryptjs');
+        ÔòÁ                        ~~~~~~~~~~
+
+  You can mark the path "bcryptjs" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle. You can also surround this "require" call with a try/catch block to handle this failure at run-time instead of bundle-time.
+
+X [ERROR] Could not resolve "jsonwebtoken"
+
+    netlify/functions/auth-login.js:8:20:
+      8 Ôöé const jwt = require('jsonwebtoken');
+        ÔòÁ                     ~~~~~~~~~~~~~~
+
+  You can mark the path "jsonwebtoken" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle. You can also surround this "require" call with a try/catch block to handle this failure at run-time instead of bundle-time.
+
+X [ERROR] Could not resolve "jsonwebtoken"
+
+    netlify/functions/auth-logout.js:7:20:
+      7 Ôöé const jwt = require('jsonwebtoken');
+        ÔòÁ                     ~~~~~~~~~~~~~~
+
+  You can mark the path "jsonwebtoken" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle. You can also surround this "require" call with a try/catch block to handle this failure at run-time instead of bundle-time.
+
+[91m[1mÔÇï[22m[39m
+[91m[1mDependencies installation error                               [22m[39m
+[91m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+ÔÇï
+  [31m[1mError message[22m[39m
+  A Netlify Function failed to require one of its dependencies.
+  Please make sure it is present in the site's top-level "package.json".
+ÔÇï
+  Build failed with 2 errors:
+  netlify/functions/auth-login.js:7:23: ERROR: Could not resolve "bcryptjs"
+  netlify/functions/auth-login.js:8:20: ERROR: Could not resolve "jsonwebtoken"
+ÔÇï
+  [31m[1mResolved config[22m[39m
+  build:
+    publish: C:\Users\adria\Downloads\k new\kelionat_clean\public
+    publishOrigin: config
+  functions:
+    "*":
+      node_bundler: esbuild
+    claude-audit:
+      background: true
+      timeout: 900
+    neural-ai:
+      timeout: 60
+  functionsDirectory: C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions
+  headers:
+    - for: /*
+      values:
+        Permissions-Policy: camera=(self), microphone=(self), geolocation=(self)
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+        X-Frame-Options: DENY
+    - for: /*.html
+      values:
+        Cache-Control: no-cache, no-store, must-revalidate
+        Expires: "0"
+        Pragma: no-cache
+    - for: /sw.js
+      values:
+        Cache-Control: no-cache, no-store, must-revalidate
+    - for: /app.js
+      values:
+        Cache-Control: no-cache, no-store, must-revalidate
+    - for: /components/*.js
+      values:
+        Cache-Control: no-cache, max-age=0, must-revalidate
+    - for: /images/*
+      values:
+        Cache-Control: public, max-age=31536000
+    - for: /*.glb
+      values:
+        Cache-Control: public, max-age=31536000
+  headersOrigin: config
+  redirects:
+    - from: /api/*
+      status: 200
+      to: /.netlify/functions/:splat
+    - from: /health
+      status: 200
+      to: /.netlify/functions/health
+  redirectsOrigin: config

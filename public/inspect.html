@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head><title>Model Inspector</title></head>
+<body>
+<div id="output" style="font-family: monospace; white-space: pre;"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+const output = document.getElementById('output');
+function log(msg) {
+    output.textContent += msg + '\n';
+    console.log(msg);
+}
+
+const loader = new THREE.GLTFLoader();
+loader.load('Realistic_Male_Head_3D_Model_Animated_with_Facial_Expressions/RealisticMaleHead3DModelAnimatedWithFacialExpressions.glb', (gltf) => {
+    log('=== MODEL INSPECTION ===\n');
+    
+    log('ANIMATIONS (' + gltf.animations.length + '):');
+    gltf.animations.forEach((a, i) => log('  ' + i + ': ' + a.name));
+    
+    log('\nMORPH TARGETS:');
+    gltf.scene.traverse((node) => {
+        if (node.isMesh && node.morphTargetInfluences) {
+            log('\nMesh: ' + node.name);
+            log('  Count: ' + node.morphTargetInfluences.length);
+            if (node.morphTargetDictionary) {
+                log('  Names: ' + JSON.stringify(node.morphTargetDictionary, null, 2));
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>
