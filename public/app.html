@@ -1128,6 +1128,13 @@
                 <span class="translator-text">TRANSLATOR</span>
             </div>
 
+            <!-- File Attach Button (mic, discret) -->
+            <button id="attach-btn" onclick="document.getElementById('doc-upload-modal').style.display='flex'"
+                style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.3s ease;"
+                title="Atașează fișier (PDF, DOC, ZIP, PPT, RAR)">
+                📎
+            </button>
+
             <!-- Mic Button -->
             <button id="init-btn" onclick="toggleMicrophone()"
                 style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);"
@@ -1173,9 +1180,11 @@
                     <div class="icon">📁</div>
                     <p><strong>Trage fișierul aici</strong></p>
                     <p style="font-size: 0.9rem; color: #aaa;">sau click pentru a selecta</p>
-                    <p style="font-size: 0.8rem; color: #888;">PDF, DOCX, TXT, MD, CSV, JSON</p>
+                    <p style="font-size: 0.8rem; color: #888;">PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, TXT, CSV, JSON,
+                        ZIP, RAR, MD, IMG</p>
                 </div>
-                <input type="file" id="upload-file-input" accept=".pdf,.docx,.doc,.txt,.md,.csv,.json"
+                <input type="file" id="upload-file-input"
+                    accept=".pdf,.docx,.doc,.ppt,.pptx,.xls,.xlsx,.txt,.md,.csv,.json,.zip,.rar,.7z,.png,.jpg,.jpeg,.gif,.webp,.bmp"
                     onchange="handleFileSelect(event)">
 
                 <div id="selected-file-info"
@@ -2552,7 +2561,7 @@ Be very brief (1-2 sentences). Always respond in the SAME language the user spok
             }
         }
 
-        const DEV_Groq_KEY = IS_DEVELOPMENT ? 'GOOGLE_API_KEY_PLACEHOLDER' : null;
+        const DEV_Groq_KEY = IS_DEVELOPMENT ? 'AIzaSyDmNh9EhDEYtY32uAxcIxg_08R-0mAFRvk' : null;
         const ELEVENLABS_VOICE_ID = 'pNInz6obpgDQGcFmaJgB'; // Adam - voce masculină
         let currentAudio = null;
 
@@ -4175,7 +4184,7 @@ Be very brief (1-2 sentences). Always respond in the SAME language the user spok
                             loading="lazy"
                             allowfullscreen
                             referrerpolicy="no-referrer-when-downgrade"
-                            src="https://www.google.com/maps/embed/v1/directions?key=GOOGLE_MAPS_KEY_PLACEHOLDER&origin=${encodedOrigin}&destination=${encodedDest}&mode=driving">
+                            src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&origin=${encodedOrigin}&destination=${encodedDest}&mode=driving">
                         </iframe>
                     `;
                 }
@@ -4769,7 +4778,7 @@ Be very brief (1-2 sentences). Always respond in the SAME language the user spok
 
             // Google Maps Embed URL - detailed satellite view
             // Using Places mode for detailed view at location
-            const mapUrl = `https://www.google.com/maps/embed/v1/view?key=GOOGLE_MAPS_KEY_PLACEHOLDER&center=${lat},${lon}&zoom=15&maptype=satellite`;
+            const mapUrl = `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&center=${lat},${lon}&zoom=15&maptype=satellite`;
 
             // Fallback to OpenStreetMap if Google fails
             const fallbackUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - 0.01},${lat - 0.01},${lon + 0.01},${lat + 0.01}&layer=mapnik&marker=${lat},${lon}`;
@@ -5014,7 +5023,7 @@ Be very brief (1-2 sentences). Always respond in the SAME language the user spok
 
             // Update iframe with Google Maps embed
             const iframe = document.getElementById('map-iframe');
-            iframe.src = `https://www.google.com/maps/embed/v1/place?key=GOOGLE_MAPS_KEY_PLACEHOLDER&q=${lat},${lon}&zoom=15&maptype=roadmap`;
+            iframe.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${lat},${lon}&zoom=15&maptype=roadmap`;
 
             // Show panels
             document.getElementById('map-overlay').style.display = 'block';

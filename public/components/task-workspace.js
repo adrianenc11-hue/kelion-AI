@@ -990,7 +990,7 @@ print(f"Welcome, {name}!")</textarea>
 
                     // Update map to show current location
                     const mapFrame = document.getElementById('google-map');
-                    mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=GOOGLE_MAPS_KEY_PLACEHOLDER&q=${pos.coords.latitude},${pos.coords.longitude}&zoom=15`;
+                    mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${pos.coords.latitude},${pos.coords.longitude}&zoom=15`;
                 }, (err) => {
                     this.updateStatus('Could not get location: ' + err.message);
                 });
@@ -1015,7 +1015,7 @@ print(f"Welcome, {name}!")</textarea>
 
             // Also update the embedded map
             const mapFrame = document.getElementById('google-map');
-            mapFrame.src = `https://www.google.com/maps/embed/v1/directions?key=GOOGLE_MAPS_KEY_PLACEHOLDER&origin=${encodeURIComponent(origin)}&destination=${destination}&mode=${mode}`;
+            mapFrame.src = `https://www.google.com/maps/embed/v1/directions?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&origin=${encodeURIComponent(origin)}&destination=${destination}&mode=${mode}`;
 
             this.updateStatus(`Route: ${origin} → ${to} (${mode})`);
             this.updateFileInfo(`Navigation: ${mode.charAt(0).toUpperCase() + mode.slice(1)} mode`);

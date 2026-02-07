@@ -1,0 +1,39 @@
+{
+  "object": "domain",
+  "id": "6aac08e8-92ff-49fb-bae7-60c0007b332c",
+  "name": "kelionai.app",
+  "status": "not_started",
+  "created_at": "2026-02-07 13:30:16.518029+00",
+  "region": "us-east-1",
+  "capabilities": {
+    "sending": "enabled",
+    "receiving": "disabled"
+  },
+  "records": [
+    {
+      "record": "DKIM",
+      "name": "resend._domainkey",
+      "value": "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFAQLZFIDyCzy/kElP4vp0B9YJPR5y+phEYk0Q3b4hUH7q7aJX+P29Ry9zhiAOlgLtb7if3/sB/figodhsZxxZ50OMrbzkSnBY7R34ekjmk0ZaBy1uHxZOFZ0OIV0NF+FEvCB+c/uZJAUwGcCmZYmzd+SqFKR05FqXwSaPu+rAZQIDAQAB",
+      "type": "TXT",
+      "status": "not_started",
+      "ttl": "Auto"
+    },
+    {
+      "record": "SPF",
+      "name": "send",
+      "type": "MX",
+      "ttl": "Auto",
+      "status": "not_started",
+      "value": "feedback-smtp.us-east-1.amazonses.com",
+      "priority": 10
+    },
+    {
+      "record": "SPF",
+      "name": "send",
+      "value": "v=spf1 include:amazonses.com ~all",
+      "type": "TXT",
+      "ttl": "Auto",
+      "status": "not_started"
+    }
+  ]
+}

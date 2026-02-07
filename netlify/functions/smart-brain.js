@@ -1,5 +1,5 @@
 // Smart Brain - Multi-AI reasoning with automatic failover + parallel mode
-// Cascade: Gemini → DeepSeek → Claude → OpenAI → Kimi → Mistral
+// Cascade: Gemini → Groq(FREE) → DeepSeek → Claude → OpenAI → Kimi → Mistral → Grok → Cohere
 // Parallel mode: all engines work simultaneously for heavy tasks
 
 // ═══ CONTENT SAFETY FILTER ═══
@@ -88,12 +88,15 @@ exports.handler = async (event) => {
         // ═══ PARALLEL MODE — All engines at once ═══
         if (mode === 'parallel' || mode === 'multi') {
             const results = await Promise.allSettled([
-                callDeepSeek(query, systemPrompt),
                 callGemini(query, systemPrompt),
+                callGroq(query, systemPrompt),
+                callDeepSeek(query, systemPrompt),
+                callClaude(query, systemPrompt),
                 callOpenAI(query, systemPrompt),
                 callKimi(query, systemPrompt),
-                callClaude(query, systemPrompt),
-                callMistral(query, systemPrompt)
+                callMistral(query, systemPrompt),
+                callGrok(query, systemPrompt),
+                callCohere(query, systemPrompt)
             ]);
 
             const responses = results
@@ -111,25 +114,29 @@ exports.handler = async (event) => {
             };
         }
 
-        // ═══ CASCADE MODE — Gemini first (free tier), then paid fallbacks ═══
+        // ═══ CASCADE MODE — Free tiers first, then paid fallbacks ═══
         const engines = [
             { name: 'gemini', fn: () => callGemini(query, systemPrompt) },
+            { name: 'groq', fn: () => callGroq(query, systemPrompt) },
             { name: 'deepseek', fn: () => callDeepSeek(query, systemPrompt) },
             { name: 'claude', fn: () => callClaude(query, systemPrompt) },
             { name: 'openai', fn: () => callOpenAI(query, systemPrompt) },
             { name: 'kimi', fn: () => callKimi(query, systemPrompt) },
-            { name: 'mistral', fn: () => callMistral(query, systemPrompt) }
+            { name: 'mistral', fn: () => callMistral(query, systemPrompt) },
+            { name: 'grok', fn: () => callGrok(query, systemPrompt) },
+            { name: 'cohere', fn: () => callCohere(query, systemPrompt) }
         ];
 
         // Filter to only engines with API keys configured
         const available = engines.filter(e => {
-            if (e.name === 'deepseek') return !!process.env.DEEPSEEK_API_KEY;
-            if (e.name === 'gemini') return !!process.env.GEMINI_API_KEY;
-            if (e.name === 'claude') return !!process.env.ANTHROPIC_API_KEY;
-            if (e.name === 'openai') return !!process.env.OPENAI_API_KEY;
-            if (e.name === 'kimi') return !!process.env.KIMI_API_KEY;
-            if (e.name === 'mistral') return !!process.env.MISTRAL_API_KEY;
-            return false;
+            const keyMap = {
+                deepseek: 'DEEPSEEK_API_KEY', gemini: 'GEMINI_API_KEY',
+                claude: 'ANTHROPIC_API_KEY', openai: 'OPENAI_API_KEY',
+                kimi: 'KIMI_API_KEY', mistral: 'MISTRAL_API_KEY',
+                groq: 'GROQ_API_KEY', grok: 'GROK_API_KEY',
+                cohere: 'COHERE_API_KEY'
+            };
+            return !!process.env[keyMap[e.name]];
         });
 
         if (available.length === 0) return { statusCode: 503, headers, body: JSON.stringify({ error: 'No AI API keys configured' }) };
@@ -257,4 +264,49 @@ async function callMistral(query, systemPrompt) {
     const data = await res.json();
     const um = data.usage || {};
     return { engine: 'mistral-large', reply: data.choices?.[0]?.message?.content, model: 'mistral-large-latest', usage: { input: um.prompt_tokens || 0, output: um.completion_tokens || 0 } };
+}
+
+// ═══ GROQ — FREE Llama 3.1 70B (fastest inference in the world) ═══
+async function callGroq(query, systemPrompt) {
+    const key = process.env.GROQ_API_KEY;
+    if (!key) return null;
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'llama-3.1-70b-versatile', messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: query }], max_tokens: 2000 })
+    });
+    if (!res.ok) throw new Error(`Groq ${res.status}`);
+    const data = await res.json();
+    const ug = data.usage || {};
+    return { engine: 'groq-llama-3.1-70b', reply: data.choices?.[0]?.message?.content, model: 'llama-3.1-70b-versatile', usage: { input: ug.prompt_tokens || 0, output: ug.completion_tokens || 0 } };
+}
+
+// ═══ GROK 2 — xAI (real-time data from X/Twitter) ═══
+async function callGrok(query, systemPrompt) {
+    const key = process.env.GROK_API_KEY;
+    if (!key) return null;
+    const res = await fetch('https://api.x.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'grok-2-latest', messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: query }], max_tokens: 2000 })
+    });
+    if (!res.ok) throw new Error(`Grok ${res.status}`);
+    const data = await res.json();
+    const ux = data.usage || {};
+    return { engine: 'grok-2', reply: data.choices?.[0]?.message?.content, model: 'grok-2-latest', usage: { input: ux.prompt_tokens || 0, output: ux.completion_tokens || 0 } };
+}
+
+// ═══ COHERE Command R+ — Enterprise RAG, search-grounded ═══
+async function callCohere(query, systemPrompt) {
+    const key = process.env.COHERE_API_KEY;
+    if (!key) return null;
+    const res = await fetch('https://api.cohere.com/v2/chat', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'command-r-plus', messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: query }] })
+    });
+    if (!res.ok) throw new Error(`Cohere ${res.status}`);
+    const data = await res.json();
+    const uco = data.usage?.tokens || {};
+    return { engine: 'cohere-command-r-plus', reply: data.message?.content?.[0]?.text, model: 'command-r-plus', usage: { input: uco.input_tokens || 0, output: uco.output_tokens || 0 } };
 }
