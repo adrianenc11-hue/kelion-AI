@@ -1,5 +1,5 @@
 // Smart Brain - Multi-AI reasoning with automatic failover + parallel mode
-// Cascade: DeepSeek → Gemini Flash → GPT-4o-mini → Kimi K2.5
+// Cascade: Gemini → DeepSeek → Claude → OpenAI → Kimi → Mistral
 // Parallel mode: all engines work simultaneously for heavy tasks
 
 // ═══ CONTENT SAFETY FILTER ═══
@@ -91,7 +91,9 @@ exports.handler = async (event) => {
                 callDeepSeek(query, systemPrompt),
                 callGemini(query, systemPrompt),
                 callOpenAI(query, systemPrompt),
-                callKimi(query, systemPrompt)
+                callKimi(query, systemPrompt),
+                callClaude(query, systemPrompt),
+                callMistral(query, systemPrompt)
             ]);
 
             const responses = results
@@ -113,16 +115,20 @@ exports.handler = async (event) => {
         const engines = [
             { name: 'gemini', fn: () => callGemini(query, systemPrompt) },
             { name: 'deepseek', fn: () => callDeepSeek(query, systemPrompt) },
+            { name: 'claude', fn: () => callClaude(query, systemPrompt) },
             { name: 'openai', fn: () => callOpenAI(query, systemPrompt) },
-            { name: 'kimi', fn: () => callKimi(query, systemPrompt) }
+            { name: 'kimi', fn: () => callKimi(query, systemPrompt) },
+            { name: 'mistral', fn: () => callMistral(query, systemPrompt) }
         ];
 
         // Filter to only engines with API keys configured
         const available = engines.filter(e => {
             if (e.name === 'deepseek') return !!process.env.DEEPSEEK_API_KEY;
             if (e.name === 'gemini') return !!process.env.GEMINI_API_KEY;
+            if (e.name === 'claude') return !!process.env.ANTHROPIC_API_KEY;
             if (e.name === 'openai') return !!process.env.OPENAI_API_KEY;
             if (e.name === 'kimi') return !!process.env.KIMI_API_KEY;
+            if (e.name === 'mistral') return !!process.env.MISTRAL_API_KEY;
             return false;
         });
 
@@ -223,4 +229,32 @@ async function callKimi(query, systemPrompt) {
     const data = await res.json();
     const uk = data.usage || {};
     return { engine: 'kimi-k2.5', reply: data.choices?.[0]?.message?.content, model: 'moonshot-v1-8k', usage: { input: uk.prompt_tokens || 0, output: uk.completion_tokens || 0 } };
+}
+
+async function callClaude(query, systemPrompt) {
+    const key = process.env.ANTHROPIC_API_KEY;
+    if (!key) return null;
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000, system: systemPrompt, messages: [{ role: 'user', content: query }] })
+    });
+    if (!res.ok) throw new Error(`Claude ${res.status}`);
+    const data = await res.json();
+    const uc = data.usage || {};
+    return { engine: 'claude-3.5-sonnet', reply: data.content?.[0]?.text, model: 'claude-sonnet-4-20250514', usage: { input: uc.input_tokens || 0, output: uc.output_tokens || 0 } };
+}
+
+async function callMistral(query, systemPrompt) {
+    const key = process.env.MISTRAL_API_KEY;
+    if (!key) return null;
+    const res = await fetch('https://api.mistral.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'mistral-large-latest', messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: query }], max_tokens: 2000 })
+    });
+    if (!res.ok) throw new Error(`Mistral ${res.status}`);
+    const data = await res.json();
+    const um = data.usage || {};
+    return { engine: 'mistral-large', reply: data.choices?.[0]?.message?.content, model: 'mistral-large-latest', usage: { input: um.prompt_tokens || 0, output: um.completion_tokens || 0 } };
 }
