@@ -6,7 +6,9 @@
     "validate": "node validate-code.js",
     "audit": "node audit_complete.js",
     "k1:gate": "python k1_gate.py",
-    "k1:deploy": "netlify deploy --prod --skip-functions-cache --message k1-gate-deploy"
+    "k1:deploy": "netlify deploy --prod --skip-functions-cache --message k1-gate-deploy",
+    "anti:route": "node tools/anti-minciuna/model_router.mjs",
+    "anti:route:verify": "node tools/anti-minciuna/model_router.mjs --verify"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.20.0",
