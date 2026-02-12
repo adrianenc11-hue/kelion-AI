@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K Admin — Control Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0e1a;
+            --surface: #111827;
+            --surface2: #1e293b;
+            --accent: #6366f1;
+            --accent2: #818cf8;
+            --green: #10b981;
+            --red: #ef4444;
+            --yellow: #f59e0b;
+            --blue: #3b82f6;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --border: #1e293b;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ═══ NAV ═══ */
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 24px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .admin-nav .logo {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .admin-nav .nav-btns {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: var(--surface2);
+            color: var(--text);
+        }
+
+        .nav-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .nav-btn .badge {
+            background: var(--red);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+        }
+
+        .admin-user {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* ═══ PANELS ═══ */
+        .panel {
+            display: none;
+            padding: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .panel-header {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* ═══ CARDS ═══ */
+        .cards-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 8px 0;
+        }
+
+        .stat-card .change {
+            font-size: 12px;
+        }
+
+        .stat-card .change.up {
+            color: var(--green);
+        }
+
+        .stat-card .change.down {
+            color: var(--red);
+        }
+
+        /* ═══ TABLE ═══ */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background: var(--surface2);
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .data-table td {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .data-table tr:hover td {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        /* ═══ MESSENGER CARDS ═══ */
+        .messenger-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .messenger-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .messenger-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+        }
+
+        .messenger-card .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .messenger-card .name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .messenger-card .stats {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .messenger-card .link {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: var(--accent);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .messenger-card.facebook {
+            border-color: #1877f2;
+        }
+
+        .messenger-card.instagram {
+            border-color: #e4405f;
+        }
+
+        .messenger-card.tiktok {
+            border-color: #00f2ea;
+        }
+
+        /* ═══ CONVERSATIONS TABLE ═══ */
+        .conv-filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .conv-filters select,
+        .conv-filters input {
+            padding: 8px 14px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        .timestamp {
+            font-family: monospace;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* ═══ TRADING ═══ */
+        .pnl-positive {
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .pnl-negative {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        /* ═══ LOADING ═══ */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted);
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 8px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .refresh-btn {
+            padding: 8px 16px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .refresh-btn:hover {
+            background: var(--accent);
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="admin-nav">
+        <div class="logo">⚡ K Admin</div>
+        <div class="nav-btns">
+            <button class="nav-btn active" data-panel="overview">📊 Overview</button>
+            <button class="nav-btn" data-panel="traffic">🌐 Trafic</button>
+            <button class="nav-btn" data-panel="ai-credits">🤖 AI Credits</button>
+            <button class="nav-btn" data-panel="trading">📈 Trading</button>
+            <button class="nav-btn" data-panel="messengers">💬 Messengers</button>
+            <button class="nav-btn" data-panel="trending">🔥 Trending</button>
+            <button class="nav-btn" data-panel="requests">📋 Cereri</button>
+            <button class="nav-btn" data-panel="emails">📧 Email</button>
+            <button class="nav-btn" data-panel="webhooks">🔗 Webhooks</button>
+        </div>
+        <div class="admin-user">🔒 adrianenc11@gmail.com</div>
+    </nav>
+
+    <!-- ═══ OVERVIEW ═══ -->
+    <div class="panel active" id="panel-overview">
+        <div class="panel-header">📊 Overview <button class="refresh-btn" onclick="loadOverview()">↻ Refresh</button>
+        </div>
+        <div class="cards-row" id="overview-cards"></div>
+    </div>
+
+    <!-- ═══ TRAFIC ═══ -->
+    <div class="panel" id="panel-traffic">
+        <div class="panel-header">🌐 Trafic <button class="refresh-btn" onclick="loadTraffic()">↻ Refresh</button></div>
+        <div class="cards-row" id="traffic-cards"></div>
+        <div id="traffic-table"></div>
+    </div>
+
+    <!-- ═══ AI CREDITS ═══ -->
+    <div class="panel" id="panel-ai-credits">
+        <div class="panel-header">🤖 AI Credits — Consum Real <button class="refresh-btn" onclick="loadAICredits()">↻
+                Refresh</button></div>
+        <div class="cards-row" id="ai-cards"></div>
+        <div id="ai-table"></div>
+    </div>
+
+    <!-- ═══ TRADING ═══ -->
+    <div class="panel" id="panel-trading">
+        <div class="panel-header">📈 Trading Bot — Real <button class="refresh-btn" onclick="loadTrading()">↻
+                Refresh</button></div>
+        <div class="cards-row" id="trading-cards"></div>
+        <div id="trading-table"></div>
+    </div>
+
+    <!-- ═══ MESSENGERS ═══ -->
+    <div class="panel" id="panel-messengers">
+        <div class="panel-header">💬 Messengers & Conversations</div>
+
+        <div class="messenger-grid">
+            <div class="messenger-card facebook" onclick="filterMessenger('facebook')">
+                <div class="icon">📘</div>
+                <div class="name">Facebook Messenger</div>
+                <div class="stats" id="fb-stats">Loading...</div>
+                <a class="link" href="https://www.facebook.com/kelionai" target="_blank">🔗 Facebook Page</a>
+            </div>
+            <div class="messenger-card instagram" onclick="filterMessenger('instagram')">
+                <div class="icon">📸</div>
+                <div class="name">Instagram</div>
+                <div class="stats" id="ig-stats">Loading...</div>
+                <a class="link" href="https://www.instagram.com/kelionai" target="_blank">🔗 Instagram Page</a>
+            </div>
+            <div class="messenger-card tiktok" onclick="filterMessenger('tiktok')">
+                <div class="icon">🎵</div>
+                <div class="name">TikTok</div>
+                <div class="stats" id="tt-stats">Loading...</div>
+                <a class="link" href="https://www.tiktok.com/@kelion_ai_expert" target="_blank">🔗 TikTok Page</a>
+            </div>
+        </div>
+
+        <div class="conv-filters">
+            <select id="conv-platform" onchange="loadConversations()">
+                <option value="all">Toate platformele</option>
+                <option value="facebook">Facebook</option>
+                <option value="instagram">Instagram</option>
+                <option value="tiktok">TikTok</option>
+            </select>
+            <select id="conv-period" onchange="loadConversations()">
+                <option value="7d">Ultimele 7 zile</option>
+                <option value="30d" selected>Ultimele 30 zile</option>
+                <option value="90d">Ultimele 90 zile</option>
+                <option value="365d">Un an</option>
+            </select>
+            <button class="refresh-btn" onclick="loadConversations()">↻ Refresh</button>
+        </div>
+
+        <div id="conversations-table"></div>
+    </div>
+
+    <!-- ═══ TRENDING ═══ -->
+    <div class="panel" id="panel-trending">
+        <div class="panel-header">🔥 Trending Keywords <button class="refresh-btn" onclick="loadTrending()">↻
+                Refresh</button></div>
+        <div class="cards-row" id="trending-cards"></div>
+        <div id="trending-classified"></div>
+        <div id="trending-internet"></div>
+    </div>
+
+    <!-- ═══ USER REQUESTS ═══ -->
+    <div class="panel" id="panel-requests">
+        <div class="panel-header">📋 Cereri Utilizatori <button class="refresh-btn" onclick="loadUserRequests()">↻
+                Refresh</button></div>
+        <div class="conv-filters">
+            <select id="req-source" onchange="loadUserRequests()">
+                <option value="all">Toate sursele</option>
+                <option value="chat">Chat</option>
+                <option value="messenger">Messenger</option>
+                <option value="email">Email</option>
+            </select>
+            <select id="req-period" onchange="loadUserRequests()">
+                <option value="7d">7 zile</option>
+                <option value="30d" selected>30 zile</option>
+                <option value="90d">90 zile</option>
+            </select>
+        </div>
+        <div class="cards-row" id="request-cards"></div>
+        <div id="request-topics"></div>
+        <div id="request-top"></div>
+        <div id="request-recent"></div>
+    </div>
+
+    <!-- ═══ EMAILS ═══ -->
+    <div class="panel" id="panel-emails">
+        <div class="panel-header">📧 Email Monitor <button class="refresh-btn" onclick="loadEmails()">↻ Refresh</button>
+        </div>
+        <div class="conv-filters">
+            <select id="email-status" onchange="loadEmails()">
+                <option value="all">Toate</option>
+                <option value="new">Noi</option>
+                <option value="read">Citite</option>
+                <option value="replied">Răspuns</option>
+                <option value="archived">Arhivate</option>
+            </select>
+            <select id="email-period" onchange="loadEmails()">
+                <option value="7d">7 zile</option>
+                <option value="30d" selected>30 zile</option>
+                <option value="90d">90 zile</option>
+            </select>
+        </div>
+        <div class="cards-row" id="email-cards"></div>
+        <div id="email-table"></div>
+    </div>
+
+    <!-- ═══ WEBHOOKS ═══ -->
+    <div class="panel" id="panel-webhooks">
+        <div class="panel-header">🔗 Webhook Monitor <button class="refresh-btn"
+                onclick="loadWebhookStats(); loadWebhookLogs()">↻ Refresh</button></div>
+        <div id="webhook-stats"
+            style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px">
+        </div>
+        <div class="conv-filters">
+            <select id="webhook-source-filter" onchange="loadWebhookLogs()">
+                <option value="">All Sources</option>
+                <option value="paypal">PayPal</option>
+                <option value="messenger">Messenger</option>
+                <option value="email">Email</option>
+                <option value="tiktok">TikTok</option>
+                <option value="stripe">Stripe</option>
+                <option value="auto-poster">Auto-Poster</option>
+            </select>
+        </div>
+        <div id="webhook-logs" style="max-height:500px;overflow-y:auto"></div>
+    </div>
+
+    <script>
+        const API = '/.netlify/functions/admin-panel';
+        const ADMIN_EMAIL = 'adrianenc11@gmail.com';
+
+        // ═══ NAVIGATION ═══
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(`panel-${btn.dataset.panel}`).classList.add('active');
+
+                // Load data
+                const panel = btn.dataset.panel;
+                if (panel === 'overview') loadOverview();
+                else if (panel === 'traffic') loadTraffic();
+                else if (panel === 'ai-credits') loadAICredits();
+                else if (panel === 'trading') loadTrading();
+                else if (panel === 'messengers') loadConversations();
+                else if (panel === 'trending') loadTrending();
+                else if (panel === 'requests') loadUserRequests();
+                else if (panel === 'emails') loadEmails();
+                else if (panel === 'webhooks') { loadWebhookStats(); loadWebhookLogs(); }
+            });
+        });
+
+        async function adminFetch(action, extra = {}) {
+            const res = await fetch(API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action, email: ADMIN_EMAIL, ...extra })
+            });
+            return res.json();
+        }
+
+        // ═══ OVERVIEW ═══
+        async function loadOverview() {
+            const container = document.getElementById('overview-cards');
+            container.innerHTML = '<div class="loading">Loading...</div>';
+            const data = await adminFetch('overview');
+            if (!data.success) { container.innerHTML = `<p style="color:var(--red)">${data.error}</p>`; return; }
+            const t = data.today;
+            container.innerHTML = `
+        ${statCard('👁️ Views Today', t.page_views, '')}
+        ${statCard('🤖 AI Requests', t.ai_requests, '')}
+        ${statCard('💬 Messenger Messages', t.messenger_messages, '')}
+        ${statCard('📈 Trading P&L', t.trading_pnl, t.trades + ' trades')}
+        ${statCard('👥 Total Users', data.total_users, '')}
+    `;
+        }
+
+        // ═══ TRAFFIC ═══
+        async function loadTraffic() {
+            const cards = document.getElementById('traffic-cards');
+            const table = document.getElementById('traffic-table');
+            cards.innerHTML = '<div class="loading">Loading...</div>';
+            const data = await adminFetch('traffic', { period: '7d' });
+            if (!data.success) { cards.innerHTML = `<p style="color:var(--red)">${data.error}</p>`; return; }
+            cards.innerHTML = `
+        ${statCard('👁️ Total Views', data.total_views, '7 days')}
+        ${statCard('👤 Unique Visitors', data.unique_visitors, '')}
+    `;
+            if (data.top_pages?.length) {
+                table.innerHTML = `<table class="data-table"><thead><tr><th>Page</th><th>Views</th></tr></thead><tbody>${data.top_pages.map(([pg, views]) => `<tr><td>${pg}</td><td>${views}</td></tr>`).join('')
+                    }</tbody></table>`;
+            }
+        }
+
+        // ═══ AI CREDITS ═══
+        async function loadAICredits() {
+            const cards = document.getElementById('ai-cards');
+            const table = document.getElementById('ai-table');
+            cards.innerHTML = '<div class="loading">Loading...</div>';
+            const data = await adminFetch('ai_credits', { period: '30d' });
+            if (!data.success) { cards.innerHTML = `<p style="color:var(--red)">${data.error}</p>`; return; }
+            cards.innerHTML = `
+        ${statCard('📊 Total Requests', data.total_requests, '30 days')}
+        ${statCard('🔢 Total Tokens', data.total_tokens?.toLocaleString(), '')}
+        ${statCard('💰 Cost Estimat', data.total_cost_estimate, '')}
+    `;
+            if (data.by_model) {
+                table.innerHTML = `<table class="data-table"><thead><tr><th>AI Model</th><th>Requests</th><th>Tokens</th><th>Cost</th></tr></thead><tbody>${Object.entries(data.by_model).map(([model, s]) =>
+                    `<tr><td>${model}</td><td>${s.requests}</td><td>${s.tokens.toLocaleString()}</td><td>$${s.cost.toFixed(4)}</td></tr>`
+                ).join('')
+                    }</tbody></table>`;
+            }
+        }
+
+        // ═══ TRADING ═══
+        async function loadTrading() {
+            const cards = document.getElementById('trading-cards');
+            const table = document.getElementById('trading-table');
+            cards.innerHTML = '<div class="loading">Loading...</div>';
+            const data = await adminFetch('trading_dashboard');
+            if (!data.success) { cards.innerHTML = `<p style="color:var(--red)">${data.error}</p>`; return; }
+            const pnl = data.pnl_summary || {};
+            cards.innerHTML = `
+        ${statCard('💰 P&L Total', pnl.total_pnl || '$0', pnl.win_rate || '0%')}
+        ${statCard('📊 Total Trades', pnl.total_trades || 0, `W:${pnl.wins || 0} L:${pnl.losses || 0}`)}
+        ${statCard('🤖 Bot Status', data.bot_status?.status || 'unknown', '')}
+        ${statCard('🧠 Last Learn', data.last_learning?.learned_at?.split('T')[0] || 'never', '')}
+    `;
+            if (data.recent_trades?.length) {
+                table.innerHTML = `<table class="data-table"><thead><tr><th>Date</th><th>Symbol</th><th>Side</th><th>Qty</th><th>Price</th><th>P&L</th><th>Strategy</th></tr></thead><tbody>${data.recent_trades.slice(0, 30).map(t => `<tr>
+                <td class="timestamp">${formatTS(t.created_at)}</td>
+                <td><strong>${t.symbol}</strong></td><td>${t.side}</td><td>${t.qty}</td>
+                <td>$${parseFloat(t.price || 0).toFixed(2)}</td>
+                <td class="${parseFloat(t.pnl || 0) >= 0 ? 'pnl-positive' : 'pnl-negative'}">$${parseFloat(t.pnl || 0).toFixed(2)}</td>
+                <td>${t.strategy || '-'}</td></tr>`).join('')
+                    }</tbody></table>`;
+            }
+        }
+
+        // ═══ MESSENGER CONVERSATIONS ═══
+        async function loadConversations() {
+            const table = document.getElementById('conversations-table');
+            table.innerHTML = '<div class="loading">Loading conversations...</div>';
+            const platform = document.getElementById('conv-platform')?.value || 'all';
+            const period = document.getElementById('conv-period')?.value || '30d';
+            const data = await adminFetch('messenger_conversations', { platform, period });
+            if (!data.success) { table.innerHTML = `<p style="color:var(--red)">${data.error}</p>`; return; }
+
+            if (!data.conversations?.length) {
+                table.innerHTML = '<p style="color:var(--muted);padding:20px">No conversations in this period.</p>';
+                return;
+            }
+            table.innerHTML = `
+        <p style="margin-bottom:12px;color:var(--muted)">Total: ${data.total} conversations</p>
+        <table class="data-table"><thead><tr>
+            <th>Platform</th><th>From</th><th>Started</th><th>Last Message</th><th>Messages</th><th>AI Model</th><th>Details</th>
+        </tr></thead><tbody>${data.conversations.map(c => `<tr>
+                <td>${platformIcon(c.platform)} ${c.platform}</td>
+                <td>${c.sender_name || c.sender_id}</td>
+                <td class="timestamp">${formatTS(c.started_at)}</td>
+                <td class="timestamp">${formatTS(c.last_message_at)}</td>
+                <td>${c.message_count || 0}</td>
+                <td>${c.ai_model_used || '-'}</td>
+                <td><button class="refresh-btn" onclick="viewConversation('${c.id}')">📖 View</button></td>
+            </tr>`).join('')
+                }</tbody></table>`;
+        }
+
+        function filterMessenger(platform) {
+            document.getElementById('conv-platform').value = platform;
+            loadConversations();
+        }
+
+        async function viewConversation(id) {
+            const data = await adminFetch('messenger_detail', { conversation_id: id });
+            if (!data.success) { alert(data.error); return; }
+
+            let html = `<div style="background:var(--surface);border-radius:12px;padding:24px;margin-top:16px">
+        <h3>📖 Conversation: ${data.conversation?.sender_name || id}</h3>
+        <p style="color:var(--muted);margin:8px 0">${data.conversation?.platform} • ${data.total_messages} messages</p>
+        <div style="max-height:500px;overflow-y:auto;margin-top:16px">`;
+
+            (data.messages || []).forEach(m => {
+                const ts = m.timestamp;
+                const timeStr = `${ts.year}/${String(ts.month).padStart(2, '0')}/${String(ts.day).padStart(2, '0')} ${String(ts.hour).padStart(2, '0')}:${String(ts.minute).padStart(2, '0')}:${String(ts.second).padStart(2, '0')}`;
+                html += `<div style="margin-bottom:12px;padding:12px;background:var(--surface2);border-radius:8px">
+            <div style="display:flex;justify-content:space-between">
+                <strong>${m.sender_type === 'user' ? '👤 ' + (m.sender_name || 'User') : '🤖 K AI'}</strong>
+                <span class="timestamp">${timeStr}</span>
+            </div>
+            <p style="margin-top:6px">${m.sender_type === 'user' ? m.message : (m.ai_response || m.message)}</p>
+            ${m.ai_model ? `<span style="font-size:11px;color:var(--muted)">Model: ${m.ai_model}</span>` : ''}
+        </div>`;
+            });
+
+            html += '</div></div>';
+            document.getElementById('conversations-table').innerHTML += html;
+        }
+
+        // ═══ HELPERS ═══
+        function statCard(label, value, sub) {
+            return `<div class="stat-card"><div class="label">${label}</div><div class="value">${value}</div>${sub ? `<div class="change">${sub}</div>` : ''}</div>`;
+        }
+        function formatTS(ts) {
+            if (!ts) return '-';
+            const d = new Date(ts);
+            return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
+        }
+        function platformIcon(p) {
+            return p === 'facebook' ? '📘' : p === 'instagram' ? '📸' : p === 'tiktok' ? '🎵' : '💬';
+        }
+
+        // ═══ EMAIL MONITORING ═══
+        async function loadEmails() {
+            const cards = document.getElementById('email-cards');
+            const table = document.getElementById('email-table');
+            cards.innerHTML = '<div class="loading">📧 Loading emails...</div>';
+            table.innerHTML = '';
+
+            const status = document.getElementById('email-status')?.value || 'all';
+            const period = document.getElementById('email-period')?.value || '30d';
+            const data = await adminFetch('email_list', { status, period });
+            if (!data.success) { cards.innerHTML = `<p style="color:var(--red)">${data.error}</p>`; return; }
+
+            cards.innerHTML = `
+                ${statCard('📧 Total Emails', data.total_all, 'all time')}
+                ${statCard('🆕 New', data.new_count, 'unread')}
+                ${statCard('📬 This Period', data.total, period)}
+            `;
+
+            if (!data.emails?.length) {
+                table.innerHTML = '<p style="color:var(--muted);padding:20px">No emails in this period.</p>';
+                return;
+            }
+
+            table.innerHTML = `<table class="data-table"><thead><tr>
+                <th>Status</th><th>From</th><th>Subject</th><th>Preview</th><th>Date</th><th>📎</th><th>Actions</th>
+            </tr></thead><tbody>${data.emails.map(e => `<tr style="${e.status === 'new' ? 'background:rgba(99,102,241,0.1)' : ''}">
+                <td>${e.status === 'new' ? '🆕' : e.status === 'read' ? '📖' : e.status === 'replied' ? '✅' : '📦'} ${e.status}</td>
+                <td><strong>${e.from_name || ''}</strong><br><span style="font-size:12px;color:var(--muted)">${e.from_email}</span></td>
+                <td><strong>${e.subject}</strong></td>
+                <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;color:var(--muted)">${e.body_preview || ''}</td>
+                <td class="timestamp">${formatTS(e.received_at)}</td>
+                <td>${e.attachments_count ? '📎' + e.attachments_count : '-'}</td>
+                <td>
+                    <button class="refresh-btn" onclick="viewEmail('${e.id}')" style="margin:2px">📖</button>
+                    <button class="refresh-btn" onclick="markEmail('${e.id}','replied')" style="margin:2px">✅</button>
+                    <button class="refresh-btn" onclick="markEmail('${e.id}','archived')" style="margin:2px">📦</button>
+                </td>
+            </tr>`).join('')}</tbody></table>`;
+        }
+
+        async function viewEmail(id) {
+            const data = await adminFetch('email_list', { status: 'all', period: '365d' });
+            const email = (data.emails || []).find(e => e.id === id);
+            if (!email) { alert('Email not found'); return; }
+
+            // Mark as read
+            await adminFetch('email_update', { email_id: id, status: 'read' });
+
+            const table = document.getElementById('email-table');
+            table.innerHTML += `<div style="background:var(--surface);border-radius:12px;padding:24px;margin-top:16px">
+                <h3>📧 ${email.subject}</h3>
+                <p style="color:var(--muted);margin:8px 0">From: <strong>${email.from_name || ''}</strong> &lt;${email.from_email}&gt; • ${formatTS(email.received_at)}</p>
+                <div style="background:var(--surface2);border-radius:8px;padding:16px;margin-top:12px;white-space:pre-wrap;font-size:14px;line-height:1.6">
+                    ${email.body_preview || '(empty)'}
+                </div>
+                <div style="margin-top:12px;display:flex;gap:8px">
+                    <button class="refresh-btn" onclick="markEmail('${id}','replied')">✅ Mark Replied</button>
+                    <button class="refresh-btn" onclick="markEmail('${id}','archived')">📦 Archive</button>
+                </div>
+            </div>`;
+        }
+
+        async function markEmail(id, status) {
+            await adminFetch('email_update', { email_id: id, status });
+            loadEmails(); // Refresh
+        }
+
+        // ═══ TRENDING KEYWORDS ═══
+        async function loadTrending() {
+            const cards = document.getElementById('trending-cards');
+            const classified = document.getElementById('trending-classified');
+            const internet = document.getElementById('trending-internet');
+            cards.innerHTML = '<div class="loading">🔍 Analyzing trending keywords...</div>';
+            classified.innerHTML = '';
+            internet.innerHTML = '';
+
+            const data = await adminFetch('trending_keywords', { country: 'RO' });
+            if (!data.success) { cards.innerHTML = `<p style="color:var(--red)">${data.error}</p>`; return; }
+
+            cards.innerHTML = `
+                ${statCard('📊 Queries Analyzed', data.total_queries_analyzed, '7 days')}
+                ${statCard('🔑 Keywords Found', data.top_keywords?.length || 0, '')}
+                ${statCard('🌍 Country', data.country, '')}
+            `;
+
+            // Classified keywords by topic
+            if (data.classified) {
+                let topicHtml = '<h3 style="margin:20px 0 12px;color:var(--accent)">📂 By Category</h3>';
+                for (const [cat, keywords] of Object.entries(data.classified)) {
+                    const emoji = cat === 'tech' ? '💻' : cat === 'health' ? '🏥' : cat === 'business' ? '💼' : cat === 'legal' ? '⚖️' : cat === 'education' ? '🎓' : '📌';
+                    topicHtml += `<div style="background:var(--surface);border-radius:8px;padding:16px;margin-bottom:8px">
+                        <strong>${emoji} ${cat.toUpperCase()}</strong>
+                        <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">
+                            ${keywords.map(k => `<span style="background:var(--surface2);padding:4px 10px;border-radius:12px;font-size:13px">${k.keyword} <strong>(${k.count})</strong></span>`).join('')}
+                        </div>
+                    </div>`;
+                }
+                classified.innerHTML = topicHtml;
+            }
+
+            // Top keywords table
+            if (data.top_keywords?.length) {
+                classified.innerHTML += `<h3 style="margin:20px 0 12px;color:var(--accent)">🏆 Top Keywords</h3>
+                    <table class="data-table"><thead><tr><th>#</th><th>Keyword</th><th>Count</th></tr></thead><tbody>
+                    ${data.top_keywords.map(k => `<tr><td>${k.rank}</td><td><strong>${k.keyword}</strong></td><td>${k.count}</td></tr>`).join('')}
+                    </tbody></table>`;
+            }
+
+            // Internet results
+            if (data.internet_results?.length) {
+                internet.innerHTML = `<h3 style="margin:20px 0 12px;color:var(--accent)">🌐 Internet Trends</h3>
+                    ${data.internet_results.map(r => `<div style="background:var(--surface);border-radius:8px;padding:12px;margin-bottom:6px">
+                        <a href="${r.url}" target="_blank" style="color:var(--accent);font-weight:600">${r.title || 'Link'}</a>
+                        <p style="color:var(--muted);font-size:13px;margin-top:4px">${r.snippet || ''}</p>
+                    </div>`).join('')}`;
+            }
+        }
+
+        // ═══ USER REQUEST ANALYTICS ═══
+        async function loadUserRequests() {
+            const cards = document.getElementById('request-cards');
+            const topics = document.getElementById('request-topics');
+            const top = document.getElementById('request-top');
+            const recent = document.getElementById('request-recent');
+            cards.innerHTML = '<div class="loading">📋 Classifying user requests...</div>';
+            topics.innerHTML = '';
+            top.innerHTML = '';
+            recent.innerHTML = '';
+
+            const source = document.getElementById('req-source')?.value || 'all';
+            const period = document.getElementById('req-period')?.value || '30d';
+            const data = await adminFetch('user_requests', { source, period });
+            if (!data.success) { cards.innerHTML = `<p style="color:var(--red)">${data.error}</p>`; return; }
+
+            cards.innerHTML = `
+                ${statCard('📊 Total Cereri', data.total_requests, period)}
+                ${statCard('💬 Chat', data.by_source?.chat || 0, '')}
+                ${statCard('📱 Messenger', Object.entries(data.by_source || {}).filter(([k]) => k.startsWith('messenger')).reduce((s, [, v]) => s + v, 0), '')}
+                ${statCard('📧 Email', data.by_source?.email || 0, 'contact@kelionai.app')}
+            `;
+
+            // Topics classification
+            if (data.by_topic) {
+                const totalReqs = data.total_requests || 1;
+                topics.innerHTML = `<h3 style="margin:20px 0 12px;color:var(--accent)">📂 Clasificare pe Teme</h3>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px">
+                    ${Object.entries(data.by_topic).map(([topic, count]) => {
+                    const pct = Math.round(count / totalReqs * 100);
+                    return `<div style="background:var(--surface);border-radius:8px;padding:16px;position:relative;overflow:hidden">
+                            <div style="position:absolute;bottom:0;left:0;height:4px;background:var(--accent);width:${pct}%"></div>
+                            <div style="font-weight:600;font-size:14px">${topic}</div>
+                            <div style="font-size:24px;font-weight:700;margin-top:4px">${count}</div>
+                            <div style="font-size:12px;color:var(--muted)">${pct}%</div>
+                        </div>`;
+                }).join('')}
+                    </div>`;
+            }
+
+            // Top requests
+            if (data.top_requests?.length) {
+                top.innerHTML = `<h3 style="margin:20px 0 12px;color:var(--accent)">🏆 Cele Mai Frecvente Cereri</h3>
+                    <table class="data-table"><thead><tr><th>#</th><th>Request</th><th>Count</th></tr></thead><tbody>
+                    ${data.top_requests.map(r => `<tr><td>${r.rank}</td><td>${r.text}</td><td><strong>${r.count}</strong></td></tr>`).join('')}
+                    </tbody></table>`;
+            }
+
+            // Recent requests
+            if (data.recent?.length) {
+                recent.innerHTML = `<h3 style="margin:20px 0 12px;color:var(--accent)">📝 Cereri Recente</h3>
+                    <table class="data-table"><thead><tr><th>Date</th><th>Source</th><th>User</th><th>Request</th></tr></thead><tbody>
+                    ${data.recent.map(r => `<tr>
+                        <td class="timestamp">${formatTS(r.date)}</td>
+                        <td>${r.source === 'chat' ? '💬' : r.source.startsWith('messenger') ? '📱' : '📧'} ${r.source}</td>
+                        <td>${r.user || '-'}</td>
+                        <td style="max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.text}</td>
+                    </tr>`).join('')}
+                    </tbody></table>`;
+            }
+
+            // Note about email
+            if (data.sources_note) {
+                recent.innerHTML += `<p style="margin-top:16px;padding:12px;background:rgba(99,102,241,0.1);border-radius:8px;font-size:13px;color:var(--muted)">
+                    ℹ️ ${data.sources_note}</p>`;
+            }
+        }
+
+        // ═══ INIT ═══
+        loadOverview();
+
+        // ═══ WEBHOOK MONITOR ═══
+        async function loadWebhookStats() {
+            try {
+                const r = await fetch('/.netlify/functions/webhook-monitor', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'stats' })
+                });
+                const d = await r.json();
+                if (!d.success) return;
+                const el = document.getElementById('webhook-stats');
+                if (!el) return;
+                el.innerHTML = Object.entries(d.stats).map(([src, s]) =>
+                    '<div style="background:#1a1a2e;padding:12px;border-radius:8px;text-align:center">' +
+                    '<div style="font-size:24px;font-weight:bold;color:#667eea">' + s.total + '</div>' +
+                    '<div style="color:#888;font-size:12px">' + src + '</div>' +
+                    '<div style="color:' + (s.error > 0 ? '#ff6b6b' : '#51cf66') + ';font-size:11px">' + s.success + '✅ ' + s.error + '❌</div></div>'
+                ).join('');
+            } catch (e) { console.error('Webhook stats error:', e); }
+        }
+
+        async function loadWebhookLogs() {
+            try {
+                const source = document.getElementById('webhook-source-filter')?.value || '';
+                const r = await fetch('/.netlify/functions/webhook-monitor', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'list', source: source || undefined, limit: 50 })
+                });
+                const d = await r.json();
+                const el = document.getElementById('webhook-logs');
+                if (!el) return;
+                if (!d.events || d.events.length === 0) {
+                    el.innerHTML = '<p style="color:#888;text-align:center">No webhook events found</p>';
+                    return;
+                }
+                el.innerHTML = '<table style="width:100%;border-collapse:collapse">' +
+                    '<tr style="color:#667eea;border-bottom:1px solid #333"><th style="padding:8px;text-align:left">Time</th><th>Source</th><th>Event</th><th>Direction</th><th>Status</th><th>Preview</th></tr>' +
+                    d.events.map(e =>
+                        '<tr style="border-bottom:1px solid #222">' +
+                        '<td style="padding:6px;color:#888;font-size:12px">' + new Date(e.created_at).toLocaleString() + '</td>' +
+                        '<td style="padding:6px">' + (e.source || '-') + '</td>' +
+                        '<td style="padding:6px;color:#aaa">' + (e.event_type || '-') + '</td>' +
+                        '<td style="padding:6px">' + (e.direction === 'inbound' ? '📥' : '📤') + '</td>' +
+                        '<td style="padding:6px;color:' + (e.status === 'error' ? '#ff6b6b' : '#51cf66') + '">' + (e.status || '-') + '</td>' +
+                        '<td style="padding:6px;color:#666;font-size:11px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (e.payload_preview || '-').substring(0, 80) + '</td></tr>'
+                    ).join('') + '</table>';
+            } catch (e) { console.error('Webhook logs error:', e); }
+        }
+
+    </script>
+</body>
+
+</html>

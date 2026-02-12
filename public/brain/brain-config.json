@@ -1,0 +1,50 @@
+{
+    "name": "K-Brain",
+    "version": "1.0.0",
+    "description": "Autonomous AI Brain Module — Transplantable, Self-Configuring",
+    "author": "Kelion AI",
+    "modules": {
+        "core": "brain-core.js",
+        "ui": "brain-ui.js",
+        "init": "brain-init.js",
+        "monitor": "../components/k-brain-monitor.js"
+    },
+    "backend": {
+        "intelligence": "/.netlify/functions/smart-brain",
+        "memory": "/.netlify/functions/brain-memory"
+    },
+    "capabilities": {
+        "emotion_detection": true,
+        "confidence_scoring": true,
+        "neuroplasticity": true,
+        "persistent_memory": true,
+        "objectives_system": true,
+        "health_monitoring": true,
+        "query_analysis": true,
+        "auto_recovery": true
+    },
+    "storage_keys": {
+        "engine_scores": "k_engine_scores",
+        "patterns": "k_brain_patterns",
+        "session": "k_brain_session"
+    },
+    "defaults": {
+        "primary_engine": "gemini",
+        "fallback_engine": "groq",
+        "context_window": 10,
+        "memory_save_depth": 4,
+        "heartbeat_interval": 5000,
+        "suggestion_interval": 10
+    },
+    "auto_discovery": {
+        "chat_input_id": "chat-input",
+        "chat_messages_id": "chat-messages",
+        "chat_container_id": "chat-container",
+        "send_button_id": "send-btn",
+        "fallback_selectors": {
+            "input": "textarea, input[type='text']",
+            "messages": ".chat-messages, .messages, #messages",
+            "container": ".chat-container, .chat-panel"
+        }
+    }
+}

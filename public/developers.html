@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelion AI — Developer API</title>
+    <meta name="description"
+        content="Access Kelion AI's multi-model API. Text generation, TTS, image creation, vision analysis & more via one key.">
+    <link rel="icon" href="/img/favicon.ico">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --border: rgba(255, 255, 255, 0.06);
+            --text: #e4e4e7;
+            --dim: rgba(255, 255, 255, 0.35);
+            --c: #a78bfa;
+            --c2: #818cf8;
+            --green: #4ade80;
+            --amber: #fbbf24;
+            --red: #f87171;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
+
+        /* Header */
+        .hero {
+            text-align: center;
+            padding: 50px 0 40px;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--c), var(--c2), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: var(--dim);
+            font-size: .95rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(167, 139, 250, 0.1);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            color: var(--c);
+            font-size: .65rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        /* Pricing Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        @media(max-width:700px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .price-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: all .3s;
+            position: relative;
+        }
+
+        .price-card:hover {
+            border-color: rgba(167, 139, 250, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .price-card.popular {
+            border-color: var(--c);
+        }
+
+        .price-card.popular::after {
+            content: 'POPULAR';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--c);
+            color: #000;
+            font-size: .55rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 10px;
+        }
+
+        .price-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .price-card .credits {
+            font-size: .75rem;
+            color: var(--dim);
+            margin-bottom: 12px;
+        }
+
+        .price-card .price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--c);
+        }
+
+        .price-card .price-sub {
+            font-size: .6rem;
+            color: var(--dim);
+            margin-top: 2px;
+        }
+
+        .price-card .buy-btn {
+            margin-top: 16px;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--c), var(--c2));
+            color: #fff;
+            font-weight: 600;
+            font-size: .8rem;
+            cursor: pointer;
+            transition: all .3s;
+        }
+
+        .price-card .buy-btn:hover {
+            opacity: .9;
+            transform: scale(1.02);
+        }
+
+        /* API Costs Table */
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .78rem;
+        }
+
+        .api-table th {
+            text-align: left;
+            padding: 10px 12px;
+            color: var(--dim);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+            font-size: .65rem;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .api-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .api-table tr:hover {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .credit-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 8px;
+            background: rgba(167, 139, 250, 0.1);
+            color: var(--c);
+            font-size: .7rem;
+            font-weight: 600;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #0d0d14;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 18px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .72rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            position: relative;
+            color: #c4c4cc;
+        }
+
+        .code-block .lang {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: .55rem;
+            color: var(--dim);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .code-block .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 60px;
+            padding: 3px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--dim);
+            font-size: .55rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .code-block .copy-btn:hover {
+            color: var(--c);
+            border-color: var(--c);
+        }
+
+        .str {
+            color: #a5d6a7;
+        }
+
+        .kw {
+            color: #c792ea;
+        }
+
+        .cm {
+            color: #546e7a;
+        }
+
+        .num {
+            color: #f78c6c;
+        }
+
+        /* Key Management */
+        .key-panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .key-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text);
+            font-size: .82rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .key-input:focus {
+            outline: none;
+            border-color: var(--c);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: .8rem;
+            cursor: pointer;
+            transition: all .3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--c), var(--c2));
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            opacity: .9;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--c);
+        }
+
+        .flex {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .mt {
+            margin-top: 14px;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .stat-card .val {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--c);
+        }
+
+        .stat-card .label {
+            font-size: .6rem;
+            color: var(--dim);
+            margin-top: 2px;
+        }
+
+        /* Back button */
+        .back {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--dim);
+            text-decoration: none;
+            font-size: .75rem;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            transition: all .3s;
+        }
+
+        .back:hover {
+            color: var(--c);
+            border-color: var(--c);
+        }
+
+        #msg {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: .75rem;
+            display: none;
+        }
+
+        .msg-success {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            color: var(--green);
+        }
+
+        .msg-error {
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            color: var(--red);
+        }
+
+        .msg-warning {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            color: var(--amber);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--dim);
+            font-size: .72rem;
+            cursor: pointer;
+            transition: all .3s;
+        }
+
+        .tab.active {
+            background: rgba(167, 139, 250, 0.1);
+            border-color: var(--c);
+            color: var(--c);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/" class="back">← Back</a>
+
+    <div class="container">
+        <div class="hero">
+            <div class="badge">DEVELOPER API</div>
+            <h1>Build with Kelion AI</h1>
+            <p>One API key, multiple AI models. Text, voice, vision, and image generation — all through a single
+                endpoint.</p>
+        </div>
+
+        <!-- ═══ PRICING ═══ -->
+        <div class="section" id="credits">
+            <h2 class="section-title">💳 Credit Packages</h2>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>Starter</h3>
+                    <div class="credits">1,000 credits</div>
+                    <div class="price" id="price-starter">$5</div>
+                    <div class="price-sub" id="rate-starter">$0.005/credit</div>
+                    <button class="buy-btn" onclick="buyCredits('starter')">Get Started</button>
+                </div>
+                <div class="price-card popular">
+                    <h3>Developer</h3>
+                    <div class="credits">10,000 credits</div>
+                    <div class="price" id="price-developer">$40</div>
+                    <div class="price-sub" id="rate-developer">$0.004/credit · Save 20%</div>
+                    <button class="buy-btn" onclick="buyCredits('developer')">Buy Credits</button>
+                </div>
+                <div class="price-card">
+                    <h3>Business</h3>
+                    <div class="credits">100,000 credits</div>
+                    <div class="price" id="price-business">$300</div>
+                    <div class="price-sub" id="rate-business">$0.003/credit · Save 40%</div>
+                    <button class="buy-btn" onclick="buyCredits('business')">Contact Us</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ CREDIT COSTS ═══ -->
+        <div class="section">
+            <h2 class="section-title">⚡ Credit Usage per Service</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Description</th>
+                        <th>Credits/Call</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>smart-brain</td>
+                        <td>Multi-model text AI (Gemini, DeepSeek, GPT-4o, Claude)</td>
+                        <td><span class="credit-badge">1</span></td>
+                    </tr>
+                    <tr>
+                        <td>speak</td>
+                        <td>Text-to-Speech (OpenAI TTS)</td>
+                        <td><span class="credit-badge">5</span></td>
+                    </tr>
+                    <tr>
+                        <td>vision</td>
+                        <td>Image analysis (GPT-4o-mini Vision)</td>
+                        <td><span class="credit-badge">3</span></td>
+                    </tr>
+                    <tr>
+                        <td>whisper</td>
+                        <td>Speech-to-Text (Whisper)</td>
+                        <td><span class="credit-badge">2</span></td>
+                    </tr>
+                    <tr>
+                        <td>generate-image</td>
+                        <td>Image generation (DALL-E 3)</td>
+                        <td><span class="credit-badge">12</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ═══ API KEY MANAGEMENT ═══ -->
+        <div class="section" id="keys">
+            <h2 class="section-title">🔑 Your API Keys</h2>
+            <div class="key-panel">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('generate')">Generate Key</button>
+                    <button class="tab" onclick="switchTab('manage')">Manage Keys</button>
+                    <button class="tab" onclick="switchTab('usage')">Usage Stats</button>
+                </div>
+
+                <!-- Generate Tab -->
+                <div class="tab-content active" id="tab-generate">
+                    <input class="key-input" id="gen-email" type="email" placeholder="Your email address" />
+                    <input class="key-input mt" id="gen-name" type="text" placeholder="Key name (e.g. My App)" />
+                    <div class="flex mt">
+                        <button class="btn btn-primary" onclick="generateKey()">🔑 Generate API Key</button>
+                    </div>
+                    <div id="new-key-display"
+                        style="display:none;margin-top:14px;padding:14px;border-radius:10px;background:rgba(74,222,128,0.05);border:1px solid rgba(74,222,128,0.15)">
+                        <div style="font-size:.65rem;color:var(--amber);margin-bottom:6px">⚠️ Copy this key now — it
+                            won't be shown again!</div>
+                        <code id="new-key-value"
+                            style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--green);word-break:break-all"></code>
+                        <button class="btn btn-secondary" style="margin-top:8px;font-size:.65rem" onclick="copyKey()">📋
+                            Copy</button>
+                    </div>
+                </div>
+
+                <!-- Manage Tab -->
+                <div class="tab-content" id="tab-manage">
+                    <input class="key-input" id="manage-email" type="email" placeholder="Your email to list keys" />
+                    <div class="flex mt">
+                        <button class="btn btn-primary" onclick="listKeys()">📋 List My Keys</button>
+                    </div>
+                    <div id="keys-list" class="mt"></div>
+                </div>
+
+                <!-- Usage Tab -->
+                <div class="tab-content" id="tab-usage">
+                    <input class="key-input" id="usage-key" type="text" placeholder="Paste your API key (klion_...)" />
+                    <div class="flex mt">
+                        <button class="btn btn-primary" onclick="getUsage()">📊 View Usage</button>
+                    </div>
+                    <div id="usage-stats" class="mt"></div>
+                </div>
+
+                <div id="msg"></div>
+            </div>
+        </div>
+
+        <!-- ═══ API DOCS ═══ -->
+        <div class="section" id="docs">
+            <h2 class="section-title">📖 Quick Start</h2>
+
+            <div class="code-block">
+                <span class="lang">curl</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                <span class="cm"># Text query</span>
+                curl -X POST https://kelionai.app/.netlify/functions/api-gateway \
+                -H <span class="str">"Authorization: Bearer klion_YOUR_KEY"</span> \
+                -H <span class="str">"Content-Type: application/json"</span> \
+                -d <span class="str">'{"service":"smart-brain","params":{"question":"What is quantum
+                    computing?"}}'</span>
+            </div>
+
+            <div class="code-block mt">
+                <span class="lang">Python</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                <span class="kw">import</span> requests
+
+                response = requests.post(
+                <span class="str">"https://kelionai.app/.netlify/functions/api-gateway"</span>,
+                headers={<span class="str">"Authorization"</span>: <span class="str">"Bearer klion_YOUR_KEY"</span>},
+                json={
+                <span class="str">"service"</span>: <span class="str">"smart-brain"</span>,
+                <span class="str">"params"</span>: {<span class="str">"question"</span>: <span class="str">"Explain AI
+                    in 3 sentences"</span>}
+                }
+                )
+                print(response.json())
+            </div>
+
+            <div class="code-block mt">
+                <span class="lang">JavaScript</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                <span class="kw">const</span> res = <span class="kw">await</span> fetch(<span
+                    class="str">"https://kelionai.app/.netlify/functions/api-gateway"</span>, {
+                method: <span class="str">"POST"</span>,
+                headers: {
+                <span class="str">"Authorization"</span>: <span class="str">`Bearer klion_YOUR_KEY`</span>,
+                <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>
+                },
+                body: JSON.stringify({
+                service: <span class="str">"smart-brain"</span>,
+                params: { question: <span class="str">"Hello from my app!"</span> }
+                })
+                });
+                <span class="kw">const</span> data = <span class="kw">await</span> res.json();
+                console.log(data.result);
+            </div>
+        </div>
+
+        <!-- ═══ FULL API REFERENCE ═══ -->
+        <div class="section" id="reference">
+            <h2 class="section-title">📚 API Reference</h2>
+
+            <!-- Auth -->
+            <div
+                style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px">
+                <h3 style="font-size:.9rem;color:var(--c);margin-bottom:8px">🔐 Authentication</h3>
+                <p style="font-size:.75rem;color:var(--dim);line-height:1.6">All requests require an API key in the
+                    <code style="color:var(--green)">Authorization</code> header:
+                </p>
+                <div class="code-block mt" style="padding:10px 14px;font-size:.7rem">
+                    Authorization: Bearer klion_YOUR_API_KEY
+                </div>
+                <div style="margin-top:10px;font-size:.7rem;color:var(--dim)">
+                    <strong style="color:var(--text)">Base URL:</strong> <code
+                        style="color:var(--green)">https://kelionai.app/.netlify/functions/api-gateway</code><br>
+                    <strong style="color:var(--text)">Method:</strong> POST<br>
+                    <strong style="color:var(--text)">Content-Type:</strong> application/json
+                </div>
+            </div>
+
+            <!-- Rate Limiting -->
+            <div
+                style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px">
+                <h3 style="font-size:.9rem;color:var(--amber);margin-bottom:8px">⏱️ Rate Limiting</h3>
+                <p style="font-size:.75rem;color:var(--dim);line-height:1.6">Default: <strong
+                        style="color:var(--text)">60 requests/minute</strong> per API key. Exceeding returns <code
+                        style="color:var(--red)">429 Too Many Requests</code> with <code
+                        style="color:var(--amber)">Retry-After: 60</code> header.</p>
+            </div>
+
+            <!-- Response Caching -->
+            <div
+                style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px">
+                <h3 style="font-size:.9rem;color:var(--green);margin-bottom:8px">💾 Response Caching</h3>
+                <p style="font-size:.75rem;color:var(--dim);line-height:1.6">Identical <strong
+                        style="color:var(--text)">smart-brain</strong> text queries are cached for <strong
+                        style="color:var(--text)">5 minutes</strong>. Cached responses return <code
+                        style="color:var(--green)">"cached": true</code> with <strong style="color:var(--text)">0
+                        credits</strong> charged.</p>
+            </div>
+
+            <!-- Endpoints -->
+            <h3 style="font-size:.85rem;color:var(--text);margin:20px 0 12px">📡 Endpoints</h3>
+
+            <!-- smart-brain -->
+            <div
+                style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <h4 style="font-size:.85rem;color:var(--text)">smart-brain</h4>
+                    <span class="credit-badge">1 credit</span>
+                </div>
+                <p style="font-size:.72rem;color:var(--dim);margin:6px 0">Multi-model text AI — routes to Gemini 2.0,
+                    DeepSeek R1, GPT-4o, or Claude automatically.</p>
+                <div class="code-block mt" style="font-size:.68rem">
+                    <span class="cm">// Request</span>
+                    { <span class="str">"service"</span>: <span class="str">"smart-brain"</span>, <span
+                        class="str">"params"</span>: { <span class="str">"question"</span>: <span class="str">"Your
+                        question here"</span> } }
+
+                    <span class="cm">// Response</span>
+                    { <span class="str">"success"</span>: <span class="kw">true</span>, <span
+                        class="str">"result"</span>: <span class="str">"AI response text..."</span>, <span
+                        class="str">"cached"</span>: <span class="kw">false</span>, <span class="str">"credits"</span>:
+                    { <span class="str">"used"</span>: <span class="num">1</span>, <span class="str">"remaining"</span>:
+                    <span class="num">99</span> } }
+                </div>
+            </div>
+
+            <!-- speak -->
+            <div
+                style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <h4 style="font-size:.85rem;color:var(--text)">speak</h4>
+                    <span class="credit-badge">5 credits</span>
+                </div>
+                <p style="font-size:.72rem;color:var(--dim);margin:6px 0">Text-to-Speech via OpenAI TTS. Returns audio
+                    data.</p>
+                <div class="code-block mt" style="font-size:.68rem">
+                    <span class="cm">// Request</span>
+                    { <span class="str">"service"</span>: <span class="str">"speak"</span>, <span
+                        class="str">"params"</span>: { <span class="str">"text"</span>: <span class="str">"Hello
+                        world"</span>, <span class="str">"voice"</span>: <span class="str">"nova"</span> } }
+
+                    <span class="cm">// Voices: alloy, echo, fable, onyx, nova, shimmer</span>
+                </div>
+            </div>
+
+            <!-- vision -->
+            <div
+                style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <h4 style="font-size:.85rem;color:var(--text)">vision</h4>
+                    <span class="credit-badge">3 credits</span>
+                </div>
+                <p style="font-size:.72rem;color:var(--dim);margin:6px 0">Image analysis via GPT-4o-mini Vision. Send a
+                    base64 image or URL.</p>
+                <div class="code-block mt" style="font-size:.68rem">
+                    <span class="cm">// Request</span>
+                    { <span class="str">"service"</span>: <span class="str">"vision"</span>, <span
+                        class="str">"params"</span>: { <span class="str">"image"</span>: <span
+                        class="str">"data:image/jpeg;base64,..."</span>, <span class="str">"question"</span>: <span
+                        class="str">"What's in this image?"</span> } }
+                </div>
+            </div>
+
+            <!-- whisper -->
+            <div
+                style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <h4 style="font-size:.85rem;color:var(--text)">whisper</h4>
+                    <span class="credit-badge">2 credits</span>
+                </div>
+                <p style="font-size:.72rem;color:var(--dim);margin:6px 0">Speech-to-Text via OpenAI Whisper. Send audio
+                    as base64.</p>
+                <div class="code-block mt" style="font-size:.68rem">
+                    <span class="cm">// Request</span>
+                    { <span class="str">"service"</span>: <span class="str">"whisper"</span>, <span
+                        class="str">"params"</span>: { <span class="str">"audio"</span>: <span
+                        class="str">"base64_audio_data..."</span> } }
+                </div>
+            </div>
+
+            <!-- generate-image -->
+            <div
+                style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <h4 style="font-size:.85rem;color:var(--text)">generate-image</h4>
+                    <span class="credit-badge">12 credits</span>
+                </div>
+                <p style="font-size:.72rem;color:var(--dim);margin:6px 0">Image generation via DALL-E 3. Returns image
+                    URL.</p>
+                <div class="code-block mt" style="font-size:.68rem">
+                    <span class="cm">// Request</span>
+                    { <span class="str">"service"</span>: <span class="str">"generate-image"</span>, <span
+                        class="str">"params"</span>: { <span class="str">"prompt"</span>: <span class="str">"A
+                        futuristic city at sunset"</span> } }
+
+                    <span class="cm">// Response</span>
+                    { <span class="str">"success"</span>: <span class="kw">true</span>, <span
+                        class="str">"result"</span>: { <span class="str">"url"</span>: <span
+                        class="str">"https://..."</span> }, <span class="str">"credits"</span>: { <span
+                        class="str">"used"</span>: <span class="num">12</span> } }
+                </div>
+            </div>
+
+            <!-- Error Codes -->
+            <h3 style="font-size:.85rem;color:var(--text);margin:20px 0 12px">⚠️ Error Codes</h3>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Meaning</th>
+                        <th>Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span style="color:var(--red);font-weight:600">401</span></td>
+                        <td>Invalid or missing API key</td>
+                        <td>Check your Authorization header</td>
+                    </tr>
+                    <tr>
+                        <td><span style="color:var(--red);font-weight:600">402</span></td>
+                        <td>Insufficient credits</td>
+                        <td>Purchase more credits</td>
+                    </tr>
+                    <tr>
+                        <td><span style="color:var(--red);font-weight:600">429</span></td>
+                        <td>Rate limit exceeded (60/min)</td>
+                        <td>Wait and retry after Retry-After seconds</td>
+                    </tr>
+                    <tr>
+                        <td><span style="color:var(--red);font-weight:600">400</span></td>
+                        <td>Bad request / missing params</td>
+                        <td>Check request body format</td>
+                    </tr>
+                    <tr>
+                        <td><span style="color:var(--red);font-weight:600">500</span></td>
+                        <td>Server error</td>
+                        <td>Retry or contact support</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align:center;padding:30px 0;color:var(--dim);font-size:.65rem">
+            © 2026 Kelion AI · <a href="/terms.html" style="color:var(--dim)">Terms</a> · <a href="/privacy.html"
+                style="color:var(--dim)">Privacy</a>
+        </div>
+    </div>
+
+    <script>
+        // ═══ MULTI-CURRENCY ═══
+        const CURRENCIES = {
+            GBP: { symbol: '£', rate: 0.79, locale: 'en-GB' },
+            EUR: { symbol: '€', rate: 0.92, locale: 'de-DE' },
+            USD: { symbol: '$', rate: 1.00, locale: 'en-US' },
+            AUD: { symbol: 'A$', rate: 1.53, locale: 'en-AU' },
+            CAD: { symbol: 'C$', rate: 1.36, locale: 'en-CA' },
+            RON: { symbol: 'lei', rate: 4.57, locale: 'ro-RO' },
+            INR: { symbol: '₹', rate: 83.5, locale: 'en-IN' },
+            JPY: { symbol: '¥', rate: 149, locale: 'ja-JP' }
+        };
+
+        // Detect currency from timezone/locale
+        function detectCurrency() {
+            const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+            const lang = navigator.language || 'en-US';
+            if (tz.includes('London') || lang.startsWith('en-GB')) return 'GBP';
+            if (tz.includes('Europe') && !tz.includes('London')) return 'EUR';
+            if (tz.includes('Bucharest') || lang.startsWith('ro')) return 'RON';
+            if (tz.includes('Australia')) return 'AUD';
+            if (tz.includes('Canada') || tz.includes('Toronto') || tz.includes('Vancouver')) return 'CAD';
+            if (tz.includes('Kolkata') || tz.includes('Calcutta') || lang.startsWith('hi')) return 'INR';
+            if (tz.includes('Tokyo') || lang.startsWith('ja')) return 'JPY';
+            return 'USD';
+        }
+
+        const userCurrency = detectCurrency();
+        const curr = CURRENCIES[userCurrency] || CURRENCIES.USD;
+
+        function formatPrice(usdAmount) {
+            const converted = usdAmount * curr.rate;
+            if (userCurrency === 'JPY') return `${curr.symbol}${Math.round(converted)}`;
+            return `${curr.symbol}${converted.toFixed(converted >= 100 ? 0 : 2)}`;
+        }
+
+        // Update all prices
+        const packages = { starter: 5, developer: 40, business: 300 };
+        const rates = { starter: 0.005, developer: 0.004, business: 0.003 };
+        Object.entries(packages).forEach(([name, usd]) => {
+            document.getElementById(`price-${name}`).textContent = formatPrice(usd);
+        });
+        Object.entries(rates).forEach(([name, rate]) => {
+            const el = document.getElementById(`rate-${name}`);
+            const extra = name === 'developer' ? ' · Save 20%' : name === 'business' ? ' · Save 40%' : '';
+            el.textContent = `${formatPrice(rate)}/credit${extra}`;
+        });
+
+        // ═══ TABS ═══
+        function switchTab(name) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(`tab-${name}`).classList.add('active');
+        }
+
+        // ═══ MESSAGES ═══
+        function showMsg(text, type = 'success') {
+            const el = document.getElementById('msg');
+            el.textContent = text;
+            el.className = `msg-${type}`;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 5000);
+        }
+
+        // ═══ GENERATE KEY ═══
+        async function generateKey() {
+            const email = document.getElementById('gen-email').value.trim();
+            const name = document.getElementById('gen-name').value.trim();
+            if (!email) return showMsg('Please enter your email', 'error');
+
+            try {
+                const res = await fetch('/.netlify/functions/api-keys', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'generate', email, name: name || 'My API Key' })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('new-key-value').textContent = data.api_key;
+                    document.getElementById('new-key-display').style.display = 'block';
+                    showMsg(`Key generated! ${data.credits} free credits included.`);
+                } else {
+                    showMsg(data.error || 'Failed to generate key', 'error');
+                }
+            } catch (e) { showMsg('Network error', 'error'); }
+        }
+
+        function copyKey() {
+            const key = document.getElementById('new-key-value').textContent;
+            navigator.clipboard.writeText(key);
+            showMsg('Key copied to clipboard!');
+        }
+
+        // ═══ LIST KEYS ═══
+        async function listKeys() {
+            const email = document.getElementById('manage-email').value.trim();
+            if (!email) return showMsg('Enter your email', 'error');
+
+            try {
+                const res = await fetch('/.netlify/functions/api-keys', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'list_keys', email })
+                });
+                const data = await res.json();
+                const el = document.getElementById('keys-list');
+
+                if (!data.keys || data.keys.length === 0) {
+                    el.innerHTML = '<div style="color:var(--dim);font-size:.75rem;padding:10px">No keys found for this email</div>';
+                    return;
+                }
+
+                el.innerHTML = data.keys.map(k => `
+                    <div style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid var(--border);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+                        <div>
+                            <code style="font-size:.75rem;color:var(--c)">${k.key_prefix}...</code>
+                            <span style="font-size:.65rem;color:var(--dim);margin-left:8px">${k.key_name || ''}</span>
+                            <div style="font-size:.6rem;color:var(--dim);margin-top:2px">${k.credits_remaining}/${k.credits_total} credits · ${k.status}</div>
+                        </div>
+                        <span style="font-size:.7rem;font-weight:700;color:${k.status === 'active' ? 'var(--green)' : 'var(--red)'}">${k.status.toUpperCase()}</span>
+                    </div>
+                `).join('');
+            } catch (e) { showMsg('Network error', 'error'); }
+        }
+
+        // ═══ USAGE STATS ═══
+        async function getUsage() {
+            const key = document.getElementById('usage-key').value.trim();
+            if (!key) return showMsg('Paste your API key', 'error');
+
+            try {
+                const res = await fetch('/.netlify/functions/api-keys', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'get_usage', api_key: key })
+                });
+                const data = await res.json();
+                if (!data.success) return showMsg(data.error || 'Invalid key', 'error');
+
+                const el = document.getElementById('usage-stats');
+                el.innerHTML = `
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="val">${data.credits_remaining}</div><div class="label">Credits Left</div></div>
+                        <div class="stat-card"><div class="val">${data.credits_used}</div><div class="label">Credits Used</div></div>
+                        <div class="stat-card"><div class="val">${data.credits_total}</div><div class="label">Total Credits</div></div>
+                    </div>
+                    <div style="margin-top:14px">
+                        ${Object.entries(data.by_endpoint || {}).map(([ep, d]) =>
+                    `<div style="display:flex;justify-content:space-between;padding:6px 12px;font-size:.72rem;border-bottom:1px solid var(--border)">
+                                <span>${ep}</span><span style="color:var(--c)">${d.calls} calls · ${d.credits} credits</span>
+                            </div>`
+                ).join('')}
+                    </div>
+                `;
+            } catch (e) { showMsg('Network error', 'error'); }
+        }
+
+        // ═══ BUY CREDITS (PayPal) ═══
+        async function buyCredits(pkg) {
+            const email = document.getElementById('gen-email')?.value?.trim() || prompt('Enter your email for credit purchase:');
+            if (!email) return showMsg('Email required for purchase', 'error');
+
+            try {
+                showMsg('Redirecting to PayPal...', 'warning');
+                const res = await fetch('/.netlify/functions/buy-credits', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'create_order', package: pkg, email })
+                });
+                const data = await res.json();
+                if (data.approve_url) {
+                    window.location.href = data.approve_url;
+                } else {
+                    showMsg(data.error || 'Failed to create payment', 'error');
+                }
+            } catch (e) { showMsg('Network error', 'error'); }
+        }
+
+        // Auto-capture payment on return from PayPal
+        (async function () {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('payment') === 'success') {
+                const token = params.get('token'); // PayPal order ID
+                if (token) {
+                    try {
+                        const res = await fetch('/.netlify/functions/buy-credits', {
+                            method: 'POST', headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ action: 'capture_order', order_id: token })
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            showMsg(`✅ ${data.credits_added} credits added! Check your keys.`, 'success');
+                        } else {
+                            showMsg(data.error || 'Payment capture failed', 'error');
+                        }
+                    } catch (e) { showMsg('Error capturing payment', 'error'); }
+                }
+                // Clean URL
+                window.history.replaceState({}, '', '/developers.html');
+            }
+            if (params.get('payment') === 'canceled') {
+                showMsg('Payment canceled', 'warning');
+                window.history.replaceState({}, '', '/developers.html');
+            }
+        })();
+
+        // ═══ COPY CODE ═══
+        function copyCode(btn) {
+            const block = btn.parentElement;
+            const text = block.innerText.replace('Copy', '').replace(/curl|Python|JavaScript/g, '').trim();
+            navigator.clipboard.writeText(text);
+            btn.textContent = '✓ Copied';
+            setTimeout(() => btn.textContent = 'Copy', 1500);
+        }
+    </script>
+
+<!-- Push Notifications + i18n -->
+<script>
+// ═══ SERVICE WORKER + PUSH NOTIFICATIONS ═══
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+        console.log('[K] Service Worker registered');
+    }).catch(err => console.warn('[K] SW registration failed:', err));
+}
+
+async function subscribePush() {
+    try {
+        if (!('PushManager' in window)) { alert('Push notifications not supported'); return; }
+        
+        const reg = await navigator.serviceWorker.ready;
+        const existing = await reg.pushManager.getSubscription();
+        if (existing) { console.log('[K] Already subscribed'); return existing; }
+        
+        // Get VAPID key from server
+        const r = await fetch('/.netlify/functions/push-notifications', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ action: 'get_vapid_key' })
+        });
+        const { vapid_public_key } = await r.json();
+        if (!vapid_public_key) { console.warn('[K] No VAPID key'); return null; }
+        
+        // Convert base64url to Uint8Array
+        const urlBase64ToUint8Array = (base64String) => {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+            const rawData = atob(base64);
+            return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+        };
+        
+        const sub = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(vapid_public_key)
+        });
+        
+        // Send to server
+        const email = localStorage.getItem('k_email') || 'anonymous';
+        await fetch('/.netlify/functions/push-notifications', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ action: 'subscribe', subscription: sub, user_email: email })
+        });
+        
+        console.log('[K] Push subscribed!');
+        return sub;
+    } catch(e) { console.error('[K] Push subscribe error:', e); }
+}
+
+// ═══ i18n LANGUAGE SYSTEM ═══
+const K_LANGS = { en: 'English', ro: 'Română', es: 'Español', fr: 'Français', de: 'Deutsch' };
+let K_I18N = {};
+
+function getLanguage() {
+    return localStorage.getItem('k_lang') || navigator.language?.split('-')[0] || 'en';
+}
+
+async function loadTranslations(lang) {
+    try {
+        const r = await fetch('/.netlify/functions/i18n', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ lang: lang || getLanguage() })
+        });
+        const d = await r.json();
+        if (d.success) { K_I18N = d.translations; applyTranslations(); }
+    } catch(e) { console.warn('[K] i18n load error:', e); }
+}
+
+function t(key) { return K_I18N[key] || key; }
+
+function applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (K_I18N[key]) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = K_I18N[key];
+            else el.textContent = K_I18N[key];
+        }
+    });
+}
+
+function setLanguage(lang) {
+    localStorage.setItem('k_lang', lang);
+    loadTranslations(lang);
+}
+
+// Auto-load on page ready
+document.addEventListener('DOMContentLoaded', () => {
+    loadTranslations();
+    
+    // Auto-ask for push after 30s on first visit
+    if (!localStorage.getItem('k_push_asked')) {
+        setTimeout(() => {
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(p => {
+                    if (p === 'granted') subscribePush();
+                    localStorage.setItem('k_push_asked', '1');
+                });
+            }
+        }, 30000);
+    }
+});
+</script>
+
+</body>
+
+</html>

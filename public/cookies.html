@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Policy — Kelion AI</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cinzel:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --g: #d4af37;
+            --d: #030311
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--d);
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.8;
+            min-height: 100vh
+        }
+
+        .legal-header {
+            padding: 30px 5%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .legal-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #fff
+        }
+
+        .legal-brand-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--g), #b8860b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: .85rem;
+            color: #000
+        }
+
+        .legal-brand span {
+            font-weight: 700;
+            font-size: .95rem
+        }
+
+        .legal-back {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            font-size: .8rem;
+            transition: all .3s
+        }
+
+        .legal-back:hover {
+            border-color: var(--g);
+            color: var(--g)
+        }
+
+        .legal-nav {
+            display: flex;
+            gap: 4px;
+            padding: 14px 5%;
+            background: rgba(255, 255, 255, 0.01);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            flex-wrap: wrap
+        }
+
+        .legal-nav a {
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            font-size: .78rem;
+            font-weight: 600;
+            transition: all .3s
+        }
+
+        .legal-nav a:hover {
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.03)
+        }
+
+        .legal-nav a.active {
+            background: rgba(212, 175, 55, 0.08);
+            color: var(--g)
+        }
+
+        .legal-content {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 40px 5% 80px
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: #fff
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--g), #f4d47c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .legal-date {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: .75rem;
+            margin-bottom: 30px
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--g);
+            margin: 28px 0 10px;
+            padding-left: 12px;
+            border-left: 3px solid var(--g)
+        }
+
+        p,
+        li {
+            font-size: .85rem;
+            margin-bottom: 8px
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 12px
+        }
+
+        .highlight {
+            background: rgba(212, 175, 55, 0.06);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin: 12px 0
+        }
+
+        .highlight strong {
+            color: var(--g)
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            border-radius: 10px;
+            overflow: hidden
+        }
+
+        .data-table th {
+            background: rgba(212, 175, 55, 0.08);
+            color: var(--g);
+            padding: 10px 14px;
+            text-align: left;
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .5px
+        }
+
+        .data-table td {
+            padding: 10px 14px;
+            font-size: .82rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03)
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.02)
+        }
+
+        a {
+            color: var(--g);
+            text-decoration: none
+        }
+
+        a:hover {
+            text-decoration: underline
+        }
+
+        @media(max-width:600px) {
+            .legal-content {
+                padding: 24px 4% 60px
+            }
+
+            h1 {
+                font-size: 1.3rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="legal-header">
+        <a href="/landing.html" class="legal-brand">
+            <div class="legal-brand-icon">K</div><span>Kelion AI</span>
+        </a>
+        <a href="/landing.html" class="legal-back">← Back</a>
+    </div>
+    <div class="legal-nav">
+        <a href="/terms.html">Terms of Service</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/cookies.html" class="active">Cookie Policy</a>
+        <a href="/gdpr.html">GDPR</a>
+    </div>
+    <div class="legal-content">
+        <h1>Cookie <span>Policy</span></h1>
+        <p class="legal-date">Last updated: 7 February 2026 · Effective immediately</p>
+
+        <div class="highlight">
+            <strong>🍪 Summary:</strong> We use only essential cookies and localStorage to make Kelion AI work. We do
+            NOT use tracking cookies, advertising cookies, or share data with ad networks.
+        </div>
+
+        <h2>1. What Are Cookies?</h2>
+        <p>Cookies are small text files stored on your device when you visit a website. They help remember your
+            preferences and keep you logged in. We also use <strong>localStorage</strong>, a similar browser technology,
+            to store preferences locally on your device.</p>
+
+        <h2>2. Cookies & Storage We Use</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Purpose</th>
+                    <th>Duration</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>kelion_gdpr_accepted</td>
+                    <td>localStorage</td>
+                    <td>Records GDPR consent</td>
+                    <td>Permanent</td>
+                    <td>Essential</td>
+                </tr>
+                <tr>
+                    <td>kelion_gdpr_date</td>
+                    <td>localStorage</td>
+                    <td>Date of GDPR consent</td>
+                    <td>Permanent</td>
+                    <td>Essential</td>
+                </tr>
+                <tr>
+                    <td>kelion_consent</td>
+                    <td>localStorage</td>
+                    <td>Cookie consent status</td>
+                    <td>Permanent</td>
+                    <td>Essential</td>
+                </tr>
+                <tr>
+                    <td>kelion_cookie_preferences</td>
+                    <td>localStorage</td>
+                    <td>Cookie preferences</td>
+                    <td>Permanent</td>
+                    <td>Essential</td>
+                </tr>
+                <tr>
+                    <td>kelion_age_verified</td>
+                    <td>localStorage</td>
+                    <td>Age verification done</td>
+                    <td>Session</td>
+                    <td>Essential</td>
+                </tr>
+                <tr>
+                    <td>kelion_campaigns</td>
+                    <td>localStorage</td>
+                    <td>Marketing campaign data (admin only)</td>
+                    <td>Permanent</td>
+                    <td>Functional</td>
+                </tr>
+                <tr>
+                    <td>kelion_user_token</td>
+                    <td>localStorage</td>
+                    <td>Auth session token</td>
+                    <td>Session</td>
+                    <td>Essential</td>
+                </tr>
+                <tr>
+                    <td>nf_jwt</td>
+                    <td>Cookie</td>
+                    <td>Netlify Identity auth</td>
+                    <td>Session</td>
+                    <td>Essential</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>3. Cookie Categories</h2>
+        <ul>
+            <li><strong>Essential (Strictly Necessary):</strong> Required for the site to function. Cannot be disabled.
+                Includes authentication, GDPR consent, and security tokens.</li>
+            <li><strong>Functional:</strong> Enhance your experience (e.g., remembering preferences). Can be disabled.
+            </li>
+            <li><strong>Analytics:</strong> We do NOT currently use analytics cookies (no Google Analytics, no Facebook
+                Pixel).</li>
+            <li><strong>Advertising:</strong> We do NOT use advertising or tracking cookies. Zero.</li>
+        </ul>
+
+        <h2>4. Third-Party Cookies</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Cookie</th>
+                    <th>Purpose</th>
+                    <th>More Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Netlify Identity</td>
+                    <td>nf_jwt</td>
+                    <td>Authentication</td>
+                    <td><a href="https://www.netlify.com/privacy/" target="_blank">Netlify Privacy</a></td>
+                </tr>
+                <tr>
+                    <td>Stripe</td>
+                    <td>__stripe_*</td>
+                    <td>Payment security (only on checkout)</td>
+                    <td><a href="https://stripe.com/privacy" target="_blank">Stripe Privacy</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>5. How to Control Cookies</h2>
+        <p>You can control cookies at any time:</p>
+        <ul>
+            <li><strong>Cookie Banner:</strong> When you first visit, a cookie consent banner appears. You can accept or
+                reject non-essential cookies.</li>
+            <li><strong>Browser Settings:</strong> You can delete or block cookies via your browser settings:
+                <ul>
+                    <li><a href="https://support.google.com/chrome/answer/95647" target="_blank">Chrome</a></li>
+                    <li><a href="https://support.mozilla.org/kb/clear-cookies-and-site-data-firefox"
+                            target="_blank">Firefox</a></li>
+                    <li><a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471"
+                            target="_blank">Safari</a></li>
+                    <li><a href="https://support.microsoft.com/help/4027947" target="_blank">Edge</a></li>
+                </ul>
+            </li>
+            <li><strong>localStorage:</strong> Clear via browser Developer Tools → Application → Local Storage → Clear
+            </li>
+        </ul>
+
+        <h2>6. Impact of Disabling Cookies</h2>
+        <p>If you disable essential cookies:</p>
+        <ul>
+            <li>You will not be able to stay logged in</li>
+            <li>GDPR consent will be asked every visit</li>
+            <li>Some features may not work correctly</li>
+        </ul>
+
+        <h2>7. Changes to This Policy</h2>
+        <p>We may update this policy. Changes will be posted on this page with an updated date. Significant changes will
+            be communicated via the cookie banner.</p>
+
+        <h2>8. Contact</h2>
+        <p>Questions about our cookie use? Contact us at <a href="mailto:privacy@kelionai.app">privacy@kelionai.app</a>
+        </p>
+    </div>
+
+    <!-- K-Brain Modular System (transplantable) -->
+    <script src="/brain/brain-init.js"></script>
+</body>
+
+</html>

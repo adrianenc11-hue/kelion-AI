@@ -1,0 +1,29 @@
+netlify\functions\auth-forgot-password.js: line 106, col 15, '_resetUrl' is defined but never used.
+
+netlify\functions\auth-register.js: line 160, col 15, '_verifyUrl' is defined but never used.
+
+netlify\functions\booking-system.js: line 125, col 50, Functions declared within loops referencing an outer scoped variable may lead to confusing semantics. (timeToMinutes, currentMinutes, duration_minutes)
+
+netlify\functions\chat.js: line 2060, col 9, Expected a 'break' statement before 'default'.
+
+netlify\functions\code-interpreter.js: line 104, col 32, The Function constructor is a form of eval.
+
+netlify\functions\deep-research.js: line 17, col 15, '_researchPrompt' is defined but never used.
+
+netlify\functions\export-document.js: line 176, col 49, Regular parameters should not come after default parameters.
+netlify\functions\export-document.js: line 176, col 55, Regular parameters should not come after default parameters.
+
+netlify\functions\financial-calculator.js: line 255, col 37, Expected an identifier and instead saw 'in' (a reserved word).
+
+netlify\functions\group-chat.js: line 190, col 31, 'uploadData' is defined but never used.
+
+netlify\functions\k-supreme-intelligence.js: line 156, col 30, eval can be harmful.
+netlify\functions\k-supreme-intelligence.js: line 159, col 100, Expected a 'break' statement before 'case'.
+
+netlify\functions\messenger-webhook.js: line 223, col 25, '_key' is defined but never used.
+
+netlify\functions\paypal-admin.js: line 126, col 23, 'result' is defined but never used.
+
+netlify\functions\translate.js: line 44, col 13, '_detectedLang' is defined but never used.
+
+15 errors

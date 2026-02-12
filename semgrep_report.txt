@@ -1,0 +1,128 @@
+               
+               
+┌─────────────┐
+│ Scan Status │
+└─────────────┘
+  Scanning 128 files tracked by git with 1064 Code rules:
+                                                                                                                        
+  Language      Rules   Files          Origin      Rules                                                                
+ ─────────────────────────────        ───────────────────                                                               
+  js              156     128          Community    1064                                                                
+  <multilang>      48     128                                                                                           
+                                                                                                                        
+                    
+                    
+┌──────────────────┐
+│ 11 Code Findings │
+└──────────────────┘
+                                     
+    netlify\functions\admin-notify.js
+     ❱ javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring
+          Detected string concatenation with a non-literal variable in a util.format / console.log function.
+          If an attacker injects a format specifier in the string, it will forge the log message. Try to use
+          constant values for the format string.                                                            
+          Details: https://sg.run/7Y5R                                                                      
+                                                                                                            
+           83┆ console.log(`[ADMIN NOTIFY] ${notification.event_type}:`, JSON.stringify(data));
+                             
+    netlify\functions\chat.js
+     ❱ javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring
+          Detected string concatenation with a non-literal variable in a util.format / console.log function.
+          If an attacker injects a format specifier in the string, it will forge the log message. Try to use
+          constant values for the format string.                                                            
+          Details: https://sg.run/7Y5R                                                                      
+                                                                                                            
+          1263┆ console.log(`🔧 Tool: ${tc.function.name}`, JSON.stringify(args).substring(0, 100));
+                                     
+    netlify\functions\claude-audit.js
+    ❯❱ javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
+          Detected possible user input going into a `path.join` or `path.resolve` function. This could   
+          possibly lead to a path traversal vulnerability,  where the attacker can access arbitrary files
+          stored in the file system. Instead, be sure to sanitize or validate user input first.          
+          Details: https://sg.run/OPqk                                                                   
+                                                                                                         
+           46┆ const filePath = path.join(functionsDir, targetFile);
+            ⋮┆----------------------------------------
+           65┆ const code = fs.readFileSync(path.join(functionsDir, file), 'utf8');
+                                      
+    netlify\functions\email-manager.js
+    ❯❱ javascript.aws-lambda.security.tainted-html-response.tainted-html-response
+          Detected user input flowing into an HTML response. You may be accidentally bypassing secure methods
+          of rendering HTML by manually constructing HTML and this could create a cross-site scripting       
+          vulnerability, which could let attackers steal sensitive user data.                                
+          Details: https://sg.run/0Gvj                                                                       
+                                                                                                             
+          126┆ return { statusCode: 400, headers: { 'Content-Type': 'text/html' }, body: `<h1>Error:
+               ${tokens.error_description}</h1>` };                                                 
+                                          
+    netlify\functions\messenger-webhook.js
+     ❱ javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring
+          Detected string concatenation with a non-literal variable in a util.format / console.log function.
+          If an attacker injects a format specifier in the string, it will forge the log message. Try to use
+          constant values for the format string.                                                            
+          Details: https://sg.run/7Y5R                                                                      
+                                                                                                            
+          203┆ console.error(`Tool ${toolName} error:`, err.message);
+                                      
+    netlify\functions\page-tracking.js
+     ❱ javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring
+          Detected string concatenation with a non-literal variable in a util.format / console.log function.
+          If an attacker injects a format specifier in the string, it will forge the log message. Try to use
+          constant values for the format string.                                                            
+          Details: https://sg.run/7Y5R                                                                      
+                                                                                                            
+          182┆ console.error(`Geolocation failed for IP ${ip}:`, err.message);
+                                  
+    netlify\functions\safe-mode.js
+    ❯❱ javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp
+          RegExp() called with a `word` function argument, this might allow an attacker to cause a Regular    
+          Expression Denial-of-Service (ReDoS) within your application as RegExP blocks the main thread. For  
+          this reason, it is recommended to use hardcoded regexes instead. If your regex is run on user-      
+          controlled input, consider performing input validation or use a regex checking/sanitization library 
+          such as https://www.npmjs.com/package/recheck to verify that the regex does not appear vulnerable to
+          ReDoS.                                                                                              
+          Details: https://sg.run/gr65                                                                        
+                                                                                                              
+           54┆ BAD_WORDS_RO.forEach(word => { filtered = filtered.replace(new RegExp(word, 'gi'), '***');
+               });                                                                                       
+                                    
+    netlify\functions\smart-brain.js
+     ❱ javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring
+          Detected string concatenation with a non-literal variable in a util.format / console.log function.
+          If an attacker injects a format specifier in the string, it will forge the log message. Try to use
+          constant values for the format string.                                                            
+          Details: https://sg.run/7Y5R                                                                      
+                                                                                                            
+          181┆ console.error(`${engine.name} failed:`, err.message);
+                                       
+    netlify\functions\stripe-webhook.js
+     ❱ javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring
+          Detected string concatenation with a non-literal variable in a util.format / console.log function.
+          If an attacker injects a format specifier in the string, it will forge the log message. Try to use
+          constant values for the format string.                                                            
+          Details: https://sg.run/7Y5R                                                                      
+                                                                                                            
+          302┆ console.error(`❌ Refund failed for ${email}:`, refundErr.message);
+                                   
+    netlify\functions\web-search.js
+     ❱ javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring
+          Detected string concatenation with a non-literal variable in a util.format / console.log function.
+          If an attacker injects a format specifier in the string, it will forge the log message. Try to use
+          constant values for the format string.                                                            
+          Details: https://sg.run/7Y5R                                                                      
+                                                                                                            
+           61┆ } catch (err) { console.error(`Search ${se.key} failed:`, err.message); }
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 11 (11 blocking)
+ • Rules run: 204
+ • Targets scanned: 128
+ • Parsed lines: ~100.0%
+ • Scan was limited to files tracked by git
+ • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 204 rules on 128 files: 11 findings.
+

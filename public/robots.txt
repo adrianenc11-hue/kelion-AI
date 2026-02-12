@@ -1,0 +1,9 @@
+# Kelion AI — Robots.txt
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /inspect.html
+Disallow: /k-manager.html
+Disallow: /.netlify/
+
+Sitemap: https://kelionai.app/sitemap.xml

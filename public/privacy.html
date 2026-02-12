@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Kelion AI</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cinzel:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --g: #d4af37;
+            --d: #030311
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--d);
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.8;
+            min-height: 100vh
+        }
+
+        .legal-header {
+            padding: 30px 5%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .legal-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #fff
+        }
+
+        .legal-brand-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--g), #b8860b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: .85rem;
+            color: #000
+        }
+
+        .legal-brand span {
+            font-weight: 700;
+            font-size: .95rem
+        }
+
+        .legal-back {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            font-size: .8rem;
+            transition: all .3s
+        }
+
+        .legal-back:hover {
+            border-color: var(--g);
+            color: var(--g)
+        }
+
+        .legal-nav {
+            display: flex;
+            gap: 4px;
+            padding: 14px 5%;
+            background: rgba(255, 255, 255, 0.01);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            flex-wrap: wrap
+        }
+
+        .legal-nav a {
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            font-size: .78rem;
+            font-weight: 600;
+            transition: all .3s
+        }
+
+        .legal-nav a:hover {
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.03)
+        }
+
+        .legal-nav a.active {
+            background: rgba(212, 175, 55, 0.08);
+            color: var(--g)
+        }
+
+        .legal-content {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 40px 5% 80px
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: #fff
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--g), #f4d47c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .legal-date {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: .75rem;
+            margin-bottom: 30px
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--g);
+            margin: 28px 0 10px;
+            padding-left: 12px;
+            border-left: 3px solid var(--g)
+        }
+
+        h3 {
+            font-size: .95rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 16px 0 6px
+        }
+
+        p,
+        li {
+            font-size: .85rem;
+            margin-bottom: 8px
+        }
+
+        ul,
+        ol {
+            padding-left: 20px;
+            margin-bottom: 12px
+        }
+
+        .highlight {
+            background: rgba(212, 175, 55, 0.06);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin: 12px 0
+        }
+
+        .highlight strong {
+            color: var(--g)
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            border-radius: 10px;
+            overflow: hidden
+        }
+
+        .data-table th {
+            background: rgba(212, 175, 55, 0.08);
+            color: var(--g);
+            padding: 10px 14px;
+            text-align: left;
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .5px
+        }
+
+        .data-table td {
+            padding: 10px 14px;
+            font-size: .82rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03)
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.02)
+        }
+
+        a {
+            color: var(--g);
+            text-decoration: none
+        }
+
+        a:hover {
+            text-decoration: underline
+        }
+
+        @media(max-width:600px) {
+            .legal-content {
+                padding: 24px 4% 60px
+            }
+
+            h1 {
+                font-size: 1.3rem
+            }
+
+            .data-table {
+                font-size: .75rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="legal-header">
+        <a href="/landing.html" class="legal-brand">
+            <div class="legal-brand-icon">K</div><span>Kelion AI</span>
+        </a>
+        <a href="/landing.html" class="legal-back">← Back</a>
+    </div>
+    <div class="legal-nav">
+        <a href="/terms.html">Terms of Service</a>
+        <a href="/privacy.html" class="active">Privacy Policy</a>
+        <a href="/cookies.html">Cookie Policy</a>
+        <a href="/gdpr.html">GDPR</a>
+    </div>
+    <div class="legal-content">
+        <h1>Privacy <span>Policy</span></h1>
+        <p class="legal-date">Last updated: 7 February 2026 · Effective immediately</p>
+
+        <div class="highlight">
+            <strong>🔒 Our Promise:</strong> We collect the minimum data needed to operate Kelion AI. We do NOT sell
+            your data. We do NOT store photos, videos, or audio recordings. Your privacy is fundamental to our design.
+        </div>
+
+        <h2>1. Data Controller</h2>
+        <p><strong>AE Creative Studio</strong><br>London, United Kingdom<br>Email: <a
+                href="mailto:privacy@kelionai.app">privacy@kelionai.app</a></p>
+
+        <h2>2. What Data We Collect</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>What</th>
+                    <th>Why</th>
+                    <th>Retention</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>IP Address</td>
+                    <td>Your public IP</td>
+                    <td>Security, analytics, abuse prevention</td>
+                    <td>90 days</td>
+                </tr>
+                <tr>
+                    <td>Country</td>
+                    <td>Derived from IP</td>
+                    <td>Service localization</td>
+                    <td>90 days</td>
+                </tr>
+                <tr>
+                    <td>Access Date</td>
+                    <td>When you visit</td>
+                    <td>Analytics, usage patterns</td>
+                    <td>90 days</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>If you register</td>
+                    <td>Account management, communication</td>
+                    <td>Until deletion</td>
+                </tr>
+                <tr>
+                    <td>Conversations</td>
+                    <td>Text chats with K</td>
+                    <td>Service improvement (anonymized)</td>
+                    <td>30 days</td>
+                </tr>
+                <tr>
+                    <td>Device Info</td>
+                    <td>Browser, OS type</td>
+                    <td>Compatibility, debugging</td>
+                    <td>30 days</td>
+                </tr>
+                <tr>
+                    <td>Payment Info</td>
+                    <td>Processed by Stripe/PayPal</td>
+                    <td>Subscription billing</td>
+                    <td>Per Stripe/PayPal policy</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>3. What We Do NOT Collect or Store</h2>
+        <div class="highlight">
+            <strong>🚫 We explicitly do NOT:</strong>
+            <ul>
+                <li>Store photos, videos, or screenshots from your camera</li>
+                <li>Record or store audio from your microphone</li>
+                <li>Track your GPS location (location is processed client-side only)</li>
+                <li>Store your credit card numbers (handled entirely by Stripe/PayPal)</li>
+                <li>Create behavioral profiles for advertising</li>
+                <li>Sell or rent your data to anyone</li>
+                <li>Use your data for targeted advertising</li>
+            </ul>
+        </div>
+
+        <h2>4. Camera & Microphone</h2>
+        <ul>
+            <li><strong>Camera:</strong> Used only for K's vision feature (scene analysis). Images are processed in
+                real-time via AI API and immediately discarded. No images are stored on our servers.</li>
+            <li><strong>Microphone:</strong> Used only for voice conversations. Audio is streamed to speech-to-text API
+                and immediately discarded. No audio recordings are stored.</li>
+            <li>Both require explicit user permission via browser dialog before activation.</li>
+        </ul>
+
+        <h2>5. Legal Bases for Processing (GDPR Article 6)</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Processing Activity</th>
+                    <th>Legal Basis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Account creation & management</td>
+                    <td>Contract performance (Art. 6(1)(b))</td>
+                </tr>
+                <tr>
+                    <td>Payment processing</td>
+                    <td>Contract performance (Art. 6(1)(b))</td>
+                </tr>
+                <tr>
+                    <td>Security & abuse prevention</td>
+                    <td>Legitimate interest (Art. 6(1)(f))</td>
+                </tr>
+                <tr>
+                    <td>Analytics (anonymized)</td>
+                    <td>Legitimate interest (Art. 6(1)(f))</td>
+                </tr>
+                <tr>
+                    <td>Marketing communications</td>
+                    <td>Consent (Art. 6(1)(a))</td>
+                </tr>
+                <tr>
+                    <td>Camera/microphone access</td>
+                    <td>Consent (Art. 6(1)(a))</td>
+                </tr>
+                <tr>
+                    <td>Cookie storage</td>
+                    <td>Consent (Art. 6(1)(a))</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Third-Party Services</h2>
+        <p>We share data with these processors, strictly for service operation:</p>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Purpose</th>
+                    <th>Data Shared</th>
+                    <th>Privacy Policy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OpenAI</td>
+                    <td>AI processing</td>
+                    <td>Conversation text</td>
+                    <td><a href="https://openai.com/privacy" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td>Google (Gemini)</td>
+                    <td>AI processing</td>
+                    <td>Conversation text</td>
+                    <td><a href="https://policies.google.com/privacy" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td>Deepgram</td>
+                    <td>Voice synthesis</td>
+                    <td>Text for speech</td>
+                    <td><a href="https://deepgram.com/privacy" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td>Stripe</td>
+                    <td>Payments</td>
+                    <td>Payment details</td>
+                    <td><a href="https://stripe.com/privacy" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td>PayPal</td>
+                    <td>Payments</td>
+                    <td>Payment details</td>
+                    <td><a href="https://www.paypal.com/privacy" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td>Supabase</td>
+                    <td>Database</td>
+                    <td>Account data</td>
+                    <td><a href="https://supabase.com/privacy" target="_blank">Link</a></td>
+                </tr>
+                <tr>
+                    <td>Netlify</td>
+                    <td>Hosting</td>
+                    <td>Access logs</td>
+                    <td><a href="https://www.netlify.com/privacy/" target="_blank">Link</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>7. Your Rights (GDPR & UK GDPR)</h2>
+        <p>You have the following rights regarding your personal data:</p>
+        <ul>
+            <li><strong>Right of Access</strong> (Art. 15) — Request a copy of all data we hold about you</li>
+            <li><strong>Right to Rectification</strong> (Art. 16) — Correct inaccurate personal data</li>
+            <li><strong>Right to Erasure</strong> (Art. 17) — "Right to be forgotten" — request deletion of your data
+            </li>
+            <li><strong>Right to Restriction</strong> (Art. 18) — Restrict processing of your data</li>
+            <li><strong>Right to Data Portability</strong> (Art. 20) — Receive your data in a machine-readable format
+            </li>
+            <li><strong>Right to Object</strong> (Art. 21) — Object to processing based on legitimate interest</li>
+            <li><strong>Right to Withdraw Consent</strong> (Art. 7(3)) — Withdraw consent at any time</li>
+        </ul>
+        <p>To exercise any right, email <a href="mailto:privacy@kelionai.app">privacy@kelionai.app</a>. We will respond
+            within 30 days.</p>
+
+        <h2>8. International Data Transfers</h2>
+        <p>Your data may be processed in countries outside the UK/EEA (e.g., US for AI processing). We ensure adequate
+            protection through:</p>
+        <ul>
+            <li>Standard Contractual Clauses (SCCs) approved by the European Commission</li>
+            <li>Data processing agreements with all third-party providers</li>
+            <li>Using providers with adequate data protection certifications</li>
+        </ul>
+
+        <h2>9. Data Security</h2>
+        <ul>
+            <li>All data is encrypted in transit (TLS 1.3) and at rest</li>
+            <li>API keys are stored as environment variables, never in client code</li>
+            <li>Regular security audits and monitoring</li>
+            <li>Access to personal data restricted to authorized personnel only</li>
+        </ul>
+
+        <h2>10. Data Breach Notification</h2>
+        <p>In the event of a data breach:</p>
+        <ul>
+            <li>We will notify the ICO (UK) within 72 hours as required by GDPR Article 33</li>
+            <li>If the breach poses high risk, we will notify affected users without undue delay</li>
+            <li>We will document the breach, impact, and remedial actions</li>
+        </ul>
+
+        <h2>11. Children's Privacy</h2>
+        <ul>
+            <li>We do not knowingly collect data from children under 13 (US) or under 16 (EU/UK)</li>
+            <li>If we discover data from an underage user, we will delete it immediately</li>
+            <li>Parents/guardians may contact us to request deletion of their child's data</li>
+        </ul>
+
+        <h2>12. Contact & Complaints</h2>
+        <p><strong>Privacy Inquiries:</strong> <a href="mailto:privacy@kelionai.app">privacy@kelionai.app</a></p>
+        <p><strong>Data Protection Authority:</strong> If you have unresolved concerns, you may contact the Information
+            Commissioner's Office (ICO):</p>
+        <ul>
+            <li>🌐 <a href="https://ico.org.uk" target="_blank">ico.org.uk</a></li>
+            <li>📞 0303 123 1113</li>
+        </ul>
+    </div>
+
+    <!-- K-Brain Modular System (transplantable) -->
+    <script src="/brain/brain-init.js"></script>
+
+<!-- Push Notifications + i18n -->
+<script>
+// ═══ SERVICE WORKER + PUSH NOTIFICATIONS ═══
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+        console.log('[K] Service Worker registered');
+    }).catch(err => console.warn('[K] SW registration failed:', err));
+}
+
+async function subscribePush() {
+    try {
+        if (!('PushManager' in window)) { alert('Push notifications not supported'); return; }
+        
+        const reg = await navigator.serviceWorker.ready;
+        const existing = await reg.pushManager.getSubscription();
+        if (existing) { console.log('[K] Already subscribed'); return existing; }
+        
+        // Get VAPID key from server
+        const r = await fetch('/.netlify/functions/push-notifications', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ action: 'get_vapid_key' })
+        });
+        const { vapid_public_key } = await r.json();
+        if (!vapid_public_key) { console.warn('[K] No VAPID key'); return null; }
+        
+        // Convert base64url to Uint8Array
+        const urlBase64ToUint8Array = (base64String) => {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+            const rawData = atob(base64);
+            return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+        };
+        
+        const sub = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(vapid_public_key)
+        });
+        
+        // Send to server
+        const email = localStorage.getItem('k_email') || 'anonymous';
+        await fetch('/.netlify/functions/push-notifications', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ action: 'subscribe', subscription: sub, user_email: email })
+        });
+        
+        console.log('[K] Push subscribed!');
+        return sub;
+    } catch(e) { console.error('[K] Push subscribe error:', e); }
+}
+
+// ═══ i18n LANGUAGE SYSTEM ═══
+const K_LANGS = { en: 'English', ro: 'Română', es: 'Español', fr: 'Français', de: 'Deutsch' };
+let K_I18N = {};
+
+function getLanguage() {
+    return localStorage.getItem('k_lang') || navigator.language?.split('-')[0] || 'en';
+}
+
+async function loadTranslations(lang) {
+    try {
+        const r = await fetch('/.netlify/functions/i18n', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ lang: lang || getLanguage() })
+        });
+        const d = await r.json();
+        if (d.success) { K_I18N = d.translations; applyTranslations(); }
+    } catch(e) { console.warn('[K] i18n load error:', e); }
+}
+
+function t(key) { return K_I18N[key] || key; }
+
+function applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (K_I18N[key]) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = K_I18N[key];
+            else el.textContent = K_I18N[key];
+        }
+    });
+}
+
+function setLanguage(lang) {
+    localStorage.setItem('k_lang', lang);
+    loadTranslations(lang);
+}
+
+// Auto-load on page ready
+document.addEventListener('DOMContentLoaded', () => {
+    loadTranslations();
+    
+    // Auto-ask for push after 30s on first visit
+    if (!localStorage.getItem('k_push_asked')) {
+        setTimeout(() => {
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(p => {
+                    if (p === 'granted') subscribePush();
+                    localStorage.setItem('k_push_asked', '1');
+                });
+            }
+        }, 30000);
+    }
+});
+</script>
+
+</body>
+
+</html>

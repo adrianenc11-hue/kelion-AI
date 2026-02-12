@@ -1,0 +1,164 @@
+
+Running 42 tests using 4 workers
+
+[1A[2K[1/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:21:5 ÔÇ║ Page Load & Structure ÔÇ║ app.html loads without crash
+[1A[2K[2/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:13:5 ÔÇ║ Page Load & Structure ÔÇ║ index.html loads with correct title and hero
+[1A[2K[3/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:30:5 ÔÇ║ Page Load & Structure ÔÇ║ no console errors on index.html
+[1A[2K[4/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:45:5 ÔÇ║ Page Load & Structure ÔÇ║ no console errors on app.html
+[1A[2K[5/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:60:5 ÔÇ║ Page Load & Structure ÔÇ║ all component scripts load without 404
+[1A[2K  1) [chromium] ÔÇ║ tests\kelion-full.spec.js:30:5 ÔÇ║ Page Load & Structure ÔÇ║ no console errors on index.html 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoHaveLength[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected length: [32m0[39m
+    Received length: [31m20[39m
+    Received array:  [31m["Failed to load resource: the server responded with a status of 404 ()", "Failed to load resource: the server responded with a status of 404 ()", "Failed to load resource: the server responded with a status of 404 ()", "Failed to load resource: the server responded with a status of 404 ()", "Failed to load resource: the server responded with a status of 404 ()", "Failed to load resource: the server responded with a status of 404 ()", "Failed to load resource: the server responded with a status of 404 ()", "Failed to load resource: the server responded with a status of 404 ()", "Failed to load resource: the server responded with a status of 404 ()", "Failed to load resource: the server responded with a status of 404 ()", ÔÇª][39m
+
+      40 |             !e.includes('net::ERR')
+      41 |         );
+    > 42 |         expect(realErrors).toHaveLength(0);
+         |                            ^
+      43 |     });
+      44 |
+      45 |     test('no console errors on app.html', async ({ page }) => {
+        at C:\Users\adria\Downloads\k new\kelionat_clean\tests\kelion-full.spec.js:42:28
+
+    Error Context: test-results\kelion-full-Page-Load-Stru-189d9-onsole-errors-on-index-html-chromium\error-context.md
+
+
+[1A[2K[6/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:78:5 ÔÇ║ GDPR & Legal Pages ÔÇ║ privacy.html loads and has content
+[1A[2K[7/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:86:5 ÔÇ║ GDPR & Legal Pages ÔÇ║ terms.html loads and has content
+[1A[2K[8/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:92:5 ÔÇ║ GDPR & Legal Pages ÔÇ║ cookies.html loads and has content
+[1A[2K[9/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:98:5 ÔÇ║ GDPR & Legal Pages ÔÇ║ gdpr.html loads
+[1A[2K[10/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:110:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ health endpoint returns 200 + healthy
+[1A[2K[11/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:117:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ chat endpoint rejects empty body with 400
+[1A[2K[12/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:127:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ chat endpoint accepts valid message
+[1A[2K[13/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:140:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ dalle endpoint rejects empty prompt with 400
+[1A[2K[14/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:149:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ web-search rejects empty query
+[1A[2K  2) [chromium] ÔÇ║ tests\kelion-full.spec.js:60:5 ÔÇ║ Page Load & Structure ÔÇ║ all component scripts load without 404 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoHaveLength[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected length: [32m0[39m
+    Received length: [31m14[39m
+    Received array:  [31m["https://kelionai.app/components/k1-phase4-bridge.js", "https://kelionai.app/components/kelion-vision.js", "https://kelionai.app/components/kelion-weather.js", "https://kelionai.app/components/k-presentation-workspace.js", "https://kelionai.app/components/browser-viewer.js", "https://kelionai.app/components/agent-dashboard.js", "https://kelionai.app/components/file-browser.js", "https://kelionai.app/components/tool-library.js", "https://kelionai.app/components/code-detector.js", "https://kelionai.app/components/evolution-dashboard.js", ÔÇª][39m
+
+      66 |         });
+      67 |         await page.goto(`${BASE}/app.html`, { waitUntil: 'networkidle' });
+    > 68 |         expect(failed404).toHaveLength(0);
+         |                           ^
+      69 |     });
+      70 | });
+      71 |
+        at C:\Users\adria\Downloads\k new\kelionat_clean\tests\kelion-full.spec.js:68:27
+
+    Error Context: test-results\kelion-full-Page-Load-Stru-5d0a7-nt-scripts-load-without-404-chromium\error-context.md
+
+
+[1A[2K[15/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:164:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ translate endpoint rejects empty body
+[1A[2K[16/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:173:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ smart-brain rejects empty body
+[1A[2K[17/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:182:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ neural-ai rejects empty body
+[1A[2K[18/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:191:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ vision endpoint rejects empty body
+[1A[2K  3) [chromium] ÔÇ║ tests\kelion-full.spec.js:127:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ chat endpoint accepts valid message 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoHaveProperty[2m([22m[32mpath[39m[2m)[22m
+
+    Expected path: [32m"response"[39m
+    Received path: [31m[][39m
+
+    Received value: [31m{"engine": "gemini-2.0-flash", "failover_available": 3, "reply": "Bun─â! Acum e 08:26, 08 februarie 2026. Cu ce te pot ajuta?[39m
+    [31m", "success": true, "webSearch": false}[39m
+
+      134 |         if (res.status() === 200) {
+      135 |             const body = await res.json();
+    > 136 |             expect(body).toHaveProperty('response');
+          |                          ^
+      137 |         }
+      138 |     });
+      139 |
+        at C:\Users\adria\Downloads\k new\kelionat_clean\tests\kelion-full.spec.js:136:26
+
+
+[1A[2K[19/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:158:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ weather endpoint responds (GET)
+[1A[2K[20/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:209:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ env-check returns configured keys
+[1A[2K[21/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:224:5 ÔÇ║ Error Boundaries ÔÇö Invalid Input ÔÇ║ chat handles very long message without crash
+[1A[2K  4) [chromium] ÔÇ║ tests\kelion-full.spec.js:45:5 ÔÇ║ Page Load & Structure ÔÇ║ no console errors on app.html 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: <= [32m3[39m
+    Received:    [31m28[39m
+
+      55 |         );
+      56 |         // Some errors may occur from missing permissions (camera etc) ÔÇö allow up to 3
+    > 57 |         expect(realErrors.length).toBeLessThanOrEqual(3);
+         |                                   ^
+      58 |     });
+      59 |
+      60 |     test('all component scripts load without 404', async ({ page }) => {
+        at C:\Users\adria\Downloads\k new\kelionat_clean\tests\kelion-full.spec.js:57:35
+
+    Error Context: test-results\kelion-full-Page-Load-Stru-aedbb--console-errors-on-app-html-chromium\error-context.md
+
+
+[1A[2K[22/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:242:5 ÔÇ║ Error Boundaries ÔÇö Invalid Input ÔÇ║ dalle handles invalid params
+[1A[2K[23/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:200:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ whisper endpoint rejects empty body
+[1A[2K[24/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:250:5 ÔÇ║ Error Boundaries ÔÇö Invalid Input ÔÇ║ web-search handles injection attempt
+[1A[2K[25/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:260:5 ÔÇ║ Error Boundaries ÔÇö Invalid Input ÔÇ║ endpoints reject non-JSON body
+[1A[2K[26/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:269:5 ÔÇ║ Error Boundaries ÔÇö Invalid Input ÔÇ║ CORS preflight works
+[1A[2K  5) [chromium] ÔÇ║ tests\kelion-full.spec.js:260:5 ÔÇ║ Error Boundaries ÔÇö Invalid Input ÔÇ║ endpoints reject non-JSON body 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: not [32m500[39m
+
+      264 |         });
+      265 |         // Should not crash ÔÇö 400 or any non-500
+    > 266 |         expect(res.status()).not.toBe(500);
+          |                                  ^
+      267 |     });
+      268 |
+      269 |     test('CORS preflight works', async ({ request }) => {
+        at C:\Users\adria\Downloads\k new\kelionat_clean\tests\kelion-full.spec.js:266:34
+
+
+[1A[2K  6) [chromium] ÔÇ║ tests\kelion-full.spec.js:250:5 ÔÇ║ Error Boundaries ÔÇö Invalid Input ÔÇ║ web-search handles injection attempt 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: not [32m500[39m
+
+      253 |             headers: { 'Content-Type': 'application/json' }
+      254 |         });
+    > 255 |         expect(res.status()).not.toBe(500);
+          |                                  ^
+      256 |         const body = await res.text();
+      257 |         expect(body).not.toContain('root:');
+      258 |     });
+        at C:\Users\adria\Downloads\k new\kelionat_clean\tests\kelion-full.spec.js:255:34
+
+
+[1A[2K[27/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:302:5 ÔÇ║ Navigation & User Flow ÔÇ║ developers page loads
+[1A[2K[28/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:234:5 ÔÇ║ Error Boundaries ÔÇö Invalid Input ÔÇ║ chat handles special characters safely
+[1A[2K[29/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:308:5 ÔÇ║ Navigation & User Flow ÔÇ║ admin page loads
+[1A[2K[30/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:314:5 ÔÇ║ Navigation & User Flow ÔÇ║ landing page loads
+[1A[2K[31/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:285:5 ÔÇ║ Navigation & User Flow ÔÇ║ index ÔåÆ app navigation works
+[1A[2K[32/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:296:5 ÔÇ║ Navigation & User Flow ÔÇ║ subscribe page loads
+[1A[2K[33/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:320:5 ÔÇ║ Navigation & User Flow ÔÇ║ k-manager page loads
+[1A[2K[34/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:333:5 ÔÇ║ Responsive Design ÔÇ║ index.html renders on mobile viewport
+[1A[2K[35/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:344:5 ÔÇ║ Responsive Design ÔÇ║ app.html renders on tablet viewport
+[1A[2K[36/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:351:5 ÔÇ║ Responsive Design ÔÇ║ index.html renders on desktop viewport
+[1A[2K[37/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:365:5 ÔÇ║ Service Worker ÔÇ║ service worker file is accessible
+[1A[2K[38/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:373:5 ÔÇ║ Service Worker ÔÇ║ manifest.json is accessible
+[1A[2K[39/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:387:5 ÔÇ║ Security Headers ÔÇ║ X-Frame-Options is set
+[1A[2K[40/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:399:5 ÔÇ║ Security Headers ÔÇ║ HTML pages have cache-control headers
+[1A[2K[41/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:393:5 ÔÇ║ Security Headers ÔÇ║ X-Content-Type-Options is set
+[1A[2K[42/42] [chromium] ÔÇ║ tests\kelion-full.spec.js:407:5 ÔÇ║ Security Headers ÔÇ║ CORS headers on API
+[1A[2K  6 failed
+    [chromium] ÔÇ║ tests\kelion-full.spec.js:30:5 ÔÇ║ Page Load & Structure ÔÇ║ no console errors on index.html 
+    [chromium] ÔÇ║ tests\kelion-full.spec.js:45:5 ÔÇ║ Page Load & Structure ÔÇ║ no console errors on app.html 
+    [chromium] ÔÇ║ tests\kelion-full.spec.js:60:5 ÔÇ║ Page Load & Structure ÔÇ║ all component scripts load without 404 
+    [chromium] ÔÇ║ tests\kelion-full.spec.js:127:5 ÔÇ║ API Endpoints ÔÇö Real Requests ÔÇ║ chat endpoint accepts valid message 
+    [chromium] ÔÇ║ tests\kelion-full.spec.js:250:5 ÔÇ║ Error Boundaries ÔÇö Invalid Input ÔÇ║ web-search handles injection attempt 
+    [chromium] ÔÇ║ tests\kelion-full.spec.js:260:5 ÔÇ║ Error Boundaries ÔÇö Invalid Input ÔÇ║ endpoints reject non-JSON body 
+  36 passed (18.1s)

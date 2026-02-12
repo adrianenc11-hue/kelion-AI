@@ -1,0 +1,136 @@
+<!-- Ticker Bar Component - Add this before </body> -->
+<style>
+    .ticker-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 35px;
+        background: linear-gradient(90deg,
+                rgba(0, 0, 0, 0.95) 0%,
+                rgba(10, 20, 40, 0.95) 50%,
+                rgba(0, 0, 0, 0.95) 100%);
+        border-top: 1px solid rgba(212, 175, 55, 0.6);
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        z-index: 9999;
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .ticker-brand {
+        background: linear-gradient(135deg, #d4af37 0%, #f4d47c 50%, #d4af37 100%);
+        color: #000;
+        font-family: 'Cinzel', serif;
+        font-weight: 700;
+        font-size: 0.7rem;
+        padding: 8px 15px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        border-right: 2px solid rgba(212, 175, 55, 0.8);
+    }
+
+    .ticker-content {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .ticker-text {
+        color: #d4af37;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+        white-space: nowrap;
+        animation: ticker-scroll 25s linear infinite;
+        padding-left: 100%;
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+
+    .ticker-text span {
+        padding: 0 50px;
+        opacity: 0;
+        animation: ticker-fade 10s ease-in-out infinite;
+    }
+
+    .ticker-ai-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(0, 255, 255, 0.1);
+        padding: 2px 8px;
+        border-radius: 3px;
+        margin: 0 10px;
+        border: 1px solid rgba(0, 255, 255, 0.3);
+    }
+
+    .ticker-ai-badge::before {
+        content: '✦';
+        color: #00ffff;
+    }
+
+    @keyframes ticker-scroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    @keyframes ticker-fade {
+
+        0%,
+        100% {
+            opacity: 0.7;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    .ticker-separator {
+        color: rgba(212, 175, 55, 0.5);
+        margin: 0 20px;
+    }
+</style>
+
+<div class="ticker-bar">
+    <div class="ticker-brand">⟨AE⟩ STUDIO</div>
+    <div class="ticker-content">
+        <div class="ticker-text" id="ticker-text"></div>
+    </div>
+</div>
+
+<script>
+    const tickerMessages = [
+        '✧ Crafted with vision by <span class="ticker-ai-badge">AE Creative Studio</span> • Where imagination meets innovation ✧',
+        '★ Powered by the most brilliant AI minds on the planet • A symphony of human creativity and artificial intelligence ★',
+        '◆ Project KELION • Bridging dimensions through technology • Designed for the future, built for today ◆',
+        '✦ In partnership with cutting-edge AI technologies • Google Gemini • OpenAI • Deepgram • Pushing boundaries together ✦',
+        '❖ Experience the next generation of digital interaction • Created with passion, perfected with precision ❖'
+    ];
+
+    let messageIndex = 0;
+    const tickerTextEl = document.getElementById('ticker-text');
+
+    function updateTickerMessage() {
+        tickerTextEl.style.opacity = '0';
+        setTimeout(() => {
+            tickerTextEl.innerHTML = tickerMessages[messageIndex] +
+                ' <span class="ticker-separator">•</span> ' +
+                tickerMessages[messageIndex];
+            tickerTextEl.style.opacity = '1';
+            messageIndex = (messageIndex + 1) % tickerMessages.length;
+        }, 500);
+    }
+
+    // Initial message
+    updateTickerMessage();
+
+    // Change message every 10 seconds
+    setInterval(updateTickerMessage, 10000);
+</script>

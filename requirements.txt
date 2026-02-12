@@ -1,0 +1,8 @@
+ruff>=0.8.0
+mypy>=1.13.0
+pytest>=8.3.0
+pytest-cov>=6.0.0
+pip-audit>=2.7.0
+# semgrep: install via system (pip install fails on Windows native build)
+# Use: pip install semgrep (Linux/Mac) or pipx install semgrep
+

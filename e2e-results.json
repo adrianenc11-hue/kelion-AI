@@ -1,0 +1,1808 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\playwright.config.js",
+    "rootDir": "C:/Users/adria/Downloads/k new/kelionat_clean/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/adria/Downloads/k new/kelionat_clean/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/adria/Downloads/k new/kelionat_clean/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/adria/Downloads/k new/kelionat_clean/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/Users/adria/Downloads/k new/kelionat_clean/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/adria/Downloads/k new/kelionat_clean/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "C:/Users/adria/Downloads/k new/kelionat_clean/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "kelion-full.spec.js",
+      "file": "kelion-full.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Page Load & Structure",
+          "file": "kelion-full.spec.js",
+          "line": 11,
+          "column": 6,
+          "specs": [
+            {
+              "title": "index.html loads with correct title and hero",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1283,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:41.522Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-744871744eaff8c17de2",
+              "file": "kelion-full.spec.js",
+              "line": 13,
+              "column": 5
+            },
+            {
+              "title": "app.html loads without crash",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1584,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:41.513Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-d70a8dc01184803ea293",
+              "file": "kelion-full.spec.js",
+              "line": 21,
+              "column": 5
+            },
+            {
+              "title": "no console errors on index.html",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 1820,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m20\u001b[39m\nReceived array:  \u001b[31m[\"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", ÔÇª]\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m20\u001b[39m\nReceived array:  \u001b[31m[\"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", ÔÇª]\u001b[39m\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:42:28",
+                        "location": {
+                          "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                          "column": 28,
+                          "line": 42
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 40 |\u001b[39m             \u001b[33m!\u001b[39me\u001b[33m.\u001b[39mincludes(\u001b[32m'net::ERR'\u001b[39m)\n \u001b[90m 41 |\u001b[39m         )\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 42 |\u001b[39m         expect(realErrors)\u001b[33m.\u001b[39mtoHaveLength(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 43 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 44 |\u001b[39m\n \u001b[90m 45 |\u001b[39m     test(\u001b[32m'no console errors on app.html'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                            "column": 28,
+                            "line": 42
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m20\u001b[39m\nReceived array:  \u001b[31m[\"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", \"Failed to load resource: the server responded with a status of 404 ()\", ÔÇª]\u001b[39m\n\n  40 |             !e.includes('net::ERR')\n  41 |         );\n> 42 |         expect(realErrors).toHaveLength(0);\n     |                            ^\n  43 |     });\n  44 |\n  45 |     test('no console errors on app.html', async ({ page }) => {\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:42:28"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:41.537Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\test-results\\kelion-full-Page-Load-Stru-189d9-onsole-errors-on-index-html-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                        "column": 28,
+                        "line": 42
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-3f55a25ecce7ae4cab98",
+              "file": "kelion-full.spec.js",
+              "line": 30,
+              "column": 5
+            },
+            {
+              "title": "no console errors on app.html",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 8970,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m3\u001b[39m\nReceived:    \u001b[31m28\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m3\u001b[39m\nReceived:    \u001b[31m28\u001b[39m\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:57:35",
+                        "location": {
+                          "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                          "column": 35,
+                          "line": 57
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 55 |\u001b[39m         )\u001b[33m;\u001b[39m\n \u001b[90m 56 |\u001b[39m         \u001b[90m// Some errors may occur from missing permissions (camera etc) ÔÇö allow up to 3\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 57 |\u001b[39m         expect(realErrors\u001b[33m.\u001b[39mlength)\u001b[33m.\u001b[39mtoBeLessThanOrEqual(\u001b[35m3\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 58 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m\n \u001b[90m 60 |\u001b[39m     test(\u001b[32m'all component scripts load without 404'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                            "column": 35,
+                            "line": 57
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m3\u001b[39m\nReceived:    \u001b[31m28\u001b[39m\n\n  55 |         );\n  56 |         // Some errors may occur from missing permissions (camera etc) ÔÇö allow up to 3\n> 57 |         expect(realErrors.length).toBeLessThanOrEqual(3);\n     |                                   ^\n  58 |     });\n  59 |\n  60 |     test('all component scripts load without 404', async ({ page }) => {\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:57:35"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:41.561Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\test-results\\kelion-full-Page-Load-Stru-aedbb--console-errors-on-app-html-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                        "column": 35,
+                        "line": 57
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-afecf93555a2a3c876dc",
+              "file": "kelion-full.spec.js",
+              "line": 45,
+              "column": 5
+            },
+            {
+              "title": "all component scripts load without 404",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 10379,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m14\u001b[39m\nReceived array:  \u001b[31m[\"https://kelionai.app/components/kelion-vision.js\", \"https://kelionai.app/components/kelion-weather.js\", \"https://kelionai.app/components/k-presentation-workspace.js\", \"https://kelionai.app/components/tool-library.js\", \"https://kelionai.app/components/evolution-dashboard.js\", \"https://kelionai.app/components/k1-auto-wire.js\", \"https://kelionai.app/components/orchestrator-bridge.js\", \"https://kelionai.app/components/k1-dup-guard.js\", \"https://kelionai.app/components/k1-phase4-bridge.js\", \"https://kelionai.app/components/agent-dashboard.js\", ÔÇª]\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m14\u001b[39m\nReceived array:  \u001b[31m[\"https://kelionai.app/components/kelion-vision.js\", \"https://kelionai.app/components/kelion-weather.js\", \"https://kelionai.app/components/k-presentation-workspace.js\", \"https://kelionai.app/components/tool-library.js\", \"https://kelionai.app/components/evolution-dashboard.js\", \"https://kelionai.app/components/k1-auto-wire.js\", \"https://kelionai.app/components/orchestrator-bridge.js\", \"https://kelionai.app/components/k1-dup-guard.js\", \"https://kelionai.app/components/k1-phase4-bridge.js\", \"https://kelionai.app/components/agent-dashboard.js\", ÔÇª]\u001b[39m\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:68:27",
+                        "location": {
+                          "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                          "column": 27,
+                          "line": 68
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 66 |\u001b[39m         })\u001b[33m;\u001b[39m\n \u001b[90m 67 |\u001b[39m         \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${BASE}/app.html`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m'networkidle'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 68 |\u001b[39m         expect(failed404)\u001b[33m.\u001b[39mtoHaveLength(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 69 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 71 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                            "column": 27,
+                            "line": 68
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m14\u001b[39m\nReceived array:  \u001b[31m[\"https://kelionai.app/components/kelion-vision.js\", \"https://kelionai.app/components/kelion-weather.js\", \"https://kelionai.app/components/k-presentation-workspace.js\", \"https://kelionai.app/components/tool-library.js\", \"https://kelionai.app/components/evolution-dashboard.js\", \"https://kelionai.app/components/k1-auto-wire.js\", \"https://kelionai.app/components/orchestrator-bridge.js\", \"https://kelionai.app/components/k1-dup-guard.js\", \"https://kelionai.app/components/k1-phase4-bridge.js\", \"https://kelionai.app/components/agent-dashboard.js\", ÔÇª]\u001b[39m\n\n  66 |         });\n  67 |         await page.goto(`${BASE}/app.html`, { waitUntil: 'networkidle' });\n> 68 |         expect(failed404).toHaveLength(0);\n     |                           ^\n  69 |     });\n  70 | });\n  71 |\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:68:27"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:42.935Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\test-results\\kelion-full-Page-Load-Stru-5d0a7-nt-scripts-load-without-404-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                        "column": 27,
+                        "line": 68
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-5d6a1b6fd28992b6b5df",
+              "file": "kelion-full.spec.js",
+              "line": 60,
+              "column": 5
+            }
+          ]
+        },
+        {
+          "title": "GDPR & Legal Pages",
+          "file": "kelion-full.spec.js",
+          "line": 76,
+          "column": 6,
+          "specs": [
+            {
+              "title": "privacy.html loads and has content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 704,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:43.211Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-4006a5d0955560b72751",
+              "file": "kelion-full.spec.js",
+              "line": 78,
+              "column": 5
+            },
+            {
+              "title": "terms.html loads and has content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 416,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:45.411Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-3419754219692088ccda",
+              "file": "kelion-full.spec.js",
+              "line": 86,
+              "column": 5
+            },
+            {
+              "title": "cookies.html loads and has content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 448,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:43.941Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-9b1710cd06dbc5894a4b",
+              "file": "kelion-full.spec.js",
+              "line": 92,
+              "column": 5
+            },
+            {
+              "title": "gdpr.html loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 719,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:44.403Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-1070dfb99d4cc03ac053",
+              "file": "kelion-full.spec.js",
+              "line": 98,
+              "column": 5
+            }
+          ]
+        },
+        {
+          "title": "API Endpoints ÔÇö Real Requests",
+          "file": "kelion-full.spec.js",
+          "line": 108,
+          "column": 6,
+          "specs": [
+            {
+              "title": "health endpoint returns 200 + healthy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 468,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:45.136Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-ae11ef76f55585efd7d0",
+              "file": "kelion-full.spec.js",
+              "line": 110,
+              "column": 5
+            },
+            {
+              "title": "chat endpoint rejects empty body with 400",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 218,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:45.617Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-0c2f767af34b2c6140e0",
+              "file": "kelion-full.spec.js",
+              "line": 117,
+              "column": 5
+            },
+            {
+              "title": "chat endpoint accepts valid message",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 1232,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveProperty\u001b[2m(\u001b[22m\u001b[32mpath\u001b[39m\u001b[2m)\u001b[22m\n\nExpected path: \u001b[32m\"response\"\u001b[39m\nReceived path: \u001b[31m[]\u001b[39m\n\nReceived value: \u001b[31m{\"engine\": \"gemini-2.0-flash\", \"failover_available\": 3, \"reply\": \"Salut! Este 8 februarie 2026, ora 08:17. Cu ce te pot ajuta azi?\u001b[39m\n\u001b[31m\", \"success\": true, \"webSearch\": false}\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveProperty\u001b[2m(\u001b[22m\u001b[32mpath\u001b[39m\u001b[2m)\u001b[22m\n\nExpected path: \u001b[32m\"response\"\u001b[39m\nReceived path: \u001b[31m[]\u001b[39m\n\nReceived value: \u001b[31m{\"engine\": \"gemini-2.0-flash\", \"failover_available\": 3, \"reply\": \"Salut! Este 8 februarie 2026, ora 08:17. Cu ce te pot ajuta azi?\u001b[39m\n\u001b[31m\", \"success\": true, \"webSearch\": false}\u001b[39m\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:136:26",
+                        "location": {
+                          "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                          "column": 26,
+                          "line": 136
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 134 |\u001b[39m         \u001b[36mif\u001b[39m (res\u001b[33m.\u001b[39mstatus() \u001b[33m===\u001b[39m \u001b[35m200\u001b[39m) {\n \u001b[90m 135 |\u001b[39m             \u001b[36mconst\u001b[39m body \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m res\u001b[33m.\u001b[39mjson()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 136 |\u001b[39m             expect(body)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'response'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 137 |\u001b[39m         }\n \u001b[90m 138 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 139 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                            "column": 26,
+                            "line": 136
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveProperty\u001b[2m(\u001b[22m\u001b[32mpath\u001b[39m\u001b[2m)\u001b[22m\n\nExpected path: \u001b[32m\"response\"\u001b[39m\nReceived path: \u001b[31m[]\u001b[39m\n\nReceived value: \u001b[31m{\"engine\": \"gemini-2.0-flash\", \"failover_available\": 3, \"reply\": \"Salut! Este 8 februarie 2026, ora 08:17. Cu ce te pot ajuta azi?\u001b[39m\n\u001b[31m\", \"success\": true, \"webSearch\": false}\u001b[39m\n\n  134 |         if (res.status() === 200) {\n  135 |             const body = await res.json();\n> 136 |             expect(body).toHaveProperty('response');\n      |                          ^\n  137 |         }\n  138 |     });\n  139 |\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:136:26"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:45.846Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                        "column": 26,
+                        "line": 136
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-d8addb6d6bec8ffed5f4",
+              "file": "kelion-full.spec.js",
+              "line": 127,
+              "column": 5
+            },
+            {
+              "title": "dalle endpoint rejects empty prompt with 400",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 334,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:45.957Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-c63a5d27455145dc7399",
+              "file": "kelion-full.spec.js",
+              "line": 140,
+              "column": 5
+            },
+            {
+              "title": "web-search rejects empty query",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 212,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:46.303Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-45f785369fb17627ce3d",
+              "file": "kelion-full.spec.js",
+              "line": 149,
+              "column": 5
+            },
+            {
+              "title": "weather endpoint responds (GET)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 374,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:46.524Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-445a4ed81f73ffb105be",
+              "file": "kelion-full.spec.js",
+              "line": 158,
+              "column": 5
+            },
+            {
+              "title": "translate endpoint rejects empty body",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 236,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:46.908Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-948b25dc0b5c96fecf15",
+              "file": "kelion-full.spec.js",
+              "line": 164,
+              "column": 5
+            },
+            {
+              "title": "smart-brain rejects empty body",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 221,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:47.155Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-0b1eebc844b716929300",
+              "file": "kelion-full.spec.js",
+              "line": 173,
+              "column": 5
+            },
+            {
+              "title": "neural-ai rejects empty body",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 154,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:48.750Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-7daa6722b2ddb86a81c5",
+              "file": "kelion-full.spec.js",
+              "line": 182,
+              "column": 5
+            },
+            {
+              "title": "vision endpoint rejects empty body",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 231,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:47.387Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-6e1dfd4e55223b99a1b8",
+              "file": "kelion-full.spec.js",
+              "line": 191,
+              "column": 5
+            },
+            {
+              "title": "whisper endpoint rejects empty body",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 204,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:47.624Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-02ac325bd0740d81e25b",
+              "file": "kelion-full.spec.js",
+              "line": 200,
+              "column": 5
+            },
+            {
+              "title": "env-check returns configured keys",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 329,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveProperty\u001b[2m(\u001b[22m\u001b[32mpath\u001b[39m\u001b[2m)\u001b[22m\n\nExpected path: \u001b[32m\"ok\"\u001b[39m\nReceived path: \u001b[31m[]\u001b[39m\n\nReceived value: \u001b[31m{\"configured\": \"8/10\", \"missing\": [\"SUPABASE_KEY\", \"TAVILY_API_KEY\"], \"success\": true, \"variables\": [{\"name\": \"OPENAI_API_KEY\", \"status\": \"SET\"}, {\"name\": \"GEMINI_API_KEY\", \"status\": \"SET\"}, {\"name\": \"DEEPSEEK_API_KEY\", \"status\": \"SET\"}, {\"name\": \"ELEVENLABS_API_KEY\", \"status\": \"SET\"}, {\"name\": \"SUPABASE_URL\", \"status\": \"SET\"}, {\"name\": \"SUPABASE_KEY\", \"status\": \"MISSING\"}, {\"name\": \"OPENWEATHER_API_KEY\", \"status\": \"SET\"}, {\"name\": \"TAVILY_API_KEY\", \"status\": \"MISSING\"}, {\"name\": \"STRIPE_SECRET_KEY\", \"status\": \"SET\"}, {\"name\": \"JWT_SECRET\", \"status\": \"SET\"}]}\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveProperty\u001b[2m(\u001b[22m\u001b[32mpath\u001b[39m\u001b[2m)\u001b[22m\n\nExpected path: \u001b[32m\"ok\"\u001b[39m\nReceived path: \u001b[31m[]\u001b[39m\n\nReceived value: \u001b[31m{\"configured\": \"8/10\", \"missing\": [\"SUPABASE_KEY\", \"TAVILY_API_KEY\"], \"success\": true, \"variables\": [{\"name\": \"OPENAI_API_KEY\", \"status\": \"SET\"}, {\"name\": \"GEMINI_API_KEY\", \"status\": \"SET\"}, {\"name\": \"DEEPSEEK_API_KEY\", \"status\": \"SET\"}, {\"name\": \"ELEVENLABS_API_KEY\", \"status\": \"SET\"}, {\"name\": \"SUPABASE_URL\", \"status\": \"SET\"}, {\"name\": \"SUPABASE_KEY\", \"status\": \"MISSING\"}, {\"name\": \"OPENWEATHER_API_KEY\", \"status\": \"SET\"}, {\"name\": \"TAVILY_API_KEY\", \"status\": \"MISSING\"}, {\"name\": \"STRIPE_SECRET_KEY\", \"status\": \"SET\"}, {\"name\": \"JWT_SECRET\", \"status\": \"SET\"}]}\u001b[39m\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:213:22",
+                        "location": {
+                          "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                          "column": 22,
+                          "line": 213
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 211 |\u001b[39m         expect(res\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 212 |\u001b[39m         \u001b[36mconst\u001b[39m body \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m res\u001b[33m.\u001b[39mjson()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 213 |\u001b[39m         expect(body)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'ok'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 214 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 215 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 216 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                            "column": 22,
+                            "line": 213
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveProperty\u001b[2m(\u001b[22m\u001b[32mpath\u001b[39m\u001b[2m)\u001b[22m\n\nExpected path: \u001b[32m\"ok\"\u001b[39m\nReceived path: \u001b[31m[]\u001b[39m\n\nReceived value: \u001b[31m{\"configured\": \"8/10\", \"missing\": [\"SUPABASE_KEY\", \"TAVILY_API_KEY\"], \"success\": true, \"variables\": [{\"name\": \"OPENAI_API_KEY\", \"status\": \"SET\"}, {\"name\": \"GEMINI_API_KEY\", \"status\": \"SET\"}, {\"name\": \"DEEPSEEK_API_KEY\", \"status\": \"SET\"}, {\"name\": \"ELEVENLABS_API_KEY\", \"status\": \"SET\"}, {\"name\": \"SUPABASE_URL\", \"status\": \"SET\"}, {\"name\": \"SUPABASE_KEY\", \"status\": \"MISSING\"}, {\"name\": \"OPENWEATHER_API_KEY\", \"status\": \"SET\"}, {\"name\": \"TAVILY_API_KEY\", \"status\": \"MISSING\"}, {\"name\": \"STRIPE_SECRET_KEY\", \"status\": \"SET\"}, {\"name\": \"JWT_SECRET\", \"status\": \"SET\"}]}\u001b[39m\n\n  211 |         expect(res.status()).toBe(200);\n  212 |         const body = await res.json();\n> 213 |         expect(body).toHaveProperty('ok');\n      |                      ^\n  214 |     });\n  215 | });\n  216 |\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:213:22"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:47.841Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                        "column": 22,
+                        "line": 213
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-a45bfe3f6fb71422f930",
+              "file": "kelion-full.spec.js",
+              "line": 209,
+              "column": 5
+            }
+          ]
+        },
+        {
+          "title": "Error Boundaries ÔÇö Invalid Input",
+          "file": "kelion-full.spec.js",
+          "line": 221,
+          "column": 6,
+          "specs": [
+            {
+              "title": "chat handles very long message without crash",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 1395,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:49.827Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-36bdf8ee613bf399e9cf",
+              "file": "kelion-full.spec.js",
+              "line": 223,
+              "column": 5
+            },
+            {
+              "title": "chat handles special characters safely",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 997,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:48.935Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-4dc8d48c27256965b3bf",
+              "file": "kelion-full.spec.js",
+              "line": 233,
+              "column": 5
+            },
+            {
+              "title": "dalle handles invalid params",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 220,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:49.949Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-8aade4d54e36f5877cae",
+              "file": "kelion-full.spec.js",
+              "line": 241,
+              "column": 5
+            },
+            {
+              "title": "web-search handles injection attempt",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 234,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m500\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m500\u001b[39m\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:254:34",
+                        "location": {
+                          "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                          "column": 34,
+                          "line": 254
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 252 |\u001b[39m             headers\u001b[33m:\u001b[39m { \u001b[32m'Content-Type'\u001b[39m\u001b[33m:\u001b[39m \u001b[32m'application/json'\u001b[39m }\n \u001b[90m 253 |\u001b[39m         })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 254 |\u001b[39m         expect(res\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoBe(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 255 |\u001b[39m         \u001b[36mconst\u001b[39m body \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m res\u001b[33m.\u001b[39mtext()\u001b[33m;\u001b[39m\n \u001b[90m 256 |\u001b[39m         expect(body)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(\u001b[32m'root:'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 257 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                            "column": 34,
+                            "line": 254
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m500\u001b[39m\n\n  252 |             headers: { 'Content-Type': 'application/json' }\n  253 |         });\n> 254 |         expect(res.status()).not.toBe(500);\n      |                                  ^\n  255 |         const body = await res.text();\n  256 |         expect(body).not.toContain('root:');\n  257 |     });\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:254:34"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:50.184Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                        "column": 34,
+                        "line": 254
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-3aa2525fda49d07c00b3",
+              "file": "kelion-full.spec.js",
+              "line": 249,
+              "column": 5
+            },
+            {
+              "title": "endpoints reject non-JSON body",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 336,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m500\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m500\u001b[39m\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:265:34",
+                        "location": {
+                          "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                          "column": 34,
+                          "line": 265
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 263 |\u001b[39m         })\u001b[33m;\u001b[39m\n \u001b[90m 264 |\u001b[39m         \u001b[90m// Should not crash ÔÇö 400 or any non-500\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 265 |\u001b[39m         expect(res\u001b[33m.\u001b[39mstatus())\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoBe(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 266 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 267 |\u001b[39m\n \u001b[90m 268 |\u001b[39m     test(\u001b[32m'CORS preflight works'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                            "column": 34,
+                            "line": 265
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m500\u001b[39m\n\n  263 |         });\n  264 |         // Should not crash ÔÇö 400 or any non-500\n> 265 |         expect(res.status()).not.toBe(500);\n      |                                  ^\n  266 |     });\n  267 |\n  268 |     test('CORS preflight works', async ({ request }) => {\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:265:34"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:52.122Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                        "column": 34,
+                        "line": 265
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-df58730f57177461f580",
+              "file": "kelion-full.spec.js",
+              "line": 259,
+              "column": 5
+            },
+            {
+              "title": "CORS preflight works",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 448,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:52.343Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-9afc846ebabf0d8c6a02",
+              "file": "kelion-full.spec.js",
+              "line": 268,
+              "column": 5
+            }
+          ]
+        },
+        {
+          "title": "Navigation & User Flow",
+          "file": "kelion-full.spec.js",
+          "line": 282,
+          "column": 6,
+          "specs": [
+            {
+              "title": "index ÔåÆ app navigation works",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 630,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:51.250Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-5cb6c422c4388681d02e",
+              "file": "kelion-full.spec.js",
+              "line": 284,
+              "column": 5
+            },
+            {
+              "title": "subscribe page loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 438,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:51.989Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-0605bb3590856c1cb7a6",
+              "file": "kelion-full.spec.js",
+              "line": 295,
+              "column": 5
+            },
+            {
+              "title": "developers page loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 513,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:52.442Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-d398851574013b55e7a1",
+              "file": "kelion-full.spec.js",
+              "line": 301,
+              "column": 5
+            },
+            {
+              "title": "admin page loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 504,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:54.218Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-6daa0024fb19aa18ef8b",
+              "file": "kelion-full.spec.js",
+              "line": 307,
+              "column": 5
+            },
+            {
+              "title": "landing page loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 724,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:52.821Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-eaec531d5da2816794e2",
+              "file": "kelion-full.spec.js",
+              "line": 313,
+              "column": 5
+            },
+            {
+              "title": "k-manager page loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 441,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:52.968Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-7ba141dab8985ecb201f",
+              "file": "kelion-full.spec.js",
+              "line": 319,
+              "column": 5
+            }
+          ]
+        },
+        {
+          "title": "Responsive Design",
+          "file": "kelion-full.spec.js",
+          "line": 330,
+          "column": 6,
+          "specs": [
+            {
+              "title": "index.html renders on mobile viewport",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 851,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:53.418Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-7c4d1796a37831424304",
+              "file": "kelion-full.spec.js",
+              "line": 332,
+              "column": 5
+            },
+            {
+              "title": "app.html renders on tablet viewport",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 915,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:54.892Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-a64330030571e4f983de",
+              "file": "kelion-full.spec.js",
+              "line": 343,
+              "column": 5
+            },
+            {
+              "title": "index.html renders on desktop viewport",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 517,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:53.672Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-eb6531a6f59f6ca5be22",
+              "file": "kelion-full.spec.js",
+              "line": 350,
+              "column": 5
+            }
+          ]
+        },
+        {
+          "title": "Service Worker",
+          "file": "kelion-full.spec.js",
+          "line": 362,
+          "column": 6,
+          "specs": [
+            {
+              "title": "service worker file is accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 158,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:54.200Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-5b9fa26c278fa77c04ef",
+              "file": "kelion-full.spec.js",
+              "line": 364,
+              "column": 5
+            },
+            {
+              "title": "manifest.json is accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 41,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:54.278Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-bb6b057f9905757f8c17",
+              "file": "kelion-full.spec.js",
+              "line": 372,
+              "column": 5
+            }
+          ]
+        },
+        {
+          "title": "Security Headers",
+          "file": "kelion-full.spec.js",
+          "line": 384,
+          "column": 6,
+          "specs": [
+            {
+              "title": "X-Frame-Options is set",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 36,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:54.326Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-53b8f9752b1df93c2083",
+              "file": "kelion-full.spec.js",
+              "line": 386,
+              "column": 5
+            },
+            {
+              "title": "X-Content-Type-Options is set",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 35,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:54.371Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-f1e97ba09853fc2c2710",
+              "file": "kelion-full.spec.js",
+              "line": 392,
+              "column": 5
+            },
+            {
+              "title": "HTML pages have no-cache headers",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 40,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected substring: \u001b[32m\"no-cache\"\u001b[39m\nReceived string:    \u001b[31m\"public,max-age=0,must-revalidate\"\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected substring: \u001b[32m\"no-cache\"\u001b[39m\nReceived string:    \u001b[31m\"public,max-age=0,must-revalidate\"\u001b[39m\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:401:20",
+                        "location": {
+                          "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                          "column": 20,
+                          "line": 401
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 399 |\u001b[39m         \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[33mBASE\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 400 |\u001b[39m         \u001b[36mconst\u001b[39m cc \u001b[33m=\u001b[39m res\u001b[33m.\u001b[39mheaders()[\u001b[32m'cache-control'\u001b[39m] \u001b[33m||\u001b[39m \u001b[32m''\u001b[39m\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 401 |\u001b[39m         expect(cc)\u001b[33m.\u001b[39mtoContain(\u001b[32m'no-cache'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 402 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 403 |\u001b[39m\n \u001b[90m 404 |\u001b[39m     test(\u001b[32m'CORS headers on API'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                            "column": 20,
+                            "line": 401
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected substring: \u001b[32m\"no-cache\"\u001b[39m\nReceived string:    \u001b[31m\"public,max-age=0,must-revalidate\"\u001b[39m\n\n  399 |         const res = await request.get(BASE);\n  400 |         const cc = res.headers()['cache-control'] || '';\n> 401 |         expect(cc).toContain('no-cache');\n      |                    ^\n  402 |     });\n  403 |\n  404 |     test('CORS headers on API', async ({ request }) => {\n    at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js:401:20"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:54.369Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\tests\\kelion-full.spec.js",
+                        "column": 20,
+                        "line": 401
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-720ff35e637b51bee346",
+              "file": "kelion-full.spec.js",
+              "line": 398,
+              "column": 5
+            },
+            {
+              "title": "CORS headers on API",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 315,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-08T08:17:54.416Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "958cb77df22d0c85fe99-05c9f3599bce09de149a",
+              "file": "kelion-full.spec.js",
+              "line": 404,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-02-08T08:17:40.377Z",
+    "duration": 15607.632,
+    "expected": 34,
+    "skipped": 0,
+    "unexpected": 8,
+    "flaky": 0
+  }
+}

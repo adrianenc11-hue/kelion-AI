@@ -1,0 +1,259 @@
+[96m[1mÔÇï[22m[39m
+[96m[1mNetlify Build                                                 [22m[39m
+[96m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Version[22m[39m
+  @netlify/build 35.5.10
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Flags[22m[39m
+  accountId: 69765b7039690e594f1e9ac6
+  deployId: 698a1028e524c257db9c7f45
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Current directory[22m[39m
+  C:\Users\adria\Downloads\k new\kelionat_clean
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Config file[22m[39m
+  C:\Users\adria\Downloads\k new\kelionat_clean\netlify.toml
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Context[22m[39m
+  production
+[96m[1mÔÇï[22m[39m
+[96m[1mFunctions bundling                                            [22m[39m
+[96m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+ÔÇï
+Packaging Functions from [36mnetlify\functions[39m directory:
+ - admin-notify.js
+ - admin-traffic.js
+ - age-adapter.js
+ - ai-credits.js
+ - analytics-dashboard.js
+ - api-gateway.js
+ - api-keys.js
+ - api-subscription.js
+ - audio-editor.js
+ - audit-log.js
+ - auth-forgot-password.js
+ - auth-login.js
+ - auth-logout.js
+ - auth-me.js
+ - auth-refresh.js
+ - auth-register.js
+ - auth-resend-verification.js
+ - auth-reset-password.js
+ - auth-verify-email.js
+ - auth.js
+ - auto-poster.js
+ - baby-monitor-mode.js
+ - backtesting-engine.js
+ - booking-system.js
+ - browse-live.js
+ - buy-credits.js
+ - calendar.js
+ - canvas.js
+ - chart-generator-financial.js
+ - chart-generator.js
+ - chat.js
+ - check-user.js
+ - claude-audit.js
+ - claude-orchestrator.js
+ - code-interpreter.js
+ - cost-tracker.js
+ - cry-detector.js
+ - crypto-feed.js
+ - currency-converter.js
+ - dalle.js
+ - deep-research.js
+ - deepseek.js
+ - document-checker.js
+ - elevenlabs-tts.js
+ - email-alerts.js
+ - email-manager.js
+ - env-check.js
+ - export-document.js
+ - file-upload.js
+ - financial-calculator.js
+ - free-trial.js
+ - gdpr-cleanup.js
+ - gemini-chat.js
+ - gemini-live-token.js
+ - generate-image.js
+ - generate-music.js
+ - generate-video.js
+ - get-porcupine-key.js
+ - get-secret.js
+ - group-chat.js
+ - group-location.js
+ - group-management.js
+ - health-check.js
+ - health.js
+ - image-editor.js
+ - inventory-tracker.js
+ - invoice-generator.js
+ - k-analytics.js
+ - k-presentation.js
+ - k-security.js
+ - k-strategic-planner.js
+ - k-supreme-intelligence.js
+ - k-terminal.js
+ - k-web-browser.js
+ - legal-database-pension.js
+ - lullaby-generator.js
+ - maps-config.js
+ - market-data-feed.js
+ - memory-cleanup.js
+ - memory.js
+ - messenger-webhook.js
+ - neural-ai.js
+ - newsletter-subscribe.js
+ - notes.js
+ - ocr.js
+ - order-executor.js
+ - page-tracking.js
+ - parent-dashboard.js
+ - paypal-admin.js
+ - paypal-webhook.js
+ - pension-calculator.js
+ - pension-content-generator.js
+ - pension-forms.js
+ - podcast.js
+ - portfolio-tracker.js
+ - progress-tracker.js
+ - quiz-generator-kids.js
+ - quiz-generator.js
+ - realtime-session.js
+ - realtime-token.js
+ - recipe-calculator.js
+ - referral.js
+ - report-generator.js
+ - reward-system.js
+ - risk-calculator.js
+ - route-optimizer.js
+ - safe-mode.js
+ - screen-time-limiter.js
+ - search.js
+ - seo-analyzer.js
+ - setup-admin.js
+ - setup-permanent-user.js
+ - smart-brain.js
+ - social-media-stats.js
+ - speak.js
+ - stable-diffusion.js
+ - story-generator.js
+ - stripe-checkout.js
+ - stripe-webhook.js
+ - template-generator.js
+ - tiktok-webhook.js
+ - trace-collector.js
+ - trading-alerts.js
+ - trading-bot-engine.js
+ - trading-bot-scheduler.js
+ - trading-memory.js
+ - transcribe.js
+ - translate.js
+ - usage-analytics.js
+ - usage-limiter.js
+ - user-data.js
+ - vector-store.js
+ - video-editor.js
+ - vision.js
+ - weather.js
+ - web-search.js
+ - whisper.js
+ - wolfram.js
+ - workout-planner.js
+ÔÇï
+ÔÇï
+[90m(Functions bundling completed in 7.6s)[39m
+
+Deploying to Netlify
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+[32mDeploy path: [39m       C:\Users\adria\Downloads\k new\kelionat_clean
+[32mFunctions path: [39m    C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions
+[32mConfiguration path: [39mC:\Users\adria\Downloads\k new\kelionat_clean\netlify.toml
+
+Ôáï Uploading blobs to deploy store...
+
+Ô£ö Finished uploading blobs to deploy store
+Ôáï Hashing files...
+Ôáï Looking for a functions cache...
+Ô£ö Deploying functions from cache (use --skip-functions-cache to override)
+ ┬╗   Warning: Invalid filename codeql-db\db-javascript\default\pools\tuples#Dynamic-New-Entities. Deployed filenames cannot contain # or ? characters
+[91m[1mÔÇï[22m[39m
+[91m[1mInternal error during "options.onPostBuild"                   [22m[39m
+[91m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+ÔÇï
+  [31m[1mError message[22m[39m
+  Error: Invalid filename codeql-db\db-javascript\default\pools\tuples#Dynamic-New-Entities. Deployed filenames cannot contain # or ? characters
+ÔÇï
+  [31m[1mError location[22m[39m
+  During options.onPostBuild
+      at normalizePath (file:///C:/Users/adria/AppData/Roaming/npm/node_modules/netlify-cli/dist/utils/deploy/util.js:7:15)
+      at Transform.transform [as _transform] (file:///C:/Users/adria/AppData/Roaming/npm/node_modules/netlify-cli/dist/utils/deploy/hasher-segments.js:36:77)
+      at Transform._write (node:internal/streams/transform:171:8)
+      at writeOrBuffer (node:internal/streams/writable:564:12)
+      at _write (node:internal/streams/writable:493:10)
+      at Writable.write (node:internal/streams/writable:502:10)
+      at ParallelTransform.ondata (C:\Users\adria\AppData\Roaming\npm\node_modules\netlify-cli\node_modules\parallel-transform\node_modules\readable-stream\lib\_stream_readable.js:619:20)
+      at ParallelTransform.emit (node:events:518:28)
+      at addChunk (C:\Users\adria\AppData\Roaming\npm\node_modules\netlify-cli\node_modules\parallel-transform\node_modules\readable-stream\lib\_stream_readable.js:291:12)
+      at readableAddChunk (C:\Users\adria\AppData\Roaming\npm\node_modules\netlify-cli\node_modules\parallel-transform\node_modules\readable-stream\lib\_stream_readable.js:278:11)
+ÔÇï
+  [31m[1mResolved config[22m[39m
+  build:
+    publish: C:\Users\adria\Downloads\k new\kelionat_clean\public
+    publishOrigin: config
+  functions:
+    "*":
+      node_bundler: esbuild
+    auto-poster:
+      schedule: 0 5,14 * * *
+      timeout: 30
+    claude-audit:
+      timeout: 900
+      type: background
+    messenger-webhook:
+      timeout: 30
+    neural-ai:
+      timeout: 60
+    tiktok-webhook:
+      timeout: 30
+    trading-bot-engine:
+      timeout: 60
+    trading-bot-scheduler:
+      timeout: 60
+  functionsDirectory: C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions
+  headers:
+    - for: /*
+      values:
+        Permissions-Policy: camera=(self), microphone=(self), geolocation=(self)
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+        X-Frame-Options: DENY
+    - for: /*.html
+      values:
+        Cache-Control: no-cache, no-store, must-revalidate
+        Expires: "0"
+        Pragma: no-cache
+    - for: /sw.js
+      values:
+        Cache-Control: no-cache, no-store, must-revalidate
+    - for: /components/*.js
+      values:
+        Cache-Control: no-cache, max-age=0, must-revalidate
+    - for: /images/*
+      values:
+        Cache-Control: public, max-age=31536000
+    - for: /*.glb
+      values:
+        Cache-Control: public, max-age=31536000
+  headersOrigin: config
+  redirects:
+    - from: /api/*
+      status: 200
+      to: /.netlify/functions/:splat
+    - from: /health
+      status: 200
+      to: /.netlify/functions/health
+  redirectsOrigin: config
+ ┬╗   Error: Error while running build

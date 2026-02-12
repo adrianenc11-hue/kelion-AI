@@ -1,0 +1,8 @@
+{
+  "validate-code.js": "bff9a0255da57a5bd15bb2b7c855496f41a06e558b02d071808ad9bcd7ff6046",
+  "validate-fake-data.js": "52bf79a172a9e42ce03c592ac8429b5ddb3e936e7a39e0b51d65593f4fd08618",
+  "audit-live.js": "0b4b2d8db2552b3c0c59fa27a4e95b56977b85480630008866e4d53484f29837",
+  "audit_complete.js": "d452d4684e00abd6cebbd37ab43d8b5e29e281f361de518547a154f61c8dc9e2",
+  "netlify/functions/truth-detector.js": "82b8bcdbb14077f67bdc01398f3e37f5474fe358deaa8a1cbd08131f9e0d7592",
+  "netlify/functions/smart-brain.js": "1986750d207a9e00e3e857aaf02e1d787f205aa15f181118b7b5449175b9c92f"
+}

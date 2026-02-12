@@ -1,0 +1,110 @@
+[build]
+  functions = "netlify/functions"
+  publish = "public"
+
+[functions]
+  node_bundler = "esbuild"
+
+[functions."claude-audit"]
+  timeout = 900
+  type = "background"
+
+[functions."neural-ai"]
+  timeout = 60
+
+[functions."trading-bot-engine"]
+  timeout = 60
+
+[functions."trading-bot-scheduler"]
+  timeout = 60
+  schedule = "*/5 * * * *"
+
+[functions."messenger-webhook"]
+  timeout = 30
+
+[functions."tiktok-webhook"]
+  timeout = 30
+
+[functions."auto-poster"]
+  timeout = 30
+  schedule = "0 9,18 * * *"
+
+
+
+# Netlify Identity Settings
+[template.environment]
+  # These are placeholders - set actual values in Netlify Dashboard
+  LLM_API_KEY = "Set in Netlify Dashboard"
+  TTS_API_KEY = "Set in Netlify Dashboard"
+  SEARCH_API_KEY = "Set in Netlify Dashboard"
+  # PayPal Subscription Config
+  PAYPAL_CLIENT_ID = "Set in Netlify Dashboard"
+  PAYPAL_SECRET = "Set in Netlify Dashboard"
+  PAYPAL_MODE = "live"
+  PAYPAL_PLAN_MONTHLY = "Set PayPal Plan ID"
+  PAYPAL_PLAN_ANNUAL = "Set PayPal Plan ID"
+  JWT_SIGNING_KEY = "Generate a random 64-char string"
+
+# Security Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self), microphone=(self), geolocation=(self)"
+
+# NO CACHE for HTML pages - ensures mobile gets latest version automatically
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+# NO CACHE for Service Worker - critical for updates
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+
+[[headers]]
+  for = "/components/*.js"
+  [headers.values]
+    Cache-Control = "no-cache, max-age=0, must-revalidate"
+
+# Cache static assets (images, 3D models - these don't change often)
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.glb"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+# Root → Landing page (avatar selection entry point)
+[[redirects]]
+  from = "/"
+  to = "/landing.html"
+  status = 200
+
+# Redirect pentru API calls
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Health check endpoint
+[[redirects]]
+  from = "/health"
+  to = "/.netlify/functions/health"
+  status = 200
+
+# Pricing redirect — prevents 404 when navigating to /pricing directly
+[[redirects]]
+  from = "/pricing"
+  to = "/landing.html#pricing"
+  status = 301

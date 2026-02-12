@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelion AI — The First AI You Can See</title>
+    <meta name="description"
+        content="K is a 3D holographic AI. Voice, vision, email, GPS — all in one living hologram.">
+    <link rel="icon" href="/favicon.ico">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cinzel:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --c: #00ffff;
+            --b: #0066ff;
+            --g: #d4af37;
+            --d: #030311
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--d);
+            color: #fff;
+            overflow-x: hidden
+        }
+
+        /* ═══ STARFIELD ═══ */
+        #stars {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none
+        }
+
+        /* ═══ AMBIENT ORBS ═══ */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0
+        }
+
+        .orb-1 {
+            width: 700px;
+            height: 700px;
+            top: -200px;
+            left: -250px;
+            background: rgba(0, 255, 255, 0.035);
+            animation: orbF 22s ease-in-out infinite
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            bottom: -150px;
+            right: -200px;
+            background: rgba(0, 100, 255, 0.035);
+            animation: orbF 28s ease-in-out infinite reverse
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            top: 50%;
+            left: 60%;
+            background: rgba(120, 0, 255, 0.025);
+            animation: orbF 32s ease-in-out infinite 1s
+        }
+
+        @keyframes orbF {
+
+            0%,
+            100% {
+                transform: translate(0, 0)
+            }
+
+            25% {
+                transform: translate(40px, -50px)
+            }
+
+            50% {
+                transform: translate(-30px, 40px)
+            }
+
+            75% {
+                transform: translate(50px, 25px)
+            }
+        }
+
+        /* ═══ NAV ═══ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 max(20px, calc((100vw - 1200px)/2));
+            z-index: 1000;
+            background: rgba(3, 3, 17, 0.5);
+            backdrop-filter: blur(24px) saturate(1.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .nb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem
+        }
+
+        .kl {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--c), var(--b));
+            color: #000;
+            font-weight: 900;
+            font-size: .8rem;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.25)
+        }
+
+        .nl {
+            display: flex;
+            gap: 24px
+        }
+
+        .nl a {
+            color: rgba(255, 255, 255, 0.45);
+            text-decoration: none;
+            font-size: .85rem;
+            font-weight: 500;
+            transition: color .3s
+        }
+
+        .nl a:hover {
+            color: #fff
+        }
+
+        .na {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .na a {
+            padding: 7px 16px;
+            border-radius: 8px;
+            font-size: .82rem;
+            text-decoration: none;
+            transition: all .3s;
+            font-weight: 500
+        }
+
+        .na .login {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.7);
+            background: 0
+        }
+
+        .na .login:hover {
+            border-color: var(--c);
+            color: #fff
+        }
+
+        .na .signup {
+            background: linear-gradient(135deg, var(--c), var(--b));
+            color: #000;
+            font-weight: 600;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 255, 255, 0.2)
+        }
+
+        .na .signup:hover {
+            box-shadow: 0 4px 16px rgba(0, 255, 255, 0.35);
+            transform: translateY(-1px)
+        }
+
+        /* ═══ HERO ═══ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px max(20px, calc((100vw - 1200px)/2)) 80px;
+            position: relative;
+            z-index: 1
+        }
+
+        .hi {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            width: 100%
+        }
+
+        .ht {
+            flex: 1
+        }
+
+        .hv {
+            flex: 0 0 420px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .hbadge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            background: rgba(212, 175, 55, 0.06);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: var(--g);
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: 2px
+        }
+
+        .hbadge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--g);
+            animation: blink 2s infinite
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .3
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.6rem, 5.5vw, 4.6rem);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 22px;
+            min-height: 180px
+        }
+
+        .hero h1 .glow {
+            background: linear-gradient(135deg, var(--c), #a855f7, var(--b), var(--c));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 6s ease infinite
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 0% 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
+        .tw-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            background: var(--c);
+            margin-left: 4px;
+            animation: curBlink .8s step-end infinite;
+            vertical-align: text-bottom
+        }
+
+        @keyframes curBlink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0
+            }
+        }
+
+        .hero .sub {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.45);
+            line-height: 1.75;
+            margin-bottom: 32px;
+            max-width: 500px
+        }
+
+        .hbtns {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px
+        }
+
+        .hb {
+            padding: 13px 28px;
+            border-radius: 12px;
+            font-size: .95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .hb.p {
+            background: linear-gradient(135deg, var(--c), var(--b));
+            color: #000;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 255, 255, 0.25)
+        }
+
+        .hb.p:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 255, 255, 0.35)
+        }
+
+        .hb.s {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            color: rgba(255, 255, 255, 0.7)
+        }
+
+        .hb.s:hover {
+            border-color: rgba(0, 255, 255, 0.3);
+            color: #fff
+        }
+
+        /* ═══ K HOLOGRAM ═══ */
+        .k-holo-wrap {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            perspective: 800px
+        }
+
+        .k-holo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 40px rgba(0, 255, 255, 0.4)) drop-shadow(0 0 80px rgba(0, 100, 255, 0.2));
+            animation: holoSpin 8s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes holoSpin {
+            0% {
+                transform: rotateY(-15deg) translateY(0)
+            }
+
+            25% {
+                transform: rotateY(15deg) translateY(-8px)
+            }
+
+            50% {
+                transform: rotateY(-15deg) translateY(0)
+            }
+
+            75% {
+                transform: rotateY(15deg) translateY(-8px)
+            }
+
+            100% {
+                transform: rotateY(-15deg) translateY(0)
+            }
+        }
+
+        .k-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1px solid rgba(0, 255, 255, 0.12);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) rotateX(70deg)
+        }
+
+        .k-ring-1 {
+            width: 320px;
+            height: 320px;
+            animation: ringRot 12s linear infinite
+        }
+
+        .k-ring-2 {
+            width: 380px;
+            height: 380px;
+            animation: ringRot 18s linear infinite reverse;
+            border-color: rgba(0, 100, 255, 0.08)
+        }
+
+        .k-ring-3 {
+            width: 430px;
+            height: 430px;
+            animation: ringRot 25s linear infinite;
+            border-color: rgba(120, 0, 255, 0.06)
+        }
+
+        @keyframes ringRot {
+            from {
+                transform: translate(-50%, -50%) rotateX(70deg) rotateZ(0)
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotateX(70deg) rotateZ(360deg)
+            }
+        }
+
+        .holo-label {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px 14px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 255, 0.12);
+            font-size: .65rem;
+            color: rgba(0, 255, 255, 0.6);
+            letter-spacing: 1px;
+            white-space: nowrap
+        }
+
+        /* ═══ PROOF ═══ */
+        .proof {
+            padding: 80px 20px;
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.008);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03)
+        }
+
+        .proof-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center
+        }
+
+        .proof-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-bottom: 40px
+        }
+
+        .ps {
+            text-align: center
+        }
+
+        .ps-n {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--c), var(--b));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .ps-l {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: .8rem;
+            margin-top: 4px;
+            font-weight: 500
+        }
+
+        .testimonials {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .tc {
+            max-width: 300px;
+            padding: 24px;
+            border-radius: 16px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.04)
+        }
+
+        .tc .stars {
+            color: var(--g);
+            font-size: .9rem;
+            margin-bottom: 8px
+        }
+
+        .tc q {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: .85rem;
+            line-height: 1.6;
+            font-style: italic;
+            display: block;
+            margin-bottom: 12px
+        }
+
+        .tc .author {
+            font-size: .78rem;
+            color: rgba(255, 255, 255, 0.25)
+        }
+
+        /* ═══ FEATURES ═══ */
+        .feat {
+            padding: 100px max(20px, calc((100vw - 1200px)/2));
+            position: relative;
+            z-index: 1
+        }
+
+        .sl {
+            text-align: center;
+            color: var(--c);
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px
+        }
+
+        .st {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px
+        }
+
+        .ss {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 50px;
+            font-size: .95rem
+        }
+
+        .fg {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px
+        }
+
+        @media(max-width:900px) {
+            .fg {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:550px) {
+            .fg {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .fc {
+            padding: 24px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all .4s;
+            overflow: hidden;
+            position: relative
+        }
+
+        .fc::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.15), transparent);
+            opacity: 0;
+            transition: opacity .4s
+        }
+
+        .fc:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 255, 255, 0.1);
+            background: rgba(0, 255, 255, 0.015);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3)
+        }
+
+        .fc:hover::after {
+            opacity: 1
+        }
+
+        .fi {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 14px
+        }
+
+        .fi.v1 {
+            background: rgba(59, 130, 246, 0.1)
+        }
+
+        .fi.v2 {
+            background: rgba(168, 85, 247, 0.1)
+        }
+
+        .fi.v3 {
+            background: rgba(0, 255, 255, 0.08)
+        }
+
+        .fi.v4 {
+            background: rgba(245, 158, 11, 0.1)
+        }
+
+        .fi.v5 {
+            background: rgba(239, 68, 68, 0.1)
+        }
+
+        .fi.v6 {
+            background: rgba(16, 185, 129, 0.1)
+        }
+
+        .fi.v7 {
+            background: rgba(99, 102, 241, 0.1)
+        }
+
+        .fi.v8 {
+            background: rgba(236, 72, 153, 0.1)
+        }
+
+        .fi.v9 {
+            background: rgba(107, 114, 128, 0.1)
+        }
+
+        .fc h3 {
+            font-size: .95rem;
+            font-weight: 600;
+            margin-bottom: 6px
+        }
+
+        .fc p {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: .82rem;
+            line-height: 1.5
+        }
+
+        .nt {
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--g);
+            font-size: .58rem;
+            font-weight: 700;
+            margin-left: 4px;
+            vertical-align: middle
+        }
+
+        /* ═══ COMPARE ═══ */
+        .comp {
+            padding: 80px max(20px, calc((100vw - 950px)/2));
+            position: relative;
+            z-index: 1
+        }
+
+        .ct {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.04)
+        }
+
+        .ct th {
+            padding: 12px 16px;
+            font-size: .78rem;
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+            background: rgba(255, 255, 255, 0.015)
+        }
+
+        .ct th:not(:first-child) {
+            text-align: center
+        }
+
+        .ct th.kc {
+            color: var(--c);
+            font-weight: 700
+        }
+
+        .ct td {
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            font-size: .84rem
+        }
+
+        .ct td:not(:first-child) {
+            text-align: center;
+            font-size: 1rem
+        }
+
+        .ct tr:last-child td {
+            border: 0
+        }
+
+        .ct tr:hover {
+            background: rgba(0, 255, 255, 0.01)
+        }
+
+        /* ═══ PRICING ═══ */
+        .price {
+            padding: 100px max(20px, calc((100vw - 1200px)/2));
+            position: relative;
+            z-index: 1;
+            padding-bottom: 140px
+        }
+
+        .bt {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 44px
+        }
+
+        .bt span {
+            font-size: .85rem;
+            color: rgba(255, 255, 255, 0.35);
+            transition: color .3s
+        }
+
+        .bt span.a {
+            color: #fff;
+            font-weight: 600
+        }
+
+        .sw {
+            width: 46px;
+            height: 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all .3s
+        }
+
+        .sw.on {
+            background: rgba(0, 255, 255, 0.12);
+            border-color: rgba(0, 255, 255, 0.3)
+        }
+
+        .sw::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            top: 2px;
+            left: 2px;
+            transition: all .3s
+        }
+
+        .sw.on::after {
+            left: 24px
+        }
+
+        .pg {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px
+        }
+
+        @media(max-width:1000px) {
+            .pg {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:550px) {
+            .pg {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .pc {
+            padding: 26px 22px;
+            border-radius: 18px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all .4s;
+            position: relative
+        }
+
+        .pc:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.08)
+        }
+
+        .pc.pop {
+            border-color: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.04);
+            background: rgba(0, 255, 255, 0.015)
+        }
+
+        .pc.pop::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--c), var(--b));
+            color: #000;
+            padding: 3px 12px;
+            border-radius: 8px;
+            font-size: .6rem;
+            font-weight: 700
+        }
+
+        .pc h3 {
+            font-size: 1.05rem;
+            margin-bottom: 6px
+        }
+
+        .pp {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--c)
+        }
+
+        .ppd {
+            color: rgba(255, 255, 255, 0.25);
+            font-size: .78rem
+        }
+
+        .pps {
+            color: var(--g);
+            font-size: .7rem;
+            font-weight: 600;
+            min-height: 18px;
+            margin: 4px 0 6px
+        }
+
+        .pf {
+            list-style: none;
+            margin: 16px 0;
+            text-align: left
+        }
+
+        .pf li {
+            padding: 4px 0;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: .78rem
+        }
+
+        .pf li::before {
+            content: '✓ ';
+            color: var(--c);
+            font-weight: 700
+        }
+
+        .pb {
+            display: block;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: .85rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .3s
+        }
+
+        .pb.f {
+            background: linear-gradient(135deg, var(--c), var(--b));
+            color: #000;
+            border: 0;
+            box-shadow: 0 2px 10px rgba(0, 255, 255, 0.15)
+        }
+
+        .pb.f:hover {
+            box-shadow: 0 4px 16px rgba(0, 255, 255, 0.3)
+        }
+
+        .pb.o {
+            background: 0;
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1)
+        }
+
+        .pb.o:hover {
+            border-color: var(--c);
+            color: var(--c)
+        }
+
+        /* ═══ CTA ═══ */
+        .cta {
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 140px
+        }
+
+        .cta-box {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 50px 36px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent)
+        }
+
+        .cta-box h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 12px
+        }
+
+        .cta-box p {
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 24px;
+            font-size: .95rem
+        }
+
+        /* ═══ FOOTER ═══ */
+        footer {
+            padding: 40px max(20px, calc((100vw - 1100px)/2));
+            padding-bottom: 80px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            position: relative;
+            z-index: 1
+        }
+
+        .fgrid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 36px
+        }
+
+        @media(max-width:700px) {
+            .fgrid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        .fb p {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: .82rem;
+            line-height: 1.6;
+            margin-top: 8px
+        }
+
+        .fcol h4 {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: .7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px
+        }
+
+        .fcol a {
+            display: block;
+            color: rgba(255, 255, 255, 0.25);
+            text-decoration: none;
+            font-size: .82rem;
+            padding: 2px 0;
+            transition: color .3s
+        }
+
+        .fcol a:hover {
+            color: var(--c)
+        }
+
+        .fbot {
+            text-align: center;
+            padding-top: 24px;
+            margin-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            color: rgba(255, 255, 255, 0.12);
+            font-size: .72rem
+        }
+
+        /* ═══ TICKER BAR (from live) ═══ */
+        .ticker-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 55px;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 20, 40, 0.95) 50%, rgba(0, 0, 0, 0.95) 100%);
+            border-top: 1px solid rgba(212, 175, 55, 0.6);
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            z-index: 9999;
+        }
+
+        .ticker-brand {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d47c 50%, #d4af37 100%);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticker-content {
+            flex: 1;
+            overflow: hidden
+        }
+
+        .ticker-text {
+            color: #d4af37;
+            font-size: .8rem;
+            white-space: nowrap;
+            animation: tkScroll 30s linear infinite;
+            padding-left: 100%;
+            transition: opacity .3s;
+        }
+
+        @keyframes tkScroll {
+            0% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(-100%)
+            }
+        }
+
+        .rv {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all .6s cubic-bezier(.4, 0, .2, 1)
+        }
+
+        .rv.v {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        @media(max-width:900px) {
+            .hi {
+                flex-direction: column;
+                text-align: center
+            }
+
+            .hv {
+                order: -1;
+                flex: 0 0 auto
+            }
+
+            .k-holo-wrap {
+                width: 260px;
+                height: 260px
+            }
+
+            .sub {
+                margin-left: auto;
+                margin-right: auto
+            }
+
+            .hbtns {
+                justify-content: center
+            }
+
+            .nl {
+                display: none
+            }
+        }
+
+        /* ═══ AVATAR SELECTION OVERLAY ═══ */
+        .avatar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: flex;
+            background: var(--d);
+            transition: opacity .6s, visibility .6s;
+        }
+
+        .avatar-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .avatar-overlay .av-title {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            text-align: center;
+        }
+
+        .avatar-overlay .av-title h2 {
+            font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .avatar-overlay .av-title p {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: .9rem;
+        }
+
+        .av-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: all .4s;
+            overflow: hidden;
+        }
+
+        .av-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity .4s;
+        }
+
+        .av-panel.av-male::before {
+            background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.06) 0%, transparent 70%);
+        }
+
+        .av-panel.av-female::before {
+            background: radial-gradient(ellipse at center, rgba(232, 67, 147, 0.06) 0%, transparent 70%);
+        }
+
+        .av-panel:hover::before {
+            opacity: 1;
+        }
+
+        .av-panel:hover {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .av-panel:hover .av-img {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 50px var(--av-glow));
+        }
+
+        .av-panel:hover .av-name {
+            color: #fff;
+            text-shadow: 0 0 20px var(--av-glow);
+        }
+
+        .av-panel.av-male {
+            --av-glow: rgba(0, 255, 255, 0.5);
+            border-right: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .av-panel.av-female {
+            --av-glow: rgba(232, 67, 147, 0.5);
+        }
+
+        .av-divider {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .av-img {
+            width: clamp(180px, 25vw, 280px);
+            height: clamp(180px, 25vw, 280px);
+            object-fit: contain;
+            transition: all .5s;
+            filter: drop-shadow(0 0 30px var(--av-glow));
+            margin-bottom: 20px;
+        }
+
+        .av-name {
+            font-size: clamp(1.6rem, 3vw, 2.6rem);
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all .3s;
+            margin-bottom: 6px;
+        }
+
+        .av-role {
+            font-size: .82rem;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .av-skip {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            padding: 8px 20px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.2);
+            font-size: .78rem;
+            cursor: pointer;
+            transition: all .3s;
+            font-family: inherit;
+        }
+
+        .av-skip:hover {
+            color: rgba(255, 255, 255, 0.5);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        @media(max-width:600px) {
+            .avatar-overlay {
+                flex-direction: column;
+            }
+
+            .av-panel.av-male {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            }
+
+            .av-divider {
+                width: 40px;
+                height: 40px;
+                font-size: .6rem;
+            }
+
+            .av-img {
+                width: 140px;
+                height: 140px;
+            }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Kelion AI",
+        "alternateName": "K",
+        "description": "Premium AI assistant with 10+ expert professions, real-time web browsing, trading bot, and voice capabilities.",
+        "url": "https://kelionai.app",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR",
+            "description": "Free tier available"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "Kelion AI",
+            "url": "https://kelionai.app"
+        },
+        "featureList": [
+            "10+ AI Expert Professions",
+            "Multi-model AI (Gemini, Claude, Groq, Grok)",
+            "Real-time Web Browsing",
+            "AI Trading Bot",
+            "Voice Assistant",
+            "3D Holographic Avatar"
+        ]
+    }
+    </script>
+</head>
+
+<body>
+
+    <!-- ═══ AVATAR SELECTION OVERLAY ═══ -->
+    <!-- Three.js for avatar 3D preview -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <div class="avatar-overlay" id="avatarOverlay">
+        <div class="av-title">
+            <h2>Choose Your <span class="glow"
+                    style="background:linear-gradient(135deg,var(--c),#a855f7,var(--b));background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s ease infinite">AI</span>
+            </h2>
+            <p>Select your holographic assistant</p>
+        </div>
+        <div class="av-panel av-male" onclick="selectAvatar('kelion')">
+            <canvas id="av3d-male" class="av-img" width="400" height="400" style="border-radius:18px;"></canvas>
+            <div class="av-name">Kelion</div>
+            <div class="av-role">♂ Male AI</div>
+        </div>
+        <div class="av-divider">OR</div>
+        <div class="av-panel av-female" onclick="selectAvatar('kira')">
+            <canvas id="av3d-female" class="av-img" width="400" height="400" style="border-radius:18px;"></canvas>
+            <div class="av-name">Kira</div>
+            <div class="av-role">♀ Female AI</div>
+        </div>
+        <!-- Skip button removed per Etapa 1 point 3 -->
+    </div>
+    <script>
+        (function () {
+            /* ═══ AVATAR 3D PREVIEW ═══ */
+            function initAvatarPreview(canvasId, modelPath, glowColor, cfg, loaderId) {
+                var canvas = document.getElementById(canvasId);
+                // Ensure loader exists immediately
+                if (window.AVLoaderFix) window.AVLoaderFix.init();
+
+                if (!canvas || typeof THREE === 'undefined') {
+                    if (window.AVLoaderFix) window.AVLoaderFix.hide(loaderId);
+                    return;
+                }
+
+                var scene = new THREE.Scene();
+                var camera = new THREE.PerspectiveCamera(cfg.fov, 1, 0.01, 100);
+                camera.position.set(cfg.camX, cfg.camY, cfg.camZ);
+                camera.lookAt(cfg.lookX, cfg.lookY, 0);
+
+                var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+                renderer.setSize(400, 400);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                renderer.outputEncoding = THREE.sRGBEncoding;
+                renderer.toneMapping = THREE.ACESFilmicToneMapping;
+                renderer.toneMappingExposure = cfg.exposure;
+
+                scene.add(new THREE.AmbientLight(0xffffff, cfg.ambientIntensity));
+                var key = new THREE.DirectionalLight(0xffffff, cfg.keyIntensity);
+                key.position.set(2, 3, 4); scene.add(key);
+                var front = new THREE.DirectionalLight(0xffffff, cfg.frontIntensity);
+                front.position.set(0, 0, 5); scene.add(front);
+                var rim = new THREE.PointLight(glowColor, 0.3, 8);
+                rim.position.set(-1, 1, -2); scene.add(rim);
+
+                var loader = new THREE.GLTFLoader();
+                loader.load(modelPath, function (gltf) {
+                    var model = gltf.scene;
+
+                    model.traverse(function (child) {
+                        child.visible = true;
+                        child.frustumCulled = false;
+                        if (!child.isMesh) return;
+                        if (child.material) child.material.side = THREE.DoubleSide;
+
+                        /* ── FIX EYEBROW Z-FIGHTING ──
+                           Push each brow/lash vertex outward along its normal
+                           so it sits above the skin mesh everywhere */
+                        var nm = (child.name || '').toLowerCase();
+                        if (nm.indexOf('brow') !== -1 || nm.indexOf('lash') !== -1) {
+                            var geo = child.geometry;
+                            var pos = geo.attributes.position;
+                            var nrm = geo.attributes.normal;
+                            if (pos && nrm) {
+                                for (var i = 0; i < pos.count; i++) {
+                                    pos.setX(i, pos.getX(i) + nrm.getX(i) * 0.0008);
+                                    pos.setY(i, pos.getY(i) + nrm.getY(i) * 0.0008);
+                                    pos.setZ(i, pos.getZ(i) + nrm.getZ(i) * 0.0008);
+                                }
+                                pos.needsUpdate = true;
+                            }
+                        }
+                    });
+
+                    var box = new THREE.Box3().setFromObject(model);
+                    var center = box.getCenter(new THREE.Vector3());
+                    var size = box.getSize(new THREE.Vector3());
+                    model.position.sub(center);
+                    model.position.y += size.y * cfg.yShift;
+                    scene.add(model);
+
+                    var angle = 0;
+                    (function animate() {
+                        requestAnimationFrame(animate);
+                        angle += 0.003;
+                        model.rotation.y = Math.sin(angle) * 0.08;
+                        renderer.render(scene, camera);
+                    })();
+
+                    // SUCCESS: Hide loader for this specific avatar
+                    if (window.AVLoaderFix) window.AVLoaderFix.hide(loaderId);
+
+                }, undefined, function () {
+                    // ERROR: Fallback
+                    canvas.style.display = 'none';
+                    var img = document.createElement('img');
+                    img.src = '/hologram-512.png';
+                    img.alt = canvasId.indexOf('male') !== -1 ? 'Kelion' : 'Kira';
+                    img.className = 'av-img';
+                    if (canvasId.indexOf('female') !== -1) img.style.filter = 'hue-rotate(280deg)';
+                    canvas.parentNode.insertBefore(img, canvas.nextSibling);
+
+                    // Also hide loader on error so we see the fallback image
+                    if (window.AVLoaderFix) window.AVLoaderFix.hide(loaderId);
+                });
+            }
+
+            var MALE_CFG = {
+                fov: 30, camX: 0, camY: 0.15, camZ: 0.55, lookX: 0, lookY: 0.1,
+                exposure: 1.2, ambientIntensity: 0.6, keyIntensity: 1.0, frontIntensity: 0.3,
+                yShift: 0.35
+            };
+            var FEMALE_CFG = {
+                fov: 28, camX: 0, camY: 0.12, camZ: 0.50, lookX: 0, lookY: 0.08,
+                exposure: 1.5, ambientIntensity: 0.8, keyIntensity: 1.2, frontIntensity: 0.6,
+                yShift: 0.33
+            };
+
+            function init3D() {
+                // Pass selector IDs for loaders
+                initAvatarPreview('av3d-male', '/models/k-male.glb', 0x00e0ff, MALE_CFG, '#avLoaderMale');
+                initAvatarPreview('av3d-female', '/models/k-female.glb', 0xe84393, FEMALE_CFG, '#avLoaderFemale');
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init3D);
+            } else {
+                setTimeout(init3D, 100);
+            }
+        })();
+    </script>
+
+    <!-- AVATAR LOADER FIX — single drop-in script -->
+    <script>
+        (() => {
+            'use strict';
+
+            const CSS = `
+    /* ===== AV LOADER FIX (single-script) ===== */
+    .av-panel{ position:relative; }
+
+    /* overlay */
+    .av-loader{
+      position:absolute;
+      inset:0;
+      z-index:20;
+      display:grid;
+      place-items:center;
+
+      /* visible by default */
+      opacity:1;
+      visibility:visible;
+      pointer-events:all;
+      
+      /* blur backdrop */
+      backdrop-filter: blur(10px);
+      background: rgba(0,0,0, 0.4);
+
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+
+    /* spinner & text styling matched to theme */
+    .av-loader-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .av-loader-text {
+        font-family: inherit;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.7);
+        font-weight: 600;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .av-spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid rgba(255,255,255,0.1);
+        border-top-color: var(--c, #00ffff);
+        border-radius: 50%;
+        animation: av-spin 1s linear infinite;
+    }
+
+    @keyframes av-spin { to { transform: rotate(360deg); } }
+
+    /* hide state (must be same element: .av-loader.loaded) */
+    .av-loader.loaded{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+
+    /* optional: remove entirely after fade-out */
+    .av-loader.loaded.done{
+      display:none;
+    }
+
+    /* If your canvas has its own z-index, keep it under loader while loading */
+    .av-panel canvas{ position:relative; z-index:10; }
+
+    /* safety: if someone sets only opacity:0 elsewhere, still don't block */
+    .av-loader[aria-hidden="true"]{ pointer-events:none !important; }
+    `;
+
+            function injectStyleOnce(id = 'av-loader-fix-style') {
+                if (document.getElementById(id)) return;
+                const style = document.createElement('style');
+                style.id = id;
+                style.textContent = CSS;
+                document.head.appendChild(style);
+            }
+
+            function ensureLoader(panel, idHint) {
+                if (!panel) return null;
+                let loader = panel.querySelector('.av-loader');
+                if (!loader) {
+                    loader = document.createElement('div');
+                    loader.className = 'av-loader';
+                    if (idHint) loader.id = idHint;
+
+                    // Minimal content (keeps your existing glow/spinner CSS if you already have it)
+                    loader.innerHTML = `
+            <div class="av-loader-inner" style="text-align:center">
+              <div class="av-spinner" aria-hidden="true"></div>
+              <div class="av-loader-text">Loading hologram...</div>
+            </div>
+          `.trim();
+
+                    // Insert before canvas if exists, else prepend
+                    const canvas = panel.querySelector('canvas');
+                    if (canvas && canvas.parentNode === panel) {
+                        panel.insertBefore(loader, canvas);
+                    } else {
+                        panel.prepend(loader);
+                    }
+                }
+                return loader;
+            }
+
+            function hideLoader(elOrSelector, { remove = false } = {}) {
+                const el = typeof elOrSelector === 'string'
+                    ? document.querySelector(elOrSelector)
+                    : elOrSelector;
+
+                if (!el) return false;
+
+                // add class-driven hide
+                el.classList.add('loaded');
+
+                // force "not covering" even if other CSS interferes
+                el.setAttribute('aria-hidden', 'true');
+                el.style.pointerEvents = 'none';
+
+                if (remove) {
+                    // remove after transition (opacity)
+                    const onEnd = (e) => {
+                        if (e.propertyName !== 'opacity') return;
+                        el.classList.add('done');
+                        el.removeEventListener('transitionend', onEnd);
+                    };
+                    el.addEventListener('transitionend', onEnd);
+
+                    // hard fallback if transitionend doesn't fire
+                    setTimeout(() => el.classList.add('done'), 600);
+                }
+                return true;
+            }
+
+            function showLoader(elOrSelector) {
+                const el = typeof elOrSelector === 'string'
+                    ? document.querySelector(elOrSelector)
+                    : elOrSelector;
+
+                if (!el) return false;
+                el.classList.remove('loaded', 'done');
+                el.removeAttribute('aria-hidden');
+                el.style.pointerEvents = '';
+                return true;
+            }
+
+            function init({
+                maleSelector = '.av-panel.av-male',
+                femaleSelector = '.av-panel.av-female',
+                maleLoaderId = 'avLoaderMale',
+                femaleLoaderId = 'avLoaderFemale',
+                autoHideAfterMs = 0,        // e.g. 15000 as fail-safe; 0 disables
+                removeAfterHide = true      // adds .done => display:none after fade-out
+            } = {}) {
+                injectStyleOnce();
+
+                const malePanel = document.querySelector(maleSelector);
+                const femalePanel = document.querySelector(femaleSelector);
+
+                const maleLoader = ensureLoader(malePanel, maleLoaderId);
+                const femaleLoader = ensureLoader(femalePanel, femaleLoaderId);
+
+                // If your existing code adds .loaded to PANEL by mistake, mirror it:
+                // when panel gets .loaded, hide its loader too.
+                const mirrorLoaded = (panel, loader) => {
+                    if (!panel || !loader) return;
+                    const obs = new MutationObserver(() => {
+                        if (panel.classList.contains('loaded')) hideLoader(loader, { remove: removeAfterHide });
+                    });
+                    obs.observe(panel, { attributes: true, attributeFilter: ['class'] });
+                };
+                mirrorLoaded(malePanel, maleLoader);
+                mirrorLoaded(femalePanel, femaleLoader);
+
+                // Optional fail-safe: never let overlay cover forever
+                if (autoHideAfterMs > 0) {
+                    setTimeout(() => { if (maleLoader) hideLoader(maleLoader, { remove: removeAfterHide }); }, autoHideAfterMs);
+                    setTimeout(() => { if (femaleLoader) hideLoader(femaleLoader, { remove: removeAfterHide }); }, autoHideAfterMs);
+                }
+
+                // expose for your loader.load callbacks
+                return { maleLoader, femaleLoader };
+            }
+
+            // Global API for your initAvatarPreview success/error:
+            // window.AVLoaderFix.hide('#avLoaderMale') / hide('#avLoaderFemale')
+            window.AVLoaderFix = {
+                init,
+                hide: (sel, opts) => hideLoader(sel, opts),
+                show: (sel) => showLoader(sel)
+            };
+
+            // Auto-init on DOM ready (safe). If panels load later dynamically, call AVLoaderFix.init() again.
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => init());
+            } else {
+                init();
+            }
+        })();
+    </script>
+
+    <canvas id="stars"></canvas>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <nav>
+        <a href="/" class="nb">
+            <div class="kl">K</div>Kelion AI
+        </a>
+        <div class="nl"><a href="#features">Features</a><a href="#compare">Compare</a><a href="#pricing">Pricing</a>
+        </div>
+        <div class="na"><a href="/subscribe.html" class="signup">Get started</a></div>
+    </nav>
+
+    <section class="hero">
+        <div class="hi">
+            <div class="ht">
+                <div class="hbadge">
+                    <div class="dot"></div>THE FIRST AI YOU CAN SEE
+                </div>
+                <h1 id="tw-target"></h1>
+                <p class="sub">A living 3D hologram that speaks, sees, manages your email, tracks your family in
+                    real-time, and runs your entire business — powered by 4 AI engines.</p>
+                <div class="hbtns">
+                    <a href="/app.html" class="hb p">✨ Try K Free</a>
+                    <a href="#features" class="hb s">See capabilities →</a>
+                </div>
+            </div>
+            <div class="hv">
+                <div class="k-holo-wrap">
+                    <div class="k-ring k-ring-1"></div>
+                    <div class="k-ring k-ring-2"></div>
+                    <div class="k-ring k-ring-3"></div>
+                    <img src="/hologram-512.png" alt="K Hologram" class="k-holo-img">
+                    <div class="holo-label">● LIVE HOLOGRAM</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="proof rv">
+        <div class="proof-inner">
+            <div class="proof-stats">
+                <div class="ps">
+                    <div class="ps-n" data-target="4">0</div>
+                    <div class="ps-l">AI Engines</div>
+                </div>
+                <div class="ps">
+                    <div class="ps-n" data-target="30" data-suffix="+">0</div>
+                    <div class="ps-l">Languages</div>
+                </div>
+                <div class="ps">
+                    <div class="ps-n" data-target="9">0</div>
+                    <div class="ps-l">Core Features</div>
+                </div>
+                <div class="ps">
+                    <div class="ps-n" data-target="99.9" data-suffix="%" data-dec="1">0</div>
+                    <div class="ps-l">Uptime</div>
+                </div>
+            </div>
+            <div class="testimonials">
+                <div class="tc">
+                    <div class="stars">★★★★★</div><q>9 AI engines with automatic failover — your questions always get
+                        answered.</q>
+                    <div class="author">— Kelion AI Engine</div>
+                </div>
+                <div class="tc">
+                    <div class="stars">★★★★★</div><q>3D holographic avatar with real-time voice — a futuristic AI
+                        experience.</q>
+                    <div class="author">— K Hologram</div>
+                </div>
+                <div class="tc">
+                    <div class="stars">★★★★★</div><q>Multi-language support with automatic detection — speaks your
+                        language instantly.</q>
+                    <div class="author">— K Multilingual</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="feat rv" id="features">
+        <div class="sl">Capabilities</div>
+        <h2 class="st">Everything in One Hologram</h2>
+        <p class="ss">K doesn't just chat — K speaks, sees, acts, and manages</p>
+        <div class="fg">
+            <div class="fc">
+                <div class="fi v1">🎙️</div>
+                <h3>Real-Time Voice</h3>
+                <p>WebRTC conversation. Responds instantly in 30+ languages with ElevenLabs voice.</p>
+            </div>
+            <div class="fc">
+                <div class="fi v2">👁️</div>
+                <h3>Computer Vision</h3>
+                <p>Sees through your camera. Object recognition, emotion detection, real-time analysis.</p>
+            </div>
+            <div class="fc">
+                <div class="fi v3">🌐</div>
+                <h3>3D Hologram</h3>
+                <p>A living hologram that breathes, lip-syncs, and reacts. Not a flat avatar.</p>
+            </div>
+            <div class="fc">
+                <div class="fi v4">🧠</div>
+                <h3>4-Engine AI Brain</h3>
+                <p>DeepSeek → Gemini → GPT-4o → Claude. Automatic failover cascade.</p>
+            </div>
+            <div class="fc">
+                <div class="fi v5">📧</div>
+                <h3>Email Management <span class="nt">NEW</span></h3>
+                <p>Reads, composes, sends emails. Connect Gmail and let K handle your inbox.</p>
+            </div>
+            <div class="fc">
+                <div class="fi v6">🗺️</div>
+                <h3>Live GPS Tracking <span class="nt">NEW</span></h3>
+                <p>Track family or team on a live map with routing and real-time directions.</p>
+            </div>
+            <div class="fc">
+                <div class="fi v7">💬</div>
+                <h3>Group Messenger <span class="nt">NEW</span></h3>
+                <p>Text, audio, file sharing. Encrypted group chat for Family & Business.</p>
+            </div>
+            <div class="fc">
+                <div class="fi v8">🎨</div>
+                <h3>Image & Video Gen</h3>
+                <p>Create with DALL·E 3 and AI video. Just ask K to generate anything.</p>
+            </div>
+            <div class="fc">
+                <div class="fi v9">📄</div>
+                <h3>Document Processing</h3>
+                <p>PDF, DOCX, CSV — analyze, summarize, export in any format.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="comp rv" id="compare">
+        <div class="sl">Why K</div>
+        <h2 class="st">K vs. The Rest</h2>
+        <p class="ss">Only K combines all of this in one product</p>
+        <table class="ct">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th class="kc">K</th>
+                    <th>ChatGPT</th>
+                    <th>Gemini</th>
+                    <th>Claude</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>3D Hologram</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                </tr>
+                <tr>
+                    <td>Real-Time Voice</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                </tr>
+                <tr>
+                    <td>Camera / Vision</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                </tr>
+                <tr>
+                    <td>GPS + Live Maps</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                </tr>
+                <tr>
+                    <td>Multi-AI Failover</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                </tr>
+                <tr>
+                    <td>Email Management</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                </tr>
+                <tr>
+                    <td>Group GPS Tracking</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                </tr>
+                <tr>
+                    <td>Group Messenger</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                    <td>❌</td>
+                </tr>
+                <tr>
+                    <td>Image Generation</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>❌</td>
+                </tr>
+                <tr>
+                    <td>Document Export</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                    <td>✅</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="price rv" id="pricing">
+        <div class="sl">Pricing</div>
+        <h2 class="st">Simple, Transparent Plans</h2>
+        <p class="ss">Start free, upgrade when you need more</p>
+        <div class="bt">
+            <span class="a" id="lm">Monthly</span>
+            <div class="sw" id="sw" onclick="tog()"></div>
+            <span id="la">Annual <span style="color:var(--g);font-size:.7rem">Save 33%</span></span>
+        </div>
+        <div class="pg">
+            <div class="pc">
+                <h3>Free</h3>
+                <div class="pp">£0</div>
+                <div class="ppd">forever</div>
+                <div class="pps">&nbsp;</div>
+                <ul class="pf">
+                    <li>3 conversations/day</li>
+                    <li>3D Hologram</li>
+                    <li>Basic voice</li>
+                    <li>Gemini engine</li>
+                </ul><a href="/app.html" class="pb o">Start Free</a>
+            </div>
+            <div class="pc pop">
+                <h3>Pro</h3>
+                <div class="pp" id="xp">£15</div>
+                <div class="ppd" id="xpd">per month</div>
+                <div class="pps" id="xps">&nbsp;</div>
+                <ul class="pf">
+                    <li>Unlimited conversations</li>
+                    <li>All 4 AI engines</li>
+                    <li>Camera + Vision</li>
+                    <li>Email management</li>
+                    <li>Image & Video gen</li>
+                    <li>Documents</li>
+                    <li>Priority support</li>
+                </ul><a href="/subscribe.html?plan=pro" class="pb f">Get Pro</a>
+            </div>
+            <div class="pc">
+                <h3>👪 Family</h3>
+                <div class="pp" id="xf">£25</div>
+                <div class="ppd" id="xfd">per month</div>
+                <div class="pps" id="xfs">&nbsp;</div>
+                <ul class="pf">
+                    <li>Everything in Pro</li>
+                    <li>Up to 5 members</li>
+                    <li>Live GPS tracking</li>
+                    <li>Family messenger</li>
+                    <li>Route directions</li>
+                    <li>Shared files</li>
+                </ul><a href="/subscribe.html?plan=family" class="pb f">Get Family</a>
+            </div>
+            <div class="pc">
+                <h3>🏢 Business</h3>
+                <div class="pp" id="xb">£99</div>
+                <div class="ppd" id="xbd">per month</div>
+                <div class="pps" id="xbs">&nbsp;</div>
+                <ul class="pf">
+                    <li>Everything in Family</li>
+                    <li>Up to 50 members</li>
+                    <li>Manager dashboard</li>
+                    <li>Team GPS fleet</li>
+                    <li>Business messenger</li>
+                    <li>K API access</li>
+                    <li>Priority SLA</li>
+                </ul><a href="/subscribe.html?plan=business" class="pb f">Get Business</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta rv">
+        <div class="cta-box">
+            <h2>Ready to meet <span class="glow"
+                    style="background:linear-gradient(135deg,var(--c),#a855f7,var(--b));background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s ease infinite">K</span>?
+            </h2>
+            <p>The future of AI is holographic. No card required.</p>
+            <a href="/app.html" class="hb p" style="display:inline-flex">✨ Launch K — It's Free</a>
+        </div>
+    </section>
+
+    <!-- ═══ SPONSORS & PARTNERS ═══ -->
+    <style>
+        .sponsors {
+            padding: 80px 5% 60px;
+            position: relative;
+            z-index: 2;
+            overflow: hidden
+        }
+
+        .sponsors-header {
+            text-align: center;
+            margin-bottom: 40px
+        }
+
+        .sponsors-header h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px
+        }
+
+        .sponsors-header h2 span {
+            background: linear-gradient(135deg, var(--g), #f4d47c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .sponsors-header p {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: .88rem
+        }
+
+        .sponsors-track-wrap {
+            position: relative;
+            overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+            margin-bottom: 36px
+        }
+
+        .sponsors-track {
+            display: flex;
+            gap: 30px;
+            animation: sponsorScroll 25s linear infinite;
+            width: max-content
+        }
+
+        .sponsors-track:hover {
+            animation-play-state: paused
+        }
+
+        @keyframes sponsorScroll {
+            0% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(-50%)
+            }
+        }
+
+        .sponsor-card {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 24px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all .3s;
+            cursor: default;
+            min-width: 200px
+        }
+
+        .sponsor-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(212, 175, 55, 0.15);
+            transform: translateY(-2px)
+        }
+
+        .sponsor-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0
+        }
+
+        .sponsor-info .sponsor-name {
+            font-weight: 700;
+            font-size: .85rem;
+            color: #fff
+        }
+
+        .sponsor-info .sponsor-type {
+            font-size: .68rem;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            margin-top: 2px
+        }
+
+        .sponsors-cta {
+            text-align: center
+        }
+
+        .sponsors-cta p {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: .78rem;
+            margin-bottom: 14px
+        }
+
+        .sponsor-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(212, 175, 55, 0.04);
+            color: var(--g);
+            font-size: .82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all .3s;
+            font-family: inherit;
+            cursor: pointer
+        }
+
+        .sponsor-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.1)
+        }
+
+        @media(max-width:700px) {
+            .sponsors {
+                padding: 50px 4% 40px
+            }
+
+            .sponsors-header h2 {
+                font-size: 1.4rem
+            }
+
+            .sponsor-card {
+                padding: 12px 18px;
+                min-width: 170px;
+                gap: 10px
+            }
+
+            .sponsor-logo {
+                width: 34px;
+                height: 34px
+            }
+        }
+    </style>
+    <section class="sponsors rv">
+        <div class="sponsors-header">
+            <h2>Trusted by <span>Industry Leaders</span></h2>
+            <p>Our AI partners & sponsors powering the future of holographic intelligence</p>
+        </div>
+        <div class="sponsors-track-wrap">
+            <div class="sponsors-track" id="sponsors-track">
+                <!-- Row 1 -->
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">🧠</div>
+                    <div class="sponsor-info">
+                        <div class="sponsor-name">Google DeepMind</div>
+                        <div class="sponsor-type">AI Engine Partner</div>
+                    </div>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">🤖</div>
+                    <div class="sponsor-info">
+                        <div class="sponsor-name">OpenAI</div>
+                        <div class="sponsor-type">AI Engine Partner</div>
+                    </div>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">🎙️</div>
+                    <div class="sponsor-info">
+                        <div class="sponsor-name">ElevenLabs</div>
+                        <div class="sponsor-type">Voice Technology</div>
+                    </div>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">🔮</div>
+                    <div class="sponsor-info">
+                        <div class="sponsor-name">Anthropic</div>
+                        <div class="sponsor-type">AI Engine Partner</div>
+                    </div>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">⚡</div>
+                    <div class="sponsor-info">
+                        <div class="sponsor-name">Groq</div>
+                        <div class="sponsor-type">AI Inference Partner</div>
+                    </div>
+                </div>
+                <!-- Row 2 (duplicate for infinite scroll) -->
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">🧠</div>
+                    <div class="sponsor-info">
+                        <div class="sponsor-name">Google DeepMind</div>
+                        <div class="sponsor-type">AI Engine Partner</div>
+                    </div>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">🤖</div>
+                    <div class="sponsor-info">
+                        <div class="sponsor-name">OpenAI</div>
+                        <div class="sponsor-type">AI Engine Partner</div>
+                    </div>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">🎙️</div>
+                    <div class="sponsor-info">
+                        <div class="sponsor-name">ElevenLabs</div>
+                        <div class="sponsor-type">Voice Technology</div>
+                    </div>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">🔮</div>
+                    <div class="sponsor-info">
+                        <div class="sponsor-name">Anthropic</div>
+                        <div class="sponsor-type">AI Engine Partner</div>
+                    </div>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">⚡</div>
+                    <div class="sponsor-info">
+                        <div class="sponsor-name">Groq</div>
+                        <div class="sponsor-type">AI Inference Partner</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sponsors-cta">
+            <p>Want to partner with the first holographic AI?</p>
+            <a href="mailto:partners@kelionai.app" class="sponsor-btn">🤝 Become a Sponsor</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="fgrid">
+            <div class="fb"><strong>Kelion AI</strong>
+                <p>The first AI you can see. 3D holographic assistant powered by 4 AI engines.</p>
+            </div>
+            <div class="fcol">
+                <h4>Product</h4><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="/app.html">Try
+                    Free</a>
+            </div>
+            <div class="fcol">
+                <h4>Company</h4><a href="/gdpr.html">Privacy</a><a href="mailto:admin@kelionai.app">Contact</a>
+            </div>
+            <div class="fcol">
+                <h4>Legal</h4><a href="/gdpr.html">Terms</a><a href="/gdpr.html">Cookies</a>
+            </div>
+        </div>
+        <div class="fbot">© 2026 Kelion AI · London 🇬🇧</div>
+    </footer>
+
+    <!-- ═══ TICKER BAR (exact from live app) ═══ -->
+    <div class="ticker-bar">
+        <div class="ticker-brand"><img src="images/ae_logo.png" alt="AE" style="height:50px;width:auto"></div>
+        <div class="ticker-content">
+            <div class="ticker-text" id="ticker-text"></div>
+        </div>
+    </div>
+
+    <script>
+        // ═══ AVATAR SELECTION ═══
+        function selectAvatar(choice) {
+            localStorage.setItem('k_avatar', choice);
+            document.getElementById('avatarOverlay').classList.add('hidden');
+            setTimeout(function () {
+                window.location.href = '/subscribe.html?avatar=' + choice;
+            }, 400);
+        }
+        // Pre-highlight saved avatar
+        (function () {
+            var saved = localStorage.getItem('k_avatar');
+            if (!saved) return;
+            document.querySelectorAll('.av-panel').forEach(function (p) {
+                if ((saved === 'kira' && p.classList.contains('av-female')) ||
+                    (saved === 'kelion' && p.classList.contains('av-male'))) {
+                    p.style.border = '2px solid #00ffff';
+                    p.style.boxShadow = '0 0 20px rgba(0,255,255,0.3)';
+                }
+            });
+        })();
+
+        // ═══ STARFIELD ═══
+        const sc = document.getElementById('stars'), sx = sc.getContext('2d');
+        let SW, SH;
+        function sResize() { SW = window.innerWidth; SH = window.innerHeight; sc.width = SW; sc.height = SH }
+        sResize(); addEventListener('resize', sResize);
+        const starArr = [];
+        for (let i = 0; i < 300; i++) {
+            starArr.push({ x: Math.random() * 2000 - 500, y: Math.random() * 2000 - 500, z: Math.random() * 1500 + 500, r: Math.random() * 1.2 + .3, tw: Math.random() * Math.PI * 2 });
+        }
+        function drawStars(t) {
+            sx.clearRect(0, 0, SW, SH);
+            const cx = SW / 2, cy = SH / 2;
+            starArr.forEach(s => {
+                s.z -= 0.15; if (s.z <= 1) { s.z = 1500; s.x = Math.random() * 2000 - 500; s.y = Math.random() * 2000 - 500 }
+                const px = cx + (s.x / s.z) * 300, py = cy + (s.y / s.z) * 300;
+                if (px < 0 || px > SW || py < 0 || py > SH) return;
+                const size = s.r * (1 - s.z / 1500) * 2;
+                const twinkle = 0.3 + Math.abs(Math.sin(t * 0.001 + s.tw)) * 0.7;
+                const alpha = (1 - s.z / 1500) * twinkle;
+                sx.beginPath(); sx.arc(px, py, Math.max(size, .3), 0, Math.PI * 2);
+                sx.fillStyle = `rgba(200,220,255,${alpha})`; sx.fill();
+            });
+            if (Math.random() < 0.002) {
+                const x2 = Math.random() * SW, y2 = Math.random() * SH * 0.5;
+                const grd = sx.createLinearGradient(x2, y2, x2 + 80, y2 + 30);
+                grd.addColorStop(0, 'rgba(0,255,255,0.6)'); grd.addColorStop(1, 'transparent');
+                sx.beginPath(); sx.moveTo(x2, y2); sx.lineTo(x2 + 80, y2 + 30); sx.strokeStyle = grd; sx.lineWidth = 1.5; sx.stroke();
+            }
+            requestAnimationFrame(drawStars);
+        }
+        requestAnimationFrame(drawStars);
+
+        // ═══ TYPEWRITER ═══
+        const twEl = document.getElementById('tw-target');
+        const phrases = [
+            { text: 'Meet ', cls: '' },
+            { text: 'K', cls: 'glow' },
+            { text: '.', cls: '' },
+            { text: '\n', cls: 'br' },
+            { text: 'Your Holographic', cls: '' },
+            { text: '\n', cls: 'br' },
+            { text: 'AI Assistant.', cls: '' },
+        ];
+        let pi = 0, ci = 0;
+        function typeWriter() {
+            if (pi >= phrases.length) { const cur = document.createElement('span'); cur.className = 'tw-cursor'; twEl.appendChild(cur); return }
+            const phrase = phrases[pi];
+            if (phrase.cls === 'br') { twEl.appendChild(document.createElement('br')); pi++; ci = 0; setTimeout(typeWriter, 100); return }
+            if (ci < phrase.text.length) {
+                let span = twEl.querySelector(`[data-pi="${pi}"]`);
+                if (!span) { span = document.createElement('span'); span.setAttribute('data-pi', pi); if (phrase.cls) span.className = phrase.cls; twEl.appendChild(span) }
+                span.textContent += phrase.text[ci]; ci++;
+                setTimeout(typeWriter, phrase.cls === 'glow' ? 150 : 55);
+            } else { pi++; ci = 0; setTimeout(typeWriter, phrase.text.endsWith('.') ? 300 : 50) }
+        }
+        setTimeout(typeWriter, 600);
+
+        // ═══ SCROLL REVEAL ═══
+        const obs = new IntersectionObserver(e => e.forEach(en => { if (en.isIntersecting) en.target.classList.add('v') }), { threshold: .1 });
+        document.querySelectorAll('.rv').forEach(r => obs.observe(r));
+
+        // ═══ ANIMATED COUNTERS ═══
+        const cobs = new IntersectionObserver(e => e.forEach(en => {
+            if (!en.isIntersecting) return;
+            en.target.querySelectorAll('.ps-n').forEach(el => {
+                const target = parseFloat(el.dataset.target); const suffix = el.dataset.suffix || ''; const dec = parseInt(el.dataset.dec) || 0;
+                let cur = 0; const step = target / 35;
+                const tm = setInterval(() => { cur += step; if (cur >= target) { cur = target; clearInterval(tm) } el.textContent = cur.toFixed(dec) + suffix }, 30);
+            });
+            cobs.unobserve(en.target);
+        }), { threshold: .3 });
+        document.querySelectorAll('.proof').forEach(r => cobs.observe(r));
+
+        // ═══ BILLING ═══
+        let ann = false;
+        function tog() {
+            ann = !ann;
+            document.getElementById('sw').classList.toggle('on', ann); document.getElementById('lm').classList.toggle('a', !ann); document.getElementById('la').classList.toggle('a', ann);
+            const d = ann ? { xp: '£100', xpd: 'per year', xps: 'Save £80/yr', xf: '£180', xfd: 'per year', xfs: 'Save £120/yr', xb: '£800', xbd: 'per year', xbs: 'Save £388/yr' }
+                : { xp: '£15', xpd: 'per month', xps: '\u00A0', xf: '£25', xfd: 'per month', xfs: '\u00A0', xb: '£99', xbd: 'per month', xbs: '\u00A0' };
+            Object.entries(d).forEach(([k, v]) => { const e = document.getElementById(k); if (e) e.textContent = v });
+        }
+
+        // ═══ TICKER (exact from live) ═══
+        const msgs = [
+            '✧ Imagined & developed by AE Creative Studio together with Google Gemini • OpenAI • ElevenLabs ✧',
+            '★ Project KELION — The first AI you can see • Bridging dimensions through technology ★',
+            '◆ Where imagination meets innovation • Powered by the most brilliant AI minds ◆'
+        ];
+        let mi = 0; const tt = document.getElementById('ticker-text');
+        function updateTicker() {
+            tt.style.opacity = '0';
+            setTimeout(() => { tt.textContent = msgs[mi] + ' • ' + msgs[mi]; tt.style.opacity = '1'; mi = (mi + 1) % msgs.length }, 300);
+        }
+        updateTicker(); setInterval(updateTicker, 10000);
+    </script>
+
+    <script src="components/age-gate.js"></script>
+    <script src="components/tracking.js"></script>
+    <script src="components/version-badge.js"></script>
+
+    <!-- Push Notifications + i18n -->
+    <script>
+        // ═══ SERVICE WORKER + PUSH NOTIFICATIONS ═══
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(reg => {
+                console.log('[K] Service Worker registered');
+            }).catch(err => console.warn('[K] SW registration failed:', err));
+        }
+
+        async function subscribePush() {
+            try {
+                if (!('PushManager' in window)) { alert('Push notifications not supported'); return; }
+
+                const reg = await navigator.serviceWorker.ready;
+                const existing = await reg.pushManager.getSubscription();
+                if (existing) { console.log('[K] Already subscribed'); return existing; }
+
+                // Get VAPID key from server
+                const r = await fetch('/.netlify/functions/push-notifications', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'get_vapid_key' })
+                });
+                const { vapid_public_key } = await r.json();
+                if (!vapid_public_key) { console.warn('[K] No VAPID key'); return null; }
+
+                // Convert base64url to Uint8Array
+                const urlBase64ToUint8Array = (base64String) => {
+                    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+                    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+                    const rawData = atob(base64);
+                    return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+                };
+
+                const sub = await reg.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(vapid_public_key)
+                });
+
+                // Send to server
+                const email = localStorage.getItem('k_email') || 'anonymous';
+                await fetch('/.netlify/functions/push-notifications', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'subscribe', subscription: sub, user_email: email })
+                });
+
+                console.log('[K] Push subscribed!');
+                return sub;
+            } catch (e) { console.error('[K] Push subscribe error:', e); }
+        }
+
+        // ═══ i18n LANGUAGE SYSTEM ═══
+        const K_LANGS = { en: 'English', ro: 'Română', es: 'Español', fr: 'Français', de: 'Deutsch' };
+        let K_I18N = {};
+
+        function getLanguage() {
+            return localStorage.getItem('k_lang') || navigator.language?.split('-')[0] || 'en';
+        }
+
+        async function loadTranslations(lang) {
+            try {
+                const r = await fetch('/.netlify/functions/i18n', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ lang: lang || getLanguage() })
+                });
+                const d = await r.json();
+                if (d.success) { K_I18N = d.translations; applyTranslations(); }
+            } catch (e) { console.warn('[K] i18n load error:', e); }
+        }
+
+        function t(key) { return K_I18N[key] || key; }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (K_I18N[key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = K_I18N[key];
+                    else el.textContent = K_I18N[key];
+                }
+            });
+        }
+
+        function setLanguage(lang) {
+            localStorage.setItem('k_lang', lang);
+            loadTranslations(lang);
+        }
+
+        // Auto-load on page ready
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTranslations();
+
+            // Auto-ask for push after 30s on first visit
+            if (!localStorage.getItem('k_push_asked')) {
+                setTimeout(() => {
+                    if (Notification.permission === 'default') {
+                        Notification.requestPermission().then(p => {
+                            if (p === 'granted') subscribePush();
+                            localStorage.setItem('k_push_asked', '1');
+                        });
+                    }
+                }, 30000);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

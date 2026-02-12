@@ -1,0 +1,814 @@
+{
+  "working": [
+    {
+      "fn": "gemini-chat",
+      "status": 200,
+      "note": "OK (1960ms)",
+      "time_ms": 1960
+    },
+    {
+      "fn": "smart-brain",
+      "status": 200,
+      "note": "OK non-JSON (3419ms)",
+      "time_ms": 3419
+    },
+    {
+      "fn": "deepseek",
+      "status": 200,
+      "note": "OK non-JSON (4110ms)",
+      "time_ms": 4110
+    },
+    {
+      "fn": "chat",
+      "status": 200,
+      "note": "OK (13696ms)",
+      "time_ms": 13696
+    },
+    {
+      "fn": "browse-live",
+      "status": 200,
+      "note": "OK non-JSON (1049ms)",
+      "time_ms": 1049
+    },
+    {
+      "fn": "claude-orchestrator",
+      "status": 200,
+      "note": "OK non-JSON (3090ms)",
+      "time_ms": 3090
+    },
+    {
+      "fn": "web-search",
+      "status": 200,
+      "note": "OK (1256ms)",
+      "time_ms": 1256
+    },
+    {
+      "fn": "wolfram",
+      "status": 200,
+      "note": "OK non-JSON (1746ms)",
+      "time_ms": 1746
+    },
+    {
+      "fn": "dalle",
+      "status": 200,
+      "note": "OK non-JSON (12274ms)",
+      "time_ms": 12274
+    },
+    {
+      "fn": "auth-logout",
+      "status": 200,
+      "note": "OK (1010ms)",
+      "time_ms": 1010
+    },
+    {
+      "fn": "auth-resend-verification",
+      "status": 200,
+      "note": "OK (1037ms)",
+      "time_ms": 1037
+    },
+    {
+      "fn": "auth-forgot-password",
+      "status": 200,
+      "note": "OK (1141ms)",
+      "time_ms": 1141
+    },
+    {
+      "fn": "auth",
+      "status": 200,
+      "note": "OK (1161ms)",
+      "time_ms": 1161
+    },
+    {
+      "fn": "paypal-admin",
+      "status": 200,
+      "note": "OK non-JSON (2714ms)",
+      "time_ms": 2714
+    },
+    {
+      "fn": "admin-notify",
+      "status": 200,
+      "note": "OK (1007ms)",
+      "time_ms": 1007
+    },
+    {
+      "fn": "free-trial",
+      "status": 200,
+      "note": "OK (1608ms)",
+      "time_ms": 1608
+    },
+    {
+      "fn": "auto-poster-api",
+      "status": 200,
+      "note": "OK non-JSON (593ms)",
+      "time_ms": 593
+    },
+    {
+      "fn": "auto-poster-core",
+      "status": 200,
+      "note": "OK non-JSON (998ms)",
+      "time_ms": 998
+    },
+    {
+      "fn": "cost-tracker",
+      "status": 200,
+      "note": "OK non-JSON (1001ms)",
+      "time_ms": 1001
+    },
+    {
+      "fn": "audit-log",
+      "status": 200,
+      "note": "OK (1126ms)",
+      "time_ms": 1126
+    },
+    {
+      "fn": "tiktok-webhook",
+      "status": 200,
+      "note": "OK (967ms)",
+      "time_ms": 967
+    },
+    {
+      "fn": "social-media-stats",
+      "status": 200,
+      "note": "OK non-JSON (978ms)",
+      "time_ms": 978
+    },
+    {
+      "fn": "social-media-monitor",
+      "status": 200,
+      "note": "OK non-JSON (1173ms)",
+      "time_ms": 1173
+    },
+    {
+      "fn": "trading-bot-engine",
+      "status": 200,
+      "note": "OK non-JSON (1641ms)",
+      "time_ms": 1641
+    },
+    {
+      "fn": "push-notifications",
+      "status": 200,
+      "note": "OK (1069ms)",
+      "time_ms": 1069
+    },
+    {
+      "fn": "i18n",
+      "status": 200,
+      "note": "OK non-JSON (612ms)",
+      "time_ms": 612
+    },
+    {
+      "fn": "health",
+      "status": 200,
+      "note": "OK non-JSON (1122ms)",
+      "time_ms": 1122
+    },
+    {
+      "fn": "ab-testing",
+      "status": 200,
+      "note": "OK (1129ms)",
+      "time_ms": 1129
+    },
+    {
+      "fn": "webhook-monitor",
+      "status": 200,
+      "note": "OK (1130ms)",
+      "time_ms": 1130
+    },
+    {
+      "fn": "email-webhook",
+      "status": 200,
+      "note": "OK (1201ms)",
+      "time_ms": 1201
+    },
+    {
+      "fn": "k-security",
+      "status": 200,
+      "note": "OK (511ms)",
+      "time_ms": 511
+    },
+    {
+      "fn": "env-check",
+      "status": 200,
+      "note": "OK non-JSON (576ms)",
+      "time_ms": 576
+    },
+    {
+      "fn": "truth-detector",
+      "status": 200,
+      "note": "OK (996ms)",
+      "time_ms": 996
+    },
+    {
+      "fn": "integrity-check",
+      "status": 200,
+      "note": "OK non-JSON (1021ms)",
+      "time_ms": 1021
+    },
+    {
+      "fn": "health-check",
+      "status": 200,
+      "note": "OK non-JSON (1106ms)",
+      "time_ms": 1106
+    },
+    {
+      "fn": "k-terminal",
+      "status": 200,
+      "note": "OK (1225ms)",
+      "time_ms": 1225
+    },
+    {
+      "fn": "k-supreme-intelligence",
+      "status": 200,
+      "note": "OK (2133ms)",
+      "time_ms": 2133
+    },
+    {
+      "fn": "k-presentation",
+      "status": 200,
+      "note": "OK non-JSON (18192ms)",
+      "time_ms": 18192
+    },
+    {
+      "fn": "api-keys",
+      "status": 200,
+      "note": "OK (1070ms)",
+      "time_ms": 1070
+    },
+    {
+      "fn": "usage-limiter",
+      "status": 200,
+      "note": "OK (1201ms)",
+      "time_ms": 1201
+    },
+    {
+      "fn": "check-user",
+      "status": 200,
+      "note": "OK (1282ms)",
+      "time_ms": 1282
+    },
+    {
+      "fn": "trace-collector",
+      "status": 200,
+      "note": "OK (1196ms)",
+      "time_ms": 1196
+    },
+    {
+      "fn": "engine-status",
+      "status": 200,
+      "note": "OK non-JSON (9898ms)",
+      "time_ms": 9898
+    },
+    {
+      "fn": "generate-image",
+      "status": 200,
+      "note": "OK non-JSON (14505ms)",
+      "time_ms": 14505
+    },
+    {
+      "fn": "export-document",
+      "status": 200,
+      "note": "OK non-JSON (565ms)",
+      "time_ms": 565
+    },
+    {
+      "fn": "financial-calculator",
+      "status": 200,
+      "note": "OK (608ms)",
+      "time_ms": 608
+    },
+    {
+      "fn": "elevenlabs-tts",
+      "status": 200,
+      "note": "OK non-JSON (1644ms)",
+      "time_ms": 1644
+    },
+    {
+      "fn": "speak",
+      "status": 200,
+      "note": "OK non-JSON (2894ms)",
+      "time_ms": 2894
+    },
+    {
+      "fn": "pension-calculator",
+      "status": 200,
+      "note": "OK non-JSON (556ms)",
+      "time_ms": 556
+    },
+    {
+      "fn": "legal-database-pension",
+      "status": 200,
+      "note": "OK non-JSON (765ms)",
+      "time_ms": 765
+    },
+    {
+      "fn": "invoice-generator",
+      "status": 200,
+      "note": "OK non-JSON (766ms)",
+      "time_ms": 766
+    },
+    {
+      "fn": "baby-monitor-mode",
+      "status": 200,
+      "note": "OK non-JSON (570ms)",
+      "time_ms": 570
+    },
+    {
+      "fn": "memory-cleanup",
+      "status": 200,
+      "note": "OK (1152ms)",
+      "time_ms": 1152
+    },
+    {
+      "fn": "notes",
+      "status": 200,
+      "note": "OK (1097ms)",
+      "time_ms": 1097
+    },
+    {
+      "fn": "search",
+      "status": 200,
+      "note": "OK (1133ms)",
+      "time_ms": 1133
+    },
+    {
+      "fn": "calendar",
+      "status": 200,
+      "note": "OK (1133ms)",
+      "time_ms": 1133
+    },
+    {
+      "fn": "booking-system",
+      "status": 200,
+      "note": "OK (1313ms)",
+      "time_ms": 1313
+    },
+    {
+      "fn": "weather",
+      "status": 200,
+      "note": "OK non-JSON (1334ms)",
+      "time_ms": 1334
+    },
+    {
+      "fn": "search-router",
+      "status": 200,
+      "note": "OK non-JSON (5554ms)",
+      "time_ms": 5554
+    },
+    {
+      "fn": "gemini-live-token",
+      "status": 200,
+      "note": "OK (1011ms)",
+      "time_ms": 1011
+    },
+    {
+      "fn": "claude-audit",
+      "status": 200,
+      "note": "OK (1028ms)",
+      "time_ms": 1028
+    },
+    {
+      "fn": "stripe-webhook",
+      "status": 200,
+      "note": "OK (1064ms)",
+      "time_ms": 1064
+    },
+    {
+      "fn": "realtime-session",
+      "status": 200,
+      "note": "OK non-JSON (1366ms)",
+      "time_ms": 1366
+    },
+    {
+      "fn": "realtime-token",
+      "status": 200,
+      "note": "OK (1530ms)",
+      "time_ms": 1530
+    }
+  ],
+  "error_handled": [
+    {
+      "fn": "deep-research",
+      "status": 400,
+      "note": "HTTP 400: Topic required",
+      "time_ms": 1487
+    },
+    {
+      "fn": "code-interpreter",
+      "status": 400,
+      "note": "HTTP 400: Provide \"code\" with \"language\":\"javascript\", or \"question\" for AI-generated code",
+      "time_ms": 227
+    },
+    {
+      "fn": "canvas",
+      "status": 400,
+      "note": "HTTP 400: Action required: edit, review, format, explain, improve, generate",
+      "time_ms": 1044
+    },
+    {
+      "fn": "vision",
+      "status": 400,
+      "note": "HTTP 400: Image required",
+      "time_ms": 1101
+    },
+    {
+      "fn": "whisper",
+      "status": 400,
+      "note": "HTTP 400: Audio data required",
+      "time_ms": 1003
+    },
+    {
+      "fn": "neural-ai",
+      "status": 400,
+      "note": "HTTP 400: prompt required",
+      "time_ms": 1030
+    },
+    {
+      "fn": "auth-me",
+      "status": 401,
+      "note": "HTTP 401: Invalid or expired token",
+      "time_ms": 752
+    },
+    {
+      "fn": "auth-refresh",
+      "status": 400,
+      "note": "HTTP 400: Refresh token is required",
+      "time_ms": 1049
+    },
+    {
+      "fn": "auth-register",
+      "status": 400,
+      "note": "HTTP 400: Account exists but not verified. Check your email or request a new verification link.",
+      "time_ms": 1189
+    },
+    {
+      "fn": "auth-login",
+      "status": 401,
+      "note": "HTTP 401: Invalid email or password",
+      "time_ms": 1282
+    },
+    {
+      "fn": "auth-reset-password",
+      "status": 400,
+      "note": "HTTP 400: Token and new password are required",
+      "time_ms": 916
+    },
+    {
+      "fn": "auth-verify-email",
+      "status": 400,
+      "note": "HTTP 400: Invalid or expired verification token",
+      "time_ms": 1046
+    },
+    {
+      "fn": "paypal-webhook",
+      "status": 200,
+      "note": "200+error: PAYPAL_WEBHOOK_ID is not defined",
+      "time_ms": 985
+    },
+    {
+      "fn": "stripe-checkout",
+      "status": 400,
+      "note": "HTTP 400: Invalid action",
+      "time_ms": 1003
+    },
+    {
+      "fn": "buy-credits",
+      "status": 400,
+      "note": "HTTP 400: Invalid action",
+      "time_ms": 1221
+    },
+    {
+      "fn": "api-subscription",
+      "status": 400,
+      "note": "HTTP 400: Invalid action",
+      "time_ms": 1227
+    },
+    {
+      "fn": "admin-traffic",
+      "status": 405,
+      "note": "HTTP 405: Method not allowed",
+      "time_ms": 607
+    },
+    {
+      "fn": "admin-panel",
+      "status": 403,
+      "note": "HTTP 403: Admin access only",
+      "time_ms": 994
+    },
+    {
+      "fn": "analytics-dashboard",
+      "status": 200,
+      "note": "200+error: Failed to query page_views",
+      "time_ms": 1602
+    },
+    {
+      "fn": "messenger-webhook",
+      "status": 403,
+      "note": "HTTP 403",
+      "time_ms": 1040
+    },
+    {
+      "fn": "trading-alerts",
+      "status": 400,
+      "note": "HTTP 400: Actions: trade_alert, signal_alert, daily_summary, morning_report, weekly_report, error_alert, trailing_stop_alert",
+      "time_ms": 973
+    },
+    {
+      "fn": "risk-calculator",
+      "status": 400,
+      "note": "HTTP 400: Actions: position_size, risk_reward, portfolio_risk, kelly, var",
+      "time_ms": 581
+    },
+    {
+      "fn": "backtesting-engine",
+      "status": 400,
+      "note": "HTTP 400: Actions: run, strategies",
+      "time_ms": 959
+    },
+    {
+      "fn": "order-executor",
+      "status": 400,
+      "note": "HTTP 400: order_id required for status",
+      "time_ms": 969
+    },
+    {
+      "fn": "portfolio-tracker",
+      "status": 400,
+      "note": "HTTP 400: Actions: overview, positions, performance, allocation, dividends",
+      "time_ms": 1008
+    },
+    {
+      "fn": "trading-memory",
+      "status": 400,
+      "note": "HTTP 400: Actions: log_trade, close_trade, log_signal, get_stats, get_patterns, learn, get_config, set_config, get_trades, get_open_trades",
+      "time_ms": 1026
+    },
+    {
+      "fn": "chart-generator",
+      "status": 400,
+      "note": "HTTP 400: Required: type (bar|pie|line|scatter|radar), data [{label, value}]",
+      "time_ms": 559
+    },
+    {
+      "fn": "crypto-feed",
+      "status": 400,
+      "note": "HTTP 400: Actions: price, top, trending, signals, fear_greed",
+      "time_ms": 584
+    },
+    {
+      "fn": "chart-generator-financial",
+      "status": 400,
+      "note": "HTTP 400: Actions: candlestick, line, comparison, heatmap",
+      "time_ms": 957
+    },
+    {
+      "fn": "market-data-feed",
+      "status": 400,
+      "note": "HTTP 400: Actions: quote, watchlist, movers, technicals",
+      "time_ms": 988
+    },
+    {
+      "fn": "k-analytics",
+      "status": 400,
+      "note": "HTTP 400: event_name required",
+      "time_ms": 986
+    },
+    {
+      "fn": "k-strategic-planner",
+      "status": 400,
+      "note": "HTTP 400: project description required",
+      "time_ms": 1219
+    },
+    {
+      "fn": "api-gateway",
+      "status": 401,
+      "note": "HTTP 401: Missing or invalid API key",
+      "time_ms": 741
+    },
+    {
+      "fn": "setup-admin",
+      "status": 401,
+      "note": "HTTP 401: Unauthorized",
+      "time_ms": 873
+    },
+    {
+      "fn": "setup-permanent-user",
+      "status": 403,
+      "note": "HTTP 403: Forbidden",
+      "time_ms": 646
+    },
+    {
+      "fn": "get-secret",
+      "status": 400,
+      "note": "HTTP 400: Only health action allowed",
+      "time_ms": 646
+    },
+    {
+      "fn": "referral",
+      "status": 400,
+      "note": "HTTP 400: user_email required",
+      "time_ms": 718
+    },
+    {
+      "fn": "gdpr-cleanup",
+      "status": 400,
+      "note": "HTTP 400: User ID required",
+      "time_ms": 1032
+    },
+    {
+      "fn": "engine-discovery",
+      "status": 400,
+      "note": "HTTP 400: Action required: discover, benchmark, status, optimize",
+      "time_ms": 1074
+    },
+    {
+      "fn": "page-tracking",
+      "status": 400,
+      "note": "HTTP 400: page and action are required",
+      "time_ms": 1075
+    },
+    {
+      "fn": "image-editor",
+      "status": 400,
+      "note": "HTTP 400: Actions: resize, crop, filter, compress, convert, watermark, thumbnail, info",
+      "time_ms": 615
+    },
+    {
+      "fn": "audio-editor",
+      "status": 400,
+      "note": "HTTP 400: Actions: analyze, convert, normalize, mix_settings, podcast_setup",
+      "time_ms": 615
+    },
+    {
+      "fn": "generate-video",
+      "status": 400,
+      "note": "HTTP 400: Actions: generate, status, styles",
+      "time_ms": 1108
+    },
+    {
+      "fn": "stable-diffusion",
+      "status": 429,
+      "note": "HTTP 429",
+      "time_ms": 1145
+    },
+    {
+      "fn": "generate-music",
+      "status": 422,
+      "note": "HTTP 422",
+      "time_ms": 1218
+    },
+    {
+      "fn": "file-upload",
+      "status": 400,
+      "note": "HTTP 400: file_base64 or file_url required",
+      "time_ms": 956
+    },
+    {
+      "fn": "podcast",
+      "status": 400,
+      "note": "HTTP 400: text or topic required",
+      "time_ms": 973
+    },
+    {
+      "fn": "ocr",
+      "status": 400,
+      "note": "HTTP 400: image_url or image_base64 required",
+      "time_ms": 972
+    },
+    {
+      "fn": "story-generator",
+      "status": 400,
+      "note": "HTTP 400: Actions: generate, continue, themes",
+      "time_ms": 1021
+    },
+    {
+      "fn": "lullaby-generator",
+      "status": 400,
+      "note": "HTTP 400: Actions: generate, traditional, personalize",
+      "time_ms": 566
+    },
+    {
+      "fn": "transcribe",
+      "status": 400,
+      "note": "HTTP 400: Audio data required (base64)",
+      "time_ms": 992
+    },
+    {
+      "fn": "currency-converter",
+      "status": 400,
+      "note": "HTTP 400: Actions: convert, rates, multi_convert, compare",
+      "time_ms": 603
+    },
+    {
+      "fn": "document-checker",
+      "status": 400,
+      "note": "HTTP 400: Actions: check_completeness, get_checklist, get_templates, timeline",
+      "time_ms": 603
+    },
+    {
+      "fn": "parent-dashboard",
+      "status": 400,
+      "note": "HTTP 400: Actions: overview, child_profile, activity_log, set_rules",
+      "time_ms": 639
+    },
+    {
+      "fn": "group-chat",
+      "status": 401,
+      "note": "HTTP 401: user_id required",
+      "time_ms": 970
+    },
+    {
+      "fn": "cry-detector",
+      "status": 400,
+      "note": "HTTP 400: Actions: classify, tips",
+      "time_ms": 1059
+    },
+    {
+      "fn": "quiz-generator-kids",
+      "status": 400,
+      "note": "HTTP 400: Actions: generate, grade, subjects",
+      "time_ms": 1229
+    },
+    {
+      "fn": "brain-memory",
+      "status": 400,
+      "note": "HTTP 400: keyword required",
+      "time_ms": 969
+    },
+    {
+      "fn": "memory",
+      "status": 400,
+      "note": "HTTP 400: Key and value required",
+      "time_ms": 973
+    },
+    {
+      "fn": "group-location",
+      "status": 401,
+      "note": "HTTP 401: user_id required",
+      "time_ms": 974
+    },
+    {
+      "fn": "group-management",
+      "status": 401,
+      "note": "HTTP 401: user_id required",
+      "time_ms": 1003
+    },
+    {
+      "fn": "user-data",
+      "status": 401,
+      "note": "HTTP 401: Unauthorized",
+      "time_ms": 692
+    },
+    {
+      "fn": "vector-store",
+      "status": 400,
+      "note": "HTTP 400: Action required: embed, upsert, query, delete, stats",
+      "time_ms": 996
+    },
+    {
+      "fn": "maps-config",
+      "status": 405,
+      "note": "HTTP 405: GET only",
+      "time_ms": 584
+    },
+    {
+      "fn": "inventory-tracker",
+      "status": 400,
+      "note": "HTTP 400: Actions: add_product, update_stock, check_stock, low_stock_alert, stock_report, movement_log, valuation",
+      "time_ms": 1010
+    },
+    {
+      "fn": "age-adapter",
+      "status": 400,
+      "note": "HTTP 400: Actions: adapt, milestones, activities",
+      "time_ms": 638
+    },
+    {
+      "fn": "route-optimizer",
+      "status": 400,
+      "note": "HTTP 400: Actions: optimize, directions, distance",
+      "time_ms": 1014
+    },
+    {
+      "fn": "email-manager",
+      "status": 400,
+      "note": "HTTP 400: email required",
+      "time_ms": 1028
+    },
+    {
+      "fn": "email-alerts",
+      "status": 400,
+      "note": "HTTP 400: Failed to send alert email",
+      "time_ms": 1150
+    }
+  ],
+  "broken": [],
+  "timeout": [],
+  "config_missing": [
+    {
+      "fn": "get-porcupine-key",
+      "status": 503,
+      "note": "PORCUPINE_API_KEY not configured",
+      "time_ms": 1032
+    }
+  ]
+}

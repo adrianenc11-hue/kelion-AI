@@ -1,0 +1,72 @@
+ÔòöÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòù
+Ôòæ   ­ƒöì VALIDATE-UI v2.0 ÔÇö Scanner HTML    Ôòæ
+ÔòÜÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòØ
+
+­ƒôï Scanning 18 HTML files...
+
+
+ÔØî ERORI CRITICE: 55
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  ÔØî app.html:2440 ÔÇö Template literal in pure HTML: "${line.replace(/"/g, '""')}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:2450 ÔÇö Template literal in pure HTML: "${format.toUpperCase()}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:3416 ÔÇö Template literal in pure HTML: "${response.status}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:3436 ÔÇö Template literal in pure HTML: "${response.status}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:3455 ÔÇö Template literal in pure HTML: "${fbRes.status}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:3754 ÔÇö Template literal in pure HTML: "${percent}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4207 ÔÇö Template literal in pure HTML: "${lat}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4207 ÔÇö Template literal in pure HTML: "${lon}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4221 ÔÇö Template literal in pure HTML: "${destination}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4230 ÔÇö Template literal in pure HTML: "${GMAPS_KEY || ''}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4230 ÔÇö Template literal in pure HTML: "${encodedOrigin}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4230 ÔÇö Template literal in pure HTML: "${encodedDest}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4235 ÔÇö Template literal in pure HTML: "${destination}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4297 ÔÇö Template literal in pure HTML: "${i + 1}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4297 ÔÇö Template literal in pure HTML: "${c}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4331 ÔÇö Template literal in pure HTML: "${lat.toFixed(4)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4331 ÔÇö Template literal in pure HTML: "${lng.toFixed(4)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4347 ÔÇö Template literal in pure HTML: "${lat.toFixed(4)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4347 ÔÇö Template literal in pure HTML: "${lng.toFixed(4)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4351 ÔÇö Template literal in pure HTML: "${i + 1}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4351 ÔÇö Template literal in pure HTML: "${c}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4385 ÔÇö Template literal in pure HTML: "${city}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4385 ÔÇö Template literal in pure HTML: "${lat.toFixed(2)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî app.html:4385 ÔÇö Template literal in pure HTML: "${lng.toFixed(2)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2027 ÔÇö Template literal in pure HTML: "${Date.now()}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2050 ÔÇö Template literal in pure HTML: "${rect.width}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2050 ÔÇö Template literal in pure HTML: "${rect.height}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2054 ÔÇö Template literal in pure HTML: "${new Date().toLocaleString()}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2056 ÔÇö Template literal in pure HTML: "${document.getElementById('kMonitorContent')?.innerHTML || '<p>No content</p>'}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2070 ÔÇö Template literal in pure HTML: "${Date.now()}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2078 ÔÇö Template literal in pure HTML: "${new Date().toLocaleString()}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2078 ÔÇö Template literal in pure HTML: "${text}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2079 ÔÇö Template literal in pure HTML: "${Date.now()}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2115 ÔÇö Template literal in pure HTML: "${Date.now()}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2116 ÔÇö Template literal in pure HTML: "${conversation.length}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2142 ÔÇö Template literal in pure HTML: "${Date.now()}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2148 ÔÇö Template literal in pure HTML: "${Date.now()}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2170 ÔÇö Template literal in pure HTML: "${Date.now()}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2174 ÔÇö Template literal in pure HTML: "${format.toUpperCase()}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2186 ÔÇö Template literal in pure HTML: "${docFiles.length}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2216 ÔÇö Template literal in pure HTML: "${lat.toFixed(4)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2216 ÔÇö Template literal in pure HTML: "${lng.toFixed(4)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2217 ÔÇö Template literal in pure HTML: "${lat}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2217 ÔÇö Template literal in pure HTML: "${lng}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2233 ÔÇö Template literal in pure HTML: "${lat}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2233 ÔÇö Template literal in pure HTML: "${lon}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2240 ÔÇö Template literal in pure HTML: "${icon}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2240 ÔÇö Template literal in pure HTML: "${Math.round(cur.temperature_2m)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2242 ÔÇö Template literal in pure HTML: "${Math.round(cur.temperature_2m)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2242 ÔÇö Template literal in pure HTML: "${userCity || 'your area'}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2249 ÔÇö Template literal in pure HTML: "${userLocation.lat}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2249 ÔÇö Template literal in pure HTML: "${userLocation.lon}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2249 ÔÇö Template literal in pure HTML: "${Math.round(userLocation.lat)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2249 ÔÇö Template literal in pure HTML: "${Math.round(userLocation.lon)}" ÔÇö va ap─ârea RAW pe ecran
+  ÔØî chat.html:2376 ÔÇö Template literal in pure HTML: "${API_BASE}" ÔÇö va ap─ârea RAW pe ecran
+
+ÔÜá´©Å  WARNINGS: 1
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  ÔÜá´©Å  developers.html:10 ÔÇö Referin╚ø─â la fi╚Öier inexistent: "/img/favicon.ico"
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+TOTAL: 55 erori, 1 warnings
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ

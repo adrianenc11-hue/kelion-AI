@@ -1,0 +1,201 @@
+{
+  "timestamp": "2026-02-10T19:35:53.659Z",
+  "total_issues": 24,
+  "critical": 18,
+  "warnings": 6,
+  "files_scanned": 73,
+  "issues": [
+    {
+      "file": "public\\landing.html",
+      "line": 1630,
+      "type": "FAKE_SPONSOR",
+      "severity": "CRITICAL",
+      "detail": "Sponsor fals detectat: \"Apple\" — nu este partener real al Kelion AI",
+      "content": "<div class=\"sponsor-name\">Apple</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1687,
+      "type": "FAKE_SPONSOR",
+      "severity": "CRITICAL",
+      "detail": "Sponsor fals detectat: \"Apple\" — nu este partener real al Kelion AI",
+      "content": "<div class=\"sponsor-name\">Apple</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1637,
+      "type": "FAKE_SPONSOR",
+      "severity": "CRITICAL",
+      "detail": "Sponsor fals detectat: \"Microsoft\" — nu este partener real al Kelion AI",
+      "content": "<div class=\"sponsor-name\">Microsoft</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1694,
+      "type": "FAKE_SPONSOR",
+      "severity": "CRITICAL",
+      "detail": "Sponsor fals detectat: \"Microsoft\" — nu este partener real al Kelion AI",
+      "content": "<div class=\"sponsor-name\">Microsoft</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1644,
+      "type": "FAKE_SPONSOR",
+      "severity": "CRITICAL",
+      "detail": "Sponsor fals detectat: \"NVIDIA\" — nu este partener real al Kelion AI",
+      "content": "<div class=\"sponsor-name\">NVIDIA</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1701,
+      "type": "FAKE_SPONSOR",
+      "severity": "CRITICAL",
+      "detail": "Sponsor fals detectat: \"NVIDIA\" — nu este partener real al Kelion AI",
+      "content": "<div class=\"sponsor-name\">NVIDIA</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1651,
+      "type": "FAKE_SPONSOR",
+      "severity": "CRITICAL",
+      "detail": "Sponsor fals detectat: \"AWS\" — nu este partener real al Kelion AI",
+      "content": "<div class=\"sponsor-name\">AWS</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1708,
+      "type": "FAKE_SPONSOR",
+      "severity": "CRITICAL",
+      "detail": "Sponsor fals detectat: \"AWS\" — nu este partener real al Kelion AI",
+      "content": "<div class=\"sponsor-name\">AWS</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1623,
+      "type": "FAKE_SPONSOR",
+      "severity": "CRITICAL",
+      "detail": "Sponsor fals detectat: \"Meta AI\" — nu este partener real al Kelion AI",
+      "content": "<div class=\"sponsor-name\">Meta AI</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1680,
+      "type": "FAKE_SPONSOR",
+      "severity": "CRITICAL",
+      "detail": "Sponsor fals detectat: \"Meta AI\" — nu este partener real al Kelion AI",
+      "content": "<div class=\"sponsor-name\">Meta AI</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1631,
+      "type": "FAKE_PARTNERSHIP",
+      "severity": "CRITICAL",
+      "detail": "Fraza de parteneriat fals: \"Platform Partner\"",
+      "content": "<div class=\"sponsor-type\">Platform Partner</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1688,
+      "type": "FAKE_PARTNERSHIP",
+      "severity": "CRITICAL",
+      "detail": "Fraza de parteneriat fals: \"Platform Partner\"",
+      "content": "<div class=\"sponsor-type\">Platform Partner</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1638,
+      "type": "FAKE_PARTNERSHIP",
+      "severity": "CRITICAL",
+      "detail": "Fraza de parteneriat fals: \"Cloud Infrastructure\"",
+      "content": "<div class=\"sponsor-type\">Cloud Infrastructure</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1695,
+      "type": "FAKE_PARTNERSHIP",
+      "severity": "CRITICAL",
+      "detail": "Fraza de parteneriat fals: \"Cloud Infrastructure\"",
+      "content": "<div class=\"sponsor-type\">Cloud Infrastructure</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1645,
+      "type": "FAKE_PARTNERSHIP",
+      "severity": "CRITICAL",
+      "detail": "Fraza de parteneriat fals: \"GPU Acceleration\"",
+      "content": "<div class=\"sponsor-type\">GPU Acceleration</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1702,
+      "type": "FAKE_PARTNERSHIP",
+      "severity": "CRITICAL",
+      "detail": "Fraza de parteneriat fals: \"GPU Acceleration\"",
+      "content": "<div class=\"sponsor-type\">GPU Acceleration</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1652,
+      "type": "FAKE_PARTNERSHIP",
+      "severity": "CRITICAL",
+      "detail": "Fraza de parteneriat fals: \"Cloud Services\"",
+      "content": "<div class=\"sponsor-type\">Cloud Services</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1709,
+      "type": "FAKE_PARTNERSHIP",
+      "severity": "CRITICAL",
+      "detail": "Fraza de parteneriat fals: \"Cloud Services\"",
+      "content": "<div class=\"sponsor-type\">Cloud Services</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1192,
+      "type": "FAKE_TESTIMONIAL",
+      "severity": "WARNING",
+      "detail": "Testimonial posibil inventat: \"— Sarah M., Family Plan\"",
+      "content": "<div class=\"author\">— Sarah M., Family Plan</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1197,
+      "type": "FAKE_TESTIMONIAL",
+      "severity": "WARNING",
+      "detail": "Testimonial posibil inventat: \"— James T., Pro User\"",
+      "content": "<div class=\"author\">— James T., Pro User</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1202,
+      "type": "FAKE_TESTIMONIAL",
+      "severity": "WARNING",
+      "detail": "Testimonial posibil inventat: \"— Alex R., Business Plan\"",
+      "content": "<div class=\"author\">— Alex R., Business Plan</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1192,
+      "type": "FAKE_TESTIMONIAL",
+      "severity": "WARNING",
+      "detail": "Testimonial posibil inventat: \"— Sarah M.\"",
+      "content": "<div class=\"author\">— Sarah M., Family Plan</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1197,
+      "type": "FAKE_TESTIMONIAL",
+      "severity": "WARNING",
+      "detail": "Testimonial posibil inventat: \"— James T.\"",
+      "content": "<div class=\"author\">— James T., Pro User</div>"
+    },
+    {
+      "file": "public\\landing.html",
+      "line": 1202,
+      "type": "FAKE_TESTIMONIAL",
+      "severity": "WARNING",
+      "detail": "Testimonial posibil inventat: \"— Alex R.\"",
+      "content": "<div class=\"author\">— Alex R., Business Plan</div>"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+
+­ƒö¼ REAL FUNCTIONAL TEST V3 ÔÇö 57 selected endpoints
+   Base: https://kelionai.app/.netlify/functions
+
+  ÔÅ¡´©Å  No TEST_EMAIL/TEST_PASSWORD env vars ÔÇö auth tests will be skipped
+
+Ô£à chat: 200 (7968ms) {"success":true,"engine":"gpt-4o-mini","reply":"Ping test successful! Dac─â ai nevoie de alte teste sau informa╚øii, spune
+Ô£à smart-brain: 200 (2615ms) {"success":true,"engine":"gemini-2.0-flash","reply":"Sunt Kelion AI, un asistent inteligent.\n\n2 + 2 = 4.\n","model":"g
+Ô£à deepseek: 200 (3337ms) {"success":true,"reply":"õ¢áÕÑ¢´╝ü­ƒæï Õ¥êÚ½ÿÕà┤ÞºüÕê░õ¢á´╝ü  \n\nµ£ëõ╗Çõ╣êµêæÕÅ»õ╗ÑÕ©«Õè®õ¢áþÜäÕÉù´╝ƒµùáÞ«║µÿ»Õø×þ¡öÚù«ÚóÿÒÇüÞüèÕñ®´╝îÞ┐ÿµÿ»ÕìÅÕè®ÕñäþÉåõ╗╗Õèí´╝îµêæÚâ¢Õ£¿Þ┐ÖÚçîÕôª´¢× ­ƒÿè","model":"deepseek-chat","engine"
+Ô£à gemini-chat: 200 (1638ms) {"success":true,"reply":"Hello! How can I help you today?\n","model":"gemini-2.0-flash","engine":"gemini"}
+Ô£à claude-orchestrator: 200 (3150ms) {"success":true,"reply":"Hello! It's nice to meet you. I'm Claude, an AI assistant created by Anthropic. I'm here to hel
+Ô£à web-search: 200 (1208ms) {"success":true,"engine":"duckduckgo","results":[],"answer":"No instant results for \"test search\". Try a more specific
+Ô£à wolfram: 200 (1679ms) {"success":true,"query":"2+2","short_answer":"4","detailed":[{"title":"Input","text":"2 + 2"},{"title":"Result","text":"
+Ô£à dalle: 200 (13694ms) {"success":true,"images":[{"url":"https://oaidalleapiprodscus.blob.core.windows.net/private/org-EaCn8ubYI8hJUCzjyTL4roJl
+Ô£à browse-live: 200 (1076ms) {"success":true,"url":"https://example.com","title":"Example Domain","description":"","content_preview":"Example Domain 
+Ô£à deep-research: 200 (22234ms) {"success":true,"engine":"gpt-4o","research":"Cercetarea testelor, sau cercetarea ├«n domeniul test─ârii, este un subiect 
+ÔÜá´©Å code-interpreter: 400 (1192ms) {"error":"Provide \"code\" with \"language\":\"javascript\", or \"question\" for AI-generated code"}
+Ô£à canvas: 200 (3281ms) {"success":true,"action":"generate","result":"It seems like the request is for code related to \"undefined,\" but \"unde
+Ô£à neural-ai: 200 (4092ms) {"ok":true,"mode":"deep","engines_used":["openai","gemini","claude"],"elapsed_ms":2852,"synthesis":"Hello! I'm here to p
+Ô£à trading-alerts: 200 (1204ms) {"success":true,"sent":false,"email_id":null}
+Ô£à risk-calculator: 200 (655ms) {"success":true,"account_size":"$10,000","risk_percentage":"2%","risk_amount":"$200.00","entry_price":"$10000.00","stop_
+Ô£à backtesting-engine: 200 (1029ms) {"success":true,"strategies":[{"id":"rsi_macd","name":"RSI + MACD","description":"Buy: RSI<35 + MACD>0 | Sell: RSI>65 + 
+Ô£à order-executor: 200 (1100ms) {"success":true,"source":"Alpaca Live","orders":[{"order_id":"6ac65df6-4906-4c71-88bf-8d52e8027c71","symbol":"ETH/USD","
+Ô£à portfolio-tracker: 200 (1091ms) {"success":true,"source":"Alpaca Live","data":{"equity":87556.19,"cash":87556.19,"buying_power":175112.38,"portfolio_val
+Ô£à trading-memory: 200 (1144ms) {"success":true,"period":"30d","total_trades":0,"message":"No closed trades in period"}
+Ô£à chart-generator: 200 (599ms) {"success":true,"svg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 500\" width=\"800\" height=\"500\"><r
+Ô£à crypto-feed: 200 (924ms) {"success":true,"name":"Bitcoin","symbol":"BTC","price_usd":"$67,212","price_eur":"Ôé¼56,555","change_24h":"0.57%","change
+Ô£à chart-generator-financial: 200 (1128ms) {"success":true,"symbol":"BTC","period":"30d","type":"candlestick","data":[{"date":"2026-01-29","open":"38.79","high":"3
+Ô£à market-data-feed: 200 (1067ms) {"success":true,"symbol":"AAPL","market":"stocks","source":"Alpaca Live","price":276.05,"open":274.695,"high":280.14,"lo
+Ô£à k-analytics: 200 (1079ms) {"success":true,"tracked":{"event_name":"test_event","category":"general","metadata":{},"user_id":"anonymous","timestamp
+Ô£à k-strategic-planner: 200 (16276ms) {"success":true,"engine":"gemini-2.0-flash","project":"test project description","existing_capabilities":0,"plan":{"proj
+Ô£à referral: 200 (963ms) {"success":true,"referral_code":null,"total_referrals":0,"reward_months":0}
+ÔÜá´©Å gdpr-cleanup: 400 (945ms) {"error":"Confirmation required","message":"Set confirm: true to proceed with data deletion"}
+Ô£à engine-discovery: 200 (959ms) {"success":true,"total_engines":14,"available":12,"missing":2,"engines":[{"name":"gemini","model":"gemini-2.0-flash","ty
+ÔØî page-tracking: 500 (1101ms) {"error":"Could not find the 'action' column of 'page_views' in the schema cache"}
+Ô£à image-editor: 200 (555ms) {"success":true,"dimensions":"N/A","megapixels":"N/A","aspect_ratio":"N/A","format":"N/A","size":"N/A","orientation":"Ô¼£ 
+Ô£à audio-editor: 200 (777ms) {"success":true,"duration":"3:00","sample_rate":"44100 Hz","bit_depth":"16-bit","channels":"Stereo","bitrate":"1411 kbps
+Ô£à generate-video: 200 (1003ms) {"success":true,"styles":[{"id":"cinematic","name":"­ƒÄ¼ Cinematic","desc":"Hollywood-quality video"},{"id":"artistic","na
+Ô£à story-generator: 200 (1002ms) {"success":true,"themes":[{"id":"aventur─â","emoji":"ÔÜö´©Å","name":"Aventuri","description":"Expedi╚øii, comori, c─âl─âtorii"},
+Ô£à lullaby-generator: 200 (565ms) {"success":true,"collection":[{"title":"Nani, nani, pui╚Öor","origin":"Tradi╚øional rom├ónesc","first_line":"Nani, nani, pu
+Ô£à currency-converter: 200 (651ms) {"success":true,"amount":100,"from":"USD","to":"EUR","rate":0.9202,"result":92.02,"formatted":"100 USD = 92.02 EUR","sou
+Ô£à document-checker: 200 (614ms) {"success":true,"country":"Romania","templates":{"cerere_pensionare":{"title":"Model cerere pensionare limit─â de v├órst─â"
+Ô£à parent-dashboard: 200 (894ms) {"success":true,"title":"­ƒæ¿ÔÇì­ƒæ®ÔÇì­ƒæºÔÇì­ƒæª Panou Control Parental","children":[{"name":"Copilul 1","age":5,"status":"­ƒƒó Online
+Ô£à cry-detector: 200 (17569ms) {"success":true,"tips":[{"emoji":"­ƒì╝","title":"Stabile╚Öte o rutin─â flexibil─â de hr─ânire","description":"La 3 luni, bebel
+Ô£à quiz-generator-kids: 200 (1059ms) {"success":true,"subjects":[{"id":"matematic─â","emoji":"­ƒº«","name":"Matematic─â","topics":["Adun─âri","Sc─âderi","├Änmul╚øiri
+ÔØî brain-memory: 500 (1125ms) {"error":"operator does not exist: jsonb ~~* unknown"}
+ÔØî memory: 500 (1158ms) {"error":"Could not find the 'key' column of 'user_memories' in the schema cache"}
+ÔØî vector-store: 500 (1143ms) {"error":"Pinecone stats 403"}
+Ô£à inventory-tracker: 200 (1156ms) {"success":true,"title":"­ƒôè Raport Stoc ÔÇö current","total_products":0,"total_items":0,"total_value":0,"currency":"RON","
+Ô£à age-adapter: 200 (549ms) {"success":true,"age_months":12,"closest_milestone":"12 luni","milestones":{"motor":["Primii pa╚Öi","St─â ├«n picioare sing
+Ô£à route-optimizer: 200 (989ms) {"success":true,"error":"origins and destinations required (arrays of addresses)"}
+ÔÜá´©Å email-manager: 401 (1114ms) {"error":"Email not connected. Connect via Gmail OAuth first.","needs_connect":true}
+ÔÜá´©Å podcast: 400 (941ms) {"error":"text or topic required"}
+ÔÜá´©Å stable-diffusion: 402 (1167ms) {"error":"Image generation API error"}
+ÔÅ¡´©Å  auth-me: SKIPPED (no auth token)
+ÔÅ¡´©Å  auth-refresh: SKIPPED (no auth token)
+Ô£à admin-traffic: 200 (1406ms) {"success":true,"stats":{"totalViews":0,"displayedViews":0,"uniqueVisitors":0,"uniqueFingerprints":0,"humanCount":0,"bot
+ÔØî maps-config: 503 (1074ms) {"error":"config_missing","message":"GOOGLE_MAPS_EMBED_KEY env var required"}
+ÔÜá´©Å messenger-webhook: 403 (977ms) Verification failed
+ÔÜá´©Å get-porcupine-key: 503 (976ms) {"error":"PORCUPINE_API_KEY not configured"} [Needs API key in vault]
+ÔÜá´©Å email-alerts: 400 (1212ms) {"error":"Failed to send alert email","code":"EMAIL_SEND_FAILED","detail":"{\"statusCode\":403,\"message\":\"The keliona [Needs Resend domain verification]
+Ô£à paypal-webhook: 200 (985ms) {"received":true,"error":"PAYPAL_WEBHOOK_ID is not defined"}
+Ô£à analytics-dashboard: 200 (1126ms) {"success":true,"error":"Failed to query page_views","details":"column page_views.duration_ms does not exist","source":"
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  Ô£à Passed: 42 | ÔÜá´©Å  Expected Warn: 8 | ÔØî Failed: 5 | ÔÅ¡´©Å  Skipped: 2
+  ­ƒôè Total: 57 endpoints
+  ­ƒöÉ Auth: Skipped (no credentials)
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+

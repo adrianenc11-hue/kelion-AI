@@ -1,0 +1,6 @@
+# Exclude codeql-db (contains # in filenames, breaks deploy)
+codeql-db
+.k1_backups
+deploy_log.txt
+deploy_log2.txt
+audit_results.txt

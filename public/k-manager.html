@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K Task Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .panel h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .file-list,
+        .task-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .file-item,
+        .task-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .file-item:hover,
+        .task-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .file-meta {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .console {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .console-line {
+            margin-bottom: 4px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            min-height: 200px;
+            font-family: 'Fira Code', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📋 K Task Manager</h1>
+        <p class="subtitle">Autonomous agent workspace & file management</p>
+
+        <div class="action-bar">
+            <button class="btn-primary" onclick="newTask()">🚀 New Task</button>
+            <button class="btn-primary" onclick="newFile()">📄 New File</button>
+            <button class="btn-secondary" onclick="refreshAll()">🔄 Refresh</button>
+            <button class="btn-secondary" onclick="showConsole()">💻 Console</button>
+        </div>
+
+        <div class="grid">
+            <div class="panel">
+                <h2>📁 Files</h2>
+                <div id="fileList" class="file-list">
+                    <div class="empty-state">No files yet. Create your first file!</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>✓ Tasks</h2>
+                <div id="taskList" class="task-list">
+                    <div class="empty-state">No tasks yet. Start a new autonomous task!</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="console" id="console" style="display: none;">
+            <div class="console-line">[K AGENT] Ready for autonomous execution...</div>
+        </div>
+    </div>
+
+    <!-- New Task Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <h2>🚀 New Autonomous Task</h2>
+            <input type="text" id="taskInput" placeholder="Ex: create a website about cats">
+            <button class="btn-primary" onclick="submitTask()">Execute</button>
+            <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- New File Modal -->
+    <div id="fileModal" class="modal">
+        <div class="modal-content">
+            <h2>📄 New File</h2>
+            <input type="text" id="filepath" placeholder="/projects/myfile.txt">
+            <textarea id="filecontent" placeholder="File content..."></textarea>
+            <button class="btn-primary" onclick="submitFile()">Create</button>
+            <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // New Task
+        function newTask() {
+            document.getElementById('taskModal').style.display = 'flex';
+        }
+
+        // New File
+        function newFile() {
+            document.getElementById('fileModal').style.display = 'flex';
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById('taskModal').style.display = 'none';
+            document.getElementById('fileModal').style.display = 'none';
+        }
+
+        // Submit Task to K AGI
+        async function submitTask() {
+            const task = document.getElementById('taskInput').value;
+            if (!task) return;
+
+            logConsole(`[TASK] Executing: ${task}`);
+
+            try {
+                const response = await fetch('/.netlify/functions/k-agi', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userRequest: task,
+                        language: 'en',
+                        userId: 'web-ui'
+                    })
+                });
+
+                const result = await response.json();
+                logConsole(`[RESULT] ${result.answer}`);
+                logConsole(`[STATS] Iterations: ${result.iterations}, Tools: ${result.toolsUsed?.join(', ')}`);
+
+                closeModal();
+                refreshAll();
+            } catch (error) {
+                logConsole(`[ERROR] ${error.message}`);
+            }
+        }
+
+        // Submit File
+        async function submitFile() {
+            const filepath = document.getElementById('filepath').value;
+            const content = document.getElementById('filecontent').value;
+
+            if (!filepath || !content) return;
+
+            logConsole(`[FILE] Creating: ${filepath}`);
+
+            try {
+                const response = await fetch('/.netlify/functions/k-filesystem', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'create',
+                        filepath: filepath,
+                        content: content,
+                        userId: 'web-ui'
+                    })
+                });
+
+                const result = await response.json();
+                logConsole(`[SUCCESS] File created`);
+
+                closeModal();
+                refreshAll();
+            } catch (error) {
+                logConsole(`[ERROR] ${error.message}`);
+            }
+        }
+
+        // Refresh Lists
+        async function refreshAll() {
+            logConsole('[REFRESH] Loading files and tasks...');
+            // Load files from k-filesystem
+            // Load tasks from k-tasks (if endpoint exists)
+        }
+
+        // Show/Hide Console
+        function showConsole() {
+            const console = document.getElementById('console');
+            console.style.display = console.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Log to Console
+        function logConsole(message) {
+            const consoleEl = document.getElementById('console');
+            const line = document.createElement('div');
+            line.className = 'console-line';
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleEl.appendChild(line);
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        // Init
+        window.onload = () => {
+            logConsole('[K AGENT] Task Manager initialized');
+        };
+    </script>
+
+    <!-- K-Brain Modular System (transplantable) -->
+    <script src="/brain/brain-init.js"></script>
+</body>
+
+</html>

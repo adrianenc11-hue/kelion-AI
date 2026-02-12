@@ -1,0 +1,24 @@
+{
+    "name": "Kelion AI - Advanced Hologram Assistant",
+    "short_name": "K",
+    "description": "AI-powered hologram assistant with voice, vision, and multi-modal intelligence",
+    "start_url": "/app.html",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#00ffff",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/hologram-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/hologram-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

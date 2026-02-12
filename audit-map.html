@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelion AI — Audit Map</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #00f0ff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+
+        .dot-real {
+            background: #00e676;
+            box-shadow: 0 0 8px #00e67688;
+        }
+
+        .dot-calc {
+            background: #ffab00;
+            box-shadow: 0 0 8px #ffab0088;
+        }
+
+        .dot-fix {
+            background: #ff6d00;
+            box-shadow: 0 0 8px #ff6d0088;
+        }
+
+        .dot-del {
+            background: #666;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: #12122a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 12px 20px;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .stat-num {
+            font-size: 1.8rem;
+            font-weight: 900;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .stat-real .stat-num {
+            color: #00e676;
+        }
+
+        .stat-calc .stat-num {
+            color: #ffab00;
+        }
+
+        .stat-fix .stat-num {
+            color: #ff6d00;
+        }
+
+        .stat-del .stat-num {
+            color: #666;
+        }
+
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: #12122a;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #333;
+        }
+
+        .functions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .fn {
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: default;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            position: relative;
+        }
+
+        .fn:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .fn .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a3a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.7rem;
+            font-weight: 400;
+            white-space: nowrap;
+            z-index: 100;
+            color: #ccc;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        .fn:hover .tooltip {
+            display: block;
+        }
+
+        .fn-real {
+            background: #00e67615;
+            border-color: #00e67644;
+            color: #00e676;
+        }
+
+        .fn-real:hover {
+            background: #00e67630;
+            box-shadow: 0 0 15px #00e67633;
+        }
+
+        .fn-calc {
+            background: #ffab0015;
+            border-color: #ffab0044;
+            color: #ffab00;
+        }
+
+        .fn-calc:hover {
+            background: #ffab0030;
+            box-shadow: 0 0 15px #ffab0033;
+        }
+
+        .fn-fix {
+            background: #ff6d0020;
+            border-color: #ff6d0055;
+            color: #ff6d00;
+            animation: pulse-orange 2s ease-in-out infinite;
+        }
+
+        .fn-fix:hover {
+            background: #ff6d0035;
+            box-shadow: 0 0 20px #ff6d0055;
+        }
+
+        @keyframes pulse-orange {
+
+            0%,
+            100% {
+                box-shadow: 0 0 5px #ff6d0022;
+            }
+
+            50% {
+                box-shadow: 0 0 15px #ff6d0044;
+            }
+        }
+
+        .fn-500 {
+            background: #ff174440;
+            border-color: #ff1744;
+            color: #fff;
+            animation: blink 1s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .fn-del {
+            background: #33333320;
+            border-color: #44444444;
+            color: #666;
+            text-decoration: line-through;
+        }
+
+        .deleted-section {
+            background: #0d0d1a;
+            border: 1px solid #1a1a1a;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .deleted-section .section-title {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🔍 KELION AI — HARTA AUDITULUI</h1>
+    <p class="subtitle">Actualizat: 10 Feb 2026 — verde=real, galben=calculator, portocaliu=de reparat, gri=șters</p>
+
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-dot dot-real"></div> REAL — funcționează cu API-uri reale
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot dot-calc"></div> CALCULATOR — returnează formule/sfaturi
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot dot-fix"></div> 🔧 DE REPARAT — fals dar reparabil
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot dot-del"></div> 🗑️ ȘTERS — eliminat din cod
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="stat stat-real">
+            <div class="stat-num" id="s-real">0</div>
+            <div class="stat-label">FUNCȚII REALE</div>
+        </div>
+        <div class="stat stat-calc">
+            <div class="stat-num" id="s-calc">0</div>
+            <div class="stat-label">CALCULATOARE</div>
+        </div>
+        <div class="stat stat-fix">
+            <div class="stat-num" id="s-fix">0</div>
+            <div class="stat-label">🔧 DE REPARAT</div>
+        </div>
+        <div class="stat stat-del">
+            <div class="stat-num" id="s-del">0</div>
+            <div class="stat-label">🗑️ ȘTERSE</div>
+        </div>
+    </div>
+
+    <div class="sections">
+
+        <!-- AI CORE -->
+        <div class="section">
+            <div class="section-title">🧠 AI CORE</div>
+            <div class="functions">
+                <div class="fn fn-real">smart-brain.js<span class="tooltip">✅ 800 linii — 12 AI engines, cascade, RAG,
+                        emotion</span></div>
+                <div class="fn fn-real">chat.js<span class="tooltip">✅ 2317 linii — Tool calling router, OpenAI function
+                        calling</span></div>
+                <div class="fn fn-real">claude-orchestrator.js<span class="tooltip">✅ Apel real Claude API</span></div>
+                <div class="fn fn-real">search-router.js<span class="tooltip">✅ Multi-engine search: Tavily, Perplexity,
+                        Brave, Google</span></div>
+                <div class="fn fn-real">engine-discovery.js<span class="tooltip">✅ Auto-detectare engines
+                        disponibile</span></div>
+                <div class="fn fn-real">engine-status.js<span class="tooltip">✅ Verificare balance/credits API</span>
+                </div>
+                <div class="fn fn-real">k-supreme-intelligence.js<span class="tooltip">✅ Master Brain GPT-4o</span>
+                </div>
+                <div class="fn fn-real">neural-ai.js<span class="tooltip">✅ Neural AI routing</span></div>
+                <div class="fn fn-real">deepseek.js<span class="tooltip">✅ Apel real DeepSeek API</span></div>
+                <div class="fn fn-real">gemini-chat.js<span class="tooltip">✅ Apel real Gemini API</span></div>
+                <div class="fn fn-real">code-interpreter.js<span class="tooltip">✅ Execuție JS sandbox + AI code
+                        gen</span></div>
+            </div>
+        </div>
+
+        <!-- AUTH -->
+        <div class="section">
+            <div class="section-title">🔐 AUTH (13 funcții)</div>
+            <div class="functions">
+                <div class="fn fn-real">auth.js<span class="tooltip">✅ Supabase auth real</span></div>
+                <div class="fn fn-real">auth-login.js<span class="tooltip">✅ Login real</span></div>
+                <div class="fn fn-real">auth-register.js<span class="tooltip">✅ Înregistrare reală</span></div>
+                <div class="fn fn-real">auth-logout.js<span class="tooltip">✅ Logout real</span></div>
+                <div class="fn fn-real">auth-me.js<span class="tooltip">✅ Profil user real</span></div>
+                <div class="fn fn-real">auth-refresh.js<span class="tooltip">✅ Token refresh Supabase</span></div>
+                <div class="fn fn-real">auth-forgot-password.js<span class="tooltip">✅ Reset password real</span></div>
+                <div class="fn fn-real">auth-reset-password.js<span class="tooltip">✅ Reset cu token</span></div>
+                <div class="fn fn-real">auth-verify-email.js<span class="tooltip">✅ Verificare email</span></div>
+                <div class="fn fn-real">auth-resend-verification.js<span class="tooltip">✅ Resend verificare</span>
+                </div>
+                <div class="fn fn-real">check-user.js<span class="tooltip">✅ Check user exists</span></div>
+                <div class="fn fn-real">setup-admin.js<span class="tooltip">✅ Setup admin real</span></div>
+                <div class="fn fn-real">setup-permanent-user.js<span class="tooltip">✅ Setup permanent user</span></div>
+            </div>
+        </div>
+
+        <!-- PAYMENTS -->
+        <div class="section">
+            <div class="section-title">💰 PAYMENTS</div>
+            <div class="functions">
+                <div class="fn fn-real">stripe-checkout.js<span class="tooltip">✅ Stripe checkout real</span></div>
+                <div class="fn fn-real">stripe-webhook.js<span class="tooltip">✅ Stripe webhook real</span></div>
+                <div class="fn fn-real">paypal-webhook.js<span class="tooltip">✅ PayPal webhook real</span></div>
+                <div class="fn fn-calc">paypal-admin.js<span class="tooltip">⚠️ Admin PayPal — funcționalitate
+                        limitată</span></div>
+                <div class="fn fn-calc">buy-credits.js<span class="tooltip">⚠️ Cumpărare credite — logică
+                        parțială</span></div>
+                <div class="fn fn-calc">ai-credits.js<span class="tooltip">⚠️ Credite AI — tracking local</span></div>
+                <div class="fn fn-calc">free-trial.js<span class="tooltip">⚠️ Free trial — logică simplă</span></div>
+            </div>
+        </div>
+
+        <!-- TRADING -->
+        <div class="section">
+            <div class="section-title">📈 TRADING BOT</div>
+            <div class="functions">
+                <div class="fn fn-real">trading-bot-engine.js<span class="tooltip">✅ 583 linii — Alpaca API, RSI, MACD,
+                        EMA, Bollinger</span></div>
+                <div class="fn fn-real">trading-memory.js<span class="tooltip">✅ Salvare trade history în
+                        Supabase</span></div>
+                <div class="fn fn-real">market-data-feed.js<span class="tooltip">✅ Date piață reale din Alpaca +
+                        CoinGecko</span></div>
+                <div class="fn fn-real">order-executor.js<span class="tooltip">✅ Execuție ordine Alpaca API</span></div>
+                <div class="fn fn-calc">trading-bot-scheduler.js<span class="tooltip">⚠️ Scheduler — depinde de
+                        cron</span></div>
+                <div class="fn fn-calc">trading-alerts.js<span class="tooltip">⚠️ Alerte — logică locală</span></div>
+                <div class="fn fn-calc">backtesting-engine.js<span class="tooltip">⚠️ Backtesting — calcule
+                        locale</span></div>
+                <div class="fn fn-calc">portfolio-tracker.js<span class="tooltip">⚠️ Portofoliu — citire din
+                        Alpaca</span></div>
+                <div class="fn fn-calc">risk-calculator.js<span class="tooltip">⚠️ Calculator risc — formule
+                        locale</span></div>
+                <div class="fn fn-calc">crypto-feed.js<span class="tooltip">⚠️ Feed crypto — CoinGecko API</span></div>
+                <div class="fn fn-calc">chart-generator.js<span class="tooltip">⚠️ Generare chart — date pt
+                        grafic</span></div>
+                <div class="fn fn-calc">chart-generator-financial.js<span class="tooltip">⚠️ Chart financiar — date
+                        formatate</span></div>
+            </div>
+        </div>
+
+        <!-- VOICE -->
+        <div class="section">
+            <div class="section-title">🎙️ VOICE BACKEND</div>
+            <div class="functions">
+                <div class="fn fn-real">realtime-session.js<span class="tooltip">✅ OpenAI Realtime API session</span>
+                </div>
+                <div class="fn fn-real">realtime-token.js<span class="tooltip">✅ Token pt realtime</span></div>
+                <div class="fn fn-real">gemini-live-token.js<span class="tooltip">✅ Token pt Gemini Live</span></div>
+                <div class="fn fn-real">get-porcupine-key.js<span class="tooltip">✅ Wake word key</span></div>
+                <div class="fn fn-real">elevenlabs-tts.js<span class="tooltip">✅ ElevenLabs TTS real</span></div>
+                <div class="fn fn-real">speak.js<span class="tooltip">✅ TTS routing</span></div>
+                <div class="fn fn-real">whisper.js<span class="tooltip">✅ Whisper STT real</span></div>
+                <div class="fn fn-real">transcribe.js<span class="tooltip">✅ Transcriere audio</span></div>
+            </div>
+        </div>
+
+        <!-- AI TOOLS -->
+        <div class="section">
+            <div class="section-title">🛠️ AI TOOLS</div>
+            <div class="functions">
+                <div class="fn fn-real">web-search.js<span class="tooltip">✅ Căutare web reală</span></div>
+                <div class="fn fn-real">dalle.js<span class="tooltip">✅ DALL-E API real</span></div>
+                <div class="fn fn-real">generate-image.js<span class="tooltip">✅ Generare imagine AI</span></div>
+                <div class="fn fn-real">vision.js<span class="tooltip">✅ Vision API real</span></div>
+                <div class="fn fn-real">deep-research.js<span class="tooltip">✅ Deep research multi-step</span></div>
+                <div class="fn fn-real">browse-live.js<span class="tooltip">✅ Browse web real</span></div>
+                <div class="fn fn-real">wolfram.js<span class="tooltip">✅ Wolfram Alpha API real</span></div>
+                <div class="fn fn-real">vector-store.js<span class="tooltip">✅ Pinecone vector store</span></div>
+                <div class="fn fn-real">memory.js<span class="tooltip">✅ Memory Supabase</span></div>
+                <div class="fn fn-real">brain-memory.js<span class="tooltip">✅ Brain memory persistence</span></div>
+                <div class="fn fn-calc">translate.js<span class="tooltip">⚠️ Traducere — depinde de API key</span></div>
+                <div class="fn fn-calc">weather.js<span class="tooltip">⚠️ Vreme — API extern</span></div>
+                <div class="fn fn-calc">ocr.js<span class="tooltip">⚠️ OCR — depinde de API key</span></div>
+                <div class="fn fn-calc">stable-diffusion.js<span class="tooltip">⚠️ SD — depinde de API key</span></div>
+                <div class="fn fn-fix">generate-video.js<span class="tooltip">🔧 DE REPARAT — necesită Runway API</span>
+                </div>
+                <div class="fn fn-calc">canvas.js<span class="tooltip">⚠️ Canvas — HTML canvas helper</span></div>
+                <div class="fn fn-calc">notes.js<span class="tooltip">⚠️ Notes — CRUD simplu</span></div>
+                <div class="fn fn-calc">calendar.js<span class="tooltip">⚠️ Calendar — calcule date</span></div>
+                <div class="fn fn-calc">search.js<span class="tooltip">⚠️ Search basic</span></div>
+                <div class="fn fn-calc">k-presentation.js<span class="tooltip">⚠️ Template prezentare</span></div>
+                <div class="fn fn-calc">k-strategic-planner.js<span class="tooltip">⚠️ Planner — sfaturi AI</span></div>
+                <div class="fn fn-calc">email-manager.js<span class="tooltip">⚠️ Email — depinde de integrare</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOCIAL MEDIA -->
+        <div class="section">
+            <div class="section-title">📱 SOCIAL MEDIA</div>
+            <div class="functions">
+                <div class="fn fn-500">auto-poster.js<span class="tooltip">💀 HTTP 500 — DE REPARAT</span></div>
+                <div class="fn fn-calc">auto-poster-api.js<span class="tooltip">⚠️ API wrapper pt auto-poster</span>
+                </div>
+                <div class="fn fn-calc">messenger-webhook.js<span class="tooltip">⚠️ Messenger — probleme webhook</span>
+                </div>
+                <div class="fn fn-calc">tiktok-webhook.js<span class="tooltip">⚠️ TikTok — integrare incompletă</span>
+                </div>
+                <div class="fn fn-calc">social-media-monitor.js<span class="tooltip">⚠️ Monitor — logică parțială</span>
+                </div>
+                <div class="fn fn-calc">social-media-stats.js<span class="tooltip">⚠️ Stats — depinde de Meta API</span>
+                </div>
+                <div class="fn fn-calc">newsletter-subscribe.js<span class="tooltip">⚠️ Newsletter — CRUD simplu</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PENSII -->
+        <div class="section">
+            <div class="section-title">🏛️ PENSII</div>
+            <div class="functions">
+                <div class="fn fn-calc">pension-calculator.js<span class="tooltip">⚠️ Formule matematice locale</span>
+                </div>
+                <div class="fn fn-calc">pension-forms.js<span class="tooltip">⚠️ 546 linii câmpuri JSON</span></div>
+                <div class="fn fn-calc">pension-content-generator.js<span class="tooltip">⚠️ Generare conținut pensii cu
+                        AI</span></div>
+                <div class="fn fn-calc">legal-database-pension.js<span class="tooltip">⚠️ Date legale hardcodate</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- KIDS - DE REPARAT -->
+        <div class="section">
+            <div class="section-title">👶 KIDS — <span style="color:#ff6d00">🔧 DE REPARAT</span></div>
+            <div class="functions">
+                <div class="fn fn-fix">cry-detector.js<span class="tooltip">🔧 DE REPARAT — browser mic + AI
+                        classification</span></div>
+                <div class="fn fn-fix">story-generator.js<span class="tooltip">🔧 DE REPARAT — folosește smart-brain.js
+                        pt AI</span></div>
+                <div class="fn fn-fix">quiz-generator-kids.js<span class="tooltip">🔧 DE REPARAT — AI generation</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUSINESS TOOLS -->
+        <div class="section">
+            <div class="section-title">💼 BUSINESS TOOLS</div>
+            <div class="functions">
+                <div class="fn fn-calc">booking-system.js<span class="tooltip">⚠️ Logică booking fără calendar
+                        real</span></div>
+                <div class="fn fn-calc">seo-analyzer.js<span class="tooltip">⚠️ Sfaturi generice</span></div>
+                <div class="fn fn-calc">template-generator.js<span class="tooltip">⚠️ Template-uri hardcodate</span>
+                </div>
+                <div class="fn fn-calc">document-checker.js<span class="tooltip">⚠️ Verificare document — logică
+                        simplă</span></div>
+                <div class="fn fn-calc">report-generator.js<span class="tooltip">⚠️ Structuri raport</span></div>
+                <div class="fn fn-calc">export-document.js<span class="tooltip">⚠️ Export — nu generează PDF</span>
+                </div>
+                <div class="fn fn-calc">quiz-generator.js<span class="tooltip">⚠️ Quiz hardcodat</span></div>
+                <div class="fn fn-calc">workout-planner.js<span class="tooltip">⚠️ Exerciții hardcodate</span></div>
+                <div class="fn fn-calc">recipe-calculator.js<span class="tooltip">⚠️ Calcule nutriționale locale</span>
+                </div>
+                <div class="fn fn-calc">invoice-generator.js<span class="tooltip">⚠️ Template factură</span></div>
+                <div class="fn fn-calc">financial-calculator.js<span class="tooltip">⚠️ Formule matematice locale</span>
+                </div>
+                <div class="fn fn-calc">currency-converter.js<span class="tooltip">⚠️ Cursuri HARDCODATE</span></div>
+            </div>
+        </div>
+
+        <!-- ADMIN -->
+        <div class="section">
+            <div class="section-title">📊 ADMIN</div>
+            <div class="functions">
+                <div class="fn fn-calc">admin-notify.js<span class="tooltip">⚠️ Notificări admin</span></div>
+                <div class="fn fn-calc">admin-traffic.js<span class="tooltip">⚠️ Traffic tracking</span></div>
+                <div class="fn fn-calc">analytics-dashboard.js<span class="tooltip">⚠️ Analytics — Supabase
+                        queries</span></div>
+                <div class="fn fn-calc">cost-tracker.js<span class="tooltip">⚠️ Cost tracking</span></div>
+                <div class="fn fn-calc">usage-analytics.js<span class="tooltip">⚠️ Usage stats</span></div>
+                <div class="fn fn-real">usage-limiter.js<span class="tooltip">✅ Rate limiting real Supabase</span></div>
+                <div class="fn fn-calc">k-analytics.js<span class="tooltip">⚠️ Analytics intern</span></div>
+                <div class="fn fn-calc">k-security.js<span class="tooltip">⚠️ Security checks</span></div>
+                <div class="fn fn-calc">audit-log.js<span class="tooltip">⚠️ Audit log — CRUD simplu</span></div>
+                <div class="fn fn-calc">age-adapter.js<span class="tooltip">⚠️ Adaptor vârstă</span></div>
+                <div class="fn fn-calc">page-tracking.js<span class="tooltip">⚠️ Page tracking</span></div>
+                <div class="fn fn-calc">trace-collector.js<span class="tooltip">⚠️ Trace collection</span></div>
+            </div>
+        </div>
+
+        <!-- INFRASTRUCTURE -->
+        <div class="section">
+            <div class="section-title">⚙️ INFRASTRUCTURĂ</div>
+            <div class="functions">
+                <div class="fn fn-real">get-secret.js<span class="tooltip">✅ Secrets Vault real — Supabase +
+                        cache</span></div>
+                <div class="fn fn-real">api-gateway.js<span class="tooltip">✅ API Gateway — rate limit + cache</span>
+                </div>
+                <div class="fn fn-real">health-check.js<span class="tooltip">✅ Health check real</span></div>
+                <div class="fn fn-real">health.js<span class="tooltip">✅ Health endpoint</span></div>
+                <div class="fn fn-calc">api-keys.js<span class="tooltip">⚠️ API keys management</span></div>
+                <div class="fn fn-calc">api-subscription.js<span class="tooltip">⚠️ API subscription</span></div>
+                <div class="fn fn-calc">env-check.js<span class="tooltip">⚠️ Env check — 3/10 configurate</span></div>
+                <div class="fn fn-calc">gdpr-cleanup.js<span class="tooltip">⚠️ GDPR cleanup</span></div>
+                <div class="fn fn-calc">memory-cleanup.js<span class="tooltip">⚠️ Memory cleanup</span></div>
+                <div class="fn fn-calc">user-data.js<span class="tooltip">⚠️ User data CRUD</span></div>
+                <div class="fn fn-calc">file-upload.js<span class="tooltip">⚠️ Upload fișiere</span></div>
+                <div class="fn fn-calc">maps-config.js<span class="tooltip">⚠️ Config hărți</span></div>
+                <div class="fn fn-calc">referral.js<span class="tooltip">⚠️ Sistem referral</span></div>
+                <div class="fn fn-calc">progress-tracker.js<span class="tooltip">⚠️ Progress tracking</span></div>
+                <div class="fn fn-calc">claude-audit.js<span class="tooltip">⚠️ Audit cu Claude API</span></div>
+                <div class="fn fn-calc">email-alerts.js<span class="tooltip">⚠️ Email alerts</span></div>
+                <div class="fn fn-fix">group-chat.js<span class="tooltip">🔧 DE REPARAT — Supabase Realtime</span></div>
+                <div class="fn fn-fix">group-location.js<span class="tooltip">🔧 DE REPARAT — implementare reală</span>
+                </div>
+                <div class="fn fn-fix">group-management.js<span class="tooltip">🔧 DE REPARAT — CRUD Supabase</span>
+                </div>
+                <div class="fn fn-fix">route-optimizer.js<span class="tooltip">🔧 DE REPARAT — Google Maps API</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ȘTERSE -->
+        <div class="deleted-section">
+            <div class="section-title">🗑️ ȘTERSE DIN COD (13 funcții + 6 pagini)</div>
+            <div class="functions">
+                <div class="fn fn-del">baby-monitor-mode.js</div>
+                <div class="fn fn-del">lullaby-generator.js</div>
+                <div class="fn fn-del">safe-mode.js</div>
+                <div class="fn fn-del">screen-time-limiter.js</div>
+                <div class="fn fn-del">parent-dashboard.js</div>
+                <div class="fn fn-del">reward-system.js</div>
+                <div class="fn fn-del">audio-editor.js</div>
+                <div class="fn fn-del">video-editor.js</div>
+                <div class="fn fn-del">image-editor.js</div>
+                <div class="fn fn-del">podcast.js</div>
+                <div class="fn fn-del">k-web-browser.js</div>
+                <div class="fn fn-del">k-terminal.js</div>
+                <div class="fn fn-del">generate-music.js</div>
+                <div class="fn fn-del">landing.html</div>
+                <div class="fn fn-del">marketing.html</div>
+                <div class="fn fn-del">developers.html</div>
+                <div class="fn fn-del">premium.html</div>
+                <div class="fn fn-del">subscribe.html</div>
+                <div class="fn fn-del">avatar-demo.html</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById('s-real').textContent = document.querySelectorAll('.fn-real').length;
+        document.getElementById('s-calc').textContent = document.querySelectorAll('.fn-calc').length;
+        document.getElementById('s-fix').textContent = document.querySelectorAll('.fn-fix').length + document.querySelectorAll('.fn-500').length;
+        document.getElementById('s-del').textContent = document.querySelectorAll('.fn-del').length;
+    </script>
+
+</body>
+
+</html>

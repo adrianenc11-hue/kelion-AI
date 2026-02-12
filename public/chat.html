@@ -1,0 +1,2776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="description" content="Chat with K, an advanced AI assistant with 10+ expert professions including Software Engineer, Cyber Security, Lawyer, and more. Real-time web search and browsing.">
+    <meta name="keywords" content="AI chat, K assistant, AI professions, smart chatbot, multilingual AI">
+    <meta name="author" content="Kelion AI">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph -->
+    <meta property="og:title" content="K — Chat AI | Kelion AI">
+    <meta property="og:description" content="Chat with K, an advanced AI assistant with 10+ expert professions including Software Engineer, Cyber Security, Lawyer, and more. Real-time web search and browsing.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kelionai.app/chat.html">
+    <meta property="og:image" content="https://kelionai.app/hologram-512.png">
+    <meta property="og:site_name" content="Kelion AI">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="K — Chat AI | Kelion AI">
+    <meta name="twitter:description" content="Chat with K, an advanced AI assistant with 10+ expert professions including Software Engineer, Cyber Security, Lawyer, and more. Real-time web search and browsing.">
+    <meta name="twitter:image" content="https://kelionai.app/hologram-512.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K — Chat AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0e1a;
+            --surface: #111827;
+            --surface2: #1e293b;
+            --accent: #6366f1;
+            --accent2: #818cf8;
+            --green: #10b981;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --border: #1e293b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* ═══ SPLIT LAYOUT — 40% Avatar / 60% Monitor+Doc ═══ */
+        .chat-panel {
+            flex: 0 0 60%;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            max-width: 60%;
+        }
+
+        .k-display-panel {
+            flex: 0 0 40%;
+            max-width: 40%;
+            order: -1;
+            /* K panel goes LEFT */
+            background: radial-gradient(ellipse at center, #0d1117 0%, #050a18 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            overflow: hidden;
+        }
+
+        /* ═══ K MONITOR — Permanent Projection Screen ═══ */
+        .k-monitor {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: auto;
+            background: linear-gradient(180deg, rgba(10, 14, 26, 0.95) 0%, rgba(17, 24, 39, 0.98) 100%);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+        }
+
+        /* CRT scanline effect */
+        .k-monitor::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(99, 102, 241, 0.015) 2px,
+                    rgba(99, 102, 241, 0.015) 4px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .k-monitor::before {
+            content: '📺 K MONITOR';
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: rgba(99, 102, 241, 0.3);
+            font-weight: 700;
+            z-index: 2;
+        }
+
+        .k-monitor-content {
+            text-align: left;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text);
+            width: 100%;
+            max-height: 100%;
+            overflow-y: auto;
+            z-index: 2;
+        }
+
+        .k-monitor-content pre {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            padding: 14px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #a5f3fc;
+        }
+
+        .k-monitor-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .k-monitor-content iframe {
+            width: 100%;
+            min-height: 300px;
+            border: none;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .k-sentence {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease;
+        }
+
+        .k-sentence.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Response ticker (bottom text scroller) */
+        .k-response-ticker {
+            padding: 12px 20px;
+            background: rgba(17, 24, 39, 0.9);
+            border-top: 1px solid var(--border);
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        .k-ticker-text {
+            font-size: 14px;
+            color: var(--accent2);
+            animation: tickerFade 0.5s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        @keyframes tickerFade {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .k-display-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center bottom, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .k-status-bar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .k-status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            width: fit-content;
+        }
+
+        .k-status-item .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .k-location-btn {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .k-location-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.6);
+        }
+
+        .k-role-badge {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 6px;
+        }
+
+        .k-role-badge.free {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .k-role-badge.premium {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.4);
+        }
+
+        .k-role-badge.admin {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .admin-only {
+            display: none !important;
+        }
+
+        .k-audio-wave {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 30px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .k-audio-wave.speaking {
+            opacity: 1;
+        }
+
+        .k-audio-wave .bar {
+            width: 4px;
+            background: linear-gradient(to top, var(--accent), var(--green));
+            border-radius: 2px;
+            animation: wave 0.8s ease-in-out infinite;
+        }
+
+        .k-audio-wave .bar:nth-child(1) {
+            height: 8px;
+            animation-delay: 0s;
+        }
+
+        .k-audio-wave .bar:nth-child(2) {
+            height: 15px;
+            animation-delay: 0.1s;
+        }
+
+        .k-audio-wave .bar:nth-child(3) {
+            height: 22px;
+            animation-delay: 0.15s;
+        }
+
+        .k-audio-wave .bar:nth-child(4) {
+            height: 28px;
+            animation-delay: 0.2s;
+        }
+
+        .k-audio-wave .bar:nth-child(5) {
+            height: 22px;
+            animation-delay: 0.25s;
+        }
+
+        .k-audio-wave .bar:nth-child(6) {
+            height: 15px;
+            animation-delay: 0.3s;
+        }
+
+        .k-audio-wave .bar:nth-child(7) {
+            height: 8px;
+            animation-delay: 0.35s;
+        }
+
+        @keyframes wave {
+
+            0%,
+            100% {
+                transform: scaleY(0.4);
+            }
+
+            50% {
+                transform: scaleY(1);
+            }
+        }
+
+        /* ═══ 3D CANVAS ═══ */
+        #kCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .k-loading {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            z-index: 5;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 6px 14px;
+            border-radius: 16px;
+            backdrop-filter: blur(6px);
+        }
+
+        /* ═══ M/F TOGGLE SWITCH ═══ */
+        .k-gender-toggle {
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            display: none;
+            /* Point 5: avatar re-select removed from inner pages */
+            align-items: center;
+            gap: 6px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .k-gender-label {
+            font-size: 16px;
+            transition: opacity 0.3s;
+            cursor: default;
+        }
+
+        .k-switch {
+            position: relative;
+            width: 36px;
+            height: 20px;
+        }
+
+        .k-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .k-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #4a6cf7;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .k-slider::before {
+            content: '';
+            position: absolute;
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .k-switch input:checked+.k-slider {
+            background: #e84393;
+        }
+
+        .k-switch input:checked+.k-slider::before {
+            transform: translateX(16px);
+        }
+
+        /* Mobile: hide K panel */
+        @media (max-width: 768px) {
+            .k-display-panel {
+                display: none;
+            }
+
+            .chat-panel {
+                max-width: 100%;
+            }
+        }
+
+        /* ═══ HEADER ═══ */
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, var(--surface) 0%, rgba(99, 102, 241, 0.05) 100%);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .chat-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.4;
+        }
+
+        .chat-header .logo {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .chat-header .status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--green);
+        }
+
+        .chat-header .status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        .timer {
+            margin-left: auto;
+            font-size: 14px;
+            font-family: monospace;
+            color: var(--muted);
+            padding: 6px 12px;
+            background: var(--surface2);
+            border-radius: 8px;
+        }
+
+        .timer.warning {
+            color: #f59e0b;
+        }
+
+        .timer.critical {
+            color: #ef4444;
+            animation: pulse 1s infinite;
+        }
+
+        .lang-badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            background: rgba(99, 102, 241, 0.1);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            color: var(--accent2);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            transition: all 0.2s;
+        }
+
+        .lang-badge:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        /* ═══ MESSAGES — visible compact chat log (Point 34) ═══ */
+        .messages {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 12px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border-top: 1px solid var(--border);
+            background: rgba(17, 24, 39, 0.6);
+        }
+
+        .msg {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .msg.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: white;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+        }
+
+        .msg.ai {
+            align-self: flex-start;
+            background: var(--surface2);
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .msg.ai .model {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        .msg.system {
+            align-self: center;
+            background: transparent;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .typing {
+            align-self: flex-start;
+            background: var(--surface2);
+            padding: 12px 20px;
+            border-radius: 16px;
+            display: none;
+        }
+
+        .typing span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--muted);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+            margin: 0 2px;
+        }
+
+        .typing span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+            }
+
+            30% {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* ═══ INPUT ═══ */
+        .input-area {
+            padding: 16px 20px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 12px 16px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-area input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        .input-area input::placeholder {
+            color: var(--muted);
+        }
+
+        .btn {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .btn-send {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-send:hover {
+            background: var(--accent2);
+        }
+
+        .btn-mic {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-mic.recording {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+            animation: pulse 1s infinite;
+        }
+
+        .btn-mic:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .btn-audio {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .btn-audio.active {
+            background: var(--green);
+            color: white;
+            border-color: var(--green);
+        }
+
+        .btn-audio:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* ═══ DOC TAB ═══ */
+        .doc-tab {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+            max-height: 220px;
+            min-height: 60px;
+            transition: max-height 0.3s;
+        }
+
+        .doc-tab-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            background: rgba(17, 24, 39, 0.8);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .doc-tab-header h3 {
+            font-size: 12px;
+            color: var(--accent2);
+            letter-spacing: 1px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .doc-tab-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .doc-tab-actions button {
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            background: rgba(99, 102, 241, 0.08);
+            color: var(--accent2);
+            font-size: 11px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .doc-tab-actions button:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--accent);
+        }
+
+        .doc-tab-body {
+            flex: 1;
+            display: flex;
+            gap: 8px;
+            padding: 8px 12px;
+            overflow: hidden;
+        }
+
+        .doc-upload-zone {
+            flex: 0 0 140px;
+            border: 2px dashed rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            gap: 4px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .doc-upload-zone:hover,
+        .doc-upload-zone.dragover {
+            border-color: var(--accent);
+            background: rgba(99, 102, 241, 0.04);
+        }
+
+        .doc-upload-zone .upload-icon {
+            font-size: 24px;
+            opacity: 0.6;
+        }
+
+        .doc-upload-zone .upload-text {
+            font-size: 10px;
+            color: var(--muted);
+            line-height: 1.3;
+        }
+
+        .doc-file-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .doc-file-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 6px;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+
+        .doc-file-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .doc-file-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .doc-file-name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text);
+        }
+
+        .doc-file-size {
+            color: var(--muted);
+            font-size: 10px;
+            flex-shrink: 0;
+        }
+
+        .doc-file-remove {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 2px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .doc-file-item:hover .doc-file-remove {
+            opacity: 1;
+        }
+
+        .doc-file-remove:hover {
+            color: #ef4444;
+        }
+
+        .doc-empty {
+            color: var(--muted);
+            font-size: 11px;
+            text-align: center;
+            padding: 16px;
+            opacity: 0.6;
+        }
+
+        .doc-tab.collapsed .doc-tab-body {
+            display: none;
+        }
+
+        .doc-tab.collapsed {
+            min-height: auto;
+            max-height: 36px;
+        }
+
+        .doc-toggle-icon {
+            transition: transform 0.3s;
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        .doc-tab.collapsed .doc-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Export dropdown */
+        .export-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .export-menu {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 4px;
+            min-width: 140px;
+            z-index: 100;
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .export-menu.show {
+            display: block;
+        }
+
+        .export-menu button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 6px 10px;
+            border: none;
+            background: none;
+            color: var(--text);
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .export-menu button:hover {
+            background: rgba(99, 102, 241, 0.15);
+        }
+
+        /* ═══ EXPIRED OVERLAY ═══ */
+        .expired-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .expired-overlay.show {
+            display: flex;
+        }
+
+        .expired-overlay h2 {
+            font-size: 28px;
+            color: var(--text);
+        }
+
+        .expired-overlay p {
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .expired-overlay .btn-login {
+            padding: 14px 32px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .expired-overlay .btn-login:hover {
+            background: var(--accent2);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ═══ LEFT: CHAT PANEL ═══ -->
+    <div class="chat-panel">
+
+        <div class="chat-header">
+            <div class="status">Online</div>
+            <span class="lang-badge" id="truthShield" onclick="showTruthShield()"
+                style="background:rgba(0,200,100,0.15);color:#0c6;font-size:11px;cursor:pointer"
+                title="Click to see Truth Shield rules">🛡️ Truth Shield</span>
+            <span class="lang-badge" id="langBadge">🌐 Auto-detect</span>
+            <span class="lang-badge" id="locationBadge" onclick="openLocationMap()" style="cursor:pointer"
+                title="Click to open live map">📍 Location</span>
+            <span class="lang-badge" id="weatherBadge" onclick="openWeatherMap()" style="cursor:pointer;display:none"
+                title="Click to open weather map">🌡️ Weather</span>
+            <div class="timer" id="timer">60:00</div>
+        </div>
+
+        <!-- K Monitor Display (cinematic response area) -->
+        <div class="k-monitor" id="kMonitor">
+            <div class="k-monitor-content" id="kMonitorContent">
+                <div class="k-sentence active">👋 I'm <strong>K</strong>, your AI expert assistant.</div>
+            </div>
+        </div>
+
+        <!-- Chat messages log (visible — Point 34: dual chat) -->
+        <div class="messages" id="messages">
+            <div class="msg system">🔒 Live session — 60 minutes.</div>
+        </div>
+        <div class="typing" id="typing"><span></span><span></span><span></span></div>
+
+        <!-- Response ticker - one sentence at bottom -->
+        <div class="k-response-ticker" id="kTicker">
+            <div class="k-ticker-text" id="kTickerText"></div>
+        </div>
+
+        <!-- ═══ DOC TAB ═══ -->
+        <div class="doc-tab" id="docTab">
+            <div class="doc-tab-header" onclick="toggleDocTab()">
+                <h3>📁 DOCUMENTS <span class="doc-count" id="docCount"></span></h3>
+                <div style="display:flex;align-items:center;gap:8px">
+                    <div class="doc-tab-actions" onclick="event.stopPropagation()">
+                        <div class="export-dropdown">
+                            <button onclick="toggleExportMenu()" title="Save & Export">💾 Save / Export</button>
+                            <div class="export-menu" id="exportMenu">
+                                <button onclick="saveMonitorContent()">💾 Save (HTML)</button>
+                                <button onclick="saveScreenshot()">📸 Screenshot</button>
+                                <button onclick="saveConversation()">💬 Conversation</button>
+                                <button onclick="exportAs('txt')">📄 Text</button>
+                                <button onclick="exportAs('pdf')">📕 PDF (Print)</button>
+                                <button onclick="exportAs('md')">📝 Markdown</button>
+                            </div>
+                        </div>
+                        <button onclick="downloadAllFiles()" title="Download uploaded files">⬇️ Download</button>
+                    </div>
+                    <span class="doc-toggle-icon">▼</span>
+                </div>
+            </div>
+            <div class="doc-tab-body">
+                <div class="doc-upload-zone" id="docUploadZone"
+                    onclick="document.getElementById('docFileInput').click()">
+                    <div class="upload-icon">📎</div>
+                    <div class="upload-text">Drag & Drop<br>or Click<br><span style="color:var(--accent2)">ZIP PDF DOC
+                            PPS CDR...</span></div>
+                </div>
+                <div class="doc-file-list" id="docFileList">
+                    <div class="doc-empty" id="docEmpty">No files yet — drag or click to upload</div>
+                </div>
+            </div>
+            <input type="file" id="docFileInput" multiple style="display:none"
+                accept=".zip,.rar,.7z,.pdf,.doc,.docx,.ppt,.pptx,.pps,.ppsx,.xls,.xlsx,.cdr,.ai,.eps,.svg,.jpg,.jpeg,.png,.gif,.webp,.mp4,.webm,.mp3,.wav,.txt,.csv,.json,.xml,.html,.css,.js,.py,.java,.cpp,.md">
+        </div>
+
+        <div class="input-area">
+            <select id="professionSelect" title="Select K's profession mode"
+                style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);font-size:.7rem;padding:6px 4px;cursor:pointer;font-family:inherit;max-width:80px;outline:none"
+                onchange="handleProfessionChange(this)">
+                <option value="">🤖 General</option>
+                <option value="professor">🎓 Professor</option>
+                <option value="lawyer">⚖️ Lawyer</option>
+                <option value="dietitian">🥗 Dietitian</option>
+                <option value="architect">🏗️ Architect</option>
+                <option value="psychologist">🧠 Psychologist</option>
+                <option value="sales">💼 Sales Agent</option>
+                <option value="chef">👨‍🍳 Chef</option>
+                <option value="software_engineer">💻 Software Engineer</option>
+                <option value="system_engineer">🖧 System Engineer</option>
+                <option value="cyber_security">🛡️ Cyber Security</option>
+                <option value="financial_advisor">💰 Financial Advisor</option>
+                <option value="data_analyst">📊 Data Analyst</option>
+                <option value="__custom_new__">✏️ Custom...</option>
+            </select>
+            <button class="btn btn-mic" id="micBtn" onclick="toggleMic()"
+                title="Microphone OFF — click to start">🎙️</button>
+            <button class="btn btn-audio" id="audioBtn" onclick="toggleAudioVox()"
+                title="Speaker OFF — click to enable AI voice">🔇</button>
+            <input type="text" id="chatInput" placeholder="Type your message..." autocomplete="off">
+            <button class="btn btn-send" onclick="sendMessage()">➤</button>
+        </div>
+
+        <!-- ═══ CUSTOM PROFESSION MODAL ═══ -->
+        <div id="customProfModal"
+            style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:9999;display:none;align-items:center;justify-content:center">
+            <div
+                style="background:#0d1025;border:1px solid rgba(212,175,55,0.2);border-radius:16px;padding:28px 24px;max-width:440px;width:90%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+                    <h3 style="color:#d4af37;font-size:1rem;margin:0">✏️ Create Custom Profession</h3>
+                    <button onclick="closeProfModal()"
+                        style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:1.2rem;cursor:pointer">&times;</button>
+                </div>
+                <div style="margin-bottom:14px">
+                    <label
+                        style="color:rgba(255,255,255,0.5);font-size:.72rem;display:block;margin-bottom:4px">Profession
+                        Name *</label>
+                    <input id="cpName" type="text" placeholder="e.g. Accountant, Doctor, Engineer..."
+                        style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;font-family:inherit">
+                </div>
+                <div style="margin-bottom:14px">
+                    <label
+                        style="color:rgba(255,255,255,0.5);font-size:.72rem;display:block;margin-bottom:4px">Specialties
+                        (one per line) *</label>
+                    <textarea id="cpSpecialties" rows="4"
+                        placeholder="Tax optimization&#10;Financial reports&#10;Audit procedures&#10;Budget planning"
+                        style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;font-family:inherit;resize:vertical"></textarea>
+                </div>
+                <div style="margin-bottom:14px">
+                    <label
+                        style="color:rgba(255,255,255,0.5);font-size:.72rem;display:block;margin-bottom:4px">Legislation
+                        / Domain (optional)</label>
+                    <textarea id="cpLegislation" rows="3"
+                        placeholder="Romanian Fiscal Code&#10;EU Accounting Standards&#10;IFRS / GAAP"
+                        style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;font-family:inherit;resize:vertical"></textarea>
+                </div>
+                <div id="cpExistingList" style="margin-bottom:14px;display:none">
+                    <label style="color:rgba(255,255,255,0.5);font-size:.72rem;display:block;margin-bottom:6px">Your
+                        Saved Professions</label>
+                    <div id="cpSavedItems"></div>
+                </div>
+                <div style="display:flex;gap:8px">
+                    <button onclick="saveCustomProfession()"
+                        style="flex:1;padding:10px;border:none;border-radius:8px;background:linear-gradient(135deg,#d4af37,#b8962e);color:#000;font-weight:700;font-size:.8rem;cursor:pointer;font-family:inherit">💾
+                        Save Profession</button>
+                    <button onclick="closeProfModal()"
+                        style="padding:10px 16px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;background:none;color:rgba(255,255,255,0.5);font-size:.8rem;cursor:pointer;font-family:inherit">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div> <!-- /chat-panel -->
+
+    <!-- ═══ RIGHT: K DISPLAY PANEL ═══ -->
+    <div class="k-display-panel" id="kDisplayPanel">
+        <canvas id="kCanvas"></canvas>
+        <div class="k-status-bar">
+            <div class="k-status-item"><span class="dot"></span> <span id="kNameLabel">Kelion</span> <span
+                    class="k-role-badge" id="kRoleBadge">Free</span></div>
+            <div class="k-status-item k-location-btn" id="kLocationBtn" onclick="openLocationMap()"
+                title="Open Google Maps with your location">📍 Locate</div>
+            <a href="/" class="k-status-item" style="text-decoration:none;color:rgba(255,255,255,0.7);cursor:pointer"
+                title="Back to home">← Back</a>
+            <div class="k-status-item" id="kBrowseIndicator" style="cursor:pointer;opacity:0.5" onclick="toggleBrowse()" title="K Browser Agent: Search & Browse Internet">🌐 Browse</div>
+        </div>
+        <!-- M/F Toggle -->
+        <div class="k-gender-toggle" title="Change avatar & voice">
+            <span class="k-gender-label" id="kGenderM" style="opacity:1">♂ Kelion</span>
+            <label class="k-switch">
+                <input type="checkbox" id="kGenderSwitch" onchange="switchGender(this.checked)">
+                <span class="k-slider"></span>
+            </label>
+            <span class="k-gender-label" id="kGenderF" style="opacity:0.4">♀ Kira</span>
+        </div>
+        <!-- Webcam Overlay Toggle (Point 2) -->
+        <button id="kWebcamBtn" onclick="toggleWebcam()"
+            style="position:absolute;top:10px;right:10px;z-index:20;background:rgba(99,102,241,0.2);border:1px solid rgba(99,102,241,0.3);color:#a5b4fc;border-radius:8px;padding:6px 10px;font-size:11px;cursor:pointer;backdrop-filter:blur(4px);transition:all 0.3s"
+            title="Toggle webcam face overlay">📷 Face</button>
+        <video id="kWebcamVideo" autoplay playsinline muted
+            style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:5;mix-blend-mode:screen;opacity:0.6;border-radius:inherit;pointer-events:none"></video>
+        <div class="k-audio-wave" id="kWave">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="k-loading" id="kLoading">⏳ Loading 3D model...</div>
+    </div>
+
+    <script>
+        const API = '/.netlify/functions/smart-brain';
+        const SESSION_KEY = 'k_chat_session';
+        const SESSION_DURATION = 60 * 60 * 1000; // 60 min
+
+        // ═══ GEOLOCATION — detect user location for weather/local queries ═══
+        let userLocation = null;
+        let userCity = '';
+
+        function requestLocation() {
+            if (!navigator.geolocation) {
+                const locBtn = document.getElementById('kLocationBtn');
+                if (locBtn) locBtn.textContent = '📍 Unavailable';
+                return;
+            }
+            const locBtnInit = document.getElementById('kLocationBtn');
+            if (locBtnInit) locBtnInit.textContent = '📍 Detecting...';
+            navigator.geolocation.getCurrentPosition(
+                async (pos) => {
+                    userLocation = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+                    try {
+                        const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${userLocation.lat}&lon=${userLocation.lon}&format=json&accept-language=en`);
+                        const geoData = await geoRes.json();
+                        userCity = geoData.address?.city || geoData.address?.town || geoData.address?.village || '';
+                        if (userCity) {
+                            document.getElementById('kLocationBtn').textContent = `📍 ${userCity}`;
+                        } else {
+                            document.getElementById('kLocationBtn').textContent = `📍 ${userLocation.lat.toFixed(2)}, ${userLocation.lon.toFixed(2)}`;
+                        }
+                    } catch (e) {
+                        document.getElementById('kLocationBtn').textContent = `📍 ${userLocation.lat.toFixed(2)}, ${userLocation.lon.toFixed(2)}`;
+                    }
+                    // Auto-fetch weather after GPS detection (Point 24)
+                    fetchWeather(userLocation.lat, userLocation.lon);
+                },
+                (err) => {
+                    console.log('Geolocation denied:', err.message);
+                    document.getElementById('kLocationBtn').textContent = '📍 Blocked';
+                },
+                { timeout: 8000, enableHighAccuracy: true }
+            );
+        }
+        // Auto-request on load
+        requestLocation();
+
+        // ═══ SESSION TIMER ═══
+        let sessionStart;
+        const saved = localStorage.getItem(SESSION_KEY);
+        if (saved) {
+            sessionStart = parseInt(saved);
+            const elapsed = Date.now() - sessionStart;
+            if (elapsed >= SESSION_DURATION) { showExpired(); }
+        } else {
+            sessionStart = Date.now();
+            localStorage.setItem(SESSION_KEY, sessionStart.toString());
+        }
+
+        // Check if user is logged in — if yes, no timer
+        let isLoggedIn = false;
+        let userRole = 'free'; // free | premium | admin
+        try {
+            const token = localStorage.getItem('k_auth_token') || localStorage.getItem('supabase.auth.token');
+            if (token) {
+                isLoggedIn = true;
+                document.getElementById('timer').style.display = 'none';
+                // Check for admin role
+                const storedRole = localStorage.getItem('k_role');
+                userRole = storedRole === 'admin' ? 'admin' : 'premium';
+            }
+        } catch (e) { }
+
+        // Update role badge
+        const roleBadge = document.getElementById('kRoleBadge');
+        if (roleBadge) {
+            roleBadge.textContent = userRole === 'admin' ? 'Admin' : userRole === 'premium' ? 'Premium' : 'Free';
+            roleBadge.className = 'k-role-badge ' + userRole;
+        }
+
+        // Show admin-only elements if admin
+        if (userRole === 'admin') {
+            document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('admin-only'));
+        }
+
+        const timerEl = document.getElementById('timer');
+        if (!isLoggedIn) {
+            setInterval(() => {
+                const remaining = SESSION_DURATION - (Date.now() - sessionStart);
+                if (remaining <= 0) { showExpired(); return; }
+                const mins = Math.floor(remaining / 60000);
+                const secs = Math.floor((remaining % 60000) / 1000);
+                timerEl.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                timerEl.className = 'timer' + (mins < 5 ? ' critical' : mins < 15 ? ' warning' : '');
+            }, 1000);
+        }
+
+
+
+        // ═══ LANGUAGE DETECTION ═══
+        let detectedLang = 'auto';
+        function detectLanguage(text) {
+            const t = text.toLowerCase();
+            if (/[ăîâșț]/.test(t) || /\b(sunt|este|pentru|care|unde|cum|vreau|pot)\b/.test(t)) return 'ro';
+            if (/\b(the|is|are|what|how|can|want|need|please)\b/.test(t)) return 'en';
+            if (/[äöüß]/.test(t) || /\b(ich|ist|und|wie|was|kann)\b/.test(t)) return 'de';
+            if (/[éèêë]/.test(t) || /\b(je|est|les|une|pour|comment)\b/.test(t)) return 'fr';
+            if (/\b(es|está|para|qué|cómo|puede)\b/.test(t)) return 'es';
+            if (/\b(è|sono|per|come|cosa|può)\b/.test(t)) return 'it';
+            return 'auto';
+        }
+
+        const langNames = { ro: '🇷🇴 Română', en: '🇬🇧 English', de: '🇩🇪 Deutsch', fr: '🇫🇷 Français', es: '🇪🇸 Español', it: '🇮🇹 Italiano', auto: '🌐 Auto-detect' };
+
+        // ═══ SEND MESSAGE ═══
+        const input = document.getElementById('chatInput');
+        input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+
+        async function sendMessage(text) {
+            const msg = text || input.value.trim();
+            if (!msg) return;
+
+            // Anti-abuse: rate limit check (Point 36)
+            if (!kRateLimit.check()) {
+                addMsg('system', '⚠️ Rate limit reached (10 messages/minute). Please wait a moment.');
+                return;
+            }
+
+            input.value = '';
+
+            // Detect language
+            const lang = detectLanguage(msg);
+            if (lang !== 'auto' && lang !== detectedLang) {
+                detectedLang = lang;
+                document.getElementById('langBadge').textContent = langNames[lang];
+            }
+
+            addMsg('user', msg);
+            showTyping(true);
+            // K looks at user while listening
+            if (window.kLookAtUser) window.kLookAtUser();
+
+            try {
+                const profSelect = document.getElementById('professionSelect');
+                const profValue = profSelect?.value || '';
+                const payload = {
+                    question: msg,
+                    mode: 'chat',
+                    language: detectedLang,
+                    session_id: sessionStart.toString(),
+                    fingerprint: kFingerprint,
+                    profession: profValue.startsWith('custom_') ? 'custom' : profValue
+                };
+
+                // ═══ CUSTOM PROFESSION DATA — attach full spec if custom selected ═══
+                if (profValue.startsWith('custom_')) {
+                    const customs = JSON.parse(localStorage.getItem('kelion_custom_professions') || '[]');
+                    const customId = profValue.replace('custom_', '');
+                    const found = customs.find(c => c.id === customId);
+                    if (found) {
+                        payload.custom_profession_data = {
+                            name: found.name,
+                            specialties: found.specialties,
+                            legislation: found.legislation
+                        };
+                    }
+                }
+
+                // ═══ WEATHER AUTO-DETECT: fetch real data if question is about weather ═══
+                const weatherWords = /\b(vreme|temperatura|meteo|ploaie|soare|ninge|vânt|frig|cald|weather|temperature|rain|snow|wind|grade|celsius|afară|prognoz|forecast)\b/i;
+                if (weatherWords.test(msg) && userLocation) {
+                    try {
+                        const wUrl = `https://api.open-meteo.com/v1/forecast?latitude=${userLocation.lat}&longitude=${userLocation.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,weather_code&timezone=auto`;
+                        const wRes = await fetch(wUrl);
+                        const wData = await wRes.json();
+                        const cur = wData.current;
+                        if (cur) {
+                            payload.context = `Real weather data for ${userCity || 'user location'} (${userLocation.lat.toFixed(2)}, ${userLocation.lon.toFixed(2)}) at ${new Date().toLocaleString('en-US')}:\n` +
+                                `🌡️ Temperature: ${cur.temperature_2m}°C\n` +
+                                `🤔 Feels like: ${cur.apparent_temperature}°C\n` +
+                                `💧 Humidity: ${cur.relative_humidity_2m}%\n` +
+                                `💨 Wind: ${cur.wind_speed_10m} km/h\n` +
+                                `Use THESE real data in your response, do not make up data!`;
+                        }
+                    } catch (we) { console.log('Weather fetch error:', we); }
+                } else if (userLocation) {
+                    payload.context = `User location: ${userCity || 'unknown'} (lat:${userLocation.lat}, lon:${userLocation.lon})`;
+                }
+                const res = await fetch(API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                showTyping(false);
+                const reply = data.reply || data.answer || data.response || data.text || 'Error processing request.';
+                const engine = data.engine || data.model || 'AI';
+                addMsg('ai', reply, engine);
+                // K turns toward monitor when responding
+                if (window.kLookAtMonitor) window.kLookAtMonitor();
+                // Display in K Monitor (sentence-by-sentence)
+                displayInMonitor(reply);
+                // Update K panel engine display
+                const kEng = document.getElementById('kEngine');
+                if (kEng) kEng.textContent = `🧠 ${engine}`;
+                const kLng = document.getElementById('kLang');
+                if (kLng) kLng.textContent = langNames[detectedLang] || '🌐 Auto-detect';
+                // ═══ AUDIOVOX: speak AI response if enabled ═══
+                if (audioVoxEnabled) speakText(reply);
+                // ═══ AUTO-SAVE: persist to DB (Point 35) ═══
+                autoSaveToDB(msg, reply);
+            } catch (err) {
+                showTyping(false);
+                addMsg('ai', '⚠️ Connection error. Please try again.');
+            }
+        }
+
+        function addMsg(type, text, model) {
+            const el = document.createElement('div');
+            el.className = `msg ${type}`;
+
+            if (type === 'ai' && text.length > 0) {
+                // ═══ TYPEWRITER EFFECT — AI messages only, NO sound ═══
+                const formatted = text.replace(/\n/g, '<br>');
+                el.innerHTML = '';
+                if (model) el.dataset.model = model;
+                document.getElementById('messages').appendChild(el);
+                el.scrollIntoView({ behavior: 'smooth' });
+
+                let i = 0;
+                const raw = text; // plain text for typewriter
+                const chars = [...raw]; // support emoji/unicode
+                const speed = 15; // ms per character
+                let buffer = '';
+
+                function typeNext() {
+                    if (i >= chars.length) {
+                        // Final render with proper HTML formatting
+                        el.innerHTML = formatted;
+                        if (model) el.innerHTML += `<div class="model">via ${model}</div>`;
+                        el.scrollIntoView({ behavior: 'smooth' });
+                        return;
+                    }
+                    buffer += chars[i];
+                    el.textContent = buffer;
+                    i++;
+                    el.scrollIntoView({ behavior: 'smooth' });
+                    requestAnimationFrame(() => setTimeout(typeNext, speed));
+                }
+                typeNext();
+            } else {
+                // Instant display for user/system messages
+                el.innerHTML = text.replace(/\n/g, '<br>');
+                if (model && type === 'ai') el.innerHTML += `<div class="model">via ${model}</div>`;
+                document.getElementById('messages').appendChild(el);
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        function showTyping(b) { document.getElementById('typing').classList.toggle('show', b); }
+
+        // ═══ K MONITOR: persistent projection display ═══
+        let monitorTimer = null;
+        function displayInMonitor(text) {
+            const monitor = document.getElementById('kMonitorContent');
+            const ticker = document.getElementById('kTickerText');
+            if (!monitor) return;
+
+            // Clear previous timer
+            if (monitorTimer) clearInterval(monitorTimer);
+
+            // Detect if response contains code (```...```)
+            const codeBlockRegex = /```([\s\S]*?)```/g;
+            let hasCode = codeBlockRegex.test(text);
+
+            if (hasCode) {
+                // Render with code blocks preserved
+                let html = text
+                    .replace(/```(\w+)?\n?([\s\S]*?)```/g, (m, lang, code) => {
+                        return `<pre><code>${code.replace(/</g, '&lt;').replace(/>/g, '&gt;').trim()}</code></pre>`;
+                    })
+                    .replace(/`([^`]+)`/g, '<code style="background:rgba(99,102,241,0.15);padding:2px 6px;border-radius:4px;font-size:13px">$1</code>')
+                    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n/g, '<br>');
+                monitor.innerHTML = `<div class="k-sentence active">${html}</div>`;
+                if (ticker) ticker.textContent = '💻 Code displayed on K Monitor';
+                return;
+            }
+
+            // Clean text for sentence display
+            let clean = text.replace(/<[^>]*>/g, '').replace(/[*_~`#]/g, '').replace(/\n+/g, ' ').trim();
+            const sentences = clean.match(/[^.!?]+[.!?]+/g) || [clean];
+
+            // Build full content, reveal sentence by sentence
+            let idx = 0;
+            let accumulated = '';
+
+            function showNext() {
+                if (idx >= sentences.length) {
+                    clearInterval(monitorTimer);
+                    monitorTimer = null;
+                    // Content stays permanently on monitor
+                    return;
+                }
+                const s = sentences[idx].trim();
+                accumulated += (accumulated ? ' ' : '') + s;
+                // Show accumulated text
+                monitor.innerHTML = `<div class="k-sentence active">${accumulated}</div>`;
+                // Ticker: show current sentence
+                if (ticker) {
+                    ticker.textContent = s;
+                    ticker.style.animation = 'none';
+                    ticker.offsetHeight;
+                    ticker.style.animation = 'tickerFade 0.5s ease';
+                }
+                idx++;
+            }
+
+            showNext();
+            monitorTimer = setInterval(showNext, 2500);
+        }
+
+        // ═══ MONITOR CONTENT MANAGEMENT (for Doc Tab) ═══
+        function showInMonitor(html) {
+            const monitor = document.getElementById('kMonitorContent');
+            if (monitor) monitor.innerHTML = html;
+        }
+
+        // ═══ VOICE INPUT — Web Speech API (primary) + Whisper (fallback) ═══
+        let isRecording = false;
+        let speechRecognition = null;
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        async function toggleMic() {
+            const btn = document.getElementById('micBtn');
+            if (isRecording) {
+                if (speechRecognition) speechRecognition.stop();
+                btn.classList.remove('recording');
+                btn.textContent = '🎙️';
+                btn.title = 'Microphone OFF — click to start';
+                isRecording = false;
+                return;
+            }
+
+            // ═══ METHOD 1: Web Speech API (instant, works in Chrome/Edge) ═══
+            if (SpeechRecognition) {
+                try {
+                    speechRecognition = new SpeechRecognition();
+                    speechRecognition.continuous = false;
+                    speechRecognition.interimResults = false;
+                    speechRecognition.maxAlternatives = 1;
+                    // Auto-detect language based on last detected
+                    const langMap = { ro: 'ro-RO', en: 'en-US', de: 'de-DE', fr: 'fr-FR', es: 'es-ES', it: 'it-IT' };
+                    speechRecognition.lang = langMap[detectedLang] || 'en-US';
+
+                    speechRecognition.onresult = (event) => {
+                        const transcript = event.results[0][0].transcript;
+                        btn.classList.remove('recording');
+                        btn.textContent = '🎙️';
+                        isRecording = false;
+                        if (transcript && transcript.length > 1) {
+                            const lang = detectLanguage(transcript);
+                            if (lang !== 'auto') { detectedLang = lang; document.getElementById('langBadge').textContent = langNames[lang]; }
+                            sendMessage(transcript);
+                        } else {
+                            addMsg('ai', '❌ Could not understand. Try again or type your message. 💬');
+                        }
+                    };
+
+                    speechRecognition.onerror = (event) => {
+                        console.error('Speech recognition error:', event.error);
+                        btn.classList.remove('recording');
+                        btn.textContent = '🎙️';
+                        isRecording = false;
+                        if (event.error === 'not-allowed') {
+                            addMsg('system', '⚠️ Microphone not allowed. Check browser permissions.');
+                        } else {
+                            addMsg('ai', '❌ Could not understand. Try again or type your message. 💬');
+                        }
+                    };
+
+                    speechRecognition.onend = () => {
+                        btn.classList.remove('recording');
+                        btn.textContent = '🎙️';
+                        isRecording = false;
+                    };
+
+                    speechRecognition.start();
+                    btn.classList.add('recording');
+                    btn.textContent = '⏹️ Speaking...';
+                    btn.title = 'Microphone ON — click to stop';
+                    isRecording = true;
+                    return;
+                } catch (e) {
+                    console.error('Web Speech API failed:', e);
+                }
+            }
+
+            // ═══ METHOD 2: Whisper fallback (for Firefox/Safari) ═══
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+                const audioChunks = [];
+
+                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+
+                mediaRecorder.onstop = async () => {
+                    stream.getTracks().forEach(t => t.stop());
+                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const reader = new FileReader();
+                    reader.onloadend = async () => {
+                        const base64 = reader.result.split(',')[1];
+                        addMsg('user', '🎙️ Mesaj vocal...');
+                        showTyping(true);
+                        try {
+                            const wRes = await fetch('/.netlify/functions/whisper', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ audio: base64 })
+                            });
+                            const wData = await wRes.json();
+                            const transcription = wData.text || '';
+                            if (transcription.length > 2) {
+                                const msgs = document.querySelectorAll('.msg.user');
+                                const last = msgs[msgs.length - 1];
+                                if (last) last.innerHTML = `🎙️ "${transcription}"`;
+                                const lang = detectLanguage(transcription);
+                                if (lang !== 'auto') { detectedLang = lang; document.getElementById('langBadge').textContent = langNames[lang]; }
+                                showTyping(false);
+                                await sendMessage(transcription);
+                            } else {
+                                showTyping(false);
+                                addMsg('ai', '❌ Could not understand. Try again or type your message. 💬');
+                            }
+                        } catch (e) {
+                            showTyping(false);
+                            addMsg('ai', '⚠️ Error processing voice input.');
+                        }
+                    };
+                    reader.readAsDataURL(blob);
+                };
+
+                mediaRecorder.start();
+                btn.classList.add('recording');
+                btn.textContent = '⏹️ Speaking...';
+                btn.title = 'Microphone ON — click to stop';
+                isRecording = true;
+
+                // Auto-stop after 10 seconds
+                setTimeout(() => { if (isRecording && mediaRecorder.state === 'recording') { mediaRecorder.stop(); btn.classList.remove('recording'); btn.textContent = '🎙️'; btn.title = 'Microphone OFF — click to start'; isRecording = false; } }, 10000);
+            } catch (e) {
+                addMsg('system', '⚠️ Microphone not available. Check browser permissions.');
+            }
+        }
+
+        // ═══ AUDIOVOX — Text-to-Speech for AI responses ═══
+        let audioVoxEnabled = localStorage.getItem('k_audiovox') === 'true';
+
+        // Initialize button state on load
+        (function initAudioVox() {
+            const btn = document.getElementById('audioBtn');
+            if (audioVoxEnabled) {
+                btn.classList.add('active');
+                btn.textContent = '🔊';
+            }
+        })();
+
+        function toggleAudioVox() {
+            audioVoxEnabled = !audioVoxEnabled;
+            localStorage.setItem('k_audiovox', audioVoxEnabled.toString());
+            const btn = document.getElementById('audioBtn');
+            if (audioVoxEnabled) {
+                btn.classList.add('active');
+                btn.textContent = '🔊';
+                btn.title = 'Speaker ON — click to mute';
+                addMsg('system', '🔊 AudioVox enabled — K will speak responses.');
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '🔇';
+                speechSynthesis.cancel(); // Stop any ongoing speech
+                window.kIsSpeaking = false; // Stop mouth animation
+                addMsg('system', '🔇 AudioVox disabled.');
+                btn.title = 'Speaker OFF — click to enable AI voice';
+            }
+        }
+
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) {
+                console.log('SpeechSynthesis not supported');
+                return;
+            }
+            // Stop any ongoing speech
+            speechSynthesis.cancel();
+
+            // Clean text: remove emojis, markdown, HTML
+            let clean = text
+                .replace(/<[^>]*>/g, '')           // HTML tags
+                .replace(/[*_~`#]/g, '')           // Markdown
+                .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')  // links
+                .replace(/[\u{1F600}-\u{1F9FF}]|[\u{2600}-\u{27BF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F900}-\u{1F9FF}]|[\u{2702}-\u{27B0}]|⚡|📍|🌡️|💧|💨|🔒|👋|💬|🎙️|⏹️|✅|❌|⚠️|🔊|🔇/gu, '')
+                .replace(/\n+/g, '. ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (!clean || clean.length < 2) return;
+
+            // Split into chunks (SpeechSynthesis has ~200 char limit on some browsers)
+            const chunks = [];
+            const sentences = clean.split(/(?<=[.!?])\s+/);
+            let current = '';
+            for (const s of sentences) {
+                if ((current + ' ' + s).length > 180) {
+                    if (current) chunks.push(current.trim());
+                    current = s;
+                } else {
+                    current += ' ' + s;
+                }
+            }
+            if (current.trim()) chunks.push(current.trim());
+
+            // Language mapping
+            const voiceLang = { ro: 'ro-RO', en: 'en-US', de: 'de-DE', fr: 'fr-FR', es: 'es-ES', it: 'it-IT' };
+            const lang = voiceLang[detectedLang] || 'en-US';
+
+            // Find best voice for language (use gender-matched voice if available)
+            const voices = speechSynthesis.getVoices();
+            let voice = window.getGenderVoice ? window.getGenderVoice(lang) : null;
+            if (!voice) {
+                // Prefer voices with 'Natural' or 'Premium' in name for better quality
+                voice = voices.find(v => v.lang === lang && (v.name.includes('Natural') || v.name.includes('Premium')))
+                    || voices.find(v => v.lang === lang)
+                    || voices.find(v => v.lang.startsWith(lang.split('-')[0]))
+                    || null;
+            }
+
+            // Activate K waveform on right panel
+            const wave = document.getElementById('kWave');
+            if (wave) wave.classList.add('speaking');
+
+            // Speak each chunk sequentially
+            let chunkIndex = 0;
+            function speakNextChunk() {
+                if (chunkIndex >= chunks.length) return;
+                const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
+                utterance.lang = lang;
+                utterance.rate = 0.95;
+                utterance.pitch = 1.0;
+                if (voice) utterance.voice = voice;
+
+                // Start mouth animation when speaking begins
+                utterance.onstart = () => {
+                    window.kIsSpeaking = true;
+                };
+
+                utterance.onend = () => {
+                    chunkIndex++;
+                    if (chunkIndex < chunks.length) {
+                        speakNextChunk();
+                    } else {
+                        // All done — stop mouth, stop waveform
+                        window.kIsSpeaking = false;
+                        if (wave) wave.classList.remove('speaking');
+                        if (window.kLookAtUser) window.kLookAtUser();
+                    }
+                };
+
+                utterance.onerror = () => {
+                    window.kIsSpeaking = false;
+                    if (wave) wave.classList.remove('speaking');
+                };
+
+                speechSynthesis.speak(utterance);
+            }
+            speakNextChunk();
+        }
+
+        // Load voices (async on some browsers)
+        if ('speechSynthesis' in window) {
+            speechSynthesis.onvoiceschanged = () => { /* voices loaded */ };
+            speechSynthesis.getVoices(); // trigger load
+        }
+        // ═══ DOC TAB FUNCTIONS ═══
+        const docFiles = []; // { file, name, size, type }
+
+        function toggleDocTab() {
+            document.getElementById('docTab').classList.toggle('collapsed');
+        }
+
+        // File type icon mapping
+        function getFileIcon(name) {
+            const ext = name.split('.').pop().toLowerCase();
+            const icons = {
+                pdf: '📕', doc: '📘', docx: '📘', xls: '📗', xlsx: '📗',
+                ppt: '📙', pptx: '📙', pps: '📙', ppsx: '📙',
+                zip: '📦', rar: '📦', '7z': '📦',
+                jpg: '🖼️', jpeg: '🖼️', png: '🖼️', gif: '🖼️', webp: '🖼️', svg: '🖼️',
+                mp4: '🎬', webm: '🎬', mp3: '🎵', wav: '🎵',
+                txt: '📄', csv: '📊', json: '📄', xml: '📄', md: '📝',
+                html: '🌐', css: '🎨', js: '⚡', py: '🐍', java: '☕', cpp: '⚙️',
+                cdr: '🎨', ai: '🎨', eps: '🎨'
+            };
+            return icons[ext] || '📎';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            if (bytes < 1073741824) return (bytes / 1048576).toFixed(1) + ' MB';
+            return (bytes / 1073741824).toFixed(1) + ' GB';
+        }
+
+        function addFilesToDocTab(files) {
+            Array.from(files).forEach(file => {
+                // Avoid duplicates
+                if (docFiles.some(f => f.name === file.name && f.size === file.size)) return;
+                docFiles.push({ file, name: file.name, size: file.size, type: file.type });
+            });
+            renderDocFileList();
+        }
+
+        function removeDocFile(idx) {
+            docFiles.splice(idx, 1);
+            renderDocFileList();
+        }
+
+        function renderDocFileList() {
+            const list = document.getElementById('docFileList');
+            const count = document.getElementById('docCount');
+            if (count) count.textContent = docFiles.length ? `(${docFiles.length})` : '';
+
+            if (docFiles.length === 0) {
+                list.innerHTML = '<div class="doc-empty" id="docEmpty">No files yet — drag or click to upload</div>';
+                return;
+            }
+
+            list.innerHTML = docFiles.map((f, i) => `
+                <div class="doc-file-item" onclick="previewDocFile(${i})" style="cursor:pointer">
+                    <span class="doc-file-icon">${getFileIcon(f.name)}</span>
+                    <span class="doc-file-name" title="${f.name}">${f.name}</span>
+                    <span class="doc-file-size">${formatFileSize(f.size)}</span>
+                    <button class="doc-file-remove" onclick="event.stopPropagation();removeDocFile(${i})" title="Remove">✕</button>
+                </div>
+            `).join('');
+        }
+
+        // Preview file in K Monitor
+        function previewDocFile(idx) {
+            const f = docFiles[idx];
+            if (!f) return;
+            const ext = f.name.split('.').pop().toLowerCase();
+
+            // Images
+            if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext)) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    showInMonitor(`<div class="k-sentence active"><img src="${e.target.result}" alt="${f.name}" style="max-width:100%;border-radius:8px"><p style="font-size:12px;color:var(--muted);margin-top:8px">${f.name} — ${formatFileSize(f.size)}</p></div>`);
+                };
+                reader.readAsDataURL(f.file);
+                return;
+            }
+
+            // Text/Code files
+            if (['txt', 'csv', 'json', 'xml', 'html', 'css', 'js', 'py', 'java', 'cpp', 'md', 'ts', 'yaml', 'yml'].includes(ext)) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const content = e.target.result.substring(0, 50000); // Limit
+                    showInMonitor(`<div class="k-sentence active"><pre><code>${content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre><p style="font-size:12px;color:var(--muted);margin-top:8px">${f.name} — ${formatFileSize(f.size)}</p></div>`);
+                };
+                reader.readAsText(f.file);
+                return;
+            }
+
+            // PDF — display in iframe
+            if (ext === 'pdf') {
+                const url = URL.createObjectURL(f.file);
+                showInMonitor(`<div class="k-sentence active"><iframe src="${url}" style="width:100%;height:400px;border:none;border-radius:8px"></iframe><p style="font-size:12px;color:var(--muted);margin-top:8px">${f.name} — ${formatFileSize(f.size)}</p></div>`);
+                return;
+            }
+
+            // Video
+            if (['mp4', 'webm'].includes(ext)) {
+                const url = URL.createObjectURL(f.file);
+                showInMonitor(`<div class="k-sentence active"><video controls src="${url}" style="width:100%;border-radius:8px"></video><p style="font-size:12px;color:var(--muted);margin-top:8px">${f.name} — ${formatFileSize(f.size)}</p></div>`);
+                return;
+            }
+
+            // Audio
+            if (['mp3', 'wav', 'ogg'].includes(ext)) {
+                const url = URL.createObjectURL(f.file);
+                showInMonitor(`<div class="k-sentence active"><audio controls src="${url}" style="width:100%"></audio><p style="font-size:12px;color:var(--muted);margin-top:8px">${f.name} — ${formatFileSize(f.size)}</p></div>`);
+                return;
+            }
+
+            // Default — show file info
+            showInMonitor(`<div class="k-sentence active"><div style="text-align:center;padding:40px"><div style="font-size:48px;margin-bottom:16px">${getFileIcon(f.name)}</div><div style="font-size:18px;margin-bottom:8px">${f.name}</div><div style="color:var(--muted)">${formatFileSize(f.size)} — ${f.type || 'Unknown type'}</div><div style="margin-top:16px;color:var(--accent2);font-size:13px">Send to AI: type "analyze file" or "describe this file"</div></div></div>`);
+        }
+
+        // Drag & Drop setup
+        (function initDocDragDrop() {
+            const zone = document.getElementById('docUploadZone');
+            const chatPanel = document.querySelector('.chat-panel');
+            if (!zone) return;
+
+            ['dragenter', 'dragover'].forEach(ev => {
+                zone.addEventListener(ev, (e) => { e.preventDefault(); zone.classList.add('dragover'); });
+                // Also allow drop on entire chat panel
+                if (chatPanel) chatPanel.addEventListener(ev, (e) => { e.preventDefault(); zone.classList.add('dragover'); });
+            });
+            ['dragleave', 'drop'].forEach(ev => {
+                zone.addEventListener(ev, () => zone.classList.remove('dragover'));
+                if (chatPanel) chatPanel.addEventListener(ev, () => zone.classList.remove('dragover'));
+            });
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (e.dataTransfer.files.length) addFilesToDocTab(e.dataTransfer.files);
+            });
+            if (chatPanel) {
+                chatPanel.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    if (e.dataTransfer.files.length) addFilesToDocTab(e.dataTransfer.files);
+                });
+            }
+
+            // File input change
+            document.getElementById('docFileInput').addEventListener('change', (e) => {
+                if (e.target.files.length) addFilesToDocTab(e.target.files);
+                e.target.value = ''; // reset so same file can be added again
+            });
+        })();
+
+        // ═══ SAVE / EXPORT / DOWNLOAD ═══
+        function saveMonitorContent() {
+            const monitor = document.getElementById('kMonitorContent');
+            if (!monitor || !monitor.innerHTML.trim()) {
+                addMsg('system', '⚠️ Nothing to save — K Monitor is empty.');
+                return;
+            }
+            const content = monitor.innerHTML;
+            const blob = new Blob([`<!DOCTYPE html><html><head><meta charset="utf-8"><title>K Monitor Export</title><style>body{font-family:Inter,sans-serif;background:#0a0e1a;color:#e2e8f0;padding:40px;line-height:1.7}pre{background:rgba(0,0,0,0.4);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:14px;color:#a5f3fc;overflow-x:auto;font-size:13px}img{max-width:100%;border-radius:8px}</style></head><body>${content}
+<!-- Push Notifications + i18n -->
+<script>
+// ═══ SERVICE WORKER + PUSH NOTIFICATIONS ═══
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+        console.log('[K] Service Worker registered');
+    }).catch(err => console.warn('[K] SW registration failed:', err));
+}
+
+async function subscribePush() {
+    try {
+        if (!('PushManager' in window)) { alert('Push notifications not supported'); return; }
+        
+        const reg = await navigator.serviceWorker.ready;
+        const existing = await reg.pushManager.getSubscription();
+        if (existing) { console.log('[K] Already subscribed'); return existing; }
+        
+        // Get VAPID key from server
+        const r = await fetch('/.netlify/functions/push-notifications', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ action: 'get_vapid_key' })
+        });
+        const { vapid_public_key } = await r.json();
+        if (!vapid_public_key) { console.warn('[K] No VAPID key'); return null; }
+        
+        // Convert base64url to Uint8Array
+        const urlBase64ToUint8Array = (base64String) => {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+            const rawData = atob(base64);
+            return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+        };
+        
+        const sub = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(vapid_public_key)
+        });
+        
+        // Send to server
+        const email = localStorage.getItem('k_email') || 'anonymous';
+        await fetch('/.netlify/functions/push-notifications', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ action: 'subscribe', subscription: sub, user_email: email })
+        });
+        
+        console.log('[K] Push subscribed!');
+        return sub;
+    } catch(e) { console.error('[K] Push subscribe error:', e); }
+}
+
+// ═══ i18n LANGUAGE SYSTEM ═══
+const K_LANGS = { en: 'English', ro: 'Română', es: 'Español', fr: 'Français', de: 'Deutsch' };
+let K_I18N = {};
+
+function getLanguage() {
+    return localStorage.getItem('k_lang') || navigator.language?.split('-')[0] || 'en';
+}
+
+async function loadTranslations(lang) {
+    try {
+        const r = await fetch('/.netlify/functions/i18n', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ lang: lang || getLanguage() })
+        });
+        const d = await r.json();
+        if (d.success) { K_I18N = d.translations; applyTranslations(); }
+    } catch(e) { console.warn('[K] i18n load error:', e); }
+}
+
+function t(key) { return K_I18N[key] || key; }
+
+function applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (K_I18N[key]) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = K_I18N[key];
+            else el.textContent = K_I18N[key];
+        }
+    });
+}
+
+function setLanguage(lang) {
+    localStorage.setItem('k_lang', lang);
+    loadTranslations(lang);
+}
+
+// Auto-load on page ready
+document.addEventListener('DOMContentLoaded', () => {
+    loadTranslations();
+    
+    // Auto-ask for push after 30s on first visit
+    if (!localStorage.getItem('k_push_asked')) {
+        setTimeout(() => {
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(p => {
+                    if (p === 'granted') subscribePush();
+                    localStorage.setItem('k_push_asked', '1');
+                });
+            }
+        }, 30000);
+    }
+});
+</script>
+
+</body></html>`], { type: 'text/html' });
+            downloadBlob(blob, `k-monitor-${Date.now()}.html`);
+            addMsg('system', '💾 Monitor content saved.');
+        }
+
+        // ═══ SCREENSHOT — capture chat panel as image ═══
+        function saveScreenshot() {
+            document.getElementById('exportMenu').classList.remove('show');
+            const chatPanel = document.querySelector('.chat-panel');
+            if (!chatPanel) { addMsg('system', '⚠️ Nothing to capture.'); return; }
+
+            // Use canvas to capture the chat panel
+            const canvas = document.createElement('canvas');
+            const rect = chatPanel.getBoundingClientRect();
+            canvas.width = rect.width * 2; // 2x for retina
+            canvas.height = rect.height * 2;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(2, 2);
+
+            // Draw a styled background
+            ctx.fillStyle = '#0a0e1a';
+            ctx.fillRect(0, 0, rect.width, rect.height);
+
+            // Use foreignObject SVG trick to render HTML to canvas
+            const svgData = `<svg xmlns="http://www.w3.org/2000/svg" width="${rect.width}" height="${rect.height}">
+                <foreignObject width="100%" height="100%">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Inter,sans-serif;color:#e2e8f0;padding:20px">
+                        <h2 style="color:#6366f1;margin-bottom:10px">⚡ K — Chat Session</h2>
+                        <p style="color:#64748b;font-size:12px;margin-bottom:16px">${new Date().toLocaleString()}</p>
+                        <div style="background:#111827;border-radius:12px;padding:16px">
+                            ${document.getElementById('kMonitorContent')?.innerHTML || '<p>No content</p>'}
+                        </div>
+                    </div>
+                </foreignObject>
+            </svg>`;
+
+            const img = new Image();
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svgBlob);
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0);
+                URL.revokeObjectURL(url);
+                canvas.toBlob((blob) => {
+                    if (blob) {
+                        downloadBlob(blob, `k-screenshot-${Date.now()}.png`);
+                        addMsg('system', '📸 Screenshot saved.');
+                    }
+                }, 'image/png');
+            };
+            img.onerror = () => {
+                // Fallback: just save the text content
+                const text = document.getElementById('kMonitorContent')?.innerText || 'No content';
+                const blob = new Blob([`K Chat Screenshot — ${new Date().toLocaleString()}\n\n${text}`], { type: 'text/plain' });
+                downloadBlob(blob, `k-screenshot-${Date.now()}.txt`);
+                addMsg('system', '📸 Screenshot saved as text (image export not supported in this browser).');
+            };
+            img.src = url;
+        }
+
+        // ═══ CONVERSATION — export all messages as JSON ═══
+        function saveConversation() {
+            document.getElementById('exportMenu').classList.remove('show');
+            const messages = document.getElementById('messages');
+            if (!messages || messages.children.length === 0) {
+                addMsg('system', '⚠️ No conversation to save.');
+                return;
+            }
+
+            const conversation = [];
+            for (const msg of messages.children) {
+                const type = msg.classList.contains('user') ? 'user' :
+                    msg.classList.contains('ai') ? 'ai' : 'system';
+                const model = msg.dataset?.model || null;
+                conversation.push({
+                    type,
+                    text: msg.innerText.trim(),
+                    model,
+                    timestamp: new Date().toISOString()
+                });
+            }
+
+            const exportData = {
+                session: 'K Chat Session',
+                exported: new Date().toISOString(),
+                messageCount: conversation.length,
+                messages: conversation
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            downloadBlob(blob, `k-conversation-${Date.now()}.json`);
+            addMsg('system', `💬 Conversation saved (${conversation.length} messages).`);
+        }
+
+        function toggleExportMenu() {
+            document.getElementById('exportMenu').classList.toggle('show');
+        }
+
+        // Close export menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.export-dropdown')) {
+                const menu = document.getElementById('exportMenu');
+                if (menu) menu.classList.remove('show');
+            }
+        });
+
+        function exportAs(format) {
+            document.getElementById('exportMenu').classList.remove('show');
+            const monitor = document.getElementById('kMonitorContent');
+            if (!monitor || !monitor.innerHTML.trim()) {
+                addMsg('system', '⚠️ Nothing to export — K Monitor is empty.');
+                return;
+            }
+
+            switch (format) {
+                case 'html': {
+                    const blob = new Blob([`<!DOCTYPE html><html><head><meta charset="utf-8"><title>K Monitor Export</title><style>body{font-family:Inter,sans-serif;background:#0a0e1a;color:#e2e8f0;padding:40px;line-height:1.7}pre{background:#111;padding:14px;border-radius:8px;color:#a5f3fc}img{max-width:100%}</style></head><body>${monitor.innerHTML}</body></html>`], { type: 'text/html' });
+                    downloadBlob(blob, `k-export-${Date.now()}.html`);
+                    break;
+                }
+                case 'txt': {
+                    const text = monitor.innerText;
+                    const blob = new Blob([text], { type: 'text/plain' });
+                    downloadBlob(blob, `k-export-${Date.now()}.txt`);
+                    break;
+                }
+                case 'pdf': {
+                    // Open print dialog for PDF export
+                    const printWin = window.open('', '_blank');
+                    printWin.document.write(`<!DOCTYPE html><html><head><title>K Monitor</title><style>body{font-family:Inter,sans-serif;padding:40px;line-height:1.7}pre{background:#f5f5f5;padding:14px;border-radius:8px;overflow-x:auto}img{max-width:100%}@media print{body{padding:20px}}</style></head><body>${monitor.innerHTML}</body></html>`);
+                    printWin.document.close();
+                    setTimeout(() => { printWin.print(); }, 500);
+                    break;
+                }
+                case 'md': {
+                    // Simple HTML to Markdown conversion
+                    let md = monitor.innerHTML
+                        .replace(/<pre><code>(.*?)<\/code><\/pre>/gs, '```\n$1\n```')
+                        .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
+                        .replace(/<em>(.*?)<\/em>/g, '*$1*')
+                        .replace(/<br\s*\/?>/g, '\n')
+                        .replace(/<[^>]+>/g, '')
+                        .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+                        .replace(/&amp;/g, '&');
+                    const blob = new Blob([md], { type: 'text/markdown' });
+                    downloadBlob(blob, `k-export-${Date.now()}.md`);
+                    break;
+                }
+            }
+            addMsg('system', `📤 Exported as ${format.toUpperCase()}.`);
+        }
+
+        function downloadAllFiles() {
+            if (docFiles.length === 0) {
+                addMsg('system', '⚠️ No files to download.');
+                return;
+            }
+            docFiles.forEach(f => {
+                const url = URL.createObjectURL(f.file);
+                downloadBlob(null, f.name, url);
+            });
+            addMsg('system', `⬇️ Downloaded ${docFiles.length} file(s).`);
+        }
+
+        function downloadBlob(blob, filename, url) {
+            const a = document.createElement('a');
+            a.href = url || URL.createObjectURL(blob);
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            if (!url && blob) URL.revokeObjectURL(a.href);
+        }
+
+        function showExpired() {
+            const overlay = document.querySelector('.expired-overlay');
+            if (overlay) overlay.classList.add('show');
+        }
+
+        // ═══ LOCALIZARE — Deschide Google Maps cu locația curentă ═══
+        function openLocationMap() {
+            const btn = document.getElementById('kLocationBtn');
+            if (!navigator.geolocation) {
+                alert('Your browser does not support geolocation.');
+                return;
+            }
+            btn.textContent = '📍 Detecting...';
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+                    btn.textContent = `📍 ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                    window.open(`https://www.google.com/maps?q=${lat},${lng}&z=15`, '_blank');
+                },
+                (err) => {
+                    btn.textContent = '📍 Locate';
+                    alert('Could not get location. Check browser permissions.');
+                    console.error('Geolocation error:', err);
+                },
+                { enableHighAccuracy: true, timeout: 10000 }
+            );
+        }
+
+        // ═══ WEATHER — auto-fetch after GPS and display in top bar (Point 24+28) ═══
+        const weatherIcons = { 0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️', 45: '🌫️', 48: '🌫️', 51: '🌦️', 53: '🌧️', 55: '🌧️', 56: '❄️', 57: '❄️', 61: '🌧️', 63: '🌧️', 65: '🌧️', 66: '❄️', 67: '❄️', 71: '❄️', 73: '🌨️', 75: '🌨️', 77: '🌨️', 80: '🌦️', 81: '🌧️', 82: '⛈️', 85: '🌨️', 86: '🌨️', 95: '⚡', 96: '⚡', 99: '⚡' };
+
+        async function fetchWeather(lat, lon) {
+            try {
+                const wUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`;
+                const wRes = await fetch(wUrl);
+                const wData = await wRes.json();
+                const cur = wData.current;
+                if (cur) {
+                    const icon = weatherIcons[cur.weather_code] || '🌡️';
+                    const badge = document.getElementById('weatherBadge');
+                    badge.textContent = `${icon} ${Math.round(cur.temperature_2m)}°C`;
+                    badge.style.display = 'inline-block';
+                    badge.title = `${Math.round(cur.temperature_2m)}°C in ${userCity || 'your area'} — click for weather map`;
+                }
+            } catch (e) { console.log('Weather badge fetch error:', e); }
+        }
+
+        function openWeatherMap() {
+            if (userLocation) {
+                window.open(`https://www.windy.com/${userLocation.lat}/${userLocation.lon}?temp,${Math.round(userLocation.lat)},${Math.round(userLocation.lon)},10`, '_blank');
+            } else {
+                window.open('https://www.windy.com', '_blank');
+            }
+        }
+
+        // ═══ TRUTH SHIELD — Interactive popup (Point 8) ═══
+        function showTruthShield() {
+            // Remove existing popup if any
+            const existing = document.getElementById('truthShieldPopup');
+            if (existing) { existing.remove(); return; }
+
+            const popup = document.createElement('div');
+            popup.id = 'truthShieldPopup';
+            popup.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10000;background:linear-gradient(135deg,#0a0e1a 0%,#111827 100%);border:1px solid rgba(0,200,100,0.3);border-radius:16px;padding:28px 32px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.7),0 0 30px rgba(0,200,100,0.1);color:#e2e8f0;font-family:Inter,sans-serif;';
+            popup.innerHTML = `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                    <h3 style="margin:0;color:#0c6;font-size:18px">🛡️ Truth Shield Active</h3>
+                    <span onclick="document.getElementById('truthShieldPopup').remove()" style="cursor:pointer;font-size:20px;color:#64748b;padding:4px">✕</span>
+                </div>
+                <p style="color:#94a3b8;font-size:13px;margin-bottom:16px">K AI enforces these 7 rules on every response:</p>
+                <ol style="padding-left:20px;color:#e2e8f0;font-size:13px;line-height:2">
+                    <li><strong style="color:#0c6">No fabrication</strong> — never invent facts or data</li>
+                    <li><strong style="color:#0c6">Source citation</strong> — cite sources when making claims</li>
+                    <li><strong style="color:#0c6">Uncertainty disclosure</strong> — say "I'm not sure" when uncertain</li>
+                    <li><strong style="color:#0c6">No hidden actions</strong> — all operations are transparent</li>
+                    <li><strong style="color:#0c6">Real data only</strong> — no placeholder or mock data</li>
+                    <li><strong style="color:#0c6">Error honesty</strong> — errors are reported, never masked</li>
+                    <li><strong style="color:#0c6">Anti-hallucination</strong> — verified by truth-detector backend</li>
+                </ol>
+                <div style="margin-top:16px;padding:10px 14px;background:rgba(0,200,100,0.08);border-radius:8px;border:1px solid rgba(0,200,100,0.2);font-size:12px;color:#0c6">
+                    ✅ Status: <strong>PERMANENTLY ACTIVE</strong> — cannot be disabled
+                </div>
+            `;
+
+            // Backdrop
+            const backdrop = document.createElement('div');
+            backdrop.id = 'truthShieldBackdrop';
+            backdrop.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;backdrop-filter:blur(4px)';
+            backdrop.onclick = () => { popup.remove(); backdrop.remove(); };
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(popup);
+        }
+
+        // ═══ ANTI-ABUSE — Browser fingerprint + rate limiter (Point 36) ═══
+        const kFingerprint = (function generateFingerprint() {
+            const components = [
+                navigator.userAgent,
+                navigator.language,
+                screen.width + 'x' + screen.height,
+                screen.colorDepth,
+                Intl.DateTimeFormat().resolvedOptions().timeZone,
+                navigator.hardwareConcurrency || 'unknown',
+                navigator.platform
+            ];
+            // Simple hash
+            let hash = 0;
+            const str = components.join('|');
+            for (let i = 0; i < str.length; i++) {
+                const chr = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + chr;
+                hash |= 0;
+            }
+            return 'kfp_' + Math.abs(hash).toString(36);
+        })();
+
+        // Rate limiter: 10 messages per minute for free users
+        const kRateLimit = {
+            maxPerMinute: 10,
+            timestamps: [],
+            check() {
+                const now = Date.now();
+                // Remove timestamps older than 60 seconds
+                this.timestamps = this.timestamps.filter(t => now - t < 60000);
+                if (this.timestamps.length >= this.maxPerMinute) {
+                    return false; // Rate limited
+                }
+                this.timestamps.push(now);
+                return true;
+            }
+        };
+
+        // Store fingerprint for backend tracking
+        console.log('K Fingerprint:', kFingerprint);
+
+        // ═══ WEBCAM OVERLAY — face on avatar (Point 2) ═══
+        let kWebcamStream = null;
+        function toggleWebcam() {
+            const video = document.getElementById('kWebcamVideo');
+            const btn = document.getElementById('kWebcamBtn');
+            if (kWebcamStream) {
+                // Stop webcam
+                kWebcamStream.getTracks().forEach(t => t.stop());
+                kWebcamStream = null;
+                video.style.display = 'none';
+                video.srcObject = null;
+                btn.textContent = '📷 Face';
+                btn.style.background = 'rgba(99,102,241,0.2)';
+                return;
+            }
+            // Start webcam
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                addMsg('system', '⚠️ Webcam not available in this browser.');
+                return;
+            }
+            btn.textContent = '⏳...';
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 640, height: 480 }, audio: false })
+                .then(stream => {
+                    kWebcamStream = stream;
+                    video.srcObject = stream;
+                    video.style.display = 'block';
+                    btn.textContent = '📷 ON';
+                    btn.style.background = 'rgba(99,102,241,0.5)';
+                })
+                .catch(err => {
+                    console.error('Webcam error:', err);
+                    btn.textContent = '📷 Face';
+                    addMsg('system', '⚠️ Camera access denied. Enable in browser settings.');
+                });
+        }
+
+        // ═══ AUTO-SAVE TO DB — persist conversations via brain-memory (Point 35) ═══
+        async function autoSaveToDB(userMsg, aiReply) {
+            try {
+                const API_BASE = window.location.hostname === 'localhost' || window.location.protocol === 'file:'
+                    ? 'https://kelionai.app' : '';
+                await fetch(`${API_BASE}/.netlify/functions/brain-memory`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'save',
+                        session_id: sessionStart.toString(),
+                        fingerprint: kFingerprint,
+                        user_message: userMsg,
+                        ai_response: aiReply,
+                        language: detectedLang,
+                        location: userCity || null,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+            } catch (e) {
+                console.log('DB save (non-critical):', e.message);
+            }
+        }
+    </script>
+
+    <!-- ═══ THREE.JS 3D K AVATAR ═══ -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // ═══ K 3D AVATAR STATE ═══
+        let kScene, kCamera, kRenderer, kControls, kCurrentModel = null;
+
+        // Read ?avatar= param from landing page and sync to k_gender
+        (function syncAvatarParam() {
+            const params = new URLSearchParams(window.location.search);
+            const avatar = params.get('avatar');
+            if (avatar === 'kira') {
+                localStorage.setItem('k_gender', 'female');
+                localStorage.setItem('k_avatar', 'kira');
+                // Sync DOM labels
+                const nl = document.getElementById('kNameLabel');
+                if (nl) nl.textContent = 'Kira';
+                const sw = document.getElementById('kGenderSwitch');
+                if (sw) sw.checked = true;
+                const gm = document.getElementById('kGenderM');
+                const gf = document.getElementById('kGenderF');
+                if (gm) gm.style.opacity = '0.4';
+                if (gf) gf.style.opacity = '1';
+            } else if (avatar === 'kelion') {
+                localStorage.setItem('k_gender', 'male');
+                localStorage.setItem('k_avatar', 'kelion');
+            }
+        })();
+
+        let kGender = localStorage.getItem('k_gender') || 'male';
+        const kModelPaths = {
+            male: '/models/k-male.glb',
+            female: '/models/k-female.glb'
+        };
+
+        // Dynamic rotation: face user (0°) or monitor (5° right)
+        let kTargetRotY = 0; // Start facing user
+        window.kLookAtUser = function () { kTargetRotY = 0; };
+        window.kLookAtMonitor = function () { kTargetRotY = Math.PI / 36; }; // 5°
+
+        // Expose switchGender globally
+        window.switchGender = function (isFemale) {
+            kGender = isFemale ? 'female' : 'male';
+            localStorage.setItem('k_gender', kGender);
+            // Update labels
+            document.getElementById('kGenderM').style.opacity = isFemale ? '0.4' : '1';
+            document.getElementById('kGenderF').style.opacity = isFemale ? '1' : '0.4';
+            // Update name label
+            const nameLabel = document.getElementById('kNameLabel');
+            if (nameLabel) nameLabel.textContent = isFemale ? 'Kira' : 'Kelion';
+            // Load new model
+            loadKModel(kGender);
+        };
+
+        function initK3D() {
+            const canvas = document.getElementById('kCanvas');
+            const panel = document.getElementById('kDisplayPanel');
+            if (!canvas || !panel) return;
+
+            // Scene
+            kScene = new THREE.Scene();
+
+            // Camera
+            kCamera = new THREE.PerspectiveCamera(28, panel.clientWidth / panel.clientHeight, 0.1, 100);
+            kCamera.position.set(0, 0.15, 2.4);
+
+            // Renderer
+            kRenderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, logarithmicDepthBuffer: true });
+            kRenderer.setSize(panel.clientWidth, panel.clientHeight);
+            kRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            kRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+            kRenderer.toneMappingExposure = 1.2;
+
+            // Lighting — cosmic holographic feel
+            const ambient = new THREE.AmbientLight(0x6366f1, 0.6);
+            kScene.add(ambient);
+
+            const key = new THREE.DirectionalLight(0xf0f4ff, 1.5);
+            key.position.set(2, 3, 4);
+            kScene.add(key);
+
+            const fill = new THREE.DirectionalLight(0x818cf8, 0.8);
+            fill.position.set(-2, 1, -1);
+            kScene.add(fill);
+
+            const rim = new THREE.PointLight(0xa78bfa, 1.2, 10);
+            rim.position.set(0, 2, -2);
+            kScene.add(rim);
+
+            // Controls — gentle auto-rotate
+            kControls = new OrbitControls(kCamera, kRenderer.domElement);
+            kControls.enableDamping = true;
+            kControls.dampingFactor = 0.05;
+            kControls.enableZoom = false;
+            kControls.autoRotate = false;
+            kControls.enablePan = false;
+            kControls.enableRotate = false;
+            kControls.minPolarAngle = Math.PI / 2.5;
+            kControls.maxPolarAngle = Math.PI / 2;
+
+            // Resize handler
+            window.addEventListener('resize', () => {
+                if (!panel.clientWidth) return;
+                kCamera.aspect = panel.clientWidth / panel.clientHeight;
+                kCamera.updateProjectionMatrix();
+                kRenderer.setSize(panel.clientWidth, panel.clientHeight);
+            });
+
+            // Restore gender from localStorage
+            const sw = document.getElementById('kGenderSwitch');
+            if (kGender === 'female' && sw) {
+                sw.checked = true;
+                document.getElementById('kGenderM').style.opacity = '0.4';
+                document.getElementById('kGenderF').style.opacity = '1';
+            }
+
+            // Load initial model
+            loadKModel(kGender);
+
+            // Animate
+            function animate() {
+                requestAnimationFrame(animate);
+                kControls.update();
+                // Smooth rotation lerp towards target
+                if (kCurrentModel) {
+                    kCurrentModel.rotation.y += (kTargetRotY - kCurrentModel.rotation.y) * 0.05;
+
+                    // Mouth animation: subtle jaw movement when speaking (Point 31)
+                    if (window.kIsSpeaking) {
+                        const t = performance.now() * 0.008;
+                        const jawMove = Math.sin(t * 5) * 0.02 + Math.sin(t * 8) * 0.01;
+                        kCurrentModel.scale.y = 1.0 + jawMove;
+                    } else {
+                        // Smoothly return to normal scale
+                        kCurrentModel.scale.y += (1.0 - kCurrentModel.scale.y) * 0.1;
+                    }
+                }
+                kRenderer.render(kScene, kCamera);
+            }
+            animate();
+        }
+
+        function loadKModel(gender) {
+            const loading = document.getElementById('kLoading');
+            if (loading) loading.style.display = 'block';
+
+            // Remove current model
+            if (kCurrentModel) {
+                kScene.remove(kCurrentModel);
+                kCurrentModel.traverse(child => {
+                    if (child.isMesh) {
+                        child.geometry.dispose();
+                        if (child.material.map) child.material.map.dispose();
+                        child.material.dispose();
+                    }
+                });
+                kCurrentModel = null;
+            }
+
+            const loader = new GLTFLoader();
+            loader.load(kModelPaths[gender], (gltf) => {
+                kCurrentModel = gltf.scene;
+                // Center and scale — bust framing, face forward
+                const box = new THREE.Box3().setFromObject(kCurrentModel);
+                const center = box.getCenter(new THREE.Vector3());
+                const size = box.getSize(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const scale = 0.85 / maxDim;
+                kCurrentModel.scale.setScalar(scale);
+                kCurrentModel.position.sub(center.multiplyScalar(scale));
+                // Shift model down slightly so face/bust is centered in view
+                kCurrentModel.position.y -= 0.05;
+                // Ensure facing forward (toward camera on +Z)
+                kCurrentModel.rotation.y = 0;
+
+                // Play animation if any
+                if (gltf.animations && gltf.animations.length > 0) {
+                    const mixer = new THREE.AnimationMixer(kCurrentModel);
+                    gltf.animations.forEach(clip => {
+                        mixer.clipAction(clip).play();
+                    });
+                    // Update mixer in animation loop
+                    const clock = new THREE.Clock();
+                    function updateMixer() {
+                        requestAnimationFrame(updateMixer);
+                        mixer.update(clock.getDelta());
+                    }
+                    updateMixer();
+                }
+
+                kScene.add(kCurrentModel);
+                // Initial: face user
+                kCurrentModel.rotation.y = kTargetRotY;
+                if (loading) loading.style.display = 'none';
+                console.log(`✅ K 3D model loaded: ${gender}`);
+            }, (progress) => {
+                if (loading && progress.total) {
+                    const pct = Math.round((progress.loaded / progress.total) * 100);
+                    loading.textContent = `⏳ ${gender === 'male' ? '♂' : '♀'} ${pct}%`;
+                }
+            }, (error) => {
+                console.error('❌ K 3D load error:', error);
+                if (loading) loading.textContent = '❌ Error loading model';
+            });
+        }
+
+        // ═══ VOICE GENDER MATCHING ═══
+        // Override voice selection in speakText to use gender-appropriate voice
+        const _origGetVoices = window.speechSynthesis ? speechSynthesis.getVoices.bind(speechSynthesis) : null;
+        window.getGenderVoice = function (lang) {
+            if (!_origGetVoices) return null;
+            const voices = speechSynthesis.getVoices();
+            const gender = localStorage.getItem('k_gender') || 'male';
+            // Try to find voice matching language + gender hint in name
+            const genderHints = gender === 'female'
+                ? ['female', 'feminin', 'woman', 'femeie', 'zira', 'hazel', 'samantha', 'karen']
+                : ['male', 'masculin', 'man', 'barbat', 'david', 'daniel', 'mark', 'james'];
+
+            // First: exact lang match + gender hint
+            let voice = voices.find(v =>
+                v.lang === lang && genderHints.some(h => v.name.toLowerCase().includes(h))
+            );
+            if (voice) return voice;
+
+            // Second: lang prefix + gender hint
+            const prefix = lang.split('-')[0];
+            voice = voices.find(v =>
+                v.lang.startsWith(prefix) && genderHints.some(h => v.name.toLowerCase().includes(h))
+            );
+            if (voice) return voice;
+
+            // Fallback: any voice for this lang
+            return voices.find(v => v.lang === lang) || voices.find(v => v.lang.startsWith(prefix)) || null;
+        };
+
+        // Init when ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initK3D);
+        } else {
+            initK3D();
+        }
+    </script>
+
+    <!-- ═══ CUSTOM PROFESSION LOGIC ═══ -->
+    <script>
+        // ═══ Handle profession dropdown change ═══
+        function handleProfessionChange(select) {
+            if (select.value === '__custom_new__') {
+                openProfModal();
+                select.value = ''; // Reset to General while modal is open
+            }
+        }
+
+        // ═══ Open/Close modal ═══
+        function openProfModal() {
+            const modal = document.getElementById('customProfModal');
+            modal.style.display = 'flex';
+            document.getElementById('cpName').value = '';
+            document.getElementById('cpSpecialties').value = '';
+            document.getElementById('cpLegislation').value = '';
+            renderSavedProfessions();
+        }
+        function closeProfModal() {
+            document.getElementById('customProfModal').style.display = 'none';
+        }
+
+        // ═══ Save custom profession ═══
+        function saveCustomProfession() {
+            const name = document.getElementById('cpName').value.trim();
+            const specialties = document.getElementById('cpSpecialties').value.trim();
+            if (!name) { alert('Profession name is required!'); return; }
+            if (!specialties) { alert('At least one specialty is required!'); return; }
+
+            const customs = JSON.parse(localStorage.getItem('kelion_custom_professions') || '[]');
+            const id = name.toLowerCase().replace(/[^a-z0-9]/g, '_').substring(0, 30) + '_' + Date.now().toString(36);
+            customs.push({
+                id,
+                name,
+                specialties,
+                legislation: document.getElementById('cpLegislation').value.trim(),
+                created: new Date().toISOString()
+            });
+            localStorage.setItem('kelion_custom_professions', JSON.stringify(customs));
+
+            // Add to dropdown and select it
+            populateCustomProfessions();
+            document.getElementById('professionSelect').value = 'custom_' + id;
+            closeProfModal();
+        }
+
+        // ═══ Delete custom profession ═══
+        function deleteCustomProfession(id) {
+            if (!confirm('Delete this profession?')) return;
+            let customs = JSON.parse(localStorage.getItem('kelion_custom_professions') || '[]');
+            customs = customs.filter(c => c.id !== id);
+            localStorage.setItem('kelion_custom_professions', JSON.stringify(customs));
+
+            // Reset dropdown if deleted profession was selected
+            const sel = document.getElementById('professionSelect');
+            if (sel.value === 'custom_' + id) sel.value = '';
+
+            populateCustomProfessions();
+            renderSavedProfessions();
+        }
+
+        // ═══ Render saved professions list in modal ═══
+        function renderSavedProfessions() {
+            const customs = JSON.parse(localStorage.getItem('kelion_custom_professions') || '[]');
+            const container = document.getElementById('cpSavedItems');
+            const wrapper = document.getElementById('cpExistingList');
+            if (customs.length === 0) { wrapper.style.display = 'none'; return; }
+            wrapper.style.display = 'block';
+            container.innerHTML = customs.map(c => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:6px">
+                    <div>
+                        <span style="color:#d4af37;font-weight:600;font-size:.78rem">⭐ ${c.name}</span>
+                        <span style="color:rgba(255,255,255,0.3);font-size:.65rem;margin-left:8px">${c.specialties.split('\n').length} specialties</span>
+                    </div>
+                    <button onclick="deleteCustomProfession('${c.id}')" style="background:none;border:none;color:rgba(255,100,100,0.6);cursor:pointer;font-size:.75rem" title="Delete">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        // ═══ Populate dropdown with custom professions from localStorage ═══
+        function populateCustomProfessions() {
+            const sel = document.getElementById('professionSelect');
+            // Remove existing custom options
+            sel.querySelectorAll('option[data-custom]').forEach(o => o.remove());
+
+            const customs = JSON.parse(localStorage.getItem('kelion_custom_professions') || '[]');
+            const customNewOpt = sel.querySelector('option[value="__custom_new__"]');
+
+            customs.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = 'custom_' + c.id;
+                opt.textContent = '⭐ ' + c.name;
+                opt.setAttribute('data-custom', 'true');
+                sel.insertBefore(opt, customNewOpt);
+            });
+        }
+
+        // ═══ Init: load custom professions on page load ═══
+        populateCustomProfessions();
+    
+        // ═══ K BROWSER AGENT ═══
+        let kBrowseEnabled = localStorage.getItem('k_browse_enabled') === 'true';
+        function toggleBrowse() {
+            kBrowseEnabled = !kBrowseEnabled;
+            localStorage.setItem('k_browse_enabled', kBrowseEnabled);
+            const ind = document.getElementById('kBrowseIndicator');
+            if (ind) {
+                ind.style.opacity = kBrowseEnabled ? '1' : '0.5';
+                ind.style.background = kBrowseEnabled ? 'rgba(99,102,241,0.3)' : 'transparent';
+                ind.style.borderRadius = '8px';
+                ind.style.padding = '2px 8px';
+            }
+        }
+        // Init browse state
+        (function() {
+            const ind = document.getElementById('kBrowseIndicator');
+            if (ind && kBrowseEnabled) {
+                ind.style.opacity = '1';
+                ind.style.background = 'rgba(99,102,241,0.3)';
+                ind.style.borderRadius = '8px';
+                ind.style.padding = '2px 8px';
+            }
+        })();
+    </script>
+</body>
+
+</html>

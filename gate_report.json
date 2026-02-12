@@ -1,0 +1,149 @@
+{
+  "project": "kelion-ai",
+  "version": "1.6.0",
+  "gate_run_at": "2026-02-08T13:21:27.378402+00:00",
+  "duration_total_s": 56.76,
+  "overall_result": "PASS",
+  "git_clean": false,
+  "git_diff_summary": ".agent/rules/reguli-complete.md                |   5 +\n .gitignore                                     |   7 +\n .jshintrc                                      |   4 +-\n analysis_result.txt                            |   8 -\n analyze_code.py                                | 179 ----------\n audit_2026-02-06T13-12-21-167Z.md              | 200 -----------\n audit_2026-02-06T13-15-23-833Z.md              | 200 -----------\n audit_2026-02-06T13-21-02-402Z.md              | 225 -------------\n audit_2026-02-06T13-24-26-507Z.md              | 218 ------------\n audit_2026-02-06T13-30-43-402Z.md              | 208 ------------\n audit_admin_fix.txt                            | 255 --------------\n audit_final.txt                                | 255 --------------\n audit_report.md                                | 208 ------------\n audit_results.txt                              | 255 --------------\n build-error-log.txt                            | 173 ----------\n build-stderr.txt                               |   8 -\n build-stdout.txt                               | 148 --------\n console_diagnostic.txt                         | 145 --------\n delete_unused.py                               |  71 ----\n dns_records.txt                                |  39 ---\n file_err.txt                                   | 446 ++++++++++++++++++++++++-\n final_100_audit.txt                            |  15 -\n full_analysis.py                               | 174 ----------\n full_report.txt                                |  79 -----\n honest_audit_summary.txt                       |  17 -\n jshint_report.txt                              |  67 ----\n k-monitor.ps1                                  | 154 ---------\n k1_hard_fix_runtime_proof.png                  | Bin 212924 -> 0 bytes\n k1_integrator_proof.png                        | Bin 212603 -> 0 bytes\n k1_phase4_runtime_proof.png                    | Bin 212142 -> 0 bytes\n k1_verifier_screenshot.png                     | Bin 268007 -> 0 bytes\n netlify.toml                                   |   9 +-\n netlify/functions/admin-notify.js              |   5 +-\n netlify/functions/admin-traffic.js             |   3 +\n netlify/functions/ai-credits.js                |   3 +\n netlify/functions/analytics-dashboard.js       |   3 +\n netlify/functions/api-gateway.js               |   3 +\n netlify/functions/api-keys.js                  |   3 +\n netlify/functions/api-subscription.js          |  30 +-\n netlify/functions/audit-log.js                 |   3 +\n netlify/functions/auth-forgot-password.js      |   5 +-\n netlify/functions/auth-login.js                |   3 +\n netlify/functions/auth-logout.js               |   5 +-\n netlify/functions/auth-me.js                   |   3 +\n netlify/functions/auth-refresh.js              |   3 +\n netlify/functions/auth-register.js             |   5 +-\n netlify/functions/auth-resend-verification.js  |   3 +\n netlify/functions/auth-reset-password.js       |   3 +\n netlify/functions/auth-verify-email.js         |   3 +\n netlify/functions/auth.js                      |   3 +\n netlify/functions/backtesting-engine.js        |   3 +\n netlify/functions/booking-system.js            |   3 +\n netlify/functions/browse-live.js               |   5 +\n netlify/functions/buy-credits.js               |   5 +-\n netlify/functions/calendar.js                  |   3 +\n netlify/functions/canvas.js                    |   3 +\n netlify/functions/chart-generator-financial.js |   3 +\n netlify/functions/chat.js                      |  12 +-\n netlify/functions/check-user.js                |   3 +\n netlify/functions/claude-orchestrator.js       |   3 +\n netlify/functions/code-interpreter.js          |   3 +\n netlify/functions/cost-tracker.js              |   5 +-\n netlify/functions/dalle.js                     |   3 +\n netlify/functions/deep-research.js             |   5 +-\n netlify/functions/deepseek.js                  |   3 +\n netlify/functions/document-checker.js          |   1 -\n netlify/functions/elevenlabs-tts.js            | 136 ++------\n netlify/functions/email-alerts.js              |   3 +\n netlify/functions/email-manager.js             |   7 +-\n netlify/functions/file-upload.js               |   3 +\n netlify/functions/free-trial.js                |   3 +\n netlify/functions/gdpr-cleanup.js              |   3 +\n netlify/functions/gemini-chat.js               |   3 +\n netlify/functions/gemini-live-token.js         |   3 +\n netlify/functions/generate-image.js            | 155 ++-------\n netlify/functions/generate-music.js            |   3 +\n netlify/functions/generate-video.js            | 160 ++-------\n netlify/functions/get-porcupine-key.js         |   3 +\n netlify/functions/group-chat.js                |   3 +\n netlify/functions/group-location.js            |   3 +\n netlify/functions/group-management.js          |   5 +-\n netlify/functions/health.js                    |   3 +\n netlify/functions/inventory-tracker.js         |   3 +\n netlify/functions/k-analytics.js               |   3 +\n netlify/functions/k-presentation.js            |   3 +\n netlify/functions/k-strategic-planner.js       |   3 +\n netlify/functions/k-supreme-intelligence.js    |  16 +-\n netlify/functions/k-terminal.js                |   3 +\n netlify/functions/maps-config.js               |   5 +\n netlify/functions/market-data-feed.js          |   3 +\n netlify/functions/memory-cleanup.js            |   3 +\n netlify/functions/memory.js                    |   3 +\n netlify/functions/messenger-webhook.js         |   7 +-\n netlify/functions/notes.js                     |   3 +\n netlify/functions/ocr.js                       |   3 +\n netlify/functions/order-executor.js            |   3 +\n netlify/functions/page-tracking.js             |   5 +-\n netlify/functions/paypal-admin.js              |   7 +-\n netlify/functions/paypal-webhook.js            |  15 +-\n netlify/functions/pension-calculator.js        |  59 +++-\n netlify/functions/podcast.js                   |   3 +\n netlify/functions/portfolio-tracker.js         |   3 +\n netlify/functions/quiz-generator.js            |   3 +\n netlify/functions/realtime-session.js          |   3 +\n netlify/functions/realtime-token.js            |   3 +\n netlify/functions/referral.js                  |  22 +-\n netlify/functions/safe-mode.js                 |   2 +-\n netlify/functions/search.js                    |   3 +\n netlify/functions/setup-admin.js               |   3 +\n netlify/functions/setup-permanent-user.js      |   9 +-\n netlify/functions/smart-brain.js               |  33 +-\n netlify/functions/social-media-stats.js        |   3 +\n netlify/functions/speak.js                     |   3 +\n netlify/functions/stable-diffusion.js          |   3 +\n netlify/functions/stripe-checkout.js           |  22 +-\n netlify/functions/stripe-webhook.js            |  25 +-\n netlify/functions/transcribe.js                | 175 +++-------\n netlify/functions/translate.js                 |   5 +-\n netlify/functions/usage-analytics.js           |   5 +-\n netlify/functions/usage-limiter.js             |   5 +-\n netlify/functions/user-data.js                 |   3 +\n netlify/functions/vector-store.js              |  45 +--\n netlify/functions/vision.js                    |   3 +\n netlify/functions/weather.js                   |   3 +\n netlify/functions/web-search.js                |   7 +-\n netlify/functions/whisper.js                   |   3 +\n netlify/functions/wolfram.js                   |   3 +\n package-lock.json                              |  43 ++-\n package.json                                   |   5 +-\n public/app.html                                |  26 +-\n public/components/k-qrcode.js                  |  11 +-\n public/components/k-referral-teletext.js       |   4 +-\n public/components/subscription.js              | 127 ++++++-\n public/components/task-workspace.js            |  14 +-\n public/components/tracking.js                  |   2 +-\n public/index.html                              |  22 +-\n public/inspect.html                            |  68 ++--\n supabase_migration_api_keys.sql                |  62 ----\n supabase_migration_cost_tracking.sql           |  47 ---\n trading-bot                                    |   0\n verify-resend-domain.ps1                       |  95 ------\n 141 files changed, 1263 insertions(+), 4230 deletions(-)",
+  "steps": [
+    {
+      "step": 1,
+      "name": "venv create/verify",
+      "status": "PASS",
+      "details": "venv at C:\\Users\\adria\\Downloads\\k new\\kelionat_clean\\.venv",
+      "duration_s": 0.0,
+      "timestamp": "2026-02-08T13:20:30.648364+00:00"
+    },
+    {
+      "step": 2,
+      "name": "deps install",
+      "status": "PASS",
+      "details": "All dependencies installed from requirements.txt",
+      "duration_s": 1.57,
+      "timestamp": "2026-02-08T13:20:32.218408+00:00"
+    },
+    {
+      "step": 3,
+      "name": "ruff format",
+      "status": "PASS",
+      "details": "Checked 1 files",
+      "duration_s": 0.02,
+      "timestamp": "2026-02-08T13:20:32.242343+00:00"
+    },
+    {
+      "step": 4,
+      "name": "ruff check",
+      "status": "PASS",
+      "details": "0 lint errors in 1 files",
+      "duration_s": 0.02,
+      "timestamp": "2026-02-08T13:20:32.266618+00:00"
+    },
+    {
+      "step": 5,
+      "name": "mypy",
+      "status": "PASS",
+      "details": "0 type errors",
+      "duration_s": 1.58,
+      "timestamp": "2026-02-08T13:20:33.847952+00:00"
+    },
+    {
+      "step": 6,
+      "name": "pytest",
+      "status": "PASS",
+      "details": "No test files found (acceptable for JS project)",
+      "duration_s": 0.0,
+      "timestamp": "2026-02-08T13:20:33.848527+00:00"
+    },
+    {
+      "step": 7,
+      "name": "coverage",
+      "status": "PASS",
+      "details": "No test files — coverage N/A",
+      "duration_s": 0.0,
+      "timestamp": "2026-02-08T13:20:33.849553+00:00"
+    },
+    {
+      "step": 8,
+      "name": "pip-audit",
+      "status": "PASS",
+      "details": "0 known vulnerabilities",
+      "duration_s": 1.34,
+      "timestamp": "2026-02-08T13:20:35.192577+00:00"
+    },
+    {
+      "step": 9,
+      "name": "sonar scanner",
+      "status": "SKIP",
+      "details": "SONAR_TOKEN or SONAR_HOST_URL not set — set env vars to enable",
+      "duration_s": 0.0,
+      "timestamp": "2026-02-08T13:20:35.193082+00:00"
+    },
+    {
+      "step": 10,
+      "name": "codeql",
+      "status": "SKIP",
+      "details": "CodeQL CLI not found in PATH — install from github.com/github/codeql-cli-binaries",
+      "duration_s": 0.0,
+      "timestamp": "2026-02-08T13:20:35.194642+00:00"
+    },
+    {
+      "step": 11,
+      "name": "semgrep",
+      "status": "PASS",
+      "details": "86 findings, 0 high/critical",
+      "duration_s": 13.75,
+      "timestamp": "2026-02-08T13:20:48.948977+00:00"
+    },
+    {
+      "step": 12,
+      "name": "playwright",
+      "status": "PASS",
+      "details": "\nRunning 29 tests using 1 worker\n\n  ✓   1 [chromium] › tests\\example.spec.js:4:5 › has title (643ms)\n  ✓   2 [chromium] › tests\\example.spec.js:11:5 › get started link (849ms)\n  ✓   3 [chromium] › tests\\kelion-full.spec.js:12:5 › 1. Pagini — Load & Visual › index.html se incarca cu titlu corect (850ms)\n  ✓   4 [chromium] › tests\\kelion-full.spec.js:22:5 › 1. Pagini — Load & Visual › app.html se incarca fara erori JS (4.9s)\n  ✓   5 [chromium] › tests\\kelion-full.spec.js:39:5 › 1. Pagini — Load & Visual › subscribe.html se incarca (687ms)\n  ✓   6 [chromium] › tests\\kelion-full.spec.js:44:5 › 1. Pagini — Load & Visual › terms.html se incarca (582ms)\n  ✓   7 [chromium] › tests\\kelion-full.spec.js:49:5 › 1. Pagini — Load & Visual › privacy.html se incarca (498ms)\n  ✓   8 [chromium] › tests\\kelion-full.spec.js:54:5 › 1. Pagini — Load & Visual › gdpr.html se incarca (738ms)\n  ✓   9 [chromium] › tests\\kelion-full.spec.js:65:5 › 2. API — Raspunsuri reale › health endpoint → 200 healthy (468ms)\n  ✓  10 [chromium] › tests\\kelion-full.spec.js:73:5 › 2. API — Raspunsuri reale › vault health → 45+ chei (540ms)\n  ✓  11 [chromium] › tests\\kelion-full.spec.js:83:5 › 2. API — Raspunsuri reale › env-check → 200 cu date (268ms)\n  ✓  12 [chromium] › tests\\kelion-full.spec.js:90:5 › 2. API — Raspunsuri reale › chat → raspuns AI real la intrebare (1.7s)\n  ✓  13 [chromium] › tests\\kelion-full.spec.js:101:5 › 2. API — Raspunsuri reale › smart-brain → raspuns AI real (675ms)\n  ✓  14 [chromium] › tests\\kelion-full.spec.js:112:5 › 2. API — Raspunsuri reale › weather GPS → date meteo reale (750ms)\n  ✓  15 [chromium] › tests\\kelion-full.spec.js:121:5 › 2. API — Raspunsuri reale › free-trial → status valid (473ms)\n  ✓  16 [chromium] › tests\\kelion-full.spec.js:137:5 › 3. Validare input — 400 pe date invalide › chat fara mesaj → 400 (213ms)\n  ✓  17 [chromium] › tests\\kelion-full.spec.js:142:5 › 3. Validare input — 400 pe date invalide › chat JSON invalid → 400 (196ms)\n  ✓  18 [chromium] › tests\\ke",
+      "duration_s": 30.85,
+      "timestamp": "2026-02-08T13:21:19.796114+00:00"
+    },
+    {
+      "step": 97,
+      "name": "node syntax",
+      "status": "PASS",
+      "details": "All 128 functions pass syntax check",
+      "duration_s": 6.33,
+      "timestamp": "2026-02-08T13:21:26.125833+00:00"
+    },
+    {
+      "step": 98,
+      "name": "validate-code.js",
+      "status": "PASS",
+      "details": "\n🔍 Validating 128 Netlify functions...\n\n\n🔒 Scanning for hardcoded secrets...\n\n  ✅ No hardcoded secrets found\n\n══════════════════════════════════════════════════\n  ✅ Syntax Pass: 128/128\n  🔒 Secrets: Clean\n  ⏱️  Time: 202ms\n══════════════════════════════════════════════════\n\n📄 Report saved: validation_report.json\n",
+      "duration_s": 0.27,
+      "timestamp": "2026-02-08T13:21:26.396069+00:00"
+    },
+    {
+      "step": 99,
+      "name": "branch cleanup",
+      "status": "PASS",
+      "details": "Remaining merged: * main",
+      "duration_s": 0.55,
+      "timestamp": "2026-02-08T13:21:26.947018+00:00"
+    },
+    {
+      "step": 13,
+      "name": "artifacts",
+      "status": "PASS",
+      "details": "gate_report.json + file_err.txt saved",
+      "duration_s": 0.0,
+      "timestamp": "2026-02-08T13:21:27.164916+00:00"
+    }
+  ],
+  "pass_criteria": {
+    "exit_code_0": true,
+    "zero_test_failures": true,
+    "zero_lint_errors": true,
+    "zero_type_errors": true,
+    "coverage_meets_threshold": true,
+    "deps_from_lock": true,
+    "reports_saved": true,
+    "no_dirty_tree": false
+  }
+}

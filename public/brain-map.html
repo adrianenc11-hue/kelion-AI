@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="description" content="Explore K's neural architecture: multi-model AI routing, knowledge systems, and capability mapping visualized interactively.">
+    <meta name="keywords" content="AI architecture, brain map, AI visualization, Kelion AI internals">
+    <meta name="author" content="Kelion AI">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph -->
+    <meta property="og:title" content="K Brain Map — Kelion AI Architecture">
+    <meta property="og:description" content="Explore K's neural architecture: multi-model AI routing, knowledge systems, and capability mapping visualized interactively.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kelionai.app/brain-map.html">
+    <meta property="og:image" content="https://kelionai.app/hologram-512.png">
+    <meta property="og:site_name" content="Kelion AI">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="K Brain Map — Kelion AI Architecture">
+    <meta name="twitter:description" content="Explore K's neural architecture: multi-model AI routing, knowledge systems, and capability mapping visualized interactively.">
+    <meta name="twitter:image" content="https://kelionai.app/hologram-512.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K AI Brain — Flow Tracer</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            background: #0a0a1a;
+            color: #dde;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column
+        }
+
+        /* ═══ HEADER ═══ */
+        header {
+            background: #0d0d20;
+            border-bottom: 1px solid #1a1a3a;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0
+        }
+
+        header h1 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0df
+        }
+
+        header .status {
+            font-family: 'JetBrains Mono';
+            font-size: .7rem;
+            color: #88a
+        }
+
+        header .status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px
+        }
+
+        header .status .dot.ok {
+            background: #0f8
+        }
+
+        header .status .dot.err {
+            background: #f44
+        }
+
+        .controls {
+            display: flex;
+            gap: 6px
+        }
+
+        .controls button {
+            background: #12122a;
+            border: 1px solid #2a2a5a;
+            color: #aab;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: .7rem;
+            cursor: pointer;
+            font-family: 'Inter';
+            transition: all .2s
+        }
+
+        .controls button:hover,
+        .controls button.active {
+            border-color: #0df;
+            color: #0df
+        }
+
+        /* ═══ MAIN ═══ */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden
+        }
+
+        /* ═══ FLOW AREA ═══ */
+        #flow-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 20px;
+            min-height: 0;
+            position: relative;
+            scroll-behavior: smooth
+        }
+
+        #flow-area::-webkit-scrollbar {
+            width: 10px
+        }
+
+        #flow-area::-webkit-scrollbar-thumb {
+            background: #445;
+            border-radius: 5px;
+            border: 2px solid #0a0a1a
+        }
+
+        #flow-area::-webkit-scrollbar-track {
+            background: #111
+        }
+
+        /* ═══ SCROLL NAV BUTTONS ═══ */
+        .scroll-nav {
+            position: fixed;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 50
+        }
+
+        .scroll-nav button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid #2a2a5a;
+            background: #12122a;
+            color: #0df;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .scroll-nav button:hover {
+            background: #1a1a40;
+            border-color: #0df;
+            box-shadow: 0 0 12px rgba(0, 221, 255, .3)
+        }
+
+        /* ═══ VISUAL FLOW GRAPH ═══ */
+        .flow-graph {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 14px;
+            overflow-x: auto;
+            background: #0c0c20;
+            border-bottom: 1px solid #1a1a3a
+        }
+
+        .flow-graph::-webkit-scrollbar {
+            height: 3px
+        }
+
+        .flow-graph::-webkit-scrollbar-thumb {
+            background: #333
+        }
+
+        .graph-node {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: .62rem;
+            font-family: 'JetBrains Mono';
+            font-weight: 600;
+            white-space: nowrap;
+            border: 1px solid;
+            flex-shrink: 0
+        }
+
+        .graph-node.n-chat {
+            background: rgba(0, 221, 255, .1);
+            border-color: #0df;
+            color: #0df
+        }
+
+        .graph-node.n-orchestrator {
+            background: rgba(255, 180, 0, .1);
+            border-color: #fb0;
+            color: #fb0
+        }
+
+        .graph-node.n-ai {
+            background: rgba(0, 255, 136, .1);
+            border-color: #0f8;
+            color: #0f8
+        }
+
+        .graph-node.n-tool {
+            background: rgba(164, 68, 255, .1);
+            border-color: #a4f;
+            color: #a4f
+        }
+
+        .graph-node.n-default {
+            background: rgba(100, 100, 160, .1);
+            border-color: #668;
+            color: #99b
+        }
+
+        .graph-arrow {
+            color: #556;
+            font-size: .7rem;
+            flex-shrink: 0
+        }
+
+        .session-block {
+            background: #0e0e24;
+            border: 1px solid #1a1a3a;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden
+        }
+
+        .session-header {
+            background: #111130;
+            padding: 8px 14px;
+            font-size: .72rem;
+            font-family: 'JetBrains Mono';
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1a1a3a
+        }
+
+        .session-header .sid {
+            color: #0df;
+            font-weight: 600
+        }
+
+        .session-header .stype {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: .6rem;
+            font-weight: 600
+        }
+
+        .session-header .stype.text {
+            background: rgba(0, 221, 255, .12);
+            color: #0df
+        }
+
+        .session-header .stype.voice {
+            background: rgba(164, 68, 255, .12);
+            color: #a4f
+        }
+
+        /* Flow segments */
+        .flow-segments {
+            padding: 10px 14px
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 2px;
+            font-size: .72rem;
+            font-family: 'JetBrains Mono';
+            position: relative;
+            padding-left: 20px
+        }
+
+        .flow-step::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: -2px;
+            width: 2px;
+            background: #1a1a3a
+        }
+
+        .flow-step:last-child::before {
+            display: none
+        }
+
+        .flow-step .arrow {
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .55rem;
+            z-index: 1
+        }
+
+        .flow-step.enter .arrow {
+            background: #0df;
+            color: #000
+        }
+
+        .flow-step.exit .arrow {
+            background: #0f8;
+            color: #000
+        }
+
+        .flow-step.call .arrow {
+            background: #f84;
+            color: #000
+        }
+
+        .flow-step .time {
+            color: #556;
+            width: 70px;
+            flex-shrink: 0
+        }
+
+        .flow-step .node-name {
+            color: #eef;
+            font-weight: 600;
+            min-width: 120px
+        }
+
+        .flow-step.enter .node-name {
+            color: #0df
+        }
+
+        .flow-step.exit .node-name {
+            color: #0f8
+        }
+
+        .flow-step.call .node-name {
+            color: #f84
+        }
+
+        .flow-step .label {
+            color: #88a;
+            flex: 1
+        }
+
+        .flow-step .msg-preview {
+            color: #fd4;
+            font-size: .65rem;
+            display: block;
+            margin-top: 2px
+        }
+
+        .no-data {
+            text-align: center;
+            color: #445;
+            padding: 60px 20px;
+            font-size: .85rem
+        }
+
+        .no-data .hint {
+            font-size: .7rem;
+            color: #334;
+            margin-top: 8px
+        }
+
+        /* ═══ TABLE ═══ */
+        #table-area {
+            flex-shrink: 0;
+            max-height: 35vh;
+            border-top: 2px solid #1a1a3a;
+            overflow-y: auto;
+            background: #0a0a16
+        }
+
+        #table-area::-webkit-scrollbar {
+            width: 5px
+        }
+
+        #table-area::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'JetBrains Mono';
+            font-size: .65rem
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 2
+        }
+
+        thead th {
+            background: #111130;
+            color: #88a;
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid #2a2a5a;
+            font-weight: 600;
+            white-space: nowrap
+        }
+
+        tbody td {
+            padding: 6px 10px;
+            border-bottom: 1px solid #0f0f28;
+            color: #bbc;
+            white-space: nowrap
+        }
+
+        tbody tr:hover {
+            background: rgba(0, 221, 255, .03)
+        }
+
+        td.dir-enter {
+            color: #0df
+        }
+
+        td.dir-exit {
+            color: #0f8
+        }
+
+        td.dir-call {
+            color: #f84
+        }
+
+        td.type-text {
+            color: #0df
+        }
+
+        td.type-voice {
+            color: #a4f
+        }
+
+        /* ═══ CHAT BAR ═══ */
+        #chat-bar {
+            flex-shrink: 0;
+            background: #0d0d20;
+            border-top: 1px solid #1a1a3a;
+            padding: 8px 16px;
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .toggle-btn {
+            background: #12122a;
+            border: 1px solid #2a2a5a;
+            color: #667;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .toggle-btn.text-on {
+            border-color: #0df;
+            color: #0df;
+            background: rgba(0, 221, 255, .1)
+        }
+
+        .toggle-btn.mic-on {
+            border-color: #f44;
+            color: #fff;
+            background: #d22;
+            box-shadow: 0 0 20px rgba(255, 50, 50, .4);
+            animation: pulse-rec 1s infinite
+        }
+
+        @keyframes pulse-rec {
+
+            0%,
+            100% {
+                box-shadow: 0 0 12px rgba(255, 50, 50, .3);
+                transform: scale(1)
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(255, 50, 50, .6);
+                transform: scale(1.08)
+            }
+        }
+
+        .status-lbl {
+            font-size: .68rem;
+            font-family: 'JetBrains Mono';
+            font-weight: 600;
+            display: none
+        }
+
+        .status-lbl.visible {
+            display: inline
+        }
+
+        #text-lbl {
+            color: #0df
+        }
+
+        #mic-lbl {
+            color: #f44;
+            animation: blink .8s infinite;
+            font-weight: 700;
+            font-size: .75rem
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .3
+            }
+        }
+
+        #chat-input-wrap {
+            flex: 1;
+            display: none;
+            gap: 8px;
+            align-items: center
+        }
+
+        #chat-input-wrap.visible {
+            display: flex
+        }
+
+        #chat-input-wrap input {
+            flex: 1;
+            background: #12122a;
+            border: 1px solid #2a2a5a;
+            color: #eef;
+            padding: 9px 14px;
+            border-radius: 10px;
+            font-family: 'Inter';
+            font-size: .8rem;
+            outline: none
+        }
+
+        #chat-input-wrap input:focus {
+            border-color: #0df
+        }
+
+        #chat-input-wrap input::placeholder {
+            color: #445
+        }
+
+        #chat-send {
+            background: linear-gradient(135deg, #0df, #48f);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            flex-shrink: 0
+        }
+
+        #chat-response {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 20;
+            display: none;
+            flex-direction: column;
+            gap: 4px
+        }
+
+        .chat-bubble {
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: .75rem;
+            line-height: 1.4;
+            max-width: 90%;
+            word-wrap: break-word
+        }
+
+        .chat-bubble.user {
+            background: rgba(0, 221, 255, .1);
+            border: 1px solid rgba(0, 221, 255, .2);
+            color: #cde;
+            align-self: flex-end
+        }
+
+        .chat-bubble.ai {
+            background: rgba(164, 68, 255, .08);
+            border: 1px solid rgba(164, 68, 255, .15);
+            color: #dce;
+            align-self: flex-start
+        }
+
+        .chat-bubble.typing {
+            color: #888;
+            font-style: italic
+        }
+
+        /* ═══ RESIZE HANDLE ═══ */
+        #resize-handle {
+            height: 4px;
+            background: #1a1a3a;
+            cursor: row-resize;
+            flex-shrink: 0;
+            transition: background .2s
+        }
+
+        #resize-handle:hover {
+            background: #0df
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🧠 K AI Brain — Flow Tracer</h1>
+        <div class="controls">
+            <button class="active" onclick="setFilter('all',this)">All</button>
+            <button onclick="setFilter('text',this)">💬 Text</button>
+            <button onclick="setFilter('voice',this)">🎙️ Voice</button>
+            <button onclick="clearFlows()">🗑️ Clear</button>
+        </div>
+        <div class="status">
+            <span class="dot ok" id="pollDot"></span>
+            <span id="pollText">Polling...</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- FLOW DIAGRAM -->
+        <div id="flow-area">
+            <div class="no-data" id="empty-state">
+                <div>📡 Waiting for real data...</div>
+                <div class="hint">Send a message through the chat below or from app.html.<br>Each request will
+                    appear here with the exact trace.</div>
+            </div>
+        </div>
+        <!-- SCROLL NAV -->
+        <div class="scroll-nav">
+            <button onclick="document.getElementById('flow-area').scrollBy(0,-200)" title="Scroll up">▲</button>
+            <button onclick="document.getElementById('flow-area').scrollBy(0,200)" title="Scroll down">▼</button>
+            <button onclick="document.getElementById('flow-area').scrollTop=0" title="Top"
+                style="font-size:.7rem">⏫</button>
+            <button
+                onclick="document.getElementById('flow-area').scrollTop=document.getElementById('flow-area').scrollHeight"
+                title="Bottom" style="font-size:.7rem">⏬</button>
+        </div>
+
+        <div id="resize-handle"></div>
+
+        <!-- MEASUREMENTS TABLE -->
+        <div id="table-area">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Node</th>
+                        <th>Dir</th>
+                        <th>Label</th>
+                        <th>Type</th>
+                        <th>Message</th>
+                        <th>Session</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <div id="chat-response"></div>
+    <div id="chat-bar">
+        <button class="toggle-btn" id="btn-text" onclick="toggleText()" title="Text On/Off">💬</button>
+        <span id="text-lbl" class="status-lbl">● TEXT</span>
+        <button class="toggle-btn" id="btn-mic" onclick="toggleMic()" title="🔴 Audio Recording"
+            style="width:52px;height:52px;font-size:1.3rem;border-radius:50%">🎙️</button>
+        <span id="mic-lbl" class="status-lbl">🔴 REC</span>
+        <div id="chat-input-wrap">
+            <input type="text" id="chat-input" placeholder="Send a message to K... (Enter)" autocomplete="off"
+                onkeypress="if(event.key==='Enter')sendMsg()">
+            <button id="chat-send" onclick="sendMsg()">➤</button>
+        </div>
+        <button class="toggle-btn" id="btn-cam" onclick="toggleCamera()" title="📷 Capture image"
+            style="width:44px;height:44px;font-size:1.1rem;border-radius:50%">📷</button>
+    </div>
+    <video id="cam-preview"
+        style="display:none;position:fixed;bottom:80px;right:20px;width:240px;border-radius:12px;border:2px solid #0df;z-index:100"
+        autoplay playsinline></video>
+    <canvas id="cam-canvas" style="display:none"></canvas>
+
+    <script>
+        // ═══ STATE ═══
+        const API = window.location.hostname === 'localhost' ? '' : 'https://kelionai.app';
+        let pollErrors = 0, lastPollTime = null, filter = 'all';
+        let sessions = {}; // session_id -> { events: [], type, firstTime, lastTime }
+        let allEvents = []; // flat list for table
+
+        // ═══ POLL REAL TRACE DATA FROM SUPABASE ═══
+        async function poll() {
+            try {
+                const res = await fetch(`${API}/.netlify/functions/trace-collector`);
+                if (!res.ok) { pollErrors++; updatePoll(); return; }
+                const { events } = await res.json();
+                pollErrors = 0; updatePoll();
+                if (!events || !events.length) return;
+
+                let newCount = 0;
+                for (const evt of events) {
+                    const t = new Date(evt.created_at).getTime();
+                    if (lastPollTime && t <= lastPollTime) continue;
+                    newCount++;
+
+                    // Group by session
+                    const sid = evt.session_id || 'unknown';
+                    if (!sessions[sid]) {
+                        sessions[sid] = { events: [], type: evt.trace_type, firstTime: evt.created_at, lastTime: evt.created_at };
+                    }
+                    sessions[sid].events.push(evt);
+                    sessions[sid].lastTime = evt.created_at;
+                    if (evt.trace_type && evt.trace_type !== 'text') sessions[sid].type = evt.trace_type;
+
+                    allEvents.push(evt);
+                }
+
+                if (events.length > 0) lastPollTime = new Date(events[events.length - 1].created_at).getTime();
+                if (newCount > 0) { renderFlows(); renderTable(); }
+            } catch (e) { pollErrors++; updatePoll(); }
+        }
+
+        function updatePoll() {
+            const dot = document.getElementById('pollDot');
+            const txt = document.getElementById('pollText');
+            if (pollErrors > 0) {
+                dot.className = 'dot err'; txt.textContent = `Errors: ${pollErrors}`;
+            } else {
+                dot.className = 'dot ok'; txt.textContent = `OK | ${allEvents.length} events | ${Object.keys(sessions).length} sessions`;
+            }
+        }
+
+        setInterval(poll, 500);
+
+        // ═══ RENDER FLOW DIAGRAMS ═══
+        function renderFlows() {
+            const area = document.getElementById('flow-area');
+            document.getElementById('empty-state')?.remove();
+
+            // Get sorted session IDs (newest first)
+            const sids = Object.keys(sessions).sort((a, b) => {
+                return new Date(sessions[b].firstTime) - new Date(sessions[a].firstTime);
+            });
+
+            area.innerHTML = '';
+
+            for (const sid of sids) {
+                const s = sessions[sid];
+                // Apply filter
+                if (filter !== 'all' && s.type !== filter) continue;
+
+                const block = document.createElement('div');
+                block.className = 'session-block';
+
+                // Header
+                const firstEvt = s.events[0];
+                const lastEvt = s.events[s.events.length - 1];
+                const duration = new Date(lastEvt.created_at) - new Date(firstEvt.created_at);
+                const startTime = fmtTime(firstEvt.created_at);
+                const msgPreview = firstEvt.metadata?.message || firstEvt.label || '';
+
+                block.innerHTML = `
+                    <div class="session-header">
+                        <div>
+                            <span class="sid">${startTime}</span>
+                            &nbsp;${msgPreview ? '— ' + escHtml(msgPreview.substring(0, 80)) : ''}
+                            &nbsp;<span style="color:#556">(${s.events.length} steps, ${duration}ms)</span>
+                        </div>
+                        <span class="stype ${s.type}">${s.type === 'voice' ? '🎙️ VOICE' : '💬 TEXT'}</span>
+                    </div>
+                    <div class="flow-graph">${renderFlowGraph(s.events)}</div>
+                    <div class="flow-segments">${renderSegments(s.events)}</div>
+                `;
+                area.appendChild(block);
+            }
+
+            if (area.children.length === 0) {
+                area.innerHTML = '<div class="no-data">📡 No sessions for current filter</div>';
+            }
+
+            area.scrollTop = 0;
+        }
+
+        // ═══ RENDER VISUAL FLOW GRAPH ═══
+        function renderFlowGraph(events) {
+            // Build ordered node path from events
+            const path = ['User'];
+            for (const evt of events) {
+                const n = evt.node || 'unknown';
+                if (path[path.length - 1] !== n) path.push(n);
+            }
+            path.push('User');
+
+            function nodeClass(name) {
+                const n = name.toLowerCase();
+                if (n === 'user') return 'n-chat';
+                if (n.includes('chat')) return 'n-chat';
+                if (n.includes('orchestr')) return 'n-orchestrator';
+                if (n.includes('openai') || n.includes('gpt') || n.includes('gemini') || n.includes('deepseek') || n.includes('claude')) return 'n-ai';
+                if (n === 'user') return 'n-chat';
+                return 'n-tool';
+            }
+
+            let html = '';
+            for (let i = 0; i < path.length; i++) {
+                html += `<span class="graph-node ${nodeClass(path[i])}">${escHtml(path[i])}</span>`;
+                if (i < path.length - 1) html += '<span class="graph-arrow">→</span>';
+            }
+            return html;
+        }
+
+        function renderSegments(events) {
+            let html = '';
+            for (const evt of events) {
+                const dir = evt.direction || 'enter';
+                const dirIcon = dir === 'enter' ? '→' : dir === 'exit' ? '←' : '⚡';
+                const time = fmtTime(evt.created_at);
+                const msg = evt.metadata?.message ? `<span class="msg-preview">📝 ${escHtml(evt.metadata.message)}</span>` : '';
+
+                html += `
+                    <div class="flow-step ${dir}">
+                        <div class="arrow">${dirIcon}</div>
+                        <span class="time">${time}</span>
+                        <span class="node-name">${escHtml(evt.node)}</span>
+                        <span class="label">${escHtml(evt.label || '')}${msg}</span>
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        // ═══ RENDER TABLE ═══
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            // Show latest events first, limited to last 200
+            const recent = allEvents.slice(-200).reverse();
+
+            // Apply filter
+            const filtered = filter === 'all' ? recent : recent.filter(e => e.trace_type === filter);
+
+            tbody.innerHTML = '';
+            for (const evt of filtered) {
+                const tr = document.createElement('tr');
+                const dir = evt.direction || 'enter';
+                const dirIcon = dir === 'enter' ? '→ enter' : dir === 'exit' ? '← exit' : '⚡ call';
+                const msg = evt.metadata?.message || '';
+                const sid = (evt.session_id || 'unknown').substring(0, 8);
+
+                tr.innerHTML = `
+                    <td>${fmtTimeFull(evt.created_at)}</td>
+                    <td style="font-weight:600">${escHtml(evt.node)}</td>
+                    <td class="dir-${dir}">${dirIcon}</td>
+                    <td>${escHtml(evt.label || '-')}</td>
+                    <td class="type-${evt.trace_type || 'text'}">${evt.trace_type || 'text'}</td>
+                    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis">${escHtml(msg)}</td>
+                    <td style="color:#556">${sid}…</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }
+
+        // ═══ FILTER ═══
+        function setFilter(f, btn) {
+            filter = f;
+            document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            renderFlows(); renderTable();
+        }
+
+        function clearFlows() { sessions = {}; allEvents = []; lastPollTime = null; renderFlows(); renderTable(); const cr = document.getElementById('chat-response'); if (cr) cr.innerHTML = ''; }
+
+        // ═══ HELPERS ═══
+        function fmtTime(iso) {
+            const d = new Date(iso);
+            return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+        function fmtTimeFull(iso) {
+            const d = new Date(iso);
+            return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 });
+        }
+        function escHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+        // ═══ RESIZE HANDLE ═══
+        const handle = document.getElementById('resize-handle');
+        const tableArea = document.getElementById('table-area');
+        let dragging = false, startY, startH;
+        handle.addEventListener('mousedown', e => { dragging = true; startY = e.clientY; startH = tableArea.offsetHeight; e.preventDefault() });
+        document.addEventListener('mousemove', e => { if (dragging) { tableArea.style.maxHeight = Math.max(80, startH - (e.clientY - startY)) + 'px' } });
+        document.addEventListener('mouseup', () => dragging = false);
+
+        // ═══ CHAT — Text + Mic ═══
+        let chatHistory = [], chatSending = false;
+
+        async function sendMsg() {
+            const input = document.getElementById('chat-input');
+            const resp = document.getElementById('chat-response');
+            const msg = input.value.trim();
+            if (!msg || chatSending) return;
+
+            chatSending = true; input.value = '';
+
+            const userBub = document.createElement('div');
+            userBub.className = 'chat-bubble user'; userBub.textContent = msg;
+            resp.appendChild(userBub);
+
+            const typBub = document.createElement('div');
+            typBub.className = 'chat-bubble ai typing'; typBub.textContent = '🧠 K is thinking...';
+            resp.appendChild(typBub); resp.scrollTop = resp.scrollHeight;
+
+            chatHistory.push({ role: 'user', content: msg });
+            const messages = [
+                { role: 'system', content: 'You are K, an intelligent AI assistant. Reply briefly and helpfully.' },
+                ...chatHistory.slice(-20)
+            ];
+
+            try {
+                const r = await fetch('/api/chat', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: msg, messages })
+                });
+                if (!r.ok) throw new Error('AI error: ' + r.status);
+                const data = await r.json();
+                const reply = data.choices?.[0]?.message?.content || data.reply || 'No response.';
+                chatHistory.push({ role: 'assistant', content: reply });
+                typBub.className = 'chat-bubble ai'; typBub.textContent = reply;
+            } catch (e) {
+                typBub.className = 'chat-bubble ai'; typBub.textContent = '⚠️ ' + e.message;
+            }
+
+            chatSending = false; resp.scrollTop = resp.scrollHeight;
+            while (resp.children.length > 20) resp.removeChild(resp.firstChild);
+        }
+
+        function toggleText() {
+            const wrap = document.getElementById('chat-input-wrap');
+            const btn = document.getElementById('btn-text');
+            const lbl = document.getElementById('text-lbl');
+            const resp = document.getElementById('chat-response');
+            const on = wrap.classList.toggle('visible');
+            btn.classList.toggle('text-on', on);
+            lbl.classList.toggle('visible', on);
+            resp.style.display = on ? 'flex' : 'none';
+            if (on) document.getElementById('chat-input').focus();
+        }
+
+        let mediaRecorder = null, audioChunks = [], micOn = false;
+        async function toggleMic() {
+            const btn = document.getElementById('btn-mic');
+            const lbl = document.getElementById('mic-lbl');
+
+            if (micOn) {
+                micOn = false; btn.classList.remove('mic-on'); lbl.classList.remove('visible');
+                if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+                return;
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                micOn = true; btn.classList.add('mic-on'); lbl.classList.add('visible');
+                audioChunks = [];
+                mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data) };
+                mediaRecorder.onstop = async () => {
+                    stream.getTracks().forEach(t => t.stop());
+                    if (!audioChunks.length) return;
+                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const reader = new FileReader();
+                    reader.onloadend = async () => {
+                        const b64 = reader.result.split(',')[1];
+                        const resp = document.getElementById('chat-response');
+                        resp.style.display = 'flex';
+                        const typBub = document.createElement('div');
+                        typBub.className = 'chat-bubble ai typing'; typBub.textContent = '🎙️ Transcribing...';
+                        resp.appendChild(typBub);
+                        try {
+                            const r = await fetch('/api/transcribe', {
+                                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ audio_base64: b64, language: 'ro' })
+                            });
+                            const data = await r.json();
+                            const text = data.text || data.transcript || '';
+                            typBub.remove();
+                            if (text.trim()) {
+                                document.getElementById('chat-input').value = text;
+                                document.getElementById('chat-input-wrap').classList.add('visible');
+                                document.getElementById('btn-text').classList.add('text-on');
+                                document.getElementById('text-lbl').classList.add('visible');
+                                sendMsg();
+                            } else {
+                                typBub.textContent = '⚠️ Could not hear anything.';
+                                typBub.className = 'chat-bubble ai'; resp.appendChild(typBub);
+                            }
+                        } catch (e) { typBub.className = 'chat-bubble ai'; typBub.textContent = '⚠️ ' + e.message; }
+                    };
+                    reader.readAsDataURL(blob);
+                };
+                mediaRecorder.start();
+            } catch (e) {
+                btn.classList.remove('mic-on'); lbl.classList.remove('visible'); micOn = false;
+                alert('Microphone error: ' + e.message);
+            }
+        }
+
+        // ═══ CAMERA — Capture + Vision Analysis ═══
+        let cameraOn = false, cameraStream = null;
+        async function toggleCamera() {
+            const btn = document.getElementById('btn-cam');
+            const video = document.getElementById('cam-preview');
+            const canvas = document.getElementById('cam-canvas');
+
+            if (cameraOn) {
+                // Stop camera and capture frame
+                cameraOn = false;
+                btn.style.borderColor = '';
+                btn.style.background = '';
+
+                // Capture frame before stopping
+                canvas.width = video.videoWidth || 640;
+                canvas.height = video.videoHeight || 480;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                const imgData = canvas.toDataURL('image/jpeg', 0.7);
+
+                // Stop stream
+                if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+                video.style.display = 'none';
+
+                // Send to vision for analysis
+                const resp = document.getElementById('chat-response');
+                resp.style.display = 'flex';
+                const typBub = document.createElement('div');
+                typBub.className = 'chat-bubble ai typing'; typBub.textContent = '📷 Analyzing image...';
+                resp.appendChild(typBub); resp.scrollTop = resp.scrollHeight;
+
+                try {
+                    const r = await fetch('/api/vision', {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ image_base64: imgData.split(',')[1], prompt: 'Describe what you see in this image in detail.' })
+                    });
+                    const data = await r.json();
+                    const analysis = data.description || data.text || data.reply || 'Could not analyze the image.';
+                    typBub.className = 'chat-bubble ai'; typBub.textContent = analysis;
+                } catch (e) {
+                    typBub.className = 'chat-bubble ai'; typBub.textContent = '⚠️ ' + e.message;
+                }
+                resp.scrollTop = resp.scrollHeight;
+                return;
+            }
+
+            // Start camera
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+                video.srcObject = cameraStream;
+                video.style.display = 'block';
+                cameraOn = true;
+                btn.style.borderColor = '#0f8';
+                btn.style.background = 'rgba(0,255,136,.15)';
+            } catch (e) {
+                alert('Camera error: ' + e.message);
+            }
+        }
+    </script>
+
+    <!-- K-Brain Modular System (transplantable) -->
+    <script src="/brain/brain-init.js"></script>
+</body>
+
+</html>

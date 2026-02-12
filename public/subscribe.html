@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Kelion AI</title>
+    <meta name="description" content="Access Kelion AI - Your intelligent personal assistant.">
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cinzel:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* ═══ RESET & VARS ═══ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --c: #00ffff;
+            /* Cyan primary */
+            --b: #0066ff;
+            /* Blue secondary */
+            --g: #d4af37;
+            /* Gold accent */
+            --d: #030311;
+            /* Deep dark bg */
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.6);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--d);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+        }
+
+        /* ═══ BACKGROUND ═══ */
+        #stars {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, #0a0a2a 0%, #030311 100%);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            z-index: -1;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--c);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--b);
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(30px, 30px);
+            }
+        }
+
+        /* ═══ LAYOUT: 50/50 SPLIT ═══ */
+        .split-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* ─── LEFT: SHOWCASE (Animated) ─── */
+        .left-panel {
+            flex: 1;
+            /* background: rgba(0, 0, 0, 0.4); */
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Scanline effect overlay */
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .showcase-content {
+            position: relative;
+            z-index: 2;
+            transition: opacity 0.5s ease;
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            color: var(--c);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .showcase-title {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .showcase-title span {
+            color: var(--c);
+            -webkit-text-fill-color: var(--c);
+        }
+
+        .showcase-desc {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        .feature-icon {
+            color: var(--c);
+        }
+
+        /* ─── RIGHT: LOGIN FORM ─── */
+        .right-panel {
+            flex: 1;
+            /* Or slightly smaller: flex: 0 0 500px; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--c);
+        }
+
+        .card-subtitle {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: var(--c);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+            background: rgba(0, 255, 255, 0.02);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--c), var(--b));
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .links a {
+            color: var(--c);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .links a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* Form block display */
+        .form-mode {
+            display: block;
+        }
+
+        .form-mode.hidden {
+            display: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .split-container {
+                flex-direction: column;
+            }
+
+            .left-panel {
+                padding: 40px;
+                min-height: 300px;
+                flex: none;
+            }
+
+            .showcase-title {
+                font-size: 2rem;
+            }
+
+            .right-panel {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div id="stars"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="split-container">
+
+        <!-- LEFT: SHOWCASE -->
+        <div class="left-panel">
+            <div class="showcase-content" id="showcase-content">
+                <!-- Content injected by JS -->
+            </div>
+
+            <!-- Indicators -->
+            <div class="indicators" style="display:flex; gap:8px; margin-top:40px; justify-content:flex-start;">
+                <!-- Dots injected by JS -->
+            </div>
+        </div>
+
+        <!-- RIGHT: LOGIN FORM -->
+        <div class="right-panel">
+            <div class="login-card">
+
+                <!-- LOGIN FORM -->
+                <div id="login-block" class="form-mode">
+                    <div class="card-header">
+                        <div class="logo">KELION <span>AI</span></div>
+                        <div class="card-subtitle">Welcome back! Log in to access your account.</div>
+                    </div>
+
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" placeholder="name@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" placeholder="••••••••" required>
+                            <div style="text-align: right; margin-top: 8px;">
+                                <a href="#"
+                                    style="font-size: 0.8rem; color: var(--text-dim); text-decoration: none;">Forgot
+                                    password?</a>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary">Log In</button>
+                    </form>
+
+                    <div class="divider">or continue with</div>
+
+                    <button class="social-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335" />
+                        </svg>
+                        Google
+                    </button>
+
+
+                    <div class="links" style="margin-top:8px;">
+                        <a onclick="showRedeemCode()" style="cursor:pointer;color:var(--c);font-size:.85rem;">🎁 Have a
+                            credit code?</a>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- PLAN CHECKOUT BLOCK (shows after login if ?plan= is present) -->
+            <div id="checkout-block" class="form-mode hidden">
+                <div class="card-header">
+                    <div class="logo">KELION <span>AI</span></div>
+                    <div class="card-subtitle">Complete your subscription</div>
+                </div>
+                <div id="plan-details"
+                    style="background:rgba(255,255,255,.05);border-radius:12px;padding:20px;margin-bottom:20px;border:1px solid rgba(0,224,255,.15);">
+                    <h3 id="plan-name" style="color:#fff;margin:0 0 8px;font-size:1.2rem;"></h3>
+                    <div id="plan-price" style="font-size:2rem;font-weight:800;color:var(--c);margin-bottom:4px;"></div>
+                    <div id="plan-period" style="color:var(--text-dim);font-size:.9rem;"></div>
+                </div>
+                <div style="display:flex;gap:10px;margin-bottom:15px;">
+                    <button class="btn-primary"
+                        style="flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);"
+                        onclick="selectBilling('monthly')" id="btn-monthly">Monthly</button>
+                    <button class="btn-primary"
+                        style="flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);"
+                        onclick="selectBilling('annual')" id="btn-annual">Annual <span
+                            style="color:var(--g);font-size:.7rem;">Save 33%</span></button>
+                </div>
+                <button class="btn-primary" id="btn-checkout" onclick="startPayPalCheckout()"
+                    style="background:linear-gradient(135deg,#0070ba,#003087);border:none;">
+                    🔒 Subscribe with PayPal
+                </button>
+                <div id="checkout-status"
+                    style="text-align:center;margin-top:12px;color:var(--text-dim);font-size:.85rem;"></div>
+                <div class="links" style="margin-top:15px;">
+                    <a onclick="showRedeemCode()" style="cursor:pointer;">Have a credit code?</a>
+                    <span style="color:var(--text-dim);margin:0 8px;">|</span>
+                    <a onclick="skipCheckout()" style="cursor:pointer;">Skip — Free plan</a>
+                </div>
+            </div>
+
+            <!-- REDEEM CODE BLOCK -->
+            <div id="redeem-block" class="form-mode hidden">
+                <div class="card-header">
+                    <div class="logo">KELION <span>AI</span></div>
+                    <div class="card-subtitle">Redeem your credit code</div>
+                </div>
+                <div class="form-group">
+                    <label for="credit-code-input">Credit Code</label>
+                    <input type="text" id="credit-code-input" placeholder="K-1M-XXXXXXXX"
+                        style="text-transform:uppercase;letter-spacing:2px;font-weight:700;text-align:center;font-size:1.1rem;">
+                </div>
+                <button class="btn-primary" id="btn-redeem" onclick="redeemCode()"
+                    style="background:linear-gradient(135deg,#00e676,#00b0ff);border:none;color:#000;font-weight:700;">
+                    🎁 Activate Code
+                </button>
+                <div id="redeem-status" style="text-align:center;margin-top:12px;font-size:.85rem;"></div>
+                <div class="links" style="margin-top:15px;">
+                    <a onclick="backFromRedeem()" style="cursor:pointer;">← Back</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Auth Logic -->
+    <script>
+        // ═══ AUTHENTICATION LOGIC ═══
+        const API_BASE = '/.netlify/functions';
+
+        // LOGIN SUBMIT
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = 'Verifying...';
+            btn.disabled = true;
+
+            const email = e.target.querySelector('input[type="email"]').value;
+            const password = e.target.querySelector('input[type="password"]').value;
+
+            try {
+                const res = await fetch(`${API_BASE}/auth-login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    // Success! Save token & user
+                    localStorage.setItem('kelion_token', data.accessToken);
+                    localStorage.setItem('kelion_refresh', data.refreshToken);
+                    localStorage.setItem('kelion_user', JSON.stringify(data.user));
+
+                    // ═══ REFERRAL TRACKING on LOGIN ═══
+                    const refCode = localStorage.getItem('k_referral');
+                    if (refCode && data.user && data.user.email) {
+                        fetch(`${API_BASE}/referral`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                action: 'track',
+                                referral_code: refCode,
+                                referred_email: data.user.email
+                            })
+                        }).then(() => {
+                            localStorage.removeItem('k_referral');
+                            console.log('[REFERRAL] Tracked on login:', refCode);
+                        }).catch(() => { });
+                    }
+
+                    // Check if user came to subscribe with a plan or credit code
+                    const params = new URLSearchParams(window.location.search);
+                    const planParam = params.get('plan');
+                    const codeParam = params.get('code');
+
+                    if (codeParam) {
+                        // Auto-show redeem with pre-filled code
+                        btn.textContent = 'Success!';
+                        setTimeout(() => {
+                            showRedeemCode();
+                            document.getElementById('credit-code-input').value = codeParam;
+                        }, 400);
+                    } else if (planParam && PLAN_CONFIG[planParam]) {
+                        // Show checkout instead of redirect
+                        btn.textContent = 'Success!';
+                        setTimeout(() => showCheckout(planParam), 400);
+                    } else {
+                        // Normal login — redirect to app
+                        const savedAvatar = localStorage.getItem('k_avatar');
+                        const redirectUrl = savedAvatar ? `/chat.html?avatar=${savedAvatar}` : '/app.html';
+                        btn.textContent = 'Success!';
+                        setTimeout(() => window.location.href = redirectUrl, 500);
+                    }
+                } else {
+                    alert(data.error || 'Login failed');
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error. Please try again.');
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        });
+
+        // NOTE: Signup form was removed — subscribe.html is LOGIN ONLY per document
+        // Registration happens after avatar selection flow (Etapa 2)
+
+        const roles = [
+            {
+                title: "Marketing Expert",
+                desc: "Build marketing strategies, write persuasive copy, and generate viral campaign ideas.",
+                icon: "martini",
+                features: ["Social Media Strategy", "SEO Copywriting", "Campaign Planning"]
+            },
+            {
+                title: "Private Tutor",
+                desc: "Learn anything from foreign languages to coding. Explains on the board and returns to it for every new concept.",
+                icon: "graduation-cap",
+                features: ["Personalised Lessons", "Board Explanations", "24/7 Support"]
+            },
+            {
+                title: "AI Lawyer",
+                desc: "Get quick clarifications on legal documents and understand complex contract clauses.",
+                icon: "scale",
+                features: ["Contract Analysis", "Terms Explained", "Legal Guidance"]
+            },
+            {
+                title: "Nutritionist",
+                desc: "Personalised meal plans and health advice based on your specific goals.",
+                icon: "utensils",
+                features: ["Meal Plans", "Calorie Analysis", "Lifestyle Coaching"]
+            },
+            {
+                title: "Architect",
+                desc: "Visualise spaces, generate interior design concepts and structural plans.",
+                icon: "pen-tool",
+                features: ["Interior Design", "3D Renders", "Space Optimisation"]
+            }
+        ];
+
+        let currentIndex = 0;
+        const container = document.getElementById('showcase-content');
+
+        function updateShowcase() {
+            const role = roles[currentIndex];
+
+            // Fade out
+            container.style.opacity = '0';
+
+            setTimeout(() => {
+                container.innerHTML = `
+                    <div class="role-badge">
+                        <i data-lucide="${role.icon}" width="16"></i> ${role.title}
+                    </div>
+                    <h1 class="showcase-title">
+                        Excel as a <br><span>${role.title}</span>
+                    </h1>
+                    <p class="showcase-desc">
+                        ${role.desc}
+                    </p>
+                    <ul class="feature-list">
+                        ${role.features.map(f => `
+                            <li class="feature-item">
+                                <i data-lucide="check-circle" class="feature-icon" width="20"></i> ${f}
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                lucide.createIcons();
+
+                // Fade in
+                container.style.opacity = '1';
+            }, 500);
+
+            currentIndex = (currentIndex + 1) % roles.length;
+        }
+
+        // Initial render
+        updateShowcase();
+
+        // Auto-cycle every 5 seconds
+        setInterval(updateShowcase, 5000);
+
+        // Init Lucide icons
+        lucide.createIcons();
+
+        // ═══ PAYPAL CHECKOUT LOGIC ═══
+        const PLAN_CONFIG = {
+            pro: {
+                name: 'Pro',
+                monthly: { price: '£15', period: 'per month', planType: 'monthly' },
+                annual: { price: '£100', period: 'per year — Save £80!', planType: 'annual' }
+            },
+            family: {
+                name: 'Family',
+                monthly: { price: '£25', period: 'per month', planType: 'family_monthly' },
+                annual: { price: '£180', period: 'per year — Save £120!', planType: 'family_annual' }
+            },
+            business: {
+                name: 'Business',
+                monthly: { price: '£99', period: 'per month', planType: 'business_monthly' },
+                annual: { price: '£800', period: 'per year — Save £388!', planType: 'business_annual' }
+            }
+        };
+
+        let selectedPlan = null;
+        let selectedBilling = 'monthly';
+
+        function showCheckout(planKey) {
+            selectedPlan = planKey;
+            selectedBilling = 'monthly';
+            document.getElementById('login-block').classList.add('hidden');
+            document.getElementById('signup-block').classList.add('hidden');
+            document.getElementById('checkout-block').classList.remove('hidden');
+            updatePlanDisplay();
+        }
+
+        function updatePlanDisplay() {
+            const plan = PLAN_CONFIG[selectedPlan];
+            const billing = plan[selectedBilling];
+            document.getElementById('plan-name').textContent = `Kelion AI ${plan.name}`;
+            document.getElementById('plan-price').textContent = billing.price;
+            document.getElementById('plan-period').textContent = billing.period;
+
+            // Highlight active billing button
+            document.getElementById('btn-monthly').style.border = selectedBilling === 'monthly' ? '2px solid var(--c)' : '1px solid rgba(255,255,255,.1)';
+            document.getElementById('btn-annual').style.border = selectedBilling === 'annual' ? '2px solid var(--g)' : '1px solid rgba(255,255,255,.1)';
+        }
+
+        function selectBilling(type) {
+            selectedBilling = type;
+            updatePlanDisplay();
+        }
+
+        async function startPayPalCheckout() {
+            const btn = document.getElementById('btn-checkout');
+            const status = document.getElementById('checkout-status');
+            btn.disabled = true;
+            btn.textContent = '⏳ Connecting to PayPal...';
+            status.textContent = '';
+
+            const plan = PLAN_CONFIG[selectedPlan];
+            const billing = plan[selectedBilling];
+            const user = JSON.parse(localStorage.getItem('kelion_user') || '{}');
+
+            try {
+                const res = await fetch(`${API_BASE}/api-subscription`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'create',
+                        planType: billing.planType,
+                        email: user.email || ''
+                    })
+                });
+
+                const data = await res.json();
+
+                if (data.success && data.approvalUrl) {
+                    status.textContent = 'Redirecting to PayPal...';
+                    window.location.href = data.approvalUrl;
+                } else {
+                    status.textContent = data.error || 'Failed to create subscription. Please try again.';
+                    btn.textContent = '🔒 Subscribe with PayPal';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                console.error('PayPal checkout error:', err);
+                status.textContent = 'Connection error. Please try again.';
+                btn.textContent = '🔒 Subscribe with PayPal';
+                btn.disabled = false;
+            }
+        }
+
+        function skipCheckout() {
+            const savedAvatar = localStorage.getItem('k_avatar');
+            window.location.href = savedAvatar ? `/chat.html?avatar=${savedAvatar}` : '/app.html';
+        }
+
+        // ═══ CREDIT CODE REDEEM ═══
+        let previousBlock = 'checkout-block'; // track where user came from
+
+        function showRedeemCode() {
+            previousBlock = document.getElementById('checkout-block').classList.contains('hidden') ? 'login-block' : 'checkout-block';
+            document.getElementById('login-block').classList.add('hidden');
+            document.getElementById('signup-block').classList.add('hidden');
+            document.getElementById('checkout-block').classList.add('hidden');
+            document.getElementById('redeem-block').classList.remove('hidden');
+            document.getElementById('redeem-status').textContent = '';
+            document.getElementById('credit-code-input').value = '';
+            document.getElementById('credit-code-input').focus();
+        }
+
+        function backFromRedeem() {
+            document.getElementById('redeem-block').classList.add('hidden');
+            document.getElementById(previousBlock).classList.remove('hidden');
+        }
+
+        async function redeemCode() {
+            const input = document.getElementById('credit-code-input');
+            const btn = document.getElementById('btn-redeem');
+            const status = document.getElementById('redeem-status');
+            const code = input.value.trim().toUpperCase();
+
+            if (!code) { status.innerHTML = '<span style="color:#ff4444;">Please enter a code</span>'; return; }
+
+            const user = JSON.parse(localStorage.getItem('kelion_user') || '{}');
+            if (!user.email) { status.innerHTML = '<span style="color:#ff4444;">Please log in first</span>'; return; }
+
+            btn.disabled = true;
+            btn.textContent = '⏳ Activating...';
+            status.textContent = '';
+
+            try {
+                const res = await fetch(`${API_BASE}/credit-codes`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'redeem', code, user_email: user.email })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    status.innerHTML = `<span style="color:#00e676;">✅ ${data.message}</span><br><small style="color:var(--text-dim);">Expires: ${new Date(data.expires_at).toLocaleDateString()}</small>`;
+                    btn.textContent = '✅ Activated!';
+                    // Update local user data
+                    user.subscription_type = 'pro';
+                    user.subscription_expires = data.expires_at;
+                    localStorage.setItem('kelion_user', JSON.stringify(user));
+                    // Redirect after 2s
+                    setTimeout(() => {
+                        const savedAvatar = localStorage.getItem('k_avatar');
+                        window.location.href = savedAvatar ? `/chat.html?avatar=${savedAvatar}` : '/app.html';
+                    }, 2000);
+                } else {
+                    status.innerHTML = `<span style="color:#ff4444;">❌ ${data.error}</span>`;
+                    btn.textContent = '🎁 Activate Code';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                status.innerHTML = '<span style="color:#ff4444;">Connection error. Try again.</span>';
+                btn.textContent = '🎁 Activate Code';
+                btn.disabled = false;
+            }
+        }
+
+        // ═══ REFERRAL TRACKING ═══
+        (function trackReferral() {
+            const params = new URLSearchParams(window.location.search);
+            const refCode = params.get('ref');
+            if (refCode) {
+                localStorage.setItem('k_referral', refCode);
+                console.log('[REFERRAL] Code saved:', refCode);
+            }
+        })();
+
+        // ═══ HANDLE PAYPAL RETURN URLs ═══
+        (function handlePayPalReturn() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('success') === 'true') {
+                const subId = params.get('subscription_id');
+                if (subId) {
+                    // Track referral if present
+                    const refCode = localStorage.getItem('k_referral');
+                    const user = JSON.parse(localStorage.getItem('kelion_user') || '{}');
+                    if (refCode && user.email) {
+                        fetch(`${API_BASE}/referral`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                action: 'track',
+                                referral_code: refCode,
+                                referred_email: user.email
+                            })
+                        }).then(() => localStorage.removeItem('k_referral')).catch(() => { });
+                    }
+
+                    alert('🎉 Subscription activated! Welcome to Kelion AI Pro.');
+                    const savedAvatar = localStorage.getItem('k_avatar');
+                    window.location.href = savedAvatar ? `/chat.html?avatar=${savedAvatar}` : '/app.html';
+                }
+            }
+            if (params.get('canceled') === 'true') {
+                alert('Payment was cancelled. You can try again or continue with the free plan.');
+            }
+        })();
+    </script>
+</body>
+
+</html>

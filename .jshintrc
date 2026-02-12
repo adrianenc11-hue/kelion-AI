@@ -1,0 +1,28 @@
+{
+    "esversion": 11,
+    "browser": true,
+    "node": true,
+    "devel": true,
+    "strict": false,
+    "asi": true,
+    "laxbreak": true,
+    "sub": true,
+    "undef": true,
+    "unused": "vars",
+    "maxerr": 1000,
+    "globals": {
+        "THREE": true,
+        "GLTFLoader": true,
+        "netlifyIdentity": true,
+        "Stripe": true,
+        "paypal": true,
+        "module": true,
+        "exports": true,
+        "require": true,
+        "process": true,
+        "fetch": true,
+        "AbortController": true,
+        "AbortSignal": true,
+        "Buffer": true
+    }
+}

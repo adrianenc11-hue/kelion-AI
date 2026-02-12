@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <title>KELION — Comparație Detaliată VECHI vs NOU</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a1a;
+            color: #e0e0e0;
+            padding: 20px
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.6rem;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, #ff1744, #00e676);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .sub {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: .8rem
+        }
+
+        .section {
+            max-width: 1400px;
+            margin: 0 auto 30px
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            padding: 10px 16px;
+            border-radius: 10px;
+            margin-bottom: 12px
+        }
+
+        .st-real {
+            background: #00e67612;
+            color: #00e676;
+            border: 1px solid #00e67633
+        }
+
+        .st-fake {
+            background: #ff174412;
+            color: #ff1744;
+            border: 1px solid #ff174433
+        }
+
+        .st-calc {
+            background: #ffab0012;
+            color: #ffab00;
+            border: 1px solid #ffab0033
+        }
+
+        .st-fix {
+            background: #ff6d0012;
+            color: #ff6d00;
+            border: 1px solid #ff6d0033
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #0d0d20;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid #1a1a2e
+        }
+
+        th {
+            background: #12122a;
+            padding: 10px 12px;
+            text-align: left;
+            font-size: .72rem;
+            color: #888;
+            border-bottom: 1px solid #1a1a2e;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px
+        }
+
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #0f0f22;
+            font-size: .75rem;
+            vertical-align: top
+        }
+
+        tr:hover {
+            background: #15152a
+        }
+
+        .fn-name {
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: .65rem;
+            font-weight: 700
+        }
+
+        .tag-real {
+            background: #00e67618;
+            color: #00e676
+        }
+
+        .tag-fake {
+            background: #ff174418;
+            color: #ff1744
+        }
+
+        .tag-calc {
+            background: #ffab0018;
+            color: #ffab00
+        }
+
+        .tag-fix {
+            background: #ff6d0018;
+            color: #ff6d00
+        }
+
+        .tag-del {
+            background: #55555518;
+            color: #555
+        }
+
+        .tag-da {
+            background: #00e67618;
+            color: #00e676
+        }
+
+        .tag-nu {
+            background: #ff174418;
+            color: #ff1744
+        }
+
+        .tag-partial {
+            background: #ffab0018;
+            color: #ffab00
+        }
+
+        .tag-new {
+            background: #00bcd418;
+            color: #00bcd4
+        }
+
+        .old {
+            color: #ff174488
+        }
+
+        .new {
+            color: #00e676
+        }
+
+        .expl {
+            color: #aaa;
+            font-size: .7rem
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>KELION AI — Comparație Detaliată VECHI vs NOU</h1>
+    <p class="sub">Fiecare funcție: ce făcea, ce face acum, explicație, implementabil pe Netlify?</p>
+
+    <div class="section">
+        <div class="section-title st-real">✅ FUNCȚII REALE — Funcționau și funcționează (neschimbate)</div>
+        <table>
+            <tr>
+                <th>Funcție</th>
+                <th>VECHI</th>
+                <th>NOU</th>
+                <th>Ce face</th>
+                <th>Netlify?</th>
+            </tr>
+            <tr>
+                <td class="fn-name">smart-brain.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Brain central — 12 AI engines cu cascade automată
+                    (Gemini→Groq→DeepSeek→Claude→OpenAI→Mistral→Grok→Cohere), RAG cu Pinecone, detecție emoție, search
+                    auto</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">chat.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Tool calling router — 2317 linii, rutează cereri către funcții specifice (DALL-E, search, trading,
+                    etc.) prin OpenAI function calling</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">claude-orchestrator.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Apel direct Claude API pentru sarcini complexe de analiză/cod</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">search-router.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Multi-engine search: Tavily, Perplexity, Brave, Google — cascade automată</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">engine-discovery.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Auto-detectare engines AI disponibile, verifică API keys configurate</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">engine-status.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Verificare balance/credits API pentru fiecare engine</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">auth-*.js (13 fișiere)</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Autentificare completă Supabase: login, register, logout, reset password, verify email, refresh
+                    token, check user, setup admin</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">stripe-checkout.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Creare sesiune Stripe Checkout pentru plată abonament</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">stripe-webhook.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Primește confirmări plată Stripe, actualizează Supabase</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">paypal-webhook.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Primește confirmări plată PayPal, actualizează Supabase</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">trading-bot-engine.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>583 linii — Alpaca API real, indicatori RSI/MACD/EMA/Bollinger, execuție ordine</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">trading-memory.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Salvare trade history în Supabase, recall trades</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">market-data-feed.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Date piață live: Alpaca (acțiuni) + CoinGecko (crypto)</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">order-executor.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Execuție ordine buy/sell pe Alpaca API real</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">realtime-session.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Creare sesiune OpenAI Realtime API pentru voce live</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">elevenlabs-tts.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Text-to-Speech real cu ElevenLabs API, voce naturală</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">whisper.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Speech-to-Text cu OpenAI Whisper API</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">dalle.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Generare imagine cu DALL-E 3 API</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">vision.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Analiză imagine cu GPT-4 Vision API</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">deep-research.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Research multi-step: caută web → analizează → sintetizează</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">wolfram.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Wolfram Alpha API — calcule matematice precise</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">vector-store.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Pinecone vector store — memorie semantică persistentă</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">brain-memory.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Persistență memorie brain în Supabase — save/load/recall</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">get-secret.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Secrets vault — citire din Supabase Vault cu cache local</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">api-gateway.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Rate limiting + cache layer pentru toate API calls</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+            <tr>
+                <td class="fn-name">usage-limiter.js</td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td><span class="tag tag-real">REAL</span></td>
+                <td>Rate limiting per user cu Supabase — controlează număr întrebări/zi</td>
+                <td><span class="tag tag-da">✅ DA</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title st-fake">🗑️ FUNCȚII FAKE ȘTERSE — erau fake, acum nu mai există</div>
+        <table>
+            <tr>
+                <th>Funcție</th>
+                <th>VECHI</th>
+                <th>NOU</th>
+                <th>Ce pretindea că face / de ce e fake</th>
+                <th>Implementabil?</th>
+            </tr>
+            <tr>
+                <td class="fn-name">baby-monitor-mode.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Pretindea monitorizare baby live — de fapt returna evenimente hardcodate ("21:05 Adormit", "22:30
+                    Scâncet"). Necesita WebSocket persistent + mic access</td>
+                <td><span class="tag tag-nu">❌ NU</span> — Netlify nu suportă WebSocket persistent</td>
+            </tr>
+            <tr>
+                <td class="fn-name">audio-editor.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Pretindea editare audio — de fapt calcula dimensiuni fișiere și genera comenzi ffmpeg ca text. Nu
+                    procesa audio real</td>
+                <td><span class="tag tag-nu">❌ NU</span> — ffmpeg nu rulează pe Netlify (10s timeout, no binaries)</td>
+            </tr>
+            <tr>
+                <td class="fn-name">video-editor.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Pretindea editare video — de fapt genera string-uri ffmpeg. Nu procesa video real</td>
+                <td><span class="tag tag-nu">❌ NU</span> — Same: ffmpeg nu rulează pe Netlify</td>
+            </tr>
+            <tr>
+                <td class="fn-name">image-editor.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>223 linii — pretindea resize/crop/filter. De fapt genera CSS filter strings și calcule dimensiuni
+                </td>
+                <td><span class="tag tag-nu">❌ NU</span> — Sharp/ImageMagick nu rulează pe Netlify</td>
+            </tr>
+            <tr>
+                <td class="fn-name">k-web-browser.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Pretindea browsing web real — necesita Puppeteer/headless Chrome care nu rulează pe Netlify</td>
+                <td><span class="tag tag-nu">❌ NU</span> — Puppeteer necesită 500MB+ RAM</td>
+            </tr>
+            <tr>
+                <td class="fn-name">k-terminal.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Terminal virtual — risc major de securitate, exec arbitrar pe server</td>
+                <td><span class="tag tag-nu">❌ NU</span> — Risc securitate + sandboxed env</td>
+            </tr>
+            <tr>
+                <td class="fn-name">lullaby-generator.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Genera cântece de leagăn — versuri hardcodate pe teme, zero AI, zero audio</td>
+                <td><span class="tag tag-partial">⚠️ PARȚIAL</span> — Posibil cu AI text, dar nu interesează</td>
+            </tr>
+            <tr>
+                <td class="fn-name">generate-music.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Pretindea generare muzică — necesita Suno API, nu era implementat</td>
+                <td><span class="tag tag-partial">⚠️ PARȚIAL</span> — Suno API există, dar nu interesează</td>
+            </tr>
+            <tr>
+                <td class="fn-name">safe-mode.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Mod sigur pt copii — fără efect real, nu bloca nimic</td>
+                <td><span class="tag tag-da">✅ DA</span> — dar valoare mică</td>
+            </tr>
+            <tr>
+                <td class="fn-name">screen-time-limiter.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Limita timp ecran — fără persistență, se reseta la refresh</td>
+                <td><span class="tag tag-da">✅ DA</span> — dar valoare mică</td>
+            </tr>
+            <tr>
+                <td class="fn-name">parent-dashboard.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Dashboard părinți — date complet simulate, grafice false</td>
+                <td><span class="tag tag-da">✅ DA</span> — dar valoare mică</td>
+            </tr>
+            <tr>
+                <td class="fn-name">reward-system.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Sistem recompense — fără persistență reală, badge-uri hardcodate</td>
+                <td><span class="tag tag-da">✅ DA</span> — dar valoare mică</td>
+            </tr>
+            <tr>
+                <td class="fn-name">podcast.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Generator podcast — template text, zero audio generation</td>
+                <td><span class="tag tag-partial">⚠️ PARȚIAL</span> — doar text, nu audio</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title st-fix">🔧 FUNCȚII FAKE REPARABILE — erau fake, rămân dar trebuie reparate</div>
+        <table>
+            <tr>
+                <th>Funcție</th>
+                <th>VECHI</th>
+                <th>NOU</th>
+                <th>Ce ar trebui să facă / cum se repară</th>
+                <th>Implementabil?</th>
+            </tr>
+            <tr>
+                <td class="fn-name">story-generator.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-fix">🔧 FIX</span></td>
+                <td>Genera povești hardcodate pe teme. <strong>Fix:</strong> trimite cererea la smart-brain.js care
+                    generează prin AI (GPT/Gemini) povestea personalizată</td>
+                <td><span class="tag tag-da">✅ DA</span> — ușor, doar rutare la smart-brain</td>
+            </tr>
+            <tr>
+                <td class="fn-name">cry-detector.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-fix">🔧 FIX</span></td>
+                <td>Clasifica plâns cu reguli statice. <strong>Fix:</strong> poate folosi browserul pt captare audio +
+                    AI classification prin smart-brain</td>
+                <td><span class="tag tag-partial">⚠️ PARȚIAL</span> — necesită mic access + AI audio analysis</td>
+            </tr>
+            <tr>
+                <td class="fn-name">quiz-generator-kids.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-fix">🔧 FIX</span></td>
+                <td>Quiz-uri hardcodate. <strong>Fix:</strong> AI generează quiz-uri personalizate pe vârstă/subiect via
+                    smart-brain</td>
+                <td><span class="tag tag-da">✅ DA</span> — ușor, doar rutare la smart-brain</td>
+            </tr>
+            <tr>
+                <td class="fn-name">generate-video.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-fix">🔧 FIX</span></td>
+                <td>Pretindea generare video. <strong>Fix:</strong> integrare Runway ML API sau Kling API</td>
+                <td><span class="tag tag-da">✅ DA</span> — necesită API key Runway ($15/100 videos)</td>
+            </tr>
+            <tr>
+                <td class="fn-name">auto-poster.js</td>
+                <td><span class="tag tag-fake">HTTP 500</span></td>
+                <td><span class="tag tag-fix">🔧 FIX</span></td>
+                <td>Post automat pe social media — dă eroare 500. <strong>Fix:</strong> debug Meta Graph API, verificare
+                    token + permisiuni</td>
+                <td><span class="tag tag-da">✅ DA</span> — necesită Meta App Review approval</td>
+            </tr>
+            <tr>
+                <td class="fn-name">group-chat.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-fix">🔧 FIX</span></td>
+                <td>Chat de grup fără mesaje reale. <strong>Fix:</strong> Supabase Realtime channels pt mesaje live</td>
+                <td><span class="tag tag-da">✅ DA</span> — Supabase Realtime e inclus gratuit</td>
+            </tr>
+            <tr>
+                <td class="fn-name">group-location.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-fix">🔧 FIX</span></td>
+                <td>Locații grup simulate. <strong>Fix:</strong> browser Geolocation API + salvare în Supabase</td>
+                <td><span class="tag tag-da">✅ DA</span> — Geolocation e built-in browser</td>
+            </tr>
+            <tr>
+                <td class="fn-name">group-management.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-fix">🔧 FIX</span></td>
+                <td>CRUD grup incomplet. <strong>Fix:</strong> CRUD complet cu Supabase (create/read/update/delete
+                    grupuri)</td>
+                <td><span class="tag tag-da">✅ DA</span> — CRUD simplu Supabase</td>
+            </tr>
+            <tr>
+                <td class="fn-name">route-optimizer.js</td>
+                <td><span class="tag tag-fake">FAKE</span></td>
+                <td><span class="tag tag-fix">🔧 FIX</span></td>
+                <td>Optimizare rută cu calcule locale. <strong>Fix:</strong> Google Maps Directions API real</td>
+                <td><span class="tag tag-da">✅ DA</span> — necesită Google Maps API key</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title st-calc">⚠️ FUNCȚII CALCULATOR — logică locală, nu fake dar nici nu apelează API-uri
+            externe</div>
+        <table>
+            <tr>
+                <th>Funcție</th>
+                <th>VECHI</th>
+                <th>NOU</th>
+                <th>Ce face</th>
+                <th>Implementabil mai bine?</th>
+            </tr>
+            <tr>
+                <td class="fn-name">pension-calculator.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Formule matematice pt calcul pensie — legislație RO hardcodată</td>
+                <td><span class="tag tag-da">✅</span> Funcționează, dar legislația trebuie actualizată manual</td>
+            </tr>
+            <tr>
+                <td class="fn-name">pension-forms.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>546 linii câmpuri JSON pt formulare pensie</td>
+                <td><span class="tag tag-da">✅</span> Funcționează ca template</td>
+            </tr>
+            <tr>
+                <td class="fn-name">trading-bot-scheduler.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Planificare trading — depinde de cron jobs</td>
+                <td><span class="tag tag-partial">⚠️</span> Netlify nu are cron, necesită Netlify Scheduled Functions
+                </td>
+            </tr>
+            <tr>
+                <td class="fn-name">trading-alerts.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Alerte preț — logică comparare locală</td>
+                <td><span class="tag tag-da">✅</span> Ok ca e</td>
+            </tr>
+            <tr>
+                <td class="fn-name">backtesting-engine.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Backtesting strategii trading — calcule matematice locale</td>
+                <td><span class="tag tag-da">✅</span> Ok ca e</td>
+            </tr>
+            <tr>
+                <td class="fn-name">risk-calculator.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Calculator risc trading — formule standard</td>
+                <td><span class="tag tag-da">✅</span> Ok ca e</td>
+            </tr>
+            <tr>
+                <td class="fn-name">financial-calculator.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Calcule financiare (dobândă, rate, ROI)</td>
+                <td><span class="tag tag-da">✅</span> Ok ca e</td>
+            </tr>
+            <tr>
+                <td class="fn-name">currency-converter.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Cursuri valutare HARDCODATE — nu se actualizează</td>
+                <td><span class="tag tag-da">✅</span> Poate fi conectat la API cursuri live</td>
+            </tr>
+            <tr>
+                <td class="fn-name">weather.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Vreme — depinde de API key externe</td>
+                <td><span class="tag tag-da">✅</span> Cu OpenWeatherMap API</td>
+            </tr>
+            <tr>
+                <td class="fn-name">translate.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Traducere — depinde de API key</td>
+                <td><span class="tag tag-da">✅</span> Cu Google Translate sau DeepL</td>
+            </tr>
+            <tr>
+                <td class="fn-name">booking-system.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Sistem booking — logică fără calendar real</td>
+                <td><span class="tag tag-da">✅</span> Cu Supabase pt persistență</td>
+            </tr>
+            <tr>
+                <td class="fn-name">invoice-generator.js</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Template factură — generează structura JSON</td>
+                <td><span class="tag tag-da">✅</span> Ok ca template</td>
+            </tr>
+            <tr>
+                <td class="fn-name">+ ~33 altele</td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td><span class="tag tag-calc">CALC</span></td>
+                <td>Admin, analytics, notes, calendar, SEO, quiz, recipe, email, etc.</td>
+                <td><span class="tag tag-da">✅</span> Funcționează cu logică locală</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title" style="background:#00bcd412;color:#00bcd4;border:1px solid #00bcd433">🆕 NOU — Pagina
+            de intrare redesigned</div>
+        <table>
+            <tr>
+                <th>Element</th>
+                <th>VECHI</th>
+                <th>NOU</th>
+                <th>Explicație</th>
+            </tr>
+            <tr>
+                <td class="fn-name">index.html</td>
+                <td>Pagină "Story of K" + buton CONTINUE → gdpr.html → landing.html (1795 linii marketing)</td>
+                <td><span class="tag tag-new">REDESIGNED</span></td>
+                <td>K hologramă înghețată. GDPR EN checkbox stânga-jos. Dacă acceptă → LOGIN (dreapta sus) + FREE 60 MIN
+                    + CONTACT (jos). Login = Sign In / New Account. Free = 60 min contorizate → app.html</td>
+            </tr>
+            <tr>
+                <td class="fn-name">landing.html</td>
+                <td>1795 linii pagină marketing cu efecte, testimoniale, prețuri</td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Nu mai e nevoie — fluxul e direct: K → GDPR → Login/Free → App</td>
+            </tr>
+            <tr>
+                <td class="fn-name">marketing.html</td>
+                <td>Pagină marketing duplicat</td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Redundantă</td>
+            </tr>
+            <tr>
+                <td class="fn-name">developers.html</td>
+                <td>Pagină pentru dezvoltatori</td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Nu mai e nevoie</td>
+            </tr>
+            <tr>
+                <td class="fn-name">premium.html</td>
+                <td>Showcase premium</td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Logica abonament rămâne în app.html</td>
+            </tr>
+            <tr>
+                <td class="fn-name">subscribe.html</td>
+                <td>Pagină abonare</td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Logica abonament rămâne în app.html</td>
+            </tr>
+            <tr>
+                <td class="fn-name">avatar-demo.html</td>
+                <td>Demo avatar</td>
+                <td><span class="tag tag-del">ȘTERS</span></td>
+                <td>Nu mai e nevoie</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,208 @@
+[96m[1mÔÇï[22m[39m
+[96m[1mNetlify Build                                                 [22m[39m
+[96m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Version[22m[39m
+  @netlify/build 35.5.10
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Flags[22m[39m
+  accountId: 69765b7039690e594f1e9ac6
+  deployId: 698a117e7e33eb63b743bffe
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Current directory[22m[39m
+  C:\Users\adria\Downloads\k new\kelionat_clean
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Config file[22m[39m
+  C:\Users\adria\Downloads\k new\kelionat_clean\netlify.toml
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Context[22m[39m
+  production
+[96m[1mÔÇï[22m[39m
+[96m[1mFunctions bundling                                            [22m[39m
+[96m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+ÔÇï
+Packaging Functions from [36mnetlify\functions[39m directory:
+ - admin-notify.js
+ - admin-traffic.js
+ - age-adapter.js
+ - ai-credits.js
+ - analytics-dashboard.js
+ - api-gateway.js
+ - api-keys.js
+ - api-subscription.js
+ - audio-editor.js
+ - audit-log.js
+ - auth-forgot-password.js
+ - auth-login.js
+ - auth-logout.js
+ - auth-me.js
+ - auth-refresh.js
+ - auth-register.js
+ - auth-resend-verification.js
+ - auth-reset-password.js
+ - auth-verify-email.js
+ - auth.js
+ - auto-poster.js
+ - baby-monitor-mode.js
+ - backtesting-engine.js
+ - booking-system.js
+ - browse-live.js
+ - buy-credits.js
+ - calendar.js
+ - canvas.js
+ - chart-generator-financial.js
+ - chart-generator.js
+ - chat.js
+ - check-user.js
+ - claude-audit.js
+ - claude-orchestrator.js
+ - code-interpreter.js
+ - cost-tracker.js
+ - cry-detector.js
+ - crypto-feed.js
+ - currency-converter.js
+ - dalle.js
+ - deep-research.js
+ - deepseek.js
+ - document-checker.js
+ - elevenlabs-tts.js
+ - email-alerts.js
+ - email-manager.js
+ - env-check.js
+ - export-document.js
+ - file-upload.js
+ - financial-calculator.js
+ - free-trial.js
+ - gdpr-cleanup.js
+ - gemini-chat.js
+ - gemini-live-token.js
+ - generate-image.js
+ - generate-music.js
+ - generate-video.js
+ - get-porcupine-key.js
+ - get-secret.js
+ - group-chat.js
+ - group-location.js
+ - group-management.js
+ - health-check.js
+ - health.js
+ - image-editor.js
+ - inventory-tracker.js
+ - invoice-generator.js
+ - k-analytics.js
+ - k-presentation.js
+ - k-security.js
+ - k-strategic-planner.js
+ - k-supreme-intelligence.js
+ - k-terminal.js
+ - k-web-browser.js
+ - legal-database-pension.js
+ - lullaby-generator.js
+ - maps-config.js
+ - market-data-feed.js
+ - memory-cleanup.js
+ - memory.js
+ - messenger-webhook.js
+ - neural-ai.js
+ - newsletter-subscribe.js
+ - notes.js
+ - ocr.js
+ - order-executor.js
+ - page-tracking.js
+ - parent-dashboard.js
+ - paypal-admin.js
+ - paypal-webhook.js
+ - pension-calculator.js
+ - pension-content-generator.js
+ - pension-forms.js
+ - podcast.js
+ - portfolio-tracker.js
+ - progress-tracker.js
+ - quiz-generator-kids.js
+ - quiz-generator.js
+ - realtime-session.js
+ - realtime-token.js
+ - recipe-calculator.js
+ - referral.js
+ - report-generator.js
+ - reward-system.js
+ - risk-calculator.js
+ - route-optimizer.js
+ - safe-mode.js
+ - screen-time-limiter.js
+ - search.js
+ - seo-analyzer.js
+ - setup-admin.js
+ - setup-permanent-user.js
+ - smart-brain.js
+ - social-media-stats.js
+ - speak.js
+ - stable-diffusion.js
+ - story-generator.js
+ - stripe-checkout.js
+ - stripe-webhook.js
+ - template-generator.js
+ - tiktok-webhook.js
+ - trace-collector.js
+ - trading-alerts.js
+ - trading-bot-engine.js
+ - trading-bot-scheduler.js
+ - trading-memory.js
+ - transcribe.js
+ - translate.js
+ - usage-analytics.js
+ - usage-limiter.js
+ - user-data.js
+ - vector-store.js
+ - video-editor.js
+ - vision.js
+ - weather.js
+ - web-search.js
+ - whisper.js
+ - wolfram.js
+ - workout-planner.js
+ÔÇï
+ÔÇï
+[90m(Functions bundling completed in 6.2s)[39m
+
+Deploying to Netlify
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+[32mDeploy path: [39m       C:\Users\adria\Downloads\k new\kelionat_clean\public
+[32mFunctions path: [39m    C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions
+[32mConfiguration path: [39mC:\Users\adria\Downloads\k new\kelionat_clean\netlify.toml
+
+Ôáï Uploading blobs to deploy store...
+
+Ô£ö Finished uploading blobs to deploy store
+Ôáï Hashing files...
+Ôáï Looking for a functions cache...
+Ô£ö Ignoring functions cache (use without --skip-functions-cache to change)
+Ô£ö Finished hashing 110 files and 139 functions
+Ôáï CDN diffing files...
+Ô£ö CDN requesting 0 files and 139 functions
+Ôáï Uploading 139 files
+Ô£ö Finished uploading 139 assets
+Ôáï Waiting for deploy to go live...
+Ô£ö Deploy is live!
+[96m[1mÔÇï[22m[39m
+[96m[1mNetlify Build Complete                                        [22m[39m
+[96m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+ÔÇï
+[90m(Netlify Build completed in 3m 19.5s)[39m
+
+­ƒÜÇ Deploy complete
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+   Ôò¡ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ Ô¼Ñ  Production deploy is live Ô¼ÑÔÇë ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔò«
+   Ôöé                                                                Ôöé
+   Ôöé        Deployed to production URL: https://kelionai.app        Ôöé
+   Ôöé                                                                Ôöé
+   Ôöé                       Unique deploy URL:                       Ôöé
+   Ôöé   https://698a117e7e33eb63b743bffe--kelionai-app.netlify.app   Ôöé
+   Ôöé                                                                Ôöé
+   Ôò░ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔò»
+
+[32mBuild logs: [39m        https://app.netlify.com/projects/kelionai-app/deploys/698a117e7e33eb63b743bffe
+[32mFunction logs: [39m     https://app.netlify.com/projects/kelionai-app/logs/functions
+[32mEdge function Logs: [39mhttps://app.netlify.com/projects/kelionai-app/logs/edge-functions

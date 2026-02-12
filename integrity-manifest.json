@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "description": "SHA256 integrity hashes for critical files — NEVER MODIFY THIS FILE",
+  "generated_at": "2026-02-10T19:57:00Z",
+  "tamper_proof": true,
+  "admin_only": true,
+  "protected_files": {
+    "validate-code.js": {
+      "sha256": "bff9a0255da57a5bd15bb2b7c855496f41a06e558b02d071808ad9bcd7ff6046",
+      "role": "Code validator — blocks deploy on syntax errors",
+      "critical": true
+    },
+    "validate-fake-data.js": {
+      "sha256": "52bf79a172a9e42ce03c592ac8429b5ddb3e936e7a39e0b51d65593f4fd08618",
+      "role": "Fake data detector — blocks deploy on fake/hardcoded data",
+      "critical": true
+    },
+    "audit-live.js": {
+      "sha256": "0b4b2d8db2552b3c0c59fa27a4e95b56977b85480630008866e4d53484f29837",
+      "role": "Live audit — verifies all endpoints on production",
+      "critical": true
+    },
+    "audit_complete.js": {
+      "sha256": "74a112d33e177e1c821acc03820f23c31389551a45f699f970ca7d3912bcbdf5",
+      "role": "Complete audit — comprehensive system check",
+      "critical": true
+    },
+    "netlify/functions/truth-detector.js": {
+      "sha256": "82b8bcdbb14077f67bdc01398f3e37f5474fe358deaa8a1cbd08131f9e0d7592",
+      "role": "Truth Shield — 6-module truth detection system",
+      "critical": true
+    },
+    "netlify/functions/smart-brain.js": {
+      "sha256": "8e428f9d849f2b73e6bbb49791698ffbad29b3de3abeb6df0b5c2331436a4f9a",
+      "role": "AI Brain — central intelligence with truth shield integration",
+      "critical": true
+    }
+  }
+}

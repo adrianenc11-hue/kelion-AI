@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://kelionai.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://kelionai.app/landing.html</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://kelionai.app/chat.html</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://kelionai.app/subscribe.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kelionai.app/premium.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kelionai.app/developers.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kelionai.app/marketing.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kelionai.app/trading.html</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kelionai.app/account.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://kelionai.app/avatar-demo.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://kelionai.app/brain-map.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://kelionai.app/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://kelionai.app/terms.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://kelionai.app/gdpr.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://kelionai.app/cookies.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>
