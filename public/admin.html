@@ -381,14 +381,17 @@
 
     <!-- ═══ MESSENGERS ═══ -->
     <div class="panel" id="panel-messengers">
-        <div class="panel-header">💬 Messengers & Conversations</div>
+        <div class="panel-header">💬 Messengers & Conversations <button class="refresh-btn"
+                onclick="loadMessengerStatus()">↻ Refresh</button></div>
 
+        <!-- Status Cards -->
         <div class="messenger-grid">
             <div class="messenger-card facebook" onclick="filterMessenger('facebook')">
                 <div class="icon">📘</div>
                 <div class="name">Facebook Messenger</div>
                 <div class="stats" id="fb-stats">Loading...</div>
-                <a class="link" href="https://www.facebook.com/kelionai" target="_blank">🔗 Facebook Page</a>
+                <a class="link" href="https://business.facebook.com/latest/inbox/all" target="_blank">📥 Deschide
+                    Inbox</a>
             </div>
             <div class="messenger-card instagram" onclick="filterMessenger('instagram')">
                 <div class="icon">📸</div>
@@ -404,6 +407,51 @@
             </div>
         </div>
 
+        <!-- Messenger Live Inbox (Meta Business Suite) -->
+        <div
+            style="margin:20px 0;background:var(--surface);border-radius:12px;padding:20px;border:1px solid var(--border)">
+            <h3 style="margin-bottom:12px;color:var(--text)">📥 Messenger Inbox</h3>
+            <p style="color:var(--muted);font-size:13px;margin-bottom:12px">Inbox-ul Messenger al paginii Kelion AI.
+                Click mai jos pentru a vedea și răspunde la mesaje:</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+                <a href="https://business.facebook.com/latest/inbox/all" target="_blank"
+                    style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--accent);color:white;border-radius:8px;text-decoration:none;font-weight:600">📥
+                    Deschide Meta Inbox</a>
+                <a href="https://www.facebook.com/messages/t/" target="_blank"
+                    style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#1877f2;color:white;border-radius:8px;text-decoration:none;font-weight:600">💬
+                    Messenger Direct</a>
+            </div>
+        </div>
+
+        <!-- Test Messenger -->
+        <div
+            style="margin:20px 0;background:var(--surface);border-radius:12px;padding:20px;border:1px solid var(--border)">
+            <h3 style="margin-bottom:12px;color:var(--text)">🧪 Test Messenger AI</h3>
+            <p style="color:var(--muted);font-size:13px;margin-bottom:12px">Trimite un mesaj test către AI-ul K (fără
+                Meta, direct pe webhook):</p>
+            <div style="display:flex;gap:8px">
+                <input id="test-msg-input" type="text" placeholder="Scrie mesaj test (ex: ce documente imi trebuie?)"
+                    style="flex:1;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px">
+                <button onclick="testMessengerAI()"
+                    style="padding:12px 24px;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600">📤
+                    Trimite</button>
+            </div>
+            <div id="test-msg-result"
+                style="margin-top:12px;display:none;padding:16px;background:var(--surface2);border-radius:8px;font-size:14px;color:var(--text);white-space:pre-wrap;max-height:400px;overflow-y:auto">
+            </div>
+        </div>
+
+        <!-- Webhook Event Log -->
+        <div
+            style="margin:20px 0;background:var(--surface);border-radius:12px;padding:20px;border:1px solid var(--border)">
+            <h3 style="margin-bottom:12px;color:var(--text)">📡 Webhook Event Log <button class="refresh-btn"
+                    onclick="loadWebhookLog()" style="font-size:12px">↻ Refresh</button></h3>
+            <p style="color:var(--muted);font-size:13px;margin-bottom:12px">Ultimele evenimente primite de webhook
+                (mesaje, postback-uri, etc):</p>
+            <div id="webhook-log" style="font-family:monospace;font-size:13px;color:var(--muted)">Se încarcă...</div>
+        </div>
+
+        <!-- Conversations -->
         <div class="conv-filters">
             <select id="conv-platform" onchange="loadConversations()">
                 <option value="all">Toate platformele</option>
@@ -1147,7 +1195,83 @@
             } catch (e) { preview.innerHTML = '❌ Eroare: ' + e.message; }
         }
 
+        // ═══ TEST MESSENGER AI ═══
+        async function testMessengerAI() {
+            const input = document.getElementById('test-msg-input');
+            const result = document.getElementById('test-msg-result');
+            const msg = input.value.trim();
+            if (!msg) { alert('Scrie un mesaj!'); return; }
+            result.style.display = 'block';
+            result.innerHTML = '⏳ Se procesează...';
+            try {
+                const r = await fetch('/.netlify/functions/messenger-webhook', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ test_message: msg, sender_id: 'admin_test_' + Date.now() })
+                });
+                const d = await r.json();
+                result.innerHTML = '<strong style="color:var(--accent)">🤖 K răspunde:</strong>\n\n' + (d.response || JSON.stringify(d, null, 2));
+            } catch (e) {
+                result.innerHTML = '❌ Eroare: ' + e.message;
+            }
+        }
+
+        // ═══ LOAD MESSENGER STATUS ═══
+        async function loadMessengerStatus() {
+            try {
+                const d = await adminFetch('social_media_status');
+                const fb = d.platforms?.facebook || {};
+                document.getElementById('fb-stats').innerHTML = [
+                    fb.configured ? '✅ Configurat' : '❌ Neconfigurat',
+                    fb.webhook_subscribed ? '📡 Webhook ON' : '⚠️ Webhook OFF',
+                    'Conversații: ' + (fb.total_conversations || 0)
+                ].join(' | ');
+            } catch (e) {
+                document.getElementById('fb-stats').textContent = '❌ ' + e.message;
+            }
+        }
+
+        // ═══ LOAD WEBHOOK LOG ═══
+        async function loadWebhookLog() {
+            const log = document.getElementById('webhook-log');
+            try {
+                const d = await adminFetch('get_conversations', { limit: 20 });
+                if (!d.conversations || d.conversations.length === 0) {
+                    log.innerHTML = '<div style="color:var(--muted);padding:20px;text-align:center">📭 Niciun mesaj înregistrat încă.<br><small>Trimite un mesaj pe Messenger la pagina Kelion AI pentru a testa.</small></div>';
+                    return;
+                }
+                log.innerHTML = d.conversations.map(c => {
+                    const time = new Date(c.created_at || c.timestamp).toLocaleString('ro-RO');
+                    return `<div style="border-bottom:1px solid var(--border);padding:8px 0">
+                        <span style="color:var(--accent)">${time}</span> | 
+                        <span style="color:var(--green)">${c.platform || 'facebook'}</span> | 
+                        <strong>${c.sender_id?.substring(0, 8) || '?'}...</strong><br>
+                        <span style="color:var(--text)">📩 ${(c.user_message || '').substring(0, 100)}</span><br>
+                        <span style="color:var(--muted)">🤖 ${(c.ai_response || '').substring(0, 100)}</span>
+                    </div>`;
+                }).join('');
+            } catch (e) {
+                log.innerHTML = '❌ ' + e.message;
+            }
+        }
+
+        // Auto-load messenger status when panel opens
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                if (this.dataset.panel === 'messengers') {
+                    loadMessengerStatus();
+                    loadWebhookLog();
+                }
+            });
+        });
+
     </script>
+
+    <!-- Facebook SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/ro_RO/sdk.js#xfbml=1&version=v21.0&appId=1974565006737864"
+        nonce="kelion"></script>
 </body>
 
 </html>
