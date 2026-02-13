@@ -62,6 +62,14 @@
     Pragma = "no-cache"
     Expires = "0"
 
+# NO CACHE for root URL (rewrite to landing.html, pattern /*.html may not match /)
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
 # NO CACHE for Service Worker - critical for updates
 [[headers]]
   for = "/sw.js"

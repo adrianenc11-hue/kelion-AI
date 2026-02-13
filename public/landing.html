@@ -1401,25 +1401,86 @@
                         child.visible = true;
                         child.frustumCulled = false;
                         if (!child.isMesh) return;
-                        if (child.material) child.material.side = THREE.DoubleSide;
 
-                        /* ── FIX EYEBROW Z-FIGHTING ──
-                           Push each brow/lash vertex outward along its normal
-                           so it sits above the skin mesh everywhere */
-                        var nm = (child.name || '').toLowerCase();
-                        if (nm.indexOf('brow') !== -1 || nm.indexOf('lash') !== -1) {
-                            var geo = child.geometry;
-                            var pos = geo.attributes.position;
-                            var nrm = geo.attributes.normal;
-                            if (pos && nrm) {
-                                for (var i = 0; i < pos.count; i++) {
-                                    pos.setX(i, pos.getX(i) + nrm.getX(i) * 0.0008);
-                                    pos.setY(i, pos.getY(i) + nrm.getY(i) * 0.0008);
-                                    pos.setZ(i, pos.getZ(i) + nrm.getZ(i) * 0.0008);
-                                }
-                                pos.needsUpdate = true;
-                            }
+                        var nm = (child.name || '');
+                        var matNm = (child.material && child.material.name) ? child.material.name : '';
+
+                        /* Reset skeleton + morph targets */
+                        if (child.isSkinnedMesh && child.skeleton) child.skeleton.pose();
+                        if (child.morphTargetInfluences) {
+                            for (var mi = 0; mi < child.morphTargetInfluences.length; mi++)
+                                child.morphTargetInfluences[mi] = 0;
                         }
+
+                        /* Z-fighting fix */
+                        var nmLow = nm.toLowerCase();
+                        var matLow = matNm.toLowerCase();
+                        var isHead = (nmLow.indexOf('femalehead') !== -1 ||
+                            (matLow === 'head' && nmLow.indexOf('eye') === -1));
+                        var isBrow = (nmLow.indexOf('brow') !== -1 || matLow.indexOf('brow') !== -1);
+                        var isLash = (nmLow.indexOf('lash') !== -1 || matLow.indexOf('lash') !== -1);
+
+                        if (isHead && child.material) {
+                            child.renderOrder = 0;
+                            child.material.polygonOffset = true;
+                            child.material.polygonOffsetFactor = 4;
+                            child.material.polygonOffsetUnits = 4;
+                        }
+                        if ((isBrow || isLash) && child.material) {
+                            child.renderOrder = 2;
+                            child.material.side = THREE.DoubleSide;
+                            child.material.depthTest = false;
+                            child.material.depthWrite = false;
+                            child.material.transparent = true;
+                            child.material.opacity = 1.0;
+                        }
+                    });
+
+                    /* ── MIRROR FIX — Blender mirror modifier was NOT applied on k-female.glb ──
+                       BrowsTextured and EyelashesTextured have geometry only on one side (x>0).
+                       Clone each mesh, flip X to create the missing other side. */
+                    var meshesToMirror = [];
+                    model.traverse(function (child) {
+                        if (!child.isMesh) return;
+                        var nmLow = (child.name || '').toLowerCase();
+                        if (nmLow.indexOf('brow') !== -1 || nmLow.indexOf('lash') !== -1) {
+                            meshesToMirror.push(child);
+                        }
+                    });
+                    meshesToMirror.forEach(function (origMesh) {
+                        var mirrorGeo = origMesh.geometry.clone();
+                        var pos = mirrorGeo.attributes.position;
+                        var nrm = mirrorGeo.attributes.normal;
+                        /* Flip X coordinates and normals */
+                        for (var vi = 0; vi < pos.count; vi++) {
+                            pos.setX(vi, -pos.getX(vi));
+                            if (nrm) nrm.setX(vi, -nrm.getX(vi));
+                        }
+                        pos.needsUpdate = true;
+                        if (nrm) nrm.needsUpdate = true;
+                        /* Reverse triangle winding (fix face culling after flip) */
+                        var idx = mirrorGeo.index;
+                        if (idx) {
+                            var arr = idx.array;
+                            for (var ti = 0; ti < arr.length; ti += 3) {
+                                var tmp = arr[ti]; arr[ti] = arr[ti + 2]; arr[ti + 2] = tmp;
+                            }
+                            idx.needsUpdate = true;
+                        }
+                        var mirrorMat = origMesh.material.clone();
+                        mirrorMat.side = THREE.DoubleSide;
+                        mirrorMat.depthTest = false;
+                        mirrorMat.depthWrite = false;
+                        mirrorMat.transparent = true;
+                        mirrorMat.opacity = 1.0;
+                        var mirrorMesh = new THREE.Mesh(mirrorGeo, mirrorMat);
+                        mirrorMesh.renderOrder = 2;
+                        mirrorMesh.name = origMesh.name + '_mirror';
+                        mirrorMesh.frustumCulled = false;
+                        mirrorMesh.position.copy(origMesh.position);
+                        mirrorMesh.rotation.copy(origMesh.rotation);
+                        mirrorMesh.scale.copy(origMesh.scale);
+                        origMesh.parent.add(mirrorMesh);
                     });
 
                     var box = new THREE.Box3().setFromObject(model);
@@ -1456,14 +1517,14 @@
             }
 
             var MALE_CFG = {
-                fov: 30, camX: 0, camY: 0.15, camZ: 0.55, lookX: 0, lookY: 0.1,
+                fov: 38, camX: 0, camY: 0.12, camZ: 0.72, lookX: 0, lookY: 0.08,
                 exposure: 1.2, ambientIntensity: 0.6, keyIntensity: 1.0, frontIntensity: 0.3,
-                yShift: 0.35
+                yShift: 0.30
             };
             var FEMALE_CFG = {
-                fov: 28, camX: 0, camY: 0.12, camZ: 0.50, lookX: 0, lookY: 0.08,
+                fov: 38, camX: 0, camY: 0.12, camZ: 0.72, lookX: 0, lookY: 0.08,
                 exposure: 1.5, ambientIntensity: 0.8, keyIntensity: 1.2, frontIntensity: 0.6,
-                yShift: 0.33
+                yShift: 0.30
             };
 
             function init3D() {

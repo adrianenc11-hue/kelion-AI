@@ -398,6 +398,24 @@ kelionat_clean/
 - **IMPLEMENTATION_STATUS.md** — marcat Etapa 2 punkt 3 ca [x] completat
 - **Backup** salvat în `.k1_backups/subscribe.html.bak_20260212_*`
 
+### Sesiunea 7 (d5b3084a) — 22:00 → 23:01
+
+- **Avatar 3D compresie:** `k-female.glb` 34MB→7.1MB (−79%), `k-male.glb` 32MB→5.5MB (−83%) cu gltf-transform Draco+WebP
+- **Eyebrow fix:** offset `0.0008`→`0.002` + `polygonOffset` + `renderOrder` pentru sprânceana dreaptă Kira
+- **Stripe 6 planuri create LIVE** și salvate în Supabase vault:
+  - `STRIPE_PRICE_MONTHLY` = `price_1T08tbE0lEIhKK8ioYWSpsna` (£15/mo)
+  - `STRIPE_PRICE_ANNUAL` = `price_1T08tcE0lEIhKK8ipYWVwCyb` (£100/yr)
+  - `STRIPE_PRICE_FAMILY_MONTHLY` = `price_1T08tcE0lEIhKK8ivaVhtrhp` (£25/mo)
+  - `STRIPE_PRICE_FAMILY_ANNUAL` = `price_1T08tcE0lEIhKK8iK6yekEx9` (£180/yr)
+  - `STRIPE_PRICE_BUSINESS_MONTHLY` = `price_1T08tdE0lEIhKK8iiHKYPAwj` (£99/mo)
+  - `STRIPE_PRICE_BUSINESS_ANNUAL` = `price_1T08tdE0lEIhKK8ipQqEbv8c` (£800/yr)
+- **Stripe Product ID:** `prod_Ty533aNLEZTKPT`
+- **PayPal confirmat LIVE:** 8 planuri active, 7 produse
+- **TikTok DNS:** TXT record propagat, gata de verificare pe portal
+- **Audit live:** 136/136 OK, 0 fail, 54 chei vault
+- **Monitor avatari:** Playwright + GitHub Actions (hourly)
+- **Anti-minciună model router:** `tools/anti-minciuna/model_router.mjs`
+
 ---
 
 ## 10. COMPARAȚIE VECHI (8 Feb) vs NOU (12 Feb)
@@ -429,12 +447,13 @@ kelionat_clean/
 
 Toate 36 marcate complete. 2-3 bug-uri recurente rămase (vezi §12).
 
-### Etapa 2: Login & Plăți — 12 puncte → ~70% ✅
+### Etapa 2: Login & Plăți — 12 puncte → ~85% ✅
 
 - ✅ Subscribe = doar login
 - ✅ Showcase stânga
 - ✅ Flow: Create Account după avatar
-- ✅ PayPal setup (parțial)
+- ✅ PayPal LIVE (8 planuri active, 7 produse)
+- ✅ Stripe LIVE (6 planuri create + salvate în vault, Product: prod_Ty533aNLEZTKPT)
 - ✅ Meserii: profesor + custom professions
 - ✅ TUTOR_UNIVERSAL_RO.md
 - ⚠️ Referral tracking incomplet (?ref= URL)
@@ -457,7 +476,7 @@ Toate 36 marcate complete. 2-3 bug-uri recurente rămase (vezi §12).
 ### Etapa 5: Admin Panel — 15 puncte → ~13% ❌
 
 - ✅ HTML 5 tab-uri + backend
-- ❌ Supabase connection broken
+- ✅ Supabase connection funcțional (4 useri, 54 vault keys)
 - ❌ Zero fake data nerealizat
 - ❌ Trafic, credits, trading, messengers — nefuncționale real
 
