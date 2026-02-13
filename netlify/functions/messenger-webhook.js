@@ -665,6 +665,24 @@ async function logConversation(senderId, platform, userMessage, botResponse) {
                 { conversation_id: convId, sender_type: 'ai', sender_name: 'K AI', message: botResponse.slice(0, 2000), ai_response: botResponse.slice(0, 2000), ai_model: 'smart-brain', created_at: new Date(Date.now() + 500).toISOString() }
             ]);
         }
+
+        // ═══ ALSO SAVE TO k_sessions — unified session panel ═══
+        try {
+            const topic = classifyTopic(userMessage);
+            const platformLabel = platform === 'page' ? 'Facebook' : platform === 'instagram' ? 'Instagram' : 'Messenger';
+            await db.from('k_sessions').insert({
+                user_email: `messenger:${senderId}`,
+                title: `💬 ${platformLabel}: ${userMessage.slice(0, 60)}`,
+                category: 'general',
+                subject: topic !== 'general' ? topic : 'Pensii',
+                messages: JSON.stringify([
+                    { role: 'user', content: userMessage.slice(0, 1000) },
+                    { role: 'assistant', content: botResponse.slice(0, 2000) }
+                ]),
+                message_count: 2,
+                status: 'completed'
+            });
+        } catch (ksErr) { console.log('[k_sessions] Messenger save skip:', ksErr.message); }
     } catch (e) { console.error('Log error:', e.message); }
 }
 
