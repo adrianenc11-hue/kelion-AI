@@ -33,16 +33,25 @@ STIL RĂSPUNS:
 - Max 300 caractere per răspuns
 - Citează legea/articolul relevant (scurt)
 - NU lungi, NU repeti, NU bagi paragrafe inutile
+- OBLIGATORIU: adresare cu "Dumneavoastră" ("Dvs."), NICIODATĂ "tu/ai/ești". Audiența e formală.
+- Exemplu corect: "Ați lucrat", "Dumneavoastră aveți dreptul", "Vă recomandăm"
+- Exemplu GREȘIT: "ai lucrat", "tu ai dreptul", "îți recomand"
 
 REGULI:
 1. Prima interacțiune: spune că ești AI
 2. DOAR întrebări despre pensii
-3. Dacă nu ești sigur: "Consultați Casa de Pensii"
+3. Dacă nu ești sigur: "Vă recomandăm să consultați Casa de Pensii"
 4. Disclaimer scurt la final când e cazul
+
+ÎNTREBĂRI DE CLARIFICARE (OBLIGATORIU):
+- Dacă detectezi situație complexă (lucrat în mai multe țări, grupe de muncă, pensie anticipată/parțială, recalculare), ÎNTREABĂ SCURT ce informații lipsesc.
+- Ex: "În ce țări ați lucrat și câți ani în fiecare?" sau "Ce grupă de muncă ați avut?" sau "Care este anul Dvs. de naștere?"
+- NU ghici — întreabă! O întrebare scurtă e mai valoroasă decât un răspuns greșit.
+- Dacă userul menționează mai multe țări: aplică Regulamentul EU 883/2004 (cumul perioade), explică dreptul la pensie proporțională.
 
 CUNOȘTINȚE: Legea 127/2019, Legea 263/2010, Legea 223/2015 (militari), OUG 163/2020 (recalculare), HG 1284/2011 (grupe), OUG 6/2009 (indemnizație socială), State Pension Act 2014, Social Security Act, SGB VI, CNAV, INSS, INPS, Reg. UE 883/2004.
 
-SUBIECTE: calcul pensie, vârstă, documente, drepturi, recalculare, contestare, pensie urmaș, pensii militare, transfer UE, Pilon II/III.`;
+SUBIECTE: calcul pensie, vârstă, documente, drepturi, recalculare, contestare, pensie urmaș, pensii militare, transfer UE, Pilon II/III, cumul perioade multi-țară.`;
 
 function getSupabase() {
     const url = process.env.SUPABASE_URL;
@@ -441,7 +450,7 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
             await saveUserCountry(senderId, country);
             const c = COUNTRIES[country];
             return `${c.flag} Perfect! Am selectat ${c.name}.\n\n` +
-                `Sunt K, asistentul AI expert pe pensii. Îți pot oferi informații despre:\n\n` +
+                `Sunt K, asistentul AI expert pe pensii. Vă pot oferi informații despre:\n\n` +
                 `📋 Documente necesare pensionare\n` +
                 `🧮 Calcul estimativ pensie\n` +
                 `⚖️ Legislație pensii\n` +
@@ -449,7 +458,7 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
                 `🛡️ Drepturi pensionari\n` +
                 `📊 Recalculare pensie\n` +
                 `⚖️ Contestare decizie\n\n` +
-                `Scrie-mi întrebarea ta! 💬` + SITE_FOOTER;
+                `Scrieți-mi întrebarea Dvs.! 💬` + SITE_FOOTER;
         }
     }
 
@@ -511,14 +520,14 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
 
     // ═══ 2. NON-PENSION TOPIC FILTER ═══
     if (isOffTopic(msg)) {
-        return `Aici mă ocup doar de pensii. 😊 Pentru alte întrebări, te aștept pe kelionai.app — acolo pot face mult mai multe!` + SITE_FOOTER;
+        return `Mă ocup doar de pensii. 😊 Pentru alte întrebări, vă aștept pe kelionai.app — acolo pot face mult mai multe!` + SITE_FOOTER;
     }
 
     // ═══ 3. QUICK RESPONSES (no AI needed) ═══
     if (matchesAny(msg, ['salut', 'buna', 'hello', 'hey', 'servus', 'noroc', 'hi'])) {
         const c = COUNTRIES[userCountry];
-        return `👋 Salut! Sunt K, expert pensii ${c.flag} ${c.name}.\n\n` +
-            `Cum te pot ajuta? Scrie-mi întrebarea! 💬` + SITE_FOOTER;
+        return `👋 Bună ziua! Sunt K, expert pensii ${c.flag} ${c.name}.\n\n` +
+            `Cu ce vă pot ajuta? Scrieți-mi întrebarea Dvs.! 💬` + SITE_FOOTER;
     }
 
     // ═══ 4. AI-POWERED RESPONSE ═══
@@ -553,7 +562,7 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
                 // First time: confirm detected country
                 if (countryJustDetected) {
                     const c = COUNTRIES[userCountry];
-                    response += `\n\n${c.flag} Am detectat că întrebarea e despre ${c.name}. Dacă vrei informații pentru altă țară, scrie codul: RO, UK, US, DE, FR, ES, IT.`;
+                    response += `\n\n${c.flag} Am detectat că întrebarea Dvs. este despre ${c.name}. Dacă doriți informații pentru altă țară, scrieți codul: RO, UK, US, DE, FR, ES, IT.`;
                 }
                 return response + SITE_FOOTER;
             }
