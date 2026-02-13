@@ -2447,9 +2447,6 @@
         function selectAvatar(choice) {
             localStorage.setItem('k_avatar', choice);
             document.getElementById('avatarOverlay').classList.add('hidden');
-            setTimeout(function () {
-                window.location.href = '/subscribe.html?avatar=' + choice;
-            }, 400);
         }
         // Pre-highlight saved avatar
         (function () {
