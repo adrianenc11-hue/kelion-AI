@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 test('monitor avatars visibility', async ({ page }) => {
     // 1. Go to live site
     console.log('Navigating to https://kelionai.app ...');
-    await page.goto('https://kelionai.app', { waitUntil: 'networkidle' });
+    await page.goto('https://kelionai.app', { waitUntil: 'domcontentloaded', timeout: 30000 });
 
     // 2. Wait for avatar overlay to be present (it might be hidden if user selection logic runs fast, but we check existence)
     // Actually, on landing page, avatars are in .avatar-overlay which is visible initially or handles selection.

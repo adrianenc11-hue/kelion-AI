@@ -2479,6 +2479,7 @@ let md = monitor.innerHTML
     <script type="module">
         import * as THREE from 'three';
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
         // ═══ K 3D AVATAR STATE ═══
@@ -2636,7 +2637,10 @@ let md = monitor.innerHTML
                 kCurrentModel = null;
             }
 
+            const dracoLoader = new DRACOLoader();
+            dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
             const loader = new GLTFLoader();
+            loader.setDRACOLoader(dracoLoader);
             loader.load(kModelPaths[gender], (gltf) => {
                 kCurrentModel = gltf.scene;
                 // Center and scale — bust framing, face forward
