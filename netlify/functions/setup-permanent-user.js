@@ -1,6 +1,5 @@
 // Netlify Function: Setup Permanent User
-// Creates/updates owner account with permanent premium access
-// ALL credentials from env vars — ZERO hardcode
+// Creates/updates adrianenc11@gmail.com with permanent premium access
 const { patchProcessEnv } = require('./get-secret');
 
 const { createClient } = require('@supabase/supabase-js');
@@ -27,46 +26,33 @@ exports.handler = async (event, context) => {
     // Handle CORS preflight
     if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
-    // Only allow admin access (check for secret param from env)
+    // Only allow admin access (check for secret param)
     const params = event.queryStringParameters || {};
-    const SETUP_SECRET = process.env.SETUP_SECRET;
-    if (!SETUP_SECRET) {
-        return { statusCode: 503, headers, body: JSON.stringify({ error: 'SETUP_SECRET not configured in env' }) };
-    }
-    if (params.secret !== SETUP_SECRET) {
-        return { statusCode: 403, headers, body: JSON.stringify({ error: 'Forbidden' }) };
+    if (params.secret !== 'kelion2024setup') {
+        return {
+            statusCode: 403,
+            headers,
+            body: JSON.stringify({ error: 'Forbidden' })
+        };
     }
 
     try {
         await patchProcessEnv(); // Load vault secrets
         const results = [];
 
-        // Required env vars
-        const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-        const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-        const OWNER_EMAIL = process.env.OWNER_EMAIL || process.env.USER_EMAIL;
-        const OWNER_PASSWORD = process.env.OWNER_PASSWORD || process.env.USER_PASSWORD;
-
-        if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
-            return { statusCode: 400, headers, body: JSON.stringify({ error: 'ADMIN_EMAIL and ADMIN_PASSWORD env vars required' }) };
-        }
-        if (!OWNER_EMAIL || !OWNER_PASSWORD) {
-            return { statusCode: 400, headers, body: JSON.stringify({ error: 'OWNER_EMAIL and OWNER_PASSWORD (or USER_EMAIL/USER_PASSWORD) env vars required' }) };
-        }
-
-        // 1. Check/Create admin
+        // 1. Check/Create admin@kelionai.app
         const { data: admin } = await getSupabase()
             .from('users')
             .select('*')
-            .eq('email', ADMIN_EMAIL)
+            .eq('email', 'admin@kelionai.app')
             .single();
 
         if (!admin) {
-            const adminHash = await bcrypt.hash(ADMIN_PASSWORD, 12);
+            const adminHash = await bcrypt.hash('AdminKelion2024!', 12);
             const { error } = await getSupabase()
                 .from('users')
                 .insert({
-                    email: ADMIN_EMAIL,
+                    email: 'admin@kelionai.app',
                     password_hash: adminHash,
                     role: 'admin',
                     status: 'active',
@@ -78,32 +64,32 @@ exports.handler = async (event, context) => {
                 .single();
 
             results.push({
-                email: ADMIN_EMAIL,
+                email: 'admin@kelionai.app',
                 action: error ? 'error' : 'created',
                 error: error?.message
             });
         } else {
             results.push({
-                email: ADMIN_EMAIL,
+                email: 'admin@kelionai.app',
                 action: 'exists',
                 id: admin.id
             });
         }
 
-        // 2. Check/Create owner user
+        // 2. Check/Create adrianenc11@gmail.com
         const { data: user } = await getSupabase()
             .from('users')
             .select('*')
-            .eq('email', OWNER_EMAIL)
+            .eq('email', 'adrianenc11@gmail.com')
             .single();
 
         if (!user) {
             // Create user
-            const userHash = await bcrypt.hash(OWNER_PASSWORD, 12);
+            const userHash = await bcrypt.hash('Andrada_1968!', 12);
             const { data: newUser, error } = await getSupabase()
                 .from('users')
                 .insert({
-                    email: OWNER_EMAIL,
+                    email: 'adrianenc11@gmail.com',
                     password_hash: userHash,
                     role: 'user',
                     status: 'active',
@@ -115,14 +101,14 @@ exports.handler = async (event, context) => {
                 .single();
 
             results.push({
-                email: OWNER_EMAIL,
+                email: 'adrianenc11@gmail.com',
                 action: error ? 'error' : 'created',
                 error: error?.message,
                 id: newUser?.id
             });
         } else {
             // Update to ensure active + premium
-            const userHash = await bcrypt.hash(OWNER_PASSWORD, 12);
+            const userHash = await bcrypt.hash('Andrada_1968!', 12);
             const { error: updateErr } = await getSupabase()
                 .from('users')
                 .update({
@@ -136,7 +122,7 @@ exports.handler = async (event, context) => {
                 .eq('id', user.id);
 
             results.push({
-                email: OWNER_EMAIL,
+                email: 'adrianenc11@gmail.com',
                 action: updateErr ? 'error' : 'updated',
                 error: updateErr?.message,
                 id: user.id

@@ -1264,7 +1264,7 @@
             🚪 Logout
         </button>
 
-        <!-- Admin button - top-left, only for admin role users -->
+        <!-- Admin button - top-left, only for adrianenc11@gmail.com -->
         <button id="ae-admin-btn" onclick="window.location.href='/admin.html';"
             style="display: none; position: fixed; top: 20px; left: 20px; background: rgba(20,20,30,0.9); color: #d4af37; padding: 10px 16px; border-radius: 10px; border: 1px solid #d4af37; font-size: 0.85rem; cursor: pointer; z-index: 10000; transition: all 0.3s; font-weight: 500;"
             onmouseover="this.style.background='#d4af37'; this.style.color='#000';"
@@ -1956,8 +1956,7 @@ Be very brief (1-2 sentences). Always respond in the SAME language the user spok
                     body: JSON.stringify({
                         question: text,
                         context: context,
-                        user_email: (JSON.parse(localStorage.getItem('kelion_user') || '{}').email || ''),
-
+                        user_email: 'adrianenc11@gmail.com',
                         engineScores: engineScores
                     })
                 });
@@ -1999,7 +1998,7 @@ Be very brief (1-2 sentences). Always respond in the SAME language the user spok
                     // ═══ BRAIN MODULE: Track, Save, Learn (via KBrain) ═══
                     if (window.KBrain) {
                         KBrain.memory.addMessage('assistant', reply);
-                        KBrain.memory.save((JSON.parse(localStorage.getItem('kelion_user') || '{}').email || ''), routing.type, emotionData.detected).catch(() => { });
+                        KBrain.memory.save('adrianenc11@gmail.com', routing.type, emotionData.detected).catch(() => { });
                         const total = KBrain.objectives.track(routing.type || 'general', emotionData.detected || 'neutral');
                         if (KBrain.objectives.shouldSuggest()) {
                             const suggestion = KBrain.objectives.getSuggestion();
@@ -2433,8 +2432,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
     </script>
 
-<script src="/components/back-button.js"></script>
-<script src="/components/visitor-tracker.js"></script>
 </body>
 
 </html>`;
@@ -4676,7 +4673,7 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
                 body: JSON.stringify({
                     question: message,
                     engine: engineId,
-                    user_email: (JSON.parse(localStorage.getItem('kelion_user') || '{}').email || '')
+                    user_email: 'adrianenc11@gmail.com'
                 })
             });
             const data = await res.json();
@@ -4733,22 +4730,20 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
 
         // Auto-show AI bar for admin and activate ALL
         (function initAIBar() {
-            try {
-                const userData = JSON.parse(localStorage.getItem('kelion_user') || '{}');
-                if (userData.role === 'admin') {
-                    const bar = document.getElementById('ai-selector-bar');
-                    if (bar) {
-                        bar.style.display = 'flex';
-                        // Auto-activate ALL
-                        setTimeout(() => {
-                            const allBtn = document.querySelector('.ai-sel-btn[data-engine="all"]');
-                            if (allBtn && !allBtn.classList.contains('active')) {
-                                toggleAllEngines(allBtn);
-                            }
-                        }, 500);
-                    }
+            const kelionUser = localStorage.getItem('kelion_user');
+            if (kelionUser === 'adrianenc11@gmail.com') {
+                const bar = document.getElementById('ai-selector-bar');
+                if (bar) {
+                    bar.style.display = 'flex';
+                    // Auto-activate ALL
+                    setTimeout(() => {
+                        const allBtn = document.querySelector('.ai-sel-btn[data-engine="all"]');
+                        if (allBtn && !allBtn.classList.contains('active')) {
+                            toggleAllEngines(allBtn);
+                        }
+                    }, 500);
                 }
-            } catch(e) {}
+            }
         })();
                     </script>
 
@@ -4762,7 +4757,7 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
                         </div>
                     </div>
 
-                    <!-- Script to show admin button for admin role users -->
+                    <!-- Script to show admin button for adrianenc11@gmail.com -->
                     <script>
         function checkAndShowAdminButton() {
             const userData = localStorage.getItem('kelion_user');
@@ -4774,7 +4769,7 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
                 try {
                     const user = JSON.parse(userData);
 
-                    if (user.role === 'admin') {
+                    if (user.email === 'adrianenc11@gmail.com') {
                         adminBtn.style.display = 'block';
                         if (aiBar) aiBar.style.display = 'flex';
                         if (brainTracerBtn) brainTracerBtn.style.display = 'block';
@@ -5700,8 +5695,6 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
                     <!-- Version Badge -->
                     <script src="/components/version-badge.js"></script>
 
-                    <script src="/components/back-button.js"></script>
-<script src="/components/visitor-tracker.js"></script>
-</body>
+                    </body>
 
                     </html>

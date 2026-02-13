@@ -6,12 +6,6 @@ description: Auto-run at session start - validates code and verifies all systems
 
 // turbo-all
 
-1. OBLIGATORIU: Citește IMPLEMENTATION_STATUS.md — lista completă de funcționalități (93+ puncte, 6 etape). Aceasta este sursa de adevăr:
-
-```
-cat IMPLEMENTATION_STATUS.md
-```
-
 1. Run integrity guard (5-layer — MANDATORY FIRST):
 
 ```

@@ -15,13 +15,13 @@ const headers = {
 const SITE_FOOTER = '\n\n🌐 kelionai.app';
 
 const COUNTRIES = {
-    'RO': { flag: '🇷🇴', name: 'România', lang: 'ro' },
-    'UK': { flag: '🇬🇧', name: 'United Kingdom', lang: 'en' },
-    'US': { flag: '🇺🇸', name: 'United States', lang: 'en' },
-    'DE': { flag: '🇩🇪', name: 'Deutschland', lang: 'de' },
-    'FR': { flag: '🇫🇷', name: 'France', lang: 'fr' },
-    'ES': { flag: '🇪🇸', name: 'España', lang: 'es' },
-    'IT': { flag: '🇮🇹', name: 'Italia', lang: 'it' }
+    'ro': { flag: '🇷🇴', name: 'România', lang: 'ro' },
+    'uk': { flag: '🇬🇧', name: 'United Kingdom', lang: 'en' },
+    'us': { flag: '🇺🇸', name: 'United States', lang: 'en' },
+    'de': { flag: '🇩🇪', name: 'Deutschland', lang: 'de' },
+    'fr': { flag: '🇫🇷', name: 'France', lang: 'fr' },
+    'es': { flag: '🇪🇸', name: 'España', lang: 'es' },
+    'it': { flag: '🇮🇹', name: 'Italia', lang: 'it' }
 };
 
 const PENSION_SYSTEM_PROMPT = `Ești K, expert AI pe pensii. Știi TOTUL despre legislația pensiilor.
@@ -33,25 +33,16 @@ STIL RĂSPUNS:
 - Max 300 caractere per răspuns
 - Citează legea/articolul relevant (scurt)
 - NU lungi, NU repeti, NU bagi paragrafe inutile
-- OBLIGATORIU: adresare cu "Dumneavoastră" ("Dvs."), NICIODATĂ "tu/ai/ești". Audiența e formală.
-- Exemplu corect: "Ați lucrat", "Dumneavoastră aveți dreptul", "Vă recomandăm"
-- Exemplu GREȘIT: "ai lucrat", "tu ai dreptul", "îți recomand"
 
 REGULI:
 1. Prima interacțiune: spune că ești AI
 2. DOAR întrebări despre pensii
-3. Dacă nu ești sigur: "Vă recomandăm să consultați Casa de Pensii"
+3. Dacă nu ești sigur: "Consultați Casa de Pensii"
 4. Disclaimer scurt la final când e cazul
-
-ÎNTREBĂRI DE CLARIFICARE (OBLIGATORIU):
-- Dacă detectezi situație complexă (lucrat în mai multe țări, grupe de muncă, pensie anticipată/parțială, recalculare), ÎNTREABĂ SCURT ce informații lipsesc.
-- Ex: "În ce țări ați lucrat și câți ani în fiecare?" sau "Ce grupă de muncă ați avut?" sau "Care este anul Dvs. de naștere?"
-- NU ghici — întreabă! O întrebare scurtă e mai valoroasă decât un răspuns greșit.
-- Dacă userul menționează mai multe țări: aplică Regulamentul EU 883/2004 (cumul perioade), explică dreptul la pensie proporțională.
 
 CUNOȘTINȚE: Legea 127/2019, Legea 263/2010, Legea 223/2015 (militari), OUG 163/2020 (recalculare), HG 1284/2011 (grupe), OUG 6/2009 (indemnizație socială), State Pension Act 2014, Social Security Act, SGB VI, CNAV, INSS, INPS, Reg. UE 883/2004.
 
-SUBIECTE: calcul pensie, vârstă, documente, drepturi, recalculare, contestare, pensie urmaș, pensii militare, transfer UE, Pilon II/III, cumul perioade multi-țară.`;
+SUBIECTE: calcul pensie, vârstă, documente, drepturi, recalculare, contestare, pensie urmaș, pensii militare, transfer UE, Pilon II/III.`;
 
 function getSupabase() {
     const url = process.env.SUPABASE_URL;
@@ -441,16 +432,16 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
     const msg = userMessage.toLowerCase().trim();
 
     // ═══ 1. CHECK IF COUNTRY IS SELECTED ═══
-    let userCountry = forcedCountry || await getUserCountry(senderId);
+    const userCountry = forcedCountry || await getUserCountry(senderId);
 
-    // Country selection response (if user explicitly types a country code)
+    // Country selection response
     if (isCountrySelection(msg)) {
         const country = detectCountry(msg);
         if (country) {
             await saveUserCountry(senderId, country);
             const c = COUNTRIES[country];
             return `${c.flag} Perfect! Am selectat ${c.name}.\n\n` +
-                `Sunt K, asistentul AI expert pe pensii. Vă pot oferi informații despre:\n\n` +
+                `Sunt K, asistentul AI expert pe pensii. Îți pot oferi informații despre:\n\n` +
                 `📋 Documente necesare pensionare\n` +
                 `🧮 Calcul estimativ pensie\n` +
                 `⚖️ Legislație pensii\n` +
@@ -458,76 +449,35 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
                 `🛡️ Drepturi pensionari\n` +
                 `📊 Recalculare pensie\n` +
                 `⚖️ Contestare decizie\n\n` +
-                `Scrieți-mi întrebarea Dvs.! 💬` + SITE_FOOTER;
+                `Scrie-mi întrebarea ta! 💬` + SITE_FOOTER;
         }
     }
 
-    // ═══ AUTO-DETECT COUNTRY (nu mai blochează) ═══
-    let countryJustDetected = false;
+    // If no country selected yet, ask for it
     if (!userCountry) {
-        // Source 1: Detect from message content (PRIORITY — shows what user actually wants)
-        const msgLower = userMessage.toLowerCase();
-        const contentMap = {
-            'RO': ['romania', 'română', 'romania', 'pensie', 'cnpp', 'recalculare', 'casa de pensii', 'pensionare'],
-            'UK': ['united kingdom', 'england', 'britain', 'state pension', 'nhs', 'dwp'],
-            'US': ['united states', 'america', 'social security', '401k', 'ssa'],
-            'DE': ['deutschland', 'germany', 'rente', 'rentenversicherung'],
-            'FR': ['france', 'retraite', 'cnav'],
-            'ES': ['españa', 'spain', 'jubilación'],
-            'IT': ['italia', 'italy', 'inps', 'pensione']
-        };
-        for (const [code, keywords] of Object.entries(contentMap)) {
-            if (keywords.some(k => msgLower.includes(k))) {
-                userCountry = code;
-                countryJustDetected = true;
-                await saveUserCountry(senderId, code);
-                console.log(`🌍 Auto-detected country from message content → ${code}`);
-                break;
-            }
-        }
-
-        // Source 2: Meta profile locale (fallback if message has no country hints)
-        if (!userCountry) {
-            try {
-                const db = getSupabase();
-                if (db) {
-                    const { data: contact } = await db.from('messenger_contacts')
-                        .select('locale')
-                        .eq('sender_id', senderId)
-                        .single();
-                    if (contact?.locale) {
-                        const localeMap = { 'ro_RO': 'RO', 'en_GB': 'UK', 'en_US': 'US', 'de_DE': 'DE', 'fr_FR': 'FR', 'es_ES': 'ES', 'it_IT': 'IT' };
-                        const detected = localeMap[contact.locale] || (contact.locale?.startsWith('ro') ? 'RO' : null);
-                        if (detected) {
-                            userCountry = detected;
-                            countryJustDetected = true;
-                            await saveUserCountry(senderId, detected);
-                            console.log(`🌍 Auto-detected country from locale ${contact.locale} → ${detected}`);
-                        }
-                    }
-                }
-            } catch (e) { /* skip */ }
-        }
-
-        // Source 3: Default to RO (kelionai.app is Romanian pension expert)
-        if (!userCountry) {
-            userCountry = 'RO';
-            countryJustDetected = true;
-            await saveUserCountry(senderId, 'RO');
-            console.log('🌍 Default country → RO');
-        }
+        return `👋 Salut! Sunt K, un asistent AI specializat pe pensii.\n\n` +
+            `⚠️ Sunt o inteligență artificială. Informațiile sunt orientative.\n\n` +
+            `Selectează țara ta pentru informații personalizate:\n\n` +
+            `🇷🇴 România — scrie "RO"\n` +
+            `🇬🇧 United Kingdom — scrie "UK"\n` +
+            `🇺🇸 United States — scrie "US"\n` +
+            `🇩🇪 Deutschland — scrie "DE"\n` +
+            `🇫🇷 France — scrie "FR"\n` +
+            `🇪🇸 España — scrie "ES"\n` +
+            `🇮🇹 Italia — scrie "IT"\n\n` +
+            `Sau scrie direct întrebarea ta! 😊` + SITE_FOOTER;
     }
 
     // ═══ 2. NON-PENSION TOPIC FILTER ═══
     if (isOffTopic(msg)) {
-        return `Mă ocup doar de pensii. 😊 Pentru alte întrebări, vă aștept pe kelionai.app — acolo pot face mult mai multe!` + SITE_FOOTER;
+        return `Aici mă ocup doar de pensii. 😊 Pentru alte întrebări, te aștept pe kelionai.app — acolo pot face mult mai multe!` + SITE_FOOTER;
     }
 
     // ═══ 3. QUICK RESPONSES (no AI needed) ═══
     if (matchesAny(msg, ['salut', 'buna', 'hello', 'hey', 'servus', 'noroc', 'hi'])) {
         const c = COUNTRIES[userCountry];
-        return `👋 Bună ziua! Sunt K, expert pensii ${c.flag} ${c.name}.\n\n` +
-            `Cu ce vă pot ajuta? Scrieți-mi întrebarea Dvs.! 💬` + SITE_FOOTER;
+        return `👋 Salut! Sunt K, expert pensii ${c.flag} ${c.name}.\n\n` +
+            `Cum te pot ajuta? Scrie-mi întrebarea! 💬` + SITE_FOOTER;
     }
 
     // ═══ 4. AI-POWERED RESPONSE ═══
@@ -558,13 +508,7 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
             const aiData = await aiRes.json();
             const aiText = aiData.response || aiData.text || aiData.content || '';
             if (aiText && aiText.length > 20) {
-                let response = aiText.trim();
-                // First time: confirm detected country
-                if (countryJustDetected) {
-                    const c = COUNTRIES[userCountry];
-                    response += `\n\n${c.flag} Am detectat că întrebarea Dvs. este despre ${c.name}. Dacă doriți informații pentru altă țară, scrieți codul: RO, UK, US, DE, FR, ES, IT.`;
-                }
-                return response + SITE_FOOTER;
+                return aiText.trim() + SITE_FOOTER;
             }
         }
     } catch (aiErr) {
@@ -721,24 +665,6 @@ async function logConversation(senderId, platform, userMessage, botResponse) {
                 { conversation_id: convId, sender_type: 'ai', sender_name: 'K AI', message: botResponse.slice(0, 2000), ai_response: botResponse.slice(0, 2000), ai_model: 'smart-brain', created_at: new Date(Date.now() + 500).toISOString() }
             ]);
         }
-
-        // ═══ ALSO SAVE TO k_sessions — unified session panel ═══
-        try {
-            const topic = classifyTopic(userMessage);
-            const platformLabel = platform === 'page' ? 'Facebook' : platform === 'instagram' ? 'Instagram' : 'Messenger';
-            await db.from('k_sessions').insert({
-                user_email: `messenger:${senderId}`,
-                title: `💬 ${platformLabel}: ${userMessage.slice(0, 60)}`,
-                category: 'general',
-                subject: topic !== 'general' ? topic : 'Pensii',
-                messages: JSON.stringify([
-                    { role: 'user', content: userMessage.slice(0, 1000) },
-                    { role: 'assistant', content: botResponse.slice(0, 2000) }
-                ]),
-                message_count: 2,
-                status: 'completed'
-            });
-        } catch (ksErr) { console.log('[k_sessions] Messenger save skip:', ksErr.message); }
     } catch (e) { console.error('Log error:', e.message); }
 }
 

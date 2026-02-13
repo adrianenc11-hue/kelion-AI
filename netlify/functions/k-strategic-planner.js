@@ -19,7 +19,7 @@ exports.handler = async (event) => {
 
         // Get current capabilities from GitHub
         const token = process.env.GITHUB_TOKEN;
-        const repo = process.env.GITHUB_REPO;
+        const repo = process.env.GITHUB_REPO || 'adrianenc11/kelionai';
         let existingFunctions = [];
 
         try {

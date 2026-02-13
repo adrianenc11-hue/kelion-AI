@@ -318,25 +318,6 @@ exports.handler = async (event) => {
             console.log(`[BRAIN] Custom profession mode: ${cpName}`);
         }
 
-        // ═══ UNIVERSAL RULE: INTERVIEW FIRST — Gather minimum data before any professional task ═══
-        if (profession) {
-            fullPrompt += '\n\n═══ REGULA UNIVERSALĂ: INTERVIU ÎNAINTE DE EXECUȚIE ═══\n' +
-                'ÎNAINTE de a răspunde la orice cerere complexă (lecție, plan, analiză, proiect, prezentare):\n' +
-                '1. IDENTIFICARE: Ce trebuie făcut exact? (tip activitate, obiectiv)\n' +
-                '2. CONTEXT: Pentru cine? Ce nivel/clasă/experiență? Ce scop final?\n' +
-                '3. CONSTRÂNGERI: Durată disponibilă? Câte ședințe? Resurse?\n' +
-                '4. REZULTAT: Ce vrea utilizatorul la final? (document, prezentare, plan, exerciții)\n\n' +
-                'DACĂ utilizatorul nu a furnizat aceste informații, ÎNTREABĂ-LE pe scurt înainte de a începe.\n' +
-                'Dacă are deja toate datele, creează PLANUL structurat, confirmă cu utilizatorul, apoi execută pas cu pas.\n\n' +
-                'FORMAT PLAN (când e relevant):\n' +
-                '📋 PLAN: [Titlu]\n' +
-                '├── Ședința 1 (durata): Subiect\n│   ├── 00-05: Activitate\n│   ├── 05-15: Activitate\n│   └── 15-30: Activitate\n' +
-                '├── Ședința 2: ...\n└── Ședința N: ...\n\n' +
-                'La FINALUL fiecărei ședințe/sesiuni, oferă:\n' +
-                '✅ Rezumat ce s-a învățat\n📝 Exerciții/temă (dacă e cazul)\n➡️ Preview ședința următoare\n' +
-                '═══ SFÂRȘIT REGULA UNIVERSALĂ ═══';
-        }
-
         if (context && Array.isArray(context) && context.length > 0) {
             const contextStr = context.slice(-10).map(m => `${m.role === 'user' ? 'User' : 'K'}: ${m.content}`).join('\n');
             fullPrompt += `\n\nConversație anterioară (context):\n${contextStr}\n\nRăspunde la ultimul mesaj ținând cont de contextul conversației.`;

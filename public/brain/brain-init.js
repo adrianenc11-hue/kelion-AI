@@ -86,8 +86,7 @@
 
         // Initialize brain
         if (window.KBrain) {
-            const userEmail = (JSON.parse(localStorage.getItem('kelion_user') || '{}').email || '');
-            await window.KBrain.init(userEmail);
+            await window.KBrain.init('adrianenc11@gmail.com');
         }
 
         // Create dashboard

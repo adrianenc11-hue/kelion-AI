@@ -9,7 +9,7 @@ const { patchProcessEnv } = require('./get-secret');
 const { createClient } = require('@supabase/supabase-js');
 
 // Admin email — receives all notifications (from env var)
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'adrianenc11@gmail.com';
 
 function getSupabase() {
     const url = process.env.SUPABASE_URL;

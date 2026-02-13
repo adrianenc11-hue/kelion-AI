@@ -1094,9 +1094,6 @@
             <button class="btn btn-audio" id="audioBtn" onclick="toggleAudioVox()"
                 title="Speaker OFF — click to enable AI voice">🔇</button>
             <input type="text" id="chatInput" placeholder="Type your message..." autocomplete="off">
-            <button class="btn btn-plan" id="btnPlan" onclick="openPlanDialog()" title="📋 Planifică sesiune" style="background:rgba(155,89,182,0.15);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;font-size:0.75rem;padding:4px 8px;border-radius:8px;cursor:pointer">📋</button>
-            <button class="btn btn-session" id="btnSessions" onclick="toggleSessionPanel()" title="📁 Sesiuni salvate" style="background:rgba(212,175,55,0.15);border:1px solid rgba(212,175,55,0.3);color:#d4af37;font-size:0.75rem;padding:4px 8px;border-radius:8px;cursor:pointer">📁</button>
-            <button class="btn btn-save-session" id="btnSaveSession" onclick="saveCurrentSession()" title="💾 Salvează sesiunea" style="background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.3);color:#2ecc71;font-size:0.75rem;padding:4px 8px;border-radius:8px;cursor:pointer">💾</button>
             <button class="btn btn-send" onclick="sendMessage()">➤</button>
         </div>
 
@@ -1927,10 +1924,7 @@
                 return;
             }
             const content = monitor.innerHTML;
-                        const htmlDoc = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>K Monitor Export</title><style>body{font-family:Inter,sans-serif;background:#0a0e1a;color:#e2e8f0;padding:40px;line-height:1.7}pre{background:rgba(0,0,0,0.4);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:14px;color:#a5f3fc;overflow-x:auto;font-size:13px}img{max-width:100%;border-radius:8px}</style></head><body>' + content + '<script src="/components/back-button.js"></script>
-<script src="/components/visitor-tracker.js"></script>
-</body></html>';
-            const blob = new Blob([htmlDoc], { type: 'text/html' });
+            const blob = new Blob([`<!DOCTYPE html><html><head><meta charset="utf-8"><title>K Monitor Export</title><style>body{font-family:Inter,sans-serif;background:#0a0e1a;color:#e2e8f0;padding:40px;line-height:1.7}pre{background:rgba(0,0,0,0.4);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:14px;color:#a5f3fc;overflow-x:auto;font-size:13px}img{max-width:100%;border-radius:8px}</style></head><body>${content}
 <!-- Push Notifications + i18n -->
 <script>
 // ═══ SERVICE WORKER + PUSH NOTIFICATIONS ═══
@@ -2035,434 +2029,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
     </script>
 
+</body>
 
-    <!-- ═══ SESSION PANEL — Slide-in side panel for saved sessions ═══ -->
-    <div id="sessionPanel" style="display:none;position:fixed;top:0;right:0;width:340px;height:100vh;background:linear-gradient(180deg,#0d1025,#151833);border-left:1px solid rgba(212,175,55,0.2);z-index:9998;overflow-y:auto;box-shadow:-10px 0 40px rgba(0,0,0,0.5);transition:transform 0.3s ease;padding:20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-            <h3 style="color:#d4af37;font-size:1rem;margin:0">📁 Sesiuni Salvate</h3>
-            <button onclick="toggleSessionPanel()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:1.2rem;cursor:pointer">&times;</button>
-        </div>
-        <div id="sessionList" style="color:rgba(255,255,255,0.7);font-size:0.85rem">
-            <p style="opacity:0.5">Se încarcă...</p>
-        </div>
-    </div>
-
-    <!-- ═══ SAVE SESSION MODAL ═══ -->
-    <div id="saveSessionModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center">
-        <div style="background:#0d1025;border:1px solid rgba(212,175,55,0.2);border-radius:16px;padding:28px 24px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
-            <h3 style="color:#d4af37;font-size:1rem;margin:0 0 16px 0">💾 Salvează Sesiunea</h3>
-            <div style="margin-bottom:12px">
-                <label style="color:rgba(255,255,255,0.6);font-size:0.75rem;display:block;margin-bottom:4px">Titlu</label>
-                <input type="text" id="sessionTitle" placeholder="ex: Lecție Matematică Cls. 8" style="width:100%;padding:8px 12px;background:rgba(255,255,255,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:8px;color:#fff;font-size:0.85rem;box-sizing:border-box">
-            </div>
-            <div style="margin-bottom:12px;display:flex;gap:8px">
-                <div style="flex:1">
-                    <label style="color:rgba(255,255,255,0.6);font-size:0.75rem;display:block;margin-bottom:4px">Categorie</label>
-                    <select id="sessionCategory" style="width:100%;padding:8px;background:#0d1025;border:1px solid rgba(212,175,55,0.2);border-radius:8px;color:#fff;font-size:0.85rem">
-                        <option value="lesson">📚 Lecție</option>
-                        <option value="work">💼 Proiect</option>
-                        <option value="research">🔬 Cercetare</option>
-                        <option value="presentation">📊 Prezentare</option>
-                        <option value="general" selected>💬 General</option>
-                    </select>
-                </div>
-                <div style="flex:1">
-                    <label style="color:rgba(255,255,255,0.6);font-size:0.75rem;display:block;margin-bottom:4px">Materie</label>
-                    <input type="text" id="sessionSubject" placeholder="ex: Chimie" style="width:100%;padding:8px 12px;background:rgba(255,255,255,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:8px;color:#fff;font-size:0.85rem;box-sizing:border-box">
-                </div>
-            </div>
-            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
-                <button onclick="closeSaveModal()" style="padding:8px 16px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;cursor:pointer;font-size:0.85rem">Anulează</button>
-                <button onclick="confirmSaveSession()" style="padding:8px 16px;background:linear-gradient(135deg,#d4af37,#c5a028);border:none;border-radius:8px;color:#0d1025;cursor:pointer;font-weight:600;font-size:0.85rem">💾 Salvează</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-    // ═══ SESSION MANAGER — Save/Load/List sessions ═══
-    const SESSION_API = '/.netlify/functions/session-manager';
-    let sessionPanelOpen = false;
-    let sessionStartTime = Date.now();
-
-    function getSessionUser() {
-        try {
-            const u = JSON.parse(localStorage.getItem('kelion_user') || '{}');
-            return u.email || 'anonymous';
-        } catch(e) { return 'anonymous'; }
-    }
-
-    function toggleSessionPanel() {
-        const panel = document.getElementById('sessionPanel');
-        sessionPanelOpen = !sessionPanelOpen;
-        panel.style.display = sessionPanelOpen ? 'block' : 'none';
-        if (sessionPanelOpen) loadSessionList();
-    }
-
-    async function loadSessionList() {
-        const list = document.getElementById('sessionList');
-        list.innerHTML = '<p style="opacity:0.5">Se încarcă...</p>';
-        try {
-            const res = await fetch(SESSION_API, {
-                method: 'POST', headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({ action: 'list_sessions', user_email: getSessionUser() })
-            });
-            const data = await res.json();
-            if (!data.success || !data.sessions || data.sessions.length === 0) {
-                list.innerHTML = '<p style="opacity:0.5;text-align:center;padding:20px">Nicio sesiune salvată încă.<br>Folosește 💾 pentru a salva.</p>';
-                return;
-            }
-            // Group by category
-            const grouped = data.grouped || {};
-            let html = '';
-            const catIcons = { lesson:'📚', work:'💼', research:'🔬', presentation:'📊', general:'💬' };
-            const catNames = { lesson:'Lecții', work:'Proiecte', research:'Cercetare', presentation:'Prezentări', general:'General' };
-            for (const [cat, subjects] of Object.entries(grouped)) {
-                html += '<div style="margin-bottom:12px">';
-                html += '<div style="color:#d4af37;font-size:0.8rem;font-weight:600;margin-bottom:6px">' + (catIcons[cat]||'📄') + ' ' + (catNames[cat]||cat) + '</div>';
-                for (const [sub, sessions] of Object.entries(subjects)) {
-                    if (sub !== 'General') html += '<div style="color:rgba(255,255,255,0.5);font-size:0.7rem;margin-left:12px;margin-bottom:4px">' + sub + '</div>';
-                    for (const s of sessions) {
-                        const date = new Date(s.created_at).toLocaleString('ro-RO', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-                        const statusIcon = s.status === 'completed' ? '✅' : s.status === 'active' ? '🔵' : '⏸️';
-                        html += '<div onclick="loadSession(\'' + s.id + '\')" style="padding:8px 12px;margin:4px 0 4px 12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;transition:background 0.2s" onmouseover="this.style.background=\'rgba(212,175,55,0.1)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.03)\'">';
-                        html += '<div style="font-size:0.8rem;color:#fff">' + statusIcon + ' ' + s.title + '</div>';
-                        html += '<div style="font-size:0.65rem;color:rgba(255,255,255,0.4);margin-top:2px">' + date + ' · ' + (s.message_count||0) + ' mesaje</div>';
-                        html += '</div>';
-                    }
-                }
-                html += '</div>';
-            }
-            list.innerHTML = html;
-        } catch(e) {
-            list.innerHTML = '<p style="color:#e74c3c">Eroare: ' + e.message + '</p>';
-        }
-    }
-
-    async function loadSession(sessionId) {
-        try {
-            const res = await fetch(SESSION_API, {
-                method: 'POST', headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({ action: 'load_session', session_id: sessionId, user_email: getSessionUser() })
-            });
-            const data = await res.json();
-            if (!data.success || !data.session) { alert('Sesiunea nu a fost găsită'); return; }
-            const session = data.session;
-            // Clear current chat and load saved messages
-            const chatArea = document.getElementById('chatArea') || document.querySelector('[id*="chat"]');
-            if (chatArea) {
-                chatArea.innerHTML = '';
-                const msgs = Array.isArray(session.messages) ? session.messages : JSON.parse(session.messages || '[]');
-                msgs.forEach(m => {
-                    if (typeof addMsg === 'function') addMsg(m.role || 'user', m.content || m.text || '');
-                });
-            }
-            // Load monitor content if available
-            if (session.monitor_html) {
-                const monitor = document.getElementById('kMonitor') || document.getElementById('monitorContent');
-                if (monitor) monitor.innerHTML = session.monitor_html;
-            }
-            toggleSessionPanel();
-            console.log('[SESSION] Loaded:', session.title);
-        } catch(e) {
-            alert('Eroare la încărcare: ' + e.message);
-        }
-    }
-
-    function saveCurrentSession() {
-        // Auto-detect title from last messages
-        const msgs = document.querySelectorAll('[class*="msg"], [class*="message"]');
-        let autoTitle = '';
-        if (msgs.length > 0) {
-            const firstMsg = msgs[0]?.textContent?.substring(0, 60) || '';
-            autoTitle = firstMsg.replace(/[\n\r]/g, ' ').trim();
-        }
-        document.getElementById('sessionTitle').value = autoTitle;
-        // Auto-detect category from profession
-        const profSelect = document.getElementById('professionSelect');
-        if (profSelect && profSelect.value === 'professor') {
-            document.getElementById('sessionCategory').value = 'lesson';
-        }
-        // Show modal
-        const modal = document.getElementById('saveSessionModal');
-        modal.style.display = 'flex';
-    }
-
-    function closeSaveModal() {
-        document.getElementById('saveSessionModal').style.display = 'none';
-    }
-
-    async function confirmSaveSession() {
-        const title = document.getElementById('sessionTitle').value.trim();
-        if (!title) { alert('Introdu un titlu'); return; }
-
-        const category = document.getElementById('sessionCategory').value;
-        const subject = document.getElementById('sessionSubject').value.trim();
-
-        // Collect all messages from chat
-        const msgElements = document.querySelectorAll('[class*="msg"], [class*="message"]');
-        const messages = [];
-        msgElements.forEach(el => {
-            const role = el.classList.contains('user') || el.getAttribute('data-role') === 'user' ? 'user' : 'assistant';
-            messages.push({ role, content: el.textContent || '' });
-        });
-
-        // Get monitor content
-        const monitor = document.getElementById('kMonitor') || document.getElementById('monitorContent');
-        const monitorHtml = monitor ? monitor.innerHTML : '';
-
-        const duration = Date.now() - sessionStartTime;
-
-        try {
-            const res = await fetch(SESSION_API, {
-                method: 'POST', headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({
-                    action: 'save_session',
-                    user_email: getSessionUser(),
-                    title, category, subject,
-                    messages, monitor_html: monitorHtml,
-                    message_count: messages.length,
-                    duration_ms: duration,
-                    status: 'completed'
-                })
-            });
-            const data = await res.json();
-            if (data.success) {
-                closeSaveModal();
-                const btn = document.getElementById('btnSaveSession');
-                if(btn) { btn.textContent = '✅'; setTimeout(() => btn.textContent = '💾', 2000); }
-                console.log('[SESSION] Saved:', title);
-            } else {
-                alert('Eroare: ' + (data.error || 'necunoscută'));
-            }
-        } catch(e) {
-            alert('Eroare salvare: ' + e.message);
-        }
-    }
-    </script>
-
-
-    <!-- ═══ PLAN DIALOG — Structured planning for lessons/projects ═══ -->
-    <div id="planModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center">
-        <div style="background:#0d1025;border:1px solid rgba(155,89,182,0.3);border-radius:16px;padding:28px 24px;max-width:440px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-                <h3 style="color:#9b59b6;font-size:1rem;margin:0">📋 Planifică Sesiune</h3>
-                <button onclick="closePlanDialog()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:1.2rem;cursor:pointer">&times;</button>
-            </div>
-            <div style="margin-bottom:12px">
-                <label style="color:rgba(255,255,255,0.6);font-size:0.75rem;display:block;margin-bottom:4px">Ce vrei să faci?</label>
-                <select id="planType" style="width:100%;padding:8px;background:#0d1025;border:1px solid rgba(155,89,182,0.2);border-radius:8px;color:#fff;font-size:0.85rem">
-                    <option value="lesson">📚 Lecție</option>
-                    <option value="work">💼 Proiect</option>
-                    <option value="research">🔬 Cercetare</option>
-                    <option value="presentation">📊 Prezentare</option>
-                </select>
-            </div>
-            <div style="margin-bottom:12px">
-                <label style="color:rgba(255,255,255,0.6);font-size:0.75rem;display:block;margin-bottom:4px">Materia / Subiectul</label>
-                <input type="text" id="planSubject" placeholder="ex: Chimie, Marketing, JavaScript" style="width:100%;padding:8px 12px;background:rgba(255,255,255,0.05);border:1px solid rgba(155,89,182,0.2);border-radius:8px;color:#fff;font-size:0.85rem;box-sizing:border-box">
-            </div>
-            <div style="display:flex;gap:8px;margin-bottom:12px">
-                <div style="flex:1">
-                    <label style="color:rgba(255,255,255,0.6);font-size:0.75rem;display:block;margin-bottom:4px">Nivel</label>
-                    <select id="planLevel" style="width:100%;padding:8px;background:#0d1025;border:1px solid rgba(155,89,182,0.2);border-radius:8px;color:#fff;font-size:0.85rem">
-                        <option value="cls5-8">Cls. 5-8</option>
-                        <option value="cls9-12">Cls. 9-12</option>
-                        <option value="universitar">Universitar</option>
-                        <option value="adult" selected>Adult</option>
-                        <option value="beginner">Începător</option>
-                        <option value="advanced">Avansat</option>
-                    </select>
-                </div>
-                <div style="flex:1">
-                    <label style="color:rgba(255,255,255,0.6);font-size:0.75rem;display:block;margin-bottom:4px">Durată</label>
-                    <select id="planDuration" style="width:100%;padding:8px;background:#0d1025;border:1px solid rgba(155,89,182,0.2);border-radius:8px;color:#fff;font-size:0.85rem">
-                        <option value="15">15 min</option>
-                        <option value="30" selected>30 min</option>
-                        <option value="45">45 min</option>
-                        <option value="60">60 min</option>
-                        <option value="90">90 min</option>
-                    </select>
-                </div>
-            </div>
-            <div style="margin-bottom:12px">
-                <label style="color:rgba(255,255,255,0.6);font-size:0.75rem;display:block;margin-bottom:4px">Câte ședințe?</label>
-                <select id="planSessions" style="width:100%;padding:8px;background:#0d1025;border:1px solid rgba(155,89,182,0.2);border-radius:8px;color:#fff;font-size:0.85rem">
-                    <option value="1" selected>1 ședință</option>
-                    <option value="2">2 ședințe</option>
-                    <option value="3">3 ședințe</option>
-                    <option value="5">5 ședințe</option>
-                    <option value="10">10 ședințe</option>
-                </select>
-            </div>
-            <div style="margin-bottom:12px">
-                <label style="color:rgba(255,255,255,0.6);font-size:0.75rem;display:block;margin-bottom:4px">Detalii suplimentare (opțional)</label>
-                <input type="text" id="planDetails" placeholder="ex: Focus pe exerciții practice" style="width:100%;padding:8px 12px;background:rgba(255,255,255,0.05);border:1px solid rgba(155,89,182,0.2);border-radius:8px;color:#fff;font-size:0.85rem;box-sizing:border-box">
-            </div>
-            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
-                <button onclick="closePlanDialog()" style="padding:8px 16px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;cursor:pointer;font-size:0.85rem">Anulează</button>
-                <button onclick="submitPlan()" style="padding:8px 16px;background:linear-gradient(135deg,#9b59b6,#8e44ad);border:none;border-radius:8px;color:#fff;cursor:pointer;font-weight:600;font-size:0.85rem">🚀 Generează Plan</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-    // ═══ PLAN DIALOG LOGIC ═══
-    function openPlanDialog() {
-        // Auto-set profession to professor if available
-        const profSelect = document.getElementById('professionSelect');
-        if (profSelect && profSelect.value === 'general') {
-            profSelect.value = 'professor';
-            if (typeof onProfessionChange === 'function') onProfessionChange();
-        }
-        document.getElementById('planModal').style.display = 'flex';
-    }
-
-    function closePlanDialog() {
-        document.getElementById('planModal').style.display = 'none';
-    }
-
-    function submitPlan() {
-        const typeNames = { lesson: 'Lecție', work: 'Proiect', research: 'Cercetare', presentation: 'Prezentare' };
-        const levelNames = { 'cls5-8': 'Clasele 5-8', 'cls9-12': 'Clasele 9-12', universitar: 'Universitar', adult: 'Adult', beginner: 'Începător', advanced: 'Avansat' };
-
-        const type = document.getElementById('planType').value;
-        const subject = document.getElementById('planSubject').value.trim() || 'General';
-        const level = document.getElementById('planLevel').value;
-        const duration = document.getElementById('planDuration').value;
-        const sessions = document.getElementById('planSessions').value;
-        const details = document.getElementById('planDetails').value.trim();
-
-        // Build structured message for K
-        let planMsg = 'Vreau să planificăm o ' + (typeNames[type] || type) + ':\n';
-        planMsg += '📚 Materie: ' + subject + '\n';
-        planMsg += '🎯 Nivel: ' + (levelNames[level] || level) + '\n';
-        planMsg += '⏱️ Durată: ' + duration + ' minute per ședință\n';
-        planMsg += '📅 Număr ședințe: ' + sessions + '\n';
-        if (details) planMsg += '📝 Detalii: ' + details + '\n';
-        planMsg += '\nGenerează-mi planul structurat cu subiectele pentru fiecare ședință.';
-
-        // Auto-set category and subject for future save
-        window._planCategory = type;
-        window._planSubject = subject;
-        window._planSessions = parseInt(sessions);
-
-        closePlanDialog();
-
-        // Send as message
-        if (typeof sendMessage === 'function') {
-            sendMessage(planMsg);
-        }
-    }
-
-    // ═══ AUTO-SAVE — Save session when user leaves or after inactivity ═══
-    let _autoSaveTimer = null;
-    let _lastMsgCount = 0;
-
-    function autoSaveCheck() {
-        const msgElements = document.querySelectorAll('[class*="msg"], [class*="message"]');
-        const currentCount = msgElements.length;
-
-        // Only auto-save if there are new messages (min 2 messages = 1 Q&A)
-        if (currentCount >= 2 && currentCount !== _lastMsgCount) {
-            _lastMsgCount = currentCount;
-
-            // Reset timer: save 30s after last message
-            clearTimeout(_autoSaveTimer);
-            _autoSaveTimer = setTimeout(() => {
-                autoSaveSession();
-            }, 30000);
-        }
-    }
-
-    async function autoSaveSession() {
-        const msgElements = document.querySelectorAll('[class*="msg"], [class*="message"]');
-        if (msgElements.length < 2) return;
-
-        const messages = [];
-        msgElements.forEach(el => {
-            const role = el.classList.contains('user') || el.getAttribute('data-role') === 'user' ? 'user' : 'assistant';
-            messages.push({ role, content: el.textContent || '' });
-        });
-
-        // Auto-generate title from first user message
-        const firstUserMsg = messages.find(m => m.role === 'user');
-        const title = firstUserMsg ? firstUserMsg.content.substring(0, 80).replace(/[\n\r]/g, ' ').trim() : 'Sesiune ' + new Date().toLocaleString('ro-RO');
-
-        const category = window._planCategory || 'general';
-        const subject = window._planSubject || '';
-        const duration = Date.now() - sessionStartTime;
-
-        try {
-            await fetch(SESSION_API, {
-                method: 'POST', headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({
-                    action: 'save_session',
-                    user_email: getSessionUser(),
-                    title: '🔄 ' + title,
-                    category, subject,
-                    messages,
-                    message_count: messages.length,
-                    duration_ms: duration,
-                    status: 'active'
-                })
-            });
-            console.log('[AUTO-SAVE] Session saved:', title);
-        } catch(e) {
-            console.log('[AUTO-SAVE] Failed:', e.message);
-        }
-    }
-
-    // Hook auto-save to message events: check every 5s
-    setInterval(autoSaveCheck, 5000);
-
-    // Save on page unload
-    window.addEventListener('beforeunload', () => {
-        const msgElements = document.querySelectorAll('[class*="msg"], [class*="message"]');
-        if (msgElements.length >= 2) {
-            // Use sendBeacon for reliable save on close
-            const messages = [];
-            msgElements.forEach(el => {
-                const role = el.classList.contains('user') || el.getAttribute('data-role') === 'user' ? 'user' : 'assistant';
-                messages.push({ role, content: (el.textContent || '').substring(0, 500) });
-            });
-            const firstUserMsg = messages.find(m => m.role === 'user');
-            const title = firstUserMsg ? firstUserMsg.content.substring(0, 80) : 'Sesiune';
-            navigator.sendBeacon(SESSION_API, JSON.stringify({
-                action: 'save_session',
-                user_email: getSessionUser(),
-                title: '🔄 ' + title,
-                category: window._planCategory || 'general',
-                subject: window._planSubject || '',
-                messages,
-                message_count: messages.length,
-                duration_ms: Date.now() - sessionStartTime,
-                status: 'completed'
-            }));
-        }
-    });
-
-    // Pre-fill save modal with plan data if available
-    const origSaveCurrentSession = saveCurrentSession;
-    saveCurrentSession = function() {
-        origSaveCurrentSession();
-        if (window._planCategory) document.getElementById('sessionCategory').value = window._planCategory;
-        if (window._planSubject) document.getElementById('sessionSubject').value = window._planSubject;
-    };
-    </script>
-
-<script>
-    // === MONITOR EXPORT - Save K Monitor content as HTML file ===
-    function saveMonitorContent() {
-        document.getElementById('exportMenu').classList.remove('show');
-        var monitorEl = document.querySelector('.k-monitor-content') || document.querySelector('.k-monitor');
-        if (!monitorEl) { addMsg('system', 'No monitor content to save.'); return; }
-        var htmlContent = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>K Monitor Export</title></head><body>' + monitorEl.innerHTML + '<script src="/components/back-button.js"></script>
-<script src="/components/visitor-tracker.js"></script>
-</body></html>';
-        var blob = new Blob([htmlContent], { type: 'text/html' });
-        downloadBlob(blob, 'k-monitor-' + Date.now() + '.html');
-        addMsg('system', 'Monitor content saved.');
-    }
+</html>`], { type: 'text/html' });
+downloadBlob(blob, `k-monitor-${Date.now()}.html`);
+addMsg('system', '💾 Monitor content saved.');
+}
 
 // ═══ SCREENSHOT — capture chat panel as image ═══
 function saveScreenshot() {
@@ -2603,9 +2175,7 @@ const blob = new Blob([`
     </style>
 </head>
 
-<body>${monitor.innerHTML}<script src="/components/back-button.js"></script>
-<script src="/components/visitor-tracker.js"></script>
-</body>
+<body>${monitor.innerHTML}</body>
 
 </html>`], { type: 'text/html' });
 downloadBlob(blob, `k-export-${Date.now()}.html`);
@@ -2652,9 +2222,7 @@ printWin.document.write(`
     </style>
 </head>
 
-<body>${monitor.innerHTML}<script src="/components/back-button.js"></script>
-<script src="/components/visitor-tracker.js"></script>
-</body>
+<body>${monitor.innerHTML}</body>
 
 </html>`);
 printWin.document.close();
@@ -2911,7 +2479,6 @@ let md = monitor.innerHTML
     <script type="module">
         import * as THREE from 'three';
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
         // ═══ K 3D AVATAR STATE ═══
@@ -3069,10 +2636,7 @@ let md = monitor.innerHTML
                 kCurrentModel = null;
             }
 
-            const dracoLoader = new DRACOLoader();
-            dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
             const loader = new GLTFLoader();
-            loader.setDRACOLoader(dracoLoader);
             loader.load(kModelPaths[gender], (gltf) => {
                 kCurrentModel = gltf.scene;
                 // Center and scale — bust framing, face forward
@@ -3281,8 +2845,6 @@ let md = monitor.innerHTML
             }
         })();
     </script>
-<script src="/components/back-button.js"></script>
-<script src="/components/visitor-tracker.js"></script>
 </body>
 
 </html>

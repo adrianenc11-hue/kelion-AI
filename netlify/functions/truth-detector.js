@@ -10,7 +10,7 @@ const { patchProcessEnv } = require('./get-secret');
 // This flag is HARDCODED true. Cannot be changed from frontend.
 // Only admin email holder can request deactivation via authenticated endpoint.
 const TRUTH_SHIELD_ACTIVE = true;
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@kelionai.app';
 
 // ═══ BENFORD'S LAW DISTRIBUTION ═══
 const BENFORD_EXPECTED = [0, 0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046];

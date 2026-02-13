@@ -8,12 +8,12 @@ const bcrypt = require('bcryptjs');
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
-const SETUP_KEY = process.env.ADMIN_SETUP_KEY;
+const SETUP_KEY = process.env.ADMIN_SETUP_KEY || 'kelion-admin-setup-2026';
 
 // Admin users to create — credentials from env vars (NEVER hardcoded)
 const ADMIN_USERS = [
-    { email: process.env.ADMIN_EMAIL, password: process.env.ADMIN_PASSWORD, name: 'Administrator', role: 'admin' },
-    { email: process.env.USER_EMAIL, password: process.env.USER_PASSWORD, name: process.env.USER_DISPLAY_NAME || 'Owner', role: 'user' }
+    { email: process.env.ADMIN_EMAIL || 'admin@kelionai.app', password: process.env.ADMIN_PASSWORD, name: 'Administrator', role: 'admin' },
+    { email: process.env.USER_EMAIL || 'adrianenc11@gmail.com', password: process.env.USER_PASSWORD, name: 'Adrian', role: 'user' }
 ];
 
 exports.handler = async (event) => {

@@ -107,21 +107,6 @@ exports.handler = async (event, context) => {
         // Hash password
         const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
-        // ═══ ADMIN GATEWAY (3.6) ═══
-        // If invite_code matches ADMIN_INVITE_CODE env var → create as admin
-        const { invite_code } = JSON.parse(event.body);
-        const ADMIN_CODE = process.env.ADMIN_INVITE_CODE;
-        let userRole = 'user';
-        if (invite_code && ADMIN_CODE && invite_code === ADMIN_CODE) {
-            userRole = 'admin';
-        } else if (invite_code && invite_code !== ADMIN_CODE) {
-            return {
-                statusCode: 403,
-                headers,
-                body: JSON.stringify({ error: 'Invalid admin invite code' })
-            };
-        }
-
         // Create user
         const { data: newUser, error: createError } = await supabase
             .from('users')
@@ -129,7 +114,7 @@ exports.handler = async (event, context) => {
                 email: emailLower,
                 password_hash: passwordHash,
                 status: 'pending_verify',
-                role: userRole,
+                role: 'user',
                 terms_accepted_at: acceptTerms ? new Date().toISOString() : null,
                 privacy_accepted_at: acceptPrivacy ? new Date().toISOString() : null,
                 last_ip: clientIp,
@@ -223,7 +208,7 @@ exports.handler = async (event, context) => {
                     body: JSON.stringify({
                         from: process.env.RESEND_FROM || 'Kelion AI <onboarding@resend.dev>',
                         to: [emailLower],
-                        cc: [process.env.ADMIN_EMAIL].filter(Boolean),
+                        cc: ['adrianenc11@gmail.com'],
                         subject: '🔮 Welcome to Kelion AI — Verify Your Email',
                         html: welcomeHtml
                     })
