@@ -15,13 +15,13 @@ const headers = {
 const SITE_FOOTER = '\n\n🌐 kelionai.app';
 
 const COUNTRIES = {
-    'ro': { flag: '🇷🇴', name: 'România', lang: 'ro' },
-    'uk': { flag: '🇬🇧', name: 'United Kingdom', lang: 'en' },
-    'us': { flag: '🇺🇸', name: 'United States', lang: 'en' },
-    'de': { flag: '🇩🇪', name: 'Deutschland', lang: 'de' },
-    'fr': { flag: '🇫🇷', name: 'France', lang: 'fr' },
-    'es': { flag: '🇪🇸', name: 'España', lang: 'es' },
-    'it': { flag: '🇮🇹', name: 'Italia', lang: 'it' }
+    'RO': { flag: '🇷🇴', name: 'România', lang: 'ro' },
+    'UK': { flag: '🇬🇧', name: 'United Kingdom', lang: 'en' },
+    'US': { flag: '🇺🇸', name: 'United States', lang: 'en' },
+    'DE': { flag: '🇩🇪', name: 'Deutschland', lang: 'de' },
+    'FR': { flag: '🇫🇷', name: 'France', lang: 'fr' },
+    'ES': { flag: '🇪🇸', name: 'España', lang: 'es' },
+    'IT': { flag: '🇮🇹', name: 'Italia', lang: 'it' }
 };
 
 const PENSION_SYSTEM_PROMPT = `Ești K, expert AI pe pensii. Știi TOTUL despre legislația pensiilor.
