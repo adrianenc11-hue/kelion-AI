@@ -1236,7 +1236,14 @@
 
         .av-panel:hover .av-name {
             color: #fff;
-            text-shadow: 0 0 20px var(--av-glow);
+            text-shadow:
+                0 1px 0 #ccc,
+                0 2px 0 #bbb,
+                0 3px 0 #aaa,
+                0 4px 0 #999,
+                0 5px 8px rgba(0, 0, 0, 0.4),
+                0 0 25px var(--av-glow);
+            animation: nameFlip3D 4s ease-in-out 1;
         }
 
         .av-panel.av-male {
@@ -1328,8 +1335,34 @@
             font-size: clamp(1.6rem, 3vw, 2.6rem);
             font-weight: 900;
             color: rgba(255, 255, 255, 0.7);
-            transition: all .3s;
+            transition: color .3s, text-shadow .3s;
             margin-bottom: 6px;
+            text-shadow:
+                0 1px 0 rgba(200, 200, 200, 0.3),
+                0 2px 0 rgba(180, 180, 180, 0.2),
+                0 3px 0 rgba(150, 150, 150, 0.15),
+                0 4px 6px rgba(0, 0, 0, 0.3);
+            letter-spacing: 3px;
+            perspective: 600px;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes nameFlip3D {
+            0% {
+                transform: rotateY(0deg);
+            }
+
+            50% {
+                transform: rotateY(0deg);
+            }
+
+            75% {
+                transform: rotateY(360deg);
+            }
+
+            100% {
+                transform: rotateY(360deg);
+            }
         }
 
         .av-role {
