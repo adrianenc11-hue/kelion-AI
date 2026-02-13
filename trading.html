@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="description" content="AI-powered trading bot with real-time market analysis, automated strategies, and comprehensive dashboard. Built into Kelion AI platform.">
+    <meta name="keywords" content="AI trading bot, automated trading, trading dashboard, cryptocurrency trading">
+    <meta name="author" content="Kelion AI">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph -->
+    <meta property="og:title" content="AI Trading Bot — Kelion AI">
+    <meta property="og:description" content="AI-powered trading bot with real-time market analysis, automated strategies, and comprehensive dashboard. Built into Kelion AI platform.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kelionai.app/trading.html">
+    <meta property="og:image" content="https://kelionai.app/hologram-512.png">
+    <meta property="og:site_name" content="Kelion AI">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Trading Bot — Kelion AI">
+    <meta name="twitter:description" content="AI-powered trading bot with real-time market analysis, automated strategies, and comprehensive dashboard. Built into Kelion AI platform.">
+    <meta name="twitter:image" content="https://kelionai.app/hologram-512.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelion Trading Bot — Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0b10;
+            --bg2: #12141c;
+            --bg3: #1a1d28;
+            --cyan: #00e5ff;
+            --green: #00ff88;
+            --red: #ff4466;
+            --yellow: #ffaa00;
+            --purple: #9b59b6;
+            --white: #e8eaed;
+            --dim: #6b7280;
+            --border: rgba(255, 255, 255, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header h1 {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .header h1 span {
+            color: var(--cyan);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 16px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-paper {
+            background: rgba(255, 170, 0, 0.15);
+            color: var(--yellow);
+            border: 1px solid rgba(255, 170, 0, 0.3);
+        }
+
+        .badge-live {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--green);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .badge-mkt {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--dim);
+        }
+
+        .toggle-btn {
+            padding: 7px 18px;
+            border-radius: 7px;
+            border: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .3s;
+        }
+
+        .toggle-on {
+            background: var(--green);
+            color: #000;
+        }
+
+        .toggle-off {
+            background: var(--bg3);
+            color: var(--dim);
+            border: 1px solid var(--border);
+        }
+
+        .back-link {
+            color: var(--cyan);
+            text-decoration: none;
+            font-size: 12px;
+            margin-right: 14px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 14px;
+            padding: 16px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .card-hd {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .card-tl {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .sg {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .st {
+            background: var(--bg3);
+            border-radius: 7px;
+            padding: 12px;
+        }
+
+        .st-l {
+            font-size: 10px;
+            color: var(--dim);
+            margin-bottom: 3px;
+        }
+
+        .st-v {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .st-s {
+            font-size: 9px;
+            color: var(--dim);
+            margin-top: 2px;
+        }
+
+        .pos {
+            color: var(--green);
+        }
+
+        .neg {
+            color: var(--red);
+        }
+
+        .neu {
+            color: var(--cyan);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        th {
+            text-align: left;
+            padding: 6px;
+            color: var(--dim);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+            font-size: 10px;
+        }
+
+        td {
+            padding: 6px;
+            border-bottom: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+        }
+
+        tr:hover {
+            background: rgba(0, 229, 255, .02);
+        }
+
+        .sr {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sn {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .sb {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .sb-g {
+            background: rgba(0, 255, 136, .15);
+            color: var(--green);
+        }
+
+        .sb-r {
+            background: rgba(255, 68, 102, .15);
+            color: var(--red);
+        }
+
+        .sb-d {
+            background: rgba(255, 255, 255, .06);
+            color: var(--dim);
+        }
+
+        .cr {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cr-l {
+            font-size: 11px;
+        }
+
+        .cr-v {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+
+        .log-e {
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 10px;
+            color: var(--dim);
+        }
+
+        .log-t {
+            color: var(--cyan);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+        }
+
+        .full {
+            grid-column: 1/-1;
+        }
+
+        .btn-a {
+            padding: 5px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--cyan);
+            background: transparent;
+            color: var(--cyan);
+            font-size: 10px;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .btn-a:hover {
+            background: rgba(0, 229, 255, .1);
+        }
+
+        .ld {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            color: var(--dim);
+        }
+
+        .sp {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border);
+            border-top-color: var(--cyan);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media(max-width:768px) {
+            .grid {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+
+            .st-v {
+                font-size: 15px;
+            }
+        }
+
+        /* ═══ ADMIN FOOTER ═══ */
+        .admin-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+            border-top: 1px solid rgba(0, 229, 255, 0.15);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            font-size: 12px;
+            backdrop-filter: blur(12px);
+        }
+
+        .admin-footer .credit-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .admin-footer .credit-bar {
+            width: 120px;
+            height: 8px;
+            background: var(--bg3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .admin-footer .credit-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .admin-footer .recharge-btn {
+            background: linear-gradient(135deg, #ff4466, #ff6644);
+            color: #fff;
+            border: none;
+            padding: 5px 14px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            animation: pulse-recharge 2s infinite;
+        }
+
+        @keyframes pulse-recharge {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 68, 102, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 12px 4px rgba(255, 68, 102, 0.2);
+            }
+        }
+
+        .admin-footer .admin-name {
+            color: var(--cyan);
+            font-weight: 600;
+        }
+
+        /* ═══ TRAFFIC TABLE ═══ */
+        .traffic-table {
+            width: 100%;
+            font-size: 11px;
+        }
+
+        .traffic-table th {
+            text-align: left;
+            padding: 6px;
+            color: var(--dim);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+            font-size: 10px;
+        }
+
+        .traffic-table td {
+            padding: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 11px;
+        }
+
+        .traffic-table tr:hover {
+            background: rgba(0, 229, 255, 0.03);
+        }
+
+        .flag-icon {
+            font-size: 14px;
+            margin-right: 4px;
+        }
+
+        .device-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .device-desktop {
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--cyan);
+        }
+
+        .device-mobile {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--green);
+        }
+
+        .device-tablet {
+            background: rgba(255, 170, 0, 0.1);
+            color: var(--yellow);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div style="display:flex;align-items:center;">
+            <a href="/app.html" class="back-link">← K</a>
+            <h1>🤖 Kelion <span>Trading Bot</span></h1>
+        </div>
+        <div class="header-actions">
+            <span id="modeBadge" class="badge badge-paper">PAPER</span>
+            <span id="mktBadge" class="badge badge-mkt">⏳</span>
+            <button id="toggleBot" class="toggle-btn toggle-off" onclick="toggleBot()">BOT OFF</button>
+        </div>
+    </div>
+    <div class="grid" id="dashboard">
+        <div class="ld" id="loading">
+            <div class="sp"></div>Loading...
+        </div>
+    </div>
+
+    <!-- ═══ ADMIN FOOTER — Credit/Name/Recharge ═══ -->
+    <div class="admin-footer" id="adminFooter" style="display:none">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <span>👤</span>
+            <span class="admin-name" id="adminName">Admin</span>
+            <span style="color:var(--dim)">|</span>
+            <span style="color:var(--dim)" id="adminEmail">—</span>
+        </div>
+        <div class="credit-section">
+            <span style="color:var(--dim)">🧠 AI Credit:</span>
+            <div class="credit-bar">
+                <div class="credit-fill" id="creditFill" style="width:100%;background:var(--green)"></div>
+            </div>
+            <span id="creditText" style="font-family:'JetBrains Mono',monospace;color:var(--green)">—</span>
+            <button class="recharge-btn" id="rechargeBtn" style="display:none" onclick="openRecharge()">⚡ Recharge
+                Credit</button>
+        </div>
+    </div>
+
+    <script>
+        const API = '/.netlify/functions';
+        let adminEmail = '';
+
+        // ═══ ADMIN GATE — Verify via backend API ═══
+        (async function init() {
+            const u = JSON.parse(localStorage.getItem('kelion_user') || '{}');
+            if (!u.email) {
+                document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#ff4466;font-size:16px;">⛔ Admin only — authentication required</div>';
+                return;
+            }
+
+            // Verify admin via backend (email checked against env secret)
+            try {
+                const check = await api('admin-panel', { email: u.email, action: 'overview' });
+                if (!check.success) {
+                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#ff4466;font-size:16px;">⛔ Admin only — restricted access</div>';
+                    return;
+                }
+                adminEmail = u.email;
+                document.getElementById('adminName').textContent = u.name || 'Administrator';
+                document.getElementById('adminEmail').textContent = u.email;
+                document.getElementById('adminFooter').style.display = 'flex';
+            } catch (e) {
+                document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;color:#ff4466;font-size:16px;">⛔ Admin verification error</div>';
+                return;
+            }
+
+            await load();
+            loadTraffic();
+            loadCredits();
+            setInterval(load, 60000);
+            setInterval(loadTraffic, 120000);
+            setInterval(loadCredits, 300000);
+        })();
+
+        async function load() {
+            try {
+                const [st, stats, tr, pat] = await Promise.allSettled([
+                    api('trading-bot-engine', { action: 'status' }),
+                    api('trading-memory', { action: 'get_stats', period: '30d' }),
+                    api('trading-memory', { action: 'get_trades', limit: 20 }),
+                    api('trading-memory', { action: 'get_patterns' })
+                ]);
+                render(v(st), v(stats), v(tr), v(pat));
+            } catch (e) { console.error(e); }
+        }
+        function v(r) { return r.status === 'fulfilled' ? r.value : {}; }
+
+        // ═══ REAL TRAFFIC — Load visitor data with identification ═══
+        async function loadTraffic() {
+            try {
+                const res = await fetch(`${API}/page-tracking`, { method: 'GET' });
+                const data = await res.json();
+                if (data.success && data.data) {
+                    renderTraffic(data.data);
+                }
+            } catch (e) { console.error('Traffic load error:', e); }
+        }
+
+        function renderTraffic(visitors) {
+            const trafficCard = document.getElementById('trafficCard');
+            if (!trafficCard) return;
+
+            const uniqueIPs = new Set(visitors.map(v => v.ip)).size;
+            const countries = {};
+            visitors.forEach(v => {
+                const c = v.geo?.country || 'Unknown';
+                countries[c] = (countries[c] || 0) + 1;
+            });
+
+            const countryFlags = {
+                'Romania': '🇷🇴', 'United States': '🇺🇸', 'Germany': '🇩🇪', 'France': '🇫🇷',
+                'United Kingdom': '🇬🇧', 'Netherlands': '🇳🇱', 'Spain': '🇪🇸', 'Italy': '🇮🇹',
+                'Canada': '🇨🇦', 'Australia': '🇦🇺', 'Japan': '🇯🇵', 'India': '🇮🇳', 'Brazil': '🇧🇷'
+            };
+
+            trafficCard.innerHTML = `
+                <div class="card-hd"><span class="card-tl">🌍 Real Traffic</span><span style="color:var(--green);font-size:11px">${uniqueIPs} unique visitors</span></div>
+                <div style="margin:8px 0;display:flex;flex-wrap:wrap;gap:8px;">
+                    ${Object.entries(countries).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([c, n]) =>
+                `<span style="padding:3px 8px;background:var(--bg3);border-radius:5px;font-size:10px;">${countryFlags[c] || '🌐'} ${c}: ${n}</span>`
+            ).join('')}
+                </div>
+                <div style="overflow-x:auto;max-height:300px;overflow-y:auto;">
+                <table class="traffic-table">
+                    <thead><tr><th>Time</th><th>Page</th><th>Location</th><th>Device</th><th>Browser</th><th>ISP</th></tr></thead>
+                    <tbody>
+                    ${visitors.slice(0, 30).map(v => `<tr>
+                        <td style="white-space:nowrap;color:var(--dim)">${new Date(v.timestamp).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' })}</td>
+                        <td style="color:var(--cyan)">${v.page || '/'}</td>
+                        <td><span class="flag-icon">${countryFlags[v.geo?.country] || '🌐'}</span>${v.geo?.city || '—'}, ${v.geo?.country || '—'}</td>
+                        <td><span class="device-badge device-${(v.device?.device || 'desktop').toLowerCase()}">${v.device?.device || 'Desktop'}</span></td>
+                        <td>${v.device?.browser || '—'} / ${v.device?.os || '—'}</td>
+                        <td style="color:var(--dim);font-size:10px">${v.geo?.isp || '—'}</td>
+                    </tr>`).join('')}
+                    </tbody>
+                </table></div>`;
+        }
+
+        // ═══ AI CREDITS — Load and display with low-credit alert ═══
+        async function loadCredits() {
+            try {
+                const data = await api('admin-panel', { email: adminEmail, action: 'ai_credits', period: '30d' });
+                if (data.success) {
+                    const totalReqs = data.total_requests || 0;
+                    const cost = data.total_cost_estimate || '$0';
+                    const costNum = parseFloat(cost.replace('$', ''));
+
+                    // Credit estimation (higher cost = more credit used)
+                    const maxBudget = 50; // $50 monthly budget assumption
+                    const usedPct = Math.min(100, (costNum / maxBudget) * 100);
+                    const remainPct = Math.max(0, 100 - usedPct);
+
+                    const fill = document.getElementById('creditFill');
+                    const text = document.getElementById('creditText');
+                    const btn = document.getElementById('rechargeBtn');
+
+                    fill.style.width = remainPct + '%';
+                    if (remainPct > 50) {
+                        fill.style.background = 'var(--green)';
+                        text.style.color = 'var(--green)';
+                    } else if (remainPct > 20) {
+                        fill.style.background = 'var(--yellow)';
+                        text.style.color = 'var(--yellow)';
+                    } else {
+                        fill.style.background = 'var(--red)';
+                        text.style.color = 'var(--red)';
+                    }
+                    text.textContent = `${remainPct.toFixed(0)}% (${totalReqs} req / ${cost})`;
+
+                    // Show recharge button if credit is low
+                    if (remainPct < 30) {
+                        btn.style.display = 'inline-block';
+                    } else {
+                        btn.style.display = 'none';
+                    }
+                }
+            } catch (e) { console.error('Credit load error:', e); }
+        }
+
+        function openRecharge() {
+            // Open AI provider billing page or custom recharge flow
+            const rechargeUrl = 'https://platform.openai.com/account/billing/overview';
+            window.open(rechargeUrl, '_blank');
+        }
+
+        function render(s, stats, tr, pat) {
+            const on = s.bot_enabled, mode = s.mode || 'paper';
+            document.getElementById('modeBadge').className = `badge badge-${mode}`;
+            document.getElementById('modeBadge').textContent = mode.toUpperCase();
+            document.getElementById('toggleBot').className = `toggle-btn ${on ? 'toggle-on' : 'toggle-off'}`;
+            document.getElementById('toggleBot').textContent = on ? 'BOT ON 🟢' : 'BOT OFF';
+            const mb = document.getElementById('mktBadge');
+            mb.textContent = s.market === 'open' ? '🟢 Open' : '🔴 Closed';
+            mb.style.color = s.market === 'open' ? 'var(--green)' : 'var(--red)';
+
+            const pnl = parseFloat((stats.total_pnl || '$0').replace(/[$,]/g, ''));
+            const wr = stats.win_rate || '0%';
+
+            document.getElementById('dashboard').innerHTML = `
+    <div class="card"><div class="card-hd"><span class="card-tl">💰 Account</span></div>
+        <div class="sg">
+            <div class="st"><div class="st-l">Equity</div><div class="st-v neu">${s.account?.equity || '$0'}</div></div>
+            <div class="st"><div class="st-l">Buying Power</div><div class="st-v">${s.account?.buying_power || '$0'}</div></div>
+            <div class="st"><div class="st-l">Daily P&L</div><div class="st-v ${parseFloat(s.account?.daily_pnl || 0) >= 0 ? 'pos' : 'neg'}">${s.account?.daily_pnl || '$0'}</div></div>
+            <div class="st"><div class="st-l">Positions</div><div class="st-v">${s.open_positions || 0}</div></div>
+        </div>
+    </div>
+    <div class="card"><div class="card-hd"><span class="card-tl">📈 30 Days</span></div>
+        <div class="sg">
+            <div class="st"><div class="st-l">P&L Total</div><div class="st-v ${pnl >= 0 ? 'pos' : 'neg'}">${stats.total_pnl || '$0'}</div></div>
+            <div class="st"><div class="st-l">Win Rate</div><div class="st-v ${parseFloat(wr) >= 55 ? 'pos' : parseFloat(wr) < 45 ? 'neg' : ''}">${wr}</div></div>
+            <div class="st"><div class="st-l">Trades</div><div class="st-v">${stats.total_trades || 0}</div><div class="st-s">${stats.wins || 0}W / ${stats.losses || 0}L</div></div>
+            <div class="st"><div class="st-l">Max DD</div><div class="st-v neg">${stats.max_drawdown || '$0'}</div></div>
+        </div>
+    </div>
+    <div class="card"><div class="card-hd"><span class="card-tl">👁️ Watchlist</span><button class="btn-a" onclick="runEval()">▶ Evaluate</button></div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;">
+            ${(s.watchlist || []).map(x => `<span style="padding:3px 8px;background:var(--bg3);border-radius:5px;font-size:10px;font-family:'JetBrains Mono',monospace;">${x}</span>`).join('')}
+        </div>
+    </div>
+    <div class="card"><div class="card-hd"><span class="card-tl">🧠 Strategies</span></div>
+        ${Object.entries(s.strategies || {}).map(([n, a]) => `<div class="sr"><span class="sn">${n.replace(/_/g, ' ').toUpperCase()}</span><span class="sb ${a ? 'sb-g' : 'sb-d'}">${a ? 'ON' : 'OFF'}</span></div>`).join('')}
+    </div>
+    <div class="card"><div class="card-hd"><span class="card-tl">🛡️ Risk</span></div>
+        <div class="cr"><span class="cr-l">Max Position</span><span class="cr-v">${s.risk_settings?.max_position_pct || 5}%</span></div>
+        <div class="cr"><span class="cr-l">Stop Loss</span><span class="cr-v">${s.risk_settings?.stop_loss_pct || 5}%</span></div>
+        <div class="cr"><span class="cr-l">Take Profit</span><span class="cr-v">${s.risk_settings?.take_profit_pct || 10}%</span></div>
+        <div class="cr"><span class="cr-l">Trailing Stop</span><span class="cr-v">${s.risk_settings?.trailing_stop_pct || 3}%</span></div>
+        <div class="cr"><span class="cr-l">Min Confidence</span><span class="cr-v">${s.risk_settings?.min_confidence || 65}%</span></div>
+        <div class="cr"><span class="cr-l">Max Trades/Day</span><span class="cr-v">${s.risk_settings?.max_daily_trades || 10}</span></div>
+    </div>
+    <!-- ═══ TRAFFIC CARD ═══ -->
+    <div class="card full" id="trafficCard"><div class="card-hd"><span class="card-tl">🌍 Real Traffic</span></div>
+        <div style="color:var(--dim);font-size:11px;padding:8px 0;"><div class="sp"></div>Loading traffic...</div>
+    </div>
+    <div class="card"><div class="card-hd"><span class="card-tl">🧬 Patterns</span><button class="btn-a" onclick="runLearn()">🔄 Learn</button></div>
+        ${(pat.patterns || []).length ? (pat.patterns || []).slice(0, 8).map(p => `<div class="sr"><div><div class="sn">${p.strategy || '?'} / ${p.symbol || '?'}</div><div style="font-size:9px;color:var(--dim);">${p.total_trades || 0} trades | adj: ${(p.weight_adjustment || 0) > 0 ? '+' : ''}${p.weight_adjustment || 0}</div></div><span class="sb ${(p.win_rate || 0) >= 55 ? 'sb-g' : (p.win_rate || 0) < 45 ? 'sb-r' : 'sb-d'}">${(p.win_rate || 0).toFixed(0)}%</span></div>`).join('') : '<div style="color:var(--dim);font-size:11px;padding:8px 0;">Minimum 5 closed trades for learning.</div>'}
+    </div>
+    <div class="card full"><div class="card-hd"><span class="card-tl">📋 Recent Trades</span></div>
+        <div style="overflow-x:auto;"><table>
+            <thead><tr><th>Date</th><th>Symbol</th><th>Side</th><th>Qty</th><th>Entry</th><th>Exit</th><th>P&L</th><th>Strategy</th><th>Status</th></tr></thead>
+            <tbody>
+            ${(tr.trades || []).map(t => `<tr>
+                <td>${new Date(t.opened_at).toLocaleDateString('en-US')}</td>
+                <td><strong>${t.symbol}</strong></td>
+                <td><span class="sb ${t.side === 'buy' ? 'sb-g' : 'sb-r'}">${t.side.toUpperCase()}</span></td>
+                <td>${t.qty}</td><td>$${t.entry_price || '-'}</td><td>${t.exit_price ? '$' + t.exit_price : '-'}</td>
+                <td class="${(t.pnl || 0) >= 0 ? 'pos' : 'neg'}">${t.pnl ? '$' + parseFloat(t.pnl).toFixed(2) : '-'}</td>
+                <td>${t.strategy || '-'}</td>
+                <td><span class="sb ${t.status === 'open' ? 'sb-g' : 'sb-d'}">${t.status}</span></td>
+            </tr>`).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--dim);">No trades yet</td></tr>'}
+            </tbody>
+        </table></div>
+    </div>
+    <div class="card full"><div class="card-hd"><span class="card-tl">🔄 Recent Runs</span></div>
+        ${(s.recent_runs || []).map(r => `<div class="log-e"><span class="log-t">${new Date(r.time).toLocaleString('en-US')}</span> — <span style="color:${r.status === 'completed' ? 'var(--green)' : r.status === 'skipped' ? 'var(--yellow)' : 'var(--red)'}">${r.status}</span>${r.trades ? ' | ' + r.trades + ' trades' : ''}${r.summary ? ' | ' + r.summary : ''}</div>`).join('') || '<div style="color:var(--dim);font-size:11px;">No runs yet</div>'}
+    </div>`;
+            // After rendering, reload traffic into the new card
+            loadTraffic();
+        }
+
+        async function api(fn, body) { const r = await fetch(`${API}/${fn}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); return r.json(); }
+
+        async function toggleBot() {
+            const on = document.getElementById('toggleBot').textContent.includes('ON');
+            await api('trading-memory', { action: 'set_config', key: 'bot_enabled', value: { enabled: !on, mode: 'paper', reason: on ? 'Disabled by admin' : 'Enabled by admin' } });
+            load();
+        }
+        async function runEval() {
+            event.target.textContent = '⏳...'; event.target.disabled = true;
+            try { const r = await api('trading-bot-engine', { action: 'evaluate' }); alert('Evaluation:\n' + (r.results || []).map(x => `${x.symbol}: ${x.decision} (${(x.confidence || 0).toFixed(0)}%)`).join('\n')); }
+            catch (e) { alert('Error: ' + e.message); }
+            event.target.textContent = '▶ Evaluate'; event.target.disabled = false; load();
+        }
+        async function runLearn() {
+            event.target.textContent = '⏳...'; event.target.disabled = true;
+            try { const r = await api('trading-memory', { action: 'learn' }); alert('Learning:\n' + (r.message || 'Done') + '\n' + (r.learnings || []).join('\n')); }
+            catch (e) { alert('Error: ' + e.message); }
+            event.target.textContent = '🔄 Learn'; event.target.disabled = false; load();
+        }
+    </script>
+
+    <!-- K-Brain Modular System (transplantable) -->
+    <script src="/brain/brain-init.js"></script>
+
+<!-- Push Notifications + i18n -->
+<script>
+// ═══ SERVICE WORKER + PUSH NOTIFICATIONS ═══
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+        console.log('[K] Service Worker registered');
+    }).catch(err => console.warn('[K] SW registration failed:', err));
+}
+
+async function subscribePush() {
+    try {
+        if (!('PushManager' in window)) { alert('Push notifications not supported'); return; }
+        
+        const reg = await navigator.serviceWorker.ready;
+        const existing = await reg.pushManager.getSubscription();
+        if (existing) { console.log('[K] Already subscribed'); return existing; }
+        
+        // Get VAPID key from server
+        const r = await fetch('/.netlify/functions/push-notifications', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ action: 'get_vapid_key' })
+        });
+        const { vapid_public_key } = await r.json();
+        if (!vapid_public_key) { console.warn('[K] No VAPID key'); return null; }
+        
+        // Convert base64url to Uint8Array
+        const urlBase64ToUint8Array = (base64String) => {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+            const rawData = atob(base64);
+            return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+        };
+        
+        const sub = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(vapid_public_key)
+        });
+        
+        // Send to server
+        const email = localStorage.getItem('k_email') || 'anonymous';
+        await fetch('/.netlify/functions/push-notifications', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ action: 'subscribe', subscription: sub, user_email: email })
+        });
+        
+        console.log('[K] Push subscribed!');
+        return sub;
+    } catch(e) { console.error('[K] Push subscribe error:', e); }
+}
+
+// ═══ i18n LANGUAGE SYSTEM ═══
+const K_LANGS = { en: 'English', ro: 'Română', es: 'Español', fr: 'Français', de: 'Deutsch' };
+let K_I18N = {};
+
+function getLanguage() {
+    return localStorage.getItem('k_lang') || navigator.language?.split('-')[0] || 'en';
+}
+
+async function loadTranslations(lang) {
+    try {
+        const r = await fetch('/.netlify/functions/i18n', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ lang: lang || getLanguage() })
+        });
+        const d = await r.json();
+        if (d.success) { K_I18N = d.translations; applyTranslations(); }
+    } catch(e) { console.warn('[K] i18n load error:', e); }
+}
+
+function t(key) { return K_I18N[key] || key; }
+
+function applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (K_I18N[key]) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = K_I18N[key];
+            else el.textContent = K_I18N[key];
+        }
+    });
+}
+
+function setLanguage(lang) {
+    localStorage.setItem('k_lang', lang);
+    loadTranslations(lang);
+}
+
+// Auto-load on page ready
+document.addEventListener('DOMContentLoaded', () => {
+    loadTranslations();
+    
+    // Auto-ask for push after 30s on first visit
+    if (!localStorage.getItem('k_push_asked')) {
+        setTimeout(() => {
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(p => {
+                    if (p === 'granted') subscribePush();
+                    localStorage.setItem('k_push_asked', '1');
+                });
+            }
+        }, 30000);
+    }
+});
+</script>
+
+</body>
+
+</html>

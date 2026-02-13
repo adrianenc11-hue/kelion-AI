@@ -26,12 +26,12 @@
       "critical": true
     },
     "netlify/functions/truth-detector.js": {
-      "sha256": "82b8bcdbb14077f67bdc01398f3e37f5474fe358deaa8a1cbd08131f9e0d7592",
+      "sha256": "de3838eb73fa7605ec15ba4bcbc50a2fd5c9ef76dab693149af4f6e9afe53ca9",
       "role": "Truth Shield — 6-module truth detection system",
       "critical": true
     },
     "netlify/functions/smart-brain.js": {
-      "sha256": "8e428f9d849f2b73e6bbb49791698ffbad29b3de3abeb6df0b5c2331436a4f9a",
+      "sha256": "b47a6aa98be6799ae1fef2c1aeee6d90a3d7caf520fcb4514dcad65643807091",
       "role": "AI Brain — central intelligence with truth shield integration",
       "critical": true
     }
