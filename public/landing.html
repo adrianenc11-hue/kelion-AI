@@ -1396,13 +1396,19 @@
             <p>Select your holographic assistant</p>
         </div>
         <div class="av-panel av-male" onclick="selectAvatar('kelion')">
-            <canvas id="av3d-male" class="av-img" width="400" height="400" style="border-radius:18px;"></canvas>
+            <img src="/hologram-512.png" alt="Kelion" class="av-img av-placeholder"
+                style="position:absolute;z-index:5;filter:drop-shadow(0 0 40px rgba(0,255,255,0.5));transition:opacity .6s;">
+            <canvas id="av3d-male" class="av-img" width="400" height="400"
+                style="border-radius:18px;opacity:0;transition:opacity .6s;"></canvas>
             <div class="av-name">Kelion</div>
             <div class="av-role">♂ Male AI</div>
         </div>
         <div class="av-divider">OR</div>
         <div class="av-panel av-female" onclick="selectAvatar('kira')">
-            <canvas id="av3d-female" class="av-img" width="400" height="400" style="border-radius:18px;"></canvas>
+            <img src="/hologram-512.png" alt="Kira" class="av-img av-placeholder"
+                style="position:absolute;z-index:5;filter:drop-shadow(0 0 40px rgba(232,67,147,0.5)) hue-rotate(280deg);transition:opacity .6s;">
+            <canvas id="av3d-female" class="av-img" width="400" height="400"
+                style="border-radius:18px;opacity:0;transition:opacity .6s;"></canvas>
             <div class="av-name">Kira</div>
             <div class="av-role">♀ Female AI</div>
         </div>
@@ -1546,7 +1552,10 @@
                         renderer.render(scene, camera);
                     })();
 
-                    // SUCCESS: Hide loader for this specific avatar
+                    // SUCCESS: Crossfade — show 3D canvas, hide placeholder
+                    canvas.style.opacity = '1';
+                    var placeholder = canvas.parentNode.querySelector('.av-placeholder');
+                    if (placeholder) placeholder.style.opacity = '0';
                     if (window.AVLoaderFix) window.AVLoaderFix.hide(loaderId);
 
                 }, undefined, function () {
