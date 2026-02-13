@@ -342,6 +342,7 @@
             <button class="nav-btn" data-panel="trending">🔥 Trending</button>
             <button class="nav-btn" data-panel="requests">📋 Cereri</button>
             <button class="nav-btn" data-panel="emails">📧 Email</button>
+            <button class="nav-btn" data-panel="social-media">📡 Social Media</button>
             <button class="nav-btn" data-panel="webhooks">🔗 Webhooks</button>
         </div>
         <div class="admin-user">🔒 adrianenc11@gmail.com</div>
@@ -497,6 +498,71 @@
         <div id="webhook-logs" style="max-height:500px;overflow-y:auto"></div>
     </div>
 
+    <!-- ═══ SOCIAL MEDIA ═══ -->
+    <div class="panel" id="panel-social-media">
+        <div class="panel-header">📡 Social Media Monitor <button class="refresh-btn" onclick="loadSocialMedia()">↻
+                Refresh</button></div>
+
+        <!-- FLOW TRACER -->
+        <div
+            style="background:var(--surface);border-radius:12px;padding:20px;margin-bottom:24px;border:1px solid var(--border)">
+            <h3 style="color:var(--accent);margin-bottom:16px">🔄 Flux Mesaje: Tu → Meta → K → Smart-Brain → K → Meta →
+                Tu</h3>
+            <div id="flow-tracer" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px">
+                <span id="flow-step-1" style="padding:8px 14px;border-radius:8px;background:#1e293b">👤 User</span>
+                <span style="color:var(--muted)">→</span>
+                <span id="flow-step-2" style="padding:8px 14px;border-radius:8px;background:#1e293b">📘 Meta API</span>
+                <span style="color:var(--muted)">→</span>
+                <span id="flow-step-3" style="padding:8px 14px;border-radius:8px;background:#1e293b">🔗 Webhook</span>
+                <span style="color:var(--muted)">→</span>
+                <span id="flow-step-4" style="padding:8px 14px;border-radius:8px;background:#1e293b">🧠 Smart
+                    Brain</span>
+                <span style="color:var(--muted)">→</span>
+                <span id="flow-step-5" style="padding:8px 14px;border-radius:8px;background:#1e293b">📤 Send
+                    Message</span>
+                <span style="color:var(--muted)">→</span>
+                <span id="flow-step-6" style="padding:8px 14px;border-radius:8px;background:#1e293b">👤 User</span>
+            </div>
+            <div id="flow-details" style="margin-top:16px;font-size:13px;color:var(--muted)"></div>
+        </div>
+
+        <!-- PLATFORM STATUS CARDS -->
+        <div class="cards-row" id="social-cards"></div>
+
+        <!-- ACTIONS -->
+        <div style="display:flex;gap:12px;margin-bottom:24px">
+            <button onclick="testSocialPost()"
+                style="padding:10px 20px;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px">🧪
+                Test Post (Preview)</button>
+            <button onclick="postNow('facebook')"
+                style="padding:10px 20px;background:#1877F2;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px">📘
+                Post pe Facebook</button>
+            <button onclick="postNow('instagram')"
+                style="padding:10px 20px;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px">📸
+                Post pe Instagram</button>
+            <button onclick="postNow('tiktok')"
+                style="padding:10px 20px;background:#010101;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px">🎵
+                Post pe TikTok</button>
+        </div>
+
+        <!-- RECENT MESSENGER -->
+        <div style="margin-bottom:24px">
+            <h3 style="color:var(--text);margin-bottom:12px">💬 Ultimele Mesaje Messenger</h3>
+            <div id="social-messenger-table"></div>
+        </div>
+
+        <!-- RECENT AUTO-POSTS -->
+        <div>
+            <h3 style="color:var(--text);margin-bottom:12px">📝 Ultimele Auto-Posturi</h3>
+            <div id="social-autoposts-table"></div>
+        </div>
+
+        <!-- POST PREVIEW -->
+        <div id="social-preview"
+            style="display:none;margin-top:24px;background:var(--surface);border-radius:12px;padding:20px;border:1px solid var(--border)">
+        </div>
+    </div>
+
     <script>
         const API = '/.netlify/functions/admin-panel';
         const ADMIN_EMAIL = 'adrianenc11@gmail.com';
@@ -519,6 +585,7 @@
                 else if (panel === 'trending') loadTrending();
                 else if (panel === 'requests') loadUserRequests();
                 else if (panel === 'emails') loadEmails();
+                else if (panel === 'social-media') loadSocialMedia();
                 else if (panel === 'webhooks') { loadWebhookStats(); loadWebhookLogs(); }
             });
         });
@@ -972,6 +1039,112 @@
                         '<td style="padding:6px;color:#666;font-size:11px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (e.payload_preview || '-').substring(0, 80) + '</td></tr>'
                     ).join('') + '</table>';
             } catch (e) { console.error('Webhook logs error:', e); }
+        }
+
+        // ═══ SOCIAL MEDIA MONITOR ═══
+        async function loadSocialMedia() {
+            try {
+                // Update flow tracer steps to loading
+                for (let i = 1; i <= 6; i++) {
+                    const el = document.getElementById('flow-step-' + i);
+                    if (el) el.style.background = '#1e293b';
+                }
+                document.getElementById('flow-details').innerHTML = '⏳ Se verifică fluxul...';
+
+                const d = await adminFetch('social_media_status');
+
+                // ═══ FLOW TRACER ═══
+                const fb = d.platforms?.facebook || {};
+                const flowDetails = [];
+                // Step 1: User — always OK
+                setFlowStep(1, true); flowDetails.push('✅ User — trimite mesaj');
+                // Step 2: Meta API — token valid?
+                setFlowStep(2, fb.token_valid); flowDetails.push(fb.token_valid ? '✅ Meta API — token valid, expiră: ' + fb.token_expires : '❌ Meta API — token INVALID');
+                // Step 3: Webhook — subscribed?
+                setFlowStep(3, fb.webhook_subscribed); flowDetails.push(fb.webhook_subscribed ? '✅ Webhook — subscris (' + (fb.webhook_fields || []).join(', ') + ')' : '❌ Webhook — NU e subscris');
+                // Step 4: Smart Brain — check via auto_poster
+                const brainOk = d.auto_poster && !d.auto_poster.error;
+                setFlowStep(4, brainOk); flowDetails.push(brainOk ? '✅ Smart Brain — răspunde' : '⚠️ Smart Brain — nu s-a putut verifica');
+                // Step 5: Send Message — token + scopes ok?
+                const sendOk = fb.token_valid && fb.scopes?.includes('pages_messaging');
+                setFlowStep(5, sendOk); flowDetails.push(sendOk ? '✅ Send Message — pages_messaging scope activ' : '❌ Send Message — lipsă scope pages_messaging');
+                // Step 6: User receives — depends on all above
+                const allOk = fb.token_valid && fb.webhook_subscribed && sendOk;
+                setFlowStep(6, allOk); flowDetails.push(allOk ? '✅ Mesajul ajunge la user' : '❌ Fluxul întrerupt — vezi detalii mai sus');
+
+                document.getElementById('flow-details').innerHTML = flowDetails.map(f => '<div>' + f + '</div>').join('');
+
+                // ═══ PLATFORM CARDS ═══
+                const ig = d.platforms?.instagram || {};
+                const tt = d.platforms?.tiktok || {};
+                document.getElementById('social-cards').innerHTML =
+                    card('📘 Facebook', fb.token_valid ? 'ACTIV' : 'INACTIV',
+                        'Token: ' + (fb.token_valid ? '✅ Valid' : '❌ Invalid') + '<br>' +
+                        'App: ' + (fb.app_name || '-') + '<br>' +
+                        'Page ID: ' + fb.page_id + '<br>' +
+                        'Scopes: ' + (fb.scopes || []).join(', ') + '<br>' +
+                        'Webhook: ' + (fb.webhook_subscribed ? '✅' : '❌') + '<br>' +
+                        'Conversations: ' + (fb.total_conversations || 0),
+                        fb.token_valid ? '#10b981' : '#ef4444') +
+                    card('📸 Instagram', ig.linked ? 'LINKED' : 'NOT LINKED',
+                        'Business Account: ' + (ig.instagram_business_account || '-') + '<br>' +
+                        'Same Meta token: ' + (ig.uses_same_token ? 'Da' : 'Nu') + '<br>' +
+                        ig.note,
+                        ig.linked ? '#10b981' : '#f59e0b') +
+                    card('🎵 TikTok', tt.configured ? 'CONFIGURAT' : 'LIPSĂ TOKEN',
+                        'Token: ' + (tt.token_present ? '✅' : '❌') + '<br>' +
+                        'Open ID: ' + (tt.open_id_present ? '✅' : '❌') + '<br>' +
+                        'Account: ' + (tt.account || '-') + '<br>' +
+                        tt.note,
+                        tt.configured ? '#10b981' : '#ef4444');
+
+                // ═══ RECENT MESSENGER TABLE ═══
+                const msgs = d.recent_messenger || [];
+                document.getElementById('social-messenger-table').innerHTML = msgs.length === 0
+                    ? '<p style="color:#888">Niciun mesaj recent</p>'
+                    : '<table class="data-table"><tr><th>Sender</th><th>Platform</th><th>Întrebare</th><th>Răspuns</th><th>Topic</th><th>Data</th></tr>' +
+                    msgs.map(m => '<tr><td>' + m.sender + '</td><td>' + (m.platform || '-') + '</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + m.question + '</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + m.answer + '</td><td>' + (m.topic || '-') + '</td><td style="font-size:11px">' + new Date(m.time).toLocaleString('ro-RO') + '</td></tr>').join('') +
+                    '</table>';
+
+                // ═══ RECENT AUTO-POSTS TABLE ═══
+                const posts = d.recent_auto_posts || [];
+                document.getElementById('social-autoposts-table').innerHTML = posts.length === 0
+                    ? '<p style="color:#888">Niciun auto-post recent</p>'
+                    : '<table class="data-table"><tr><th>Platform</th><th>Topic</th><th>Posted</th><th>Error</th><th>Data</th></tr>' +
+                    posts.map(p => '<tr><td>' + (p.platform || '-') + '</td><td>' + (p.topic_id || '-') + '</td><td>' + (p.posted ? '✅' : '❌') + '</td><td style="color:#ff6b6b">' + (p.error || '-') + '</td><td style="font-size:11px">' + new Date(p.created_at).toLocaleString('ro-RO') + '</td></tr>').join('') +
+                    '</table>';
+
+            } catch (e) { console.error('Social media error:', e); }
+        }
+
+        function setFlowStep(n, ok) {
+            const el = document.getElementById('flow-step-' + n);
+            if (el) el.style.background = ok ? '#065f46' : '#7f1d1d';
+        }
+
+        function card(title, value, details, color) {
+            return '<div class="stat-card"><div class="label">' + title + '</div><div class="value" style="color:' + color + '">' + value + '</div><div style="font-size:12px;color:#94a3b8;margin-top:8px">' + details + '</div></div>';
+        }
+
+        async function testSocialPost() {
+            const preview = document.getElementById('social-preview');
+            preview.style.display = 'block';
+            preview.innerHTML = '⏳ Se generează preview...';
+            try {
+                const d = await adminFetch('social_media_test_post');
+                preview.innerHTML = '<h3 style="color:var(--accent);margin-bottom:12px">🧪 Preview Post</h3><pre style="white-space:pre-wrap;color:var(--text);font-size:13px">' + JSON.stringify(d, null, 2) + '</pre>';
+            } catch (e) { preview.innerHTML = '❌ Eroare: ' + e.message; }
+        }
+
+        async function postNow(platform) {
+            if (!confirm('Sigur vrei să postezi ACUM pe ' + platform + '?')) return;
+            const preview = document.getElementById('social-preview');
+            preview.style.display = 'block';
+            preview.innerHTML = '⏳ Se postează pe ' + platform + '...';
+            try {
+                const d = await adminFetch('social_media_post_now', { platform });
+                preview.innerHTML = '<h3 style="color:var(--accent);margin-bottom:12px">📤 Rezultat Post ' + platform + '</h3><pre style="white-space:pre-wrap;color:var(--text);font-size:13px">' + JSON.stringify(d, null, 2) + '</pre>';
+            } catch (e) { preview.innerHTML = '❌ Eroare: ' + e.message; }
         }
 
     </script>

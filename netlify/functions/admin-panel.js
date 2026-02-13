@@ -1,5 +1,5 @@
 // ═══ ADMIN PANEL — Backend for adrianenc11@gmail.com ═══
-// Traffic, AI Credits, Trading Dashboard, Messenger Conversations
+// Traffic, AI Credits, Trading Dashboard, Messenger Conversations, Social Media Management
 const { patchProcessEnv } = require('./get-secret');
 const { createClient } = require('@supabase/supabase-js');
 const headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type, Authorization', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Content-Type': 'application/json' };
@@ -52,7 +52,12 @@ exports.handler = async (event) => {
             // ═══ OVERVIEW ═══
             case 'overview': return respond(200, await getAdminOverview(db));
 
-            default: return respond(400, { error: 'Actions: overview, traffic, traffic_live, ai_credits, ai_usage_detail, trading_dashboard, trading_history, trading_recommendations, check_recommendation, messenger_conversations, messenger_detail, email_list, email_update, trending_keywords, user_requests' });
+            // ═══ SOCIAL MEDIA ═══
+            case 'social_media_status': return respond(200, await getSocialMediaStatus(db));
+            case 'social_media_test_post': return respond(200, await testSocialPost(body));
+            case 'social_media_post_now': return respond(200, await postNowFromAdmin(body));
+
+            default: return respond(400, { error: 'Actions: overview, traffic, traffic_live, ai_credits, ai_usage_detail, trading_dashboard, trading_history, trading_recommendations, check_recommendation, messenger_conversations, messenger_detail, email_list, email_update, trending_keywords, user_requests, social_media_status, social_media_test_post, social_media_post_now' });
         }
     } catch (err) { return respond(500, { error: err.message }); }
 };
@@ -649,6 +654,130 @@ async function checkRecommendation(db, { report_id, index, checked }) {
     return { updated: true, report_id, index, checked: recs[index].checked };
 }
 
+// ═══════════════════════════════════════════════════
+// SOCIAL MEDIA STATUS — Real-time FB/Instagram/TikTok monitoring
+// ═══════════════════════════════════════════════════
+async function getSocialMediaStatus(db) {
+    const fetch = (await import('node-fetch')).default;
+    const baseUrl = process.env.URL || 'https://kelionai.app';
+    const result = { timestamp: new Date().toISOString(), platforms: {} };
+
+    // ═══ FACEBOOK ═══
+    const PAGE_TOKEN = process.env.META_PAGE_ACCESS_TOKEN;
+    const PAGE_ID = process.env.META_PAGE_ID;
+    const fb = { configured: !!(PAGE_TOKEN && PAGE_ID), token_present: !!PAGE_TOKEN, page_id: PAGE_ID || 'NOT SET' };
+    if (PAGE_TOKEN) {
+        try {
+            const debugRes = await fetch(`https://graph.facebook.com/debug_token?input_token=${PAGE_TOKEN}&access_token=${PAGE_TOKEN}`);
+            const debugData = await debugRes.json();
+            fb.token_valid = debugData.data?.is_valid || false;
+            fb.token_expires = debugData.data?.expires_at === 0 ? 'Never' : new Date(debugData.data?.expires_at * 1000).toISOString();
+            fb.scopes = debugData.data?.scopes || [];
+            fb.app_name = debugData.data?.application || 'Unknown';
+            fb.app_id = debugData.data?.app_id || 'Unknown';
+            fb.profile_id = debugData.data?.profile_id || 'Unknown';
+        } catch (e) { fb.token_check_error = e.message; }
+        // Webhook subscription
+        try {
+            const subRes = await fetch(`https://graph.facebook.com/v21.0/${PAGE_ID}/subscribed_apps?access_token=${PAGE_TOKEN}`);
+            const subData = await subRes.json();
+            fb.webhook_subscribed = !!(subData.data && subData.data.length > 0);
+            fb.webhook_fields = subData.data?.[0]?.subscribed_fields || [];
+        } catch (e) { fb.webhook_error = e.message; }
+        // Recent conversations
+        try {
+            const convRes = await fetch(`https://graph.facebook.com/v21.0/me/conversations?fields=id,updated_time&limit=5&access_token=${PAGE_TOKEN}`);
+            const convData = await convRes.json();
+            fb.recent_conversations = (convData.data || []).map(c => ({ id: c.id, updated: c.updated_time }));
+            fb.total_conversations = convData.data?.length || 0;
+        } catch (e) { fb.conversations_error = e.message; }
+    }
+    result.platforms.facebook = fb;
+
+    // ═══ INSTAGRAM ═══
+    const ig = { configured: !!(PAGE_TOKEN && PAGE_ID), uses_same_token: true, note: 'Instagram DM uses same Meta Page token as Facebook' };
+    if (PAGE_TOKEN) {
+        try {
+            const igRes = await fetch(`https://graph.facebook.com/v21.0/${PAGE_ID}?fields=instagram_business_account&access_token=${PAGE_TOKEN}`);
+            const igData = await igRes.json();
+            ig.instagram_business_account = igData.instagram_business_account?.id || 'NOT LINKED';
+            ig.linked = !!igData.instagram_business_account;
+        } catch (e) { ig.check_error = e.message; }
+    }
+    result.platforms.instagram = ig;
+
+    // ═══ TIKTOK ═══
+    const TT_TOKEN = process.env.TIKTOK_ACCESS_TOKEN;
+    const TT_OPEN_ID = process.env.TIKTOK_OPEN_ID;
+    result.platforms.tiktok = {
+        configured: !!(TT_TOKEN && TT_OPEN_ID),
+        token_present: !!TT_TOKEN,
+        open_id_present: !!TT_OPEN_ID,
+        note: TT_TOKEN ? 'Token present' : 'TIKTOK_ACCESS_TOKEN and TIKTOK_OPEN_ID needed in Netlify env vars',
+        account: '@kelion_ai_expert'
+    };
+
+    // ═══ AUTO-POSTER STATUS ═══
+    try {
+        const apRes = await fetch(`${baseUrl}/.netlify/functions/auto-poster-api`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'status' })
+        });
+        result.auto_poster = await apRes.json();
+    } catch (e) { result.auto_poster = { error: e.message }; }
+
+    // ═══ RECENT MESSENGER LOGS from DB ═══
+    try {
+        const { data: recentLogs } = await db.from('messenger_logs')
+            .select('sender_id, platform, user_message, bot_response, topic, created_at')
+            .order('created_at', { ascending: false })
+            .limit(10);
+        result.recent_messenger = (recentLogs || []).map(l => ({
+            sender: l.sender_id?.substring(0, 8) + '...',
+            platform: l.platform,
+            question: (l.user_message || '').substring(0, 100),
+            answer: (l.bot_response || '').substring(0, 100),
+            topic: l.topic,
+            time: l.created_at
+        }));
+    } catch (e) { result.recent_messenger = []; }
+
+    // ═══ RECENT AUTO-POSTS from DB ═══
+    try {
+        const { data: posts } = await db.from('auto_posts')
+            .select('platform, topic_id, posted, error, created_at')
+            .order('created_at', { ascending: false })
+            .limit(10);
+        result.recent_auto_posts = posts || [];
+    } catch (e) { result.recent_auto_posts = []; }
+
+    return result;
+}
+
+async function testSocialPost(body) {
+    const fetch = (await import('node-fetch')).default;
+    const baseUrl = process.env.URL || 'https://kelionai.app';
+    const platform = body.platform || 'facebook';
+    try {
+        const res = await fetch(`${baseUrl}/.netlify/functions/auto-poster-api`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'preview' })
+        });
+        return await res.json();
+    } catch (e) { return { error: e.message }; }
+}
+
+async function postNowFromAdmin(body) {
+    const fetch = (await import('node-fetch')).default;
+    const baseUrl = process.env.URL || 'https://kelionai.app';
+    try {
+        const res = await fetch(`${baseUrl}/.netlify/functions/auto-poster-api`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'post_now', platform: body.platform || 'all', topic_id: body.topic_id })
+        });
+        return await res.json();
+    } catch (e) { return { error: e.message }; }
+}
 // ═══ HELPERS ═══
 function periodToDate(period) {
     const now = new Date();
