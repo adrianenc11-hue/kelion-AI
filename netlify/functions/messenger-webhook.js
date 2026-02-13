@@ -432,9 +432,9 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
     const msg = userMessage.toLowerCase().trim();
 
     // ═══ 1. CHECK IF COUNTRY IS SELECTED ═══
-    const userCountry = forcedCountry || await getUserCountry(senderId);
+    let userCountry = forcedCountry || await getUserCountry(senderId);
 
-    // Country selection response
+    // Country selection response (if user explicitly types a country code)
     if (isCountrySelection(msg)) {
         const country = detectCountry(msg);
         if (country) {
@@ -453,19 +453,56 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
         }
     }
 
-    // If no country selected yet, ask for it
+    // ═══ AUTO-DETECT COUNTRY (nu mai blochează) ═══
     if (!userCountry) {
-        return `👋 Salut! Sunt K, un asistent AI specializat pe pensii.\n\n` +
-            `⚠️ Sunt o inteligență artificială. Informațiile sunt orientative.\n\n` +
-            `Selectează țara ta pentru informații personalizate:\n\n` +
-            `🇷🇴 România — scrie "RO"\n` +
-            `🇬🇧 United Kingdom — scrie "UK"\n` +
-            `🇺🇸 United States — scrie "US"\n` +
-            `🇩🇪 Deutschland — scrie "DE"\n` +
-            `🇫🇷 France — scrie "FR"\n` +
-            `🇪🇸 España — scrie "ES"\n` +
-            `🇮🇹 Italia — scrie "IT"\n\n` +
-            `Sau scrie direct întrebarea ta! 😊` + SITE_FOOTER;
+        // Source 1: Meta profile locale (saved in messenger_contacts)
+        try {
+            const db = getSupabase();
+            if (db) {
+                const { data: contact } = await db.from('messenger_contacts')
+                    .select('locale')
+                    .eq('sender_id', senderId)
+                    .single();
+                if (contact?.locale) {
+                    const localeMap = { 'ro_RO': 'RO', 'en_GB': 'UK', 'en_US': 'US', 'de_DE': 'DE', 'fr_FR': 'FR', 'es_ES': 'ES', 'it_IT': 'IT' };
+                    const detected = localeMap[contact.locale] || (contact.locale?.startsWith('ro') ? 'RO' : null);
+                    if (detected) {
+                        userCountry = detected;
+                        await saveUserCountry(senderId, detected);
+                        console.log(`🌍 Auto-detected country from locale ${contact.locale} → ${detected}`);
+                    }
+                }
+            }
+        } catch (e) { /* skip */ }
+
+        // Source 2: Detect from message content
+        if (!userCountry) {
+            const msgLower = userMessage.toLowerCase();
+            const contentMap = {
+                'RO': ['romania', 'română', 'romania', 'pensie', 'cnpp', 'recalculare', 'casa de pensii'],
+                'UK': ['united kingdom', 'england', 'britain', 'state pension', 'nhs', 'dwp'],
+                'US': ['united states', 'america', 'social security', '401k', 'ssa'],
+                'DE': ['deutschland', 'germany', 'rente', 'rentenversicherung'],
+                'FR': ['france', 'retraite', 'cnav'],
+                'ES': ['españa', 'spain', 'jubilación'],
+                'IT': ['italia', 'italy', 'inps', 'pensione']
+            };
+            for (const [code, keywords] of Object.entries(contentMap)) {
+                if (keywords.some(k => msgLower.includes(k))) {
+                    userCountry = code;
+                    await saveUserCountry(senderId, code);
+                    console.log(`🌍 Auto-detected country from message content → ${code}`);
+                    break;
+                }
+            }
+        }
+
+        // Source 3: Default to RO (kelionai.app is Romanian pension expert)
+        if (!userCountry) {
+            userCountry = 'RO';
+            await saveUserCountry(senderId, 'RO');
+            console.log('🌍 Default country → RO');
+        }
     }
 
     // ═══ 2. NON-PENSION TOPIC FILTER ═══
