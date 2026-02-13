@@ -454,6 +454,7 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
     }
 
     // ═══ AUTO-DETECT COUNTRY (nu mai blochează) ═══
+    let countryJustDetected = false;
     if (!userCountry) {
         // Source 1: Detect from message content (PRIORITY — shows what user actually wants)
         const msgLower = userMessage.toLowerCase();
@@ -469,6 +470,7 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
         for (const [code, keywords] of Object.entries(contentMap)) {
             if (keywords.some(k => msgLower.includes(k))) {
                 userCountry = code;
+                countryJustDetected = true;
                 await saveUserCountry(senderId, code);
                 console.log(`🌍 Auto-detected country from message content → ${code}`);
                 break;
@@ -489,6 +491,7 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
                         const detected = localeMap[contact.locale] || (contact.locale?.startsWith('ro') ? 'RO' : null);
                         if (detected) {
                             userCountry = detected;
+                            countryJustDetected = true;
                             await saveUserCountry(senderId, detected);
                             console.log(`🌍 Auto-detected country from locale ${contact.locale} → ${detected}`);
                         }
@@ -500,6 +503,7 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
         // Source 3: Default to RO (kelionai.app is Romanian pension expert)
         if (!userCountry) {
             userCountry = 'RO';
+            countryJustDetected = true;
             await saveUserCountry(senderId, 'RO');
             console.log('🌍 Default country → RO');
         }
@@ -545,7 +549,13 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
             const aiData = await aiRes.json();
             const aiText = aiData.response || aiData.text || aiData.content || '';
             if (aiText && aiText.length > 20) {
-                return aiText.trim() + SITE_FOOTER;
+                let response = aiText.trim();
+                // First time: confirm detected country
+                if (countryJustDetected) {
+                    const c = COUNTRIES[userCountry];
+                    response += `\n\n${c.flag} Am detectat că întrebarea e despre ${c.name}. Dacă vrei informații pentru altă țară, scrie codul: RO, UK, US, DE, FR, ES, IT.`;
+                }
+                return response + SITE_FOOTER;
             }
         }
     } catch (aiErr) {
