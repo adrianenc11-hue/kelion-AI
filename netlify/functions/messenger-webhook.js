@@ -455,46 +455,46 @@ async function generateAIResponse(userMessage, senderId, forcedCountry) {
 
     // ═══ AUTO-DETECT COUNTRY (nu mai blochează) ═══
     if (!userCountry) {
-        // Source 1: Meta profile locale (saved in messenger_contacts)
-        try {
-            const db = getSupabase();
-            if (db) {
-                const { data: contact } = await db.from('messenger_contacts')
-                    .select('locale')
-                    .eq('sender_id', senderId)
-                    .single();
-                if (contact?.locale) {
-                    const localeMap = { 'ro_RO': 'RO', 'en_GB': 'UK', 'en_US': 'US', 'de_DE': 'DE', 'fr_FR': 'FR', 'es_ES': 'ES', 'it_IT': 'IT' };
-                    const detected = localeMap[contact.locale] || (contact.locale?.startsWith('ro') ? 'RO' : null);
-                    if (detected) {
-                        userCountry = detected;
-                        await saveUserCountry(senderId, detected);
-                        console.log(`🌍 Auto-detected country from locale ${contact.locale} → ${detected}`);
+        // Source 1: Detect from message content (PRIORITY — shows what user actually wants)
+        const msgLower = userMessage.toLowerCase();
+        const contentMap = {
+            'RO': ['romania', 'română', 'romania', 'pensie', 'cnpp', 'recalculare', 'casa de pensii', 'pensionare'],
+            'UK': ['united kingdom', 'england', 'britain', 'state pension', 'nhs', 'dwp'],
+            'US': ['united states', 'america', 'social security', '401k', 'ssa'],
+            'DE': ['deutschland', 'germany', 'rente', 'rentenversicherung'],
+            'FR': ['france', 'retraite', 'cnav'],
+            'ES': ['españa', 'spain', 'jubilación'],
+            'IT': ['italia', 'italy', 'inps', 'pensione']
+        };
+        for (const [code, keywords] of Object.entries(contentMap)) {
+            if (keywords.some(k => msgLower.includes(k))) {
+                userCountry = code;
+                await saveUserCountry(senderId, code);
+                console.log(`🌍 Auto-detected country from message content → ${code}`);
+                break;
+            }
+        }
+
+        // Source 2: Meta profile locale (fallback if message has no country hints)
+        if (!userCountry) {
+            try {
+                const db = getSupabase();
+                if (db) {
+                    const { data: contact } = await db.from('messenger_contacts')
+                        .select('locale')
+                        .eq('sender_id', senderId)
+                        .single();
+                    if (contact?.locale) {
+                        const localeMap = { 'ro_RO': 'RO', 'en_GB': 'UK', 'en_US': 'US', 'de_DE': 'DE', 'fr_FR': 'FR', 'es_ES': 'ES', 'it_IT': 'IT' };
+                        const detected = localeMap[contact.locale] || (contact.locale?.startsWith('ro') ? 'RO' : null);
+                        if (detected) {
+                            userCountry = detected;
+                            await saveUserCountry(senderId, detected);
+                            console.log(`🌍 Auto-detected country from locale ${contact.locale} → ${detected}`);
+                        }
                     }
                 }
-            }
-        } catch (e) { /* skip */ }
-
-        // Source 2: Detect from message content
-        if (!userCountry) {
-            const msgLower = userMessage.toLowerCase();
-            const contentMap = {
-                'RO': ['romania', 'română', 'romania', 'pensie', 'cnpp', 'recalculare', 'casa de pensii'],
-                'UK': ['united kingdom', 'england', 'britain', 'state pension', 'nhs', 'dwp'],
-                'US': ['united states', 'america', 'social security', '401k', 'ssa'],
-                'DE': ['deutschland', 'germany', 'rente', 'rentenversicherung'],
-                'FR': ['france', 'retraite', 'cnav'],
-                'ES': ['españa', 'spain', 'jubilación'],
-                'IT': ['italia', 'italy', 'inps', 'pensione']
-            };
-            for (const [code, keywords] of Object.entries(contentMap)) {
-                if (keywords.some(k => msgLower.includes(k))) {
-                    userCountry = code;
-                    await saveUserCountry(senderId, code);
-                    console.log(`🌍 Auto-detected country from message content → ${code}`);
-                    break;
-                }
-            }
+            } catch (e) { /* skip */ }
         }
 
         // Source 3: Default to RO (kelionai.app is Romanian pension expert)
