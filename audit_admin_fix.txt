@@ -1,0 +1,255 @@
+
+> kelion-ai@1.6.0 k1:gate
+> node validate-code.js && netlify deploy --prod --skip-functions-cache --message k1-gate-deploy && node audit_complete.js
+
+
+=== KELION AI CODE VALIDATION ===
+
+1. Running JSHint on netlify functions...
+   Ô£à Functions: 0 errors
+
+2. Extracting and checking app.html JavaScript...
+   Ô£à app.html: 0 errors
+
+3. Checking for common logic errors...
+   Ô£à No logic issues found
+
+=== SUMMARY ===
+Errors: 0
+Warnings: 0
+
+Ô£à VALIDATION PASSED - Safe to deploy
+[96m[1mÔÇï[22m[39m
+[96m[1mNetlify Build                                                 [22m[39m
+[96m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Version[22m[39m
+  @netlify/build 35.5.10
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Flags[22m[39m
+  accountId: 69765b7039690e594f1e9ac6
+  deployId: 69867331b936efdb0018ef37
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Current directory[22m[39m
+  C:\Users\adria\Downloads\k new\kelionat_clean
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Config file[22m[39m
+  C:\Users\adria\Downloads\k new\kelionat_clean\netlify.toml
+[36m[1mÔÇï[22m[39m
+[36m[1mÔØ» Context[22m[39m
+  production
+[96m[1mÔÇï[22m[39m
+[96m[1mFunctions bundling                                            [22m[39m
+[96m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+ÔÇï
+Packaging Functions from [36mnetlify\functions[39m directory:
+ - admin-traffic.js
+ - agent-tasks.js
+ - ai-credits.js
+ - analyze-screen.js
+ - api-subscription.js
+ - ask-kimi.js
+ - audit-log.js
+ - auth-forgot-password.js
+ - auth-login.js
+ - auth-logout.js
+ - auth-me.js
+ - auth-refresh.js
+ - auth-register.js
+ - auth-resend-verification.js
+ - auth-reset-password.js
+ - auth-verify-email.js
+ - auth.js
+ - chat-stream.js
+ - chat.js
+ - check-user.js
+ - code-audit.js
+ - dalle.js
+ - deep-research.js
+ - detect-emotion.js
+ - elevenlabs-tts.js
+ - email-alerts.js
+ - embeddings.js
+ - env-check.js
+ - free-trial.js
+ - gdpr-cleanup.js
+ - gemini-live-token.js
+ - generate-image.js
+ - generate-video.js
+ - get-porcupine-key.js
+ - health.js
+ - k-analytics.js
+ - k-analyze-codebase.js
+ - k-auto-deploy.js
+ - k-crisis-manager.js
+ - k-error-tracking.js
+ - k-git.js
+ - k-monitor.js
+ - k-performance-monitor.js
+ - k-presentation.js
+ - k-refactor.js
+ - k-security.js
+ - k-self-diagnostic.js
+ - k-self-healing.js
+ - k-self-modify.js
+ - k-strategic-planner.js
+ - k-supreme-intelligence.js
+ - k-terminal.js
+ - k-vision-assistant.js
+ - k-web-browser.js
+ - memory-cleanup.js
+ - memory.js
+ - page-tracking.js
+ - paypal-webhook.js
+ - realtime-session.js
+ - realtime-token.js
+ - run-migration.js
+ - search.js
+ - setup-admin.js
+ - setup-memory-table.js
+ - setup-permanent-user.js
+ - smart-brain.js
+ - sound-effects.js
+ - speak.js
+ - stripe-checkout.js
+ - stripe-webhook.js
+ - supreme-brain.js
+ - user-data.js
+ - vector-store.js
+ - vision-compliment.js
+ - vision-memory.js
+ - vision.js
+ - voice-clone.js
+ - weather.js
+ - whisper.js
+ÔÇï
+ÔÇï
+[90m(Functions bundling completed in 2.2s)[39m
+
+Deploying to Netlify
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+[32mDeploy path: [39m       C:\Users\adria\Downloads\k new\kelionat_clean\public
+[32mFunctions path: [39m    C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions
+[32mConfiguration path: [39mC:\Users\adria\Downloads\k new\kelionat_clean\netlify.toml
+
+Ôáï Uploading blobs to deploy store...
+
+Ô£ö Finished uploading blobs to deploy store
+Ôáï Hashing files...
+Ôáï Looking for a functions cache...
+Ô£ö Ignoring functions cache (use without --skip-functions-cache to change)
+Ô£ö Finished hashing 55 files and 79 functions
+Ôáï CDN diffing files...
+Ô£ö CDN requesting 1 files and 1 functions
+Ôáï Uploading 2 files
+Ô£ö Finished uploading 2 assets
+Ôáï Waiting for deploy to go live...
+Ô£ö Deploy is live!
+[96m[1mÔÇï[22m[39m
+[96m[1mNetlify Build Complete                                        [22m[39m
+[96m[1mÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ[22m[39m
+ÔÇï
+[90m(Netlify Build completed in 15.2s)[39m
+
+­ƒÜÇ Deploy complete
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+   Ôò¡ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ Ô¼Ñ  Production deploy is live Ô¼ÑÔÇë ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔò«
+   Ôöé                                                                Ôöé
+   Ôöé        Deployed to production URL: https://kelionai.app        Ôöé
+   Ôöé                                                                Ôöé
+   Ôöé                       Unique deploy URL:                       Ôöé
+   Ôöé   https://69867331b936efdb0018ef37--kelionai-app.netlify.app   Ôöé
+   Ôöé                                                                Ôöé
+   Ôò░ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔò»
+
+[32mBuild logs: [39m        https://app.netlify.com/projects/kelionai-app/deploys/69867331b936efdb0018ef37
+[32mFunction logs: [39m     https://app.netlify.com/projects/kelionai-app/logs/functions
+[32mEdge function Logs: [39mhttps://app.netlify.com/projects/kelionai-app/logs/edge-functions
+­ƒöì KELION AI AUDIT - 78 endpoints
+Ô£à auth-login                   401 (2649ms)
+Ô£à auth-register                400 (809ms)
+Ô£à auth-logout                  200 (719ms)
+Ô£à auth-me                      401 (767ms)
+Ô£à auth-refresh                 400 (764ms)
+Ô£à auth-verify-email            405 (716ms)
+Ô£à auth-forgot-password         200 (907ms)
+Ô£à auth-reset-password          400 (665ms)
+Ô£à auth-resend-verification     200 (988ms)
+Ô£à check-user                   200 (1226ms)
+Ô£à free-trial                   200 (1229ms)
+Ô£à chat                         200 (717ms)
+Ô£à chat-stream                  200 (1432ms)
+Ô£à smart-brain                  200 (4403ms)
+Ô£à supreme-brain                200 (1228ms)
+Ô£à ask-kimi                     401 (2152ms)
+Ô£à realtime-token               200 (509ms)
+Ô£à realtime-session             200 (617ms)
+Ô£à gemini-live-token            200 (306ms)
+Ô£à whisper                      400 (923ms)
+Ô£à speak                        200 (2046ms)
+Ô£à elevenlabs-tts               200 (1520ms)
+Ô£à voice-clone                  200 (560ms)
+Ô£à vision                       400 (932ms)
+Ô£à vision-compliment            400 (1089ms)
+Ô£à vision-memory                503 (634ms)
+Ô£à analyze-screen               400 (913ms)
+Ô£à detect-emotion               400 (905ms)
+Ô£à search                       503 (314ms)
+Ô£à weather                      200 (300ms)
+Ô£à deep-research                200 (19459ms)
+Ô£à memory                       503 (815ms)
+Ô£à memory-cleanup               503 (605ms)
+Ô£à vector-store                 200 (645ms)
+Ô£à embeddings                   200 (1311ms)
+Ô£à user-data                    401 (743ms)
+Ô£à generate-image               200 (17812ms)
+Ô£à generate-video               402 (868ms)
+Ô£à dalle                        200 (10682ms)
+Ô£à admin-traffic                200 (1331ms)
+Ô£à page-tracking                200 (994ms)
+Ô£à audit-log                    403 (660ms)
+Ô£à health                       200 (1008ms)
+Ô£à env-check                    200 (613ms)
+Ô£à code-audit                   200 (924ms)
+Ô£à ai-credits                   200 (3684ms)
+Ô£à sound-effects                200 (586ms)
+Ô£à agent-tasks                  200 (647ms)
+Ô£à email-alerts                 200 (613ms)
+Ô£à setup-admin                  401 (612ms)
+Ô£à setup-permanent-user         403 (716ms)
+Ô£à setup-memory-table           503 (616ms)
+Ô£à run-migration                503 (614ms)
+Ô£à gdpr-cleanup                 400 (716ms)
+Ô£à get-porcupine-key            503 (645ms)
+Ô£à k-self-modify                200 (2426ms)
+Ô£à k-auto-deploy                200 (599ms)
+Ô£à k-refactor                   200 (2577ms)
+Ô£à k-analyze-codebase           200 (975ms)
+Ô£à k-strategic-planner          200 (17764ms)
+Ô£à k-git                        200 (1025ms)
+Ô£à k-crisis-manager             200 (2138ms)
+Ô£à k-terminal                   200 (623ms)
+Ô£à k-self-diagnostic            200 (1665ms)
+Ô£à k-error-tracking             200 (623ms)
+Ô£à k-performance-monitor        200 (5355ms)
+Ô£à k-monitor                    200 (1676ms)
+Ô£à k-self-healing               200 (1128ms)
+Ô£à k-analytics                  200 (616ms)
+Ô£à k-security                   200 (363ms)
+Ô£à k-supreme-intelligence       200 (1272ms)
+Ô£à k-presentation               200 (15018ms)
+Ô£à k-web-browser                200 (1013ms)
+Ô£à k-vision-assistant           400 (10843ms)
+Ô£à stripe-checkout              400 (718ms)
+Ô£à stripe-webhook               502 (1027ms)
+Ô£à paypal-webhook               401 (1185ms)
+Ô£à api-subscription             405 (608ms)
+
+==================================================
+­ƒôè SUMMARY: 78/78 passed, 0 warnings, 0 failed
+Success Rate: 100.0%
+
+Audit: 2026-02-06T23:06:20.383Z
+==================================================

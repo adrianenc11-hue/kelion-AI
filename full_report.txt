@@ -1,0 +1,79 @@
+============================================================
+K SYSTEM - COMPREHENSIVE ERROR ANALYSIS
+============================================================
+
+=== JSHINT ERRORS ===
+Misleading line breaks: 7
+
+Unused variables (47):
+  - PERPLEXITY_MODEL
+  - WAKE_WORDS
+  - activateHologram
+  - animateMouthWithAudio
+  - audioSourceConnected
+  - authToken
+  - canRestartRecognition
+  - clearDrawing
+  - clearHistory
+  - closeDocPanel
+  - createRequestController
+  - currentLineWidth
+  - currentMapDestination
+  - detectedLanguageCode
+  - getLocalizedGreeting
+  - getTimeBasedGreeting
+  - getVisualMemories
+  - greetUser
+  - handleCameraCapture
+  - initNoiseFilter
+  - lipSyncMonitorActive
+  - mapAnimations
+  - navigateTo
+  - needsWebSearch
+  - noiseGate
+  - openDocFromK1
+  - openGoogleMaps
+  - openUploadModal
+  - openWaze
+  - processUploadedDoc
+  - randomLook
+  - resetSessionLanguage
+  - safeMouthPlay
+  - saveDocument
+  - sendChatMessage
+  - setDrawColor
+  - setExpressionState
+  - startLipSyncWithLatencyCompensation
+  - startNaturalBlink
+  - startTranslator
+  - stopNaturalBlink
+  - stopSpeaking
+  - stopTranslator
+  - stopVADMonitoring
+  - toggleChatPanel
+  - triggerAutoStartAfterModel
+  - webSearch
+
+Undefined variables (2):
+  - AbortController
+  - SpeechSynthesisUtterance
+
+Redefinitions: 0
+Other issues: 8
+
+=== DUPLICATE FUNCTIONS ===
+  None found
+
+=== BACKEND FUNCTION ISSUES ===
+  No critical issues
+
+=== STATE GUARD ANALYSIS ===
+  isProcessingQuery: 2 sets, 3 resets [OK]
+  isSpeaking: 0 sets, 1 resets [OK]
+  isListening: 1 sets, 2 resets [OK]
+  translatorActive: 1 sets, 2 resets [OK]
+  vadActive: 1 sets, 1 resets [OK]
+
+============================================================
+TOTAL ISSUES FOUND: 56
+============================================================

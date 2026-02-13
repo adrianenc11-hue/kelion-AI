@@ -1,0 +1,8 @@
+X [ERROR] Could not resolve "pg"
+
+    netlify/functions/run-migration.js:4:27:
+      4 Ôöé const { Client } = require('pg');
+        ÔòÁ                            ~~~~
+
+  You can mark the path "pg" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle. You can also surround this "require" call with a try/catch block to handle this failure at run-time instead of bundle-time.
+

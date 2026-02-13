@@ -1,0 +1,67 @@
+extracted_js.js: line 1041, col 25, Misleading line break before '?'; readers may interpret this as an expression boundary.
+extracted_js.js: line 1047, col 21, Misleading line break before '?'; readers may interpret this as an expression boundary.
+extracted_js.js: line 1280, col 88, Bad constructor.
+extracted_js.js: line 1567, col 65, ['en'] is better written in dot notation.
+extracted_js.js: line 1548, col 19, 'authToken' is defined but never used.
+extracted_js.js: line 1594, col 13, Misleading line break before '?'; readers may interpret this as an expression boundary.
+extracted_js.js: line 2269, col 25, Misleading line break before '?'; readers may interpret this as an expression boundary.
+extracted_js.js: line 2278, col 21, Misleading line break before '?'; readers may interpret this as an expression boundary.
+extracted_js.js: line 2334, col 88, Bad constructor.
+extracted_js.js: line 2585, col 85, Bad constructor.
+extracted_js.js: line 2768, col 85, Bad constructor.
+extracted_js.js: line 3064, col 85, Bad constructor.
+extracted_js.js: line 3410, col 25, Misleading line break before '?'; readers may interpret this as an expression boundary.
+extracted_js.js: line 3432, col 25, Misleading line break before '?'; readers may interpret this as an expression boundary.
+extracted_js.js: line 4929, col 64, ['en'] is better written in dot notation.
+extracted_js.js: line 885, col 41, 'AbortController' is not defined.
+extracted_js.js: line 2047, col 41, 'AbortController' is not defined.
+extracted_js.js: line 2459, col 44, 'AbortController' is not defined.
+extracted_js.js: line 3985, col 35, 'SpeechSynthesisUtterance' is not defined.
+extracted_js.js: line 78, col 22, 'toggleChatPanel' is defined but never used.
+extracted_js.js: line 87, col 28, 'sendChatMessage' is defined but never used.
+extracted_js.js: line 313, col 22, 'triggerAutoStartAfterModel' is defined but never used.
+extracted_js.js: line 573, col 18, 'safeMouthPlay' is defined but never used.
+extracted_js.js: line 594, col 13, 'detectedLanguageCode' is defined but never used.
+extracted_js.js: line 597, col 15, 'WAKE_WORDS' is defined but never used.
+extracted_js.js: line 737, col 24, 'getVisualMemories' is defined but never used.
+extracted_js.js: line 791, col 18, 'getLocalizedGreeting' is defined but never used.
+extracted_js.js: line 829, col 18, 'clearHistory' is defined but never used.
+extracted_js.js: line 1057, col 24, 'webSearch' is defined but never used.
+extracted_js.js: line 1225, col 18, 'resetSessionLanguage' is defined but never used.
+extracted_js.js: line 1243, col 18, 'getTimeBasedGreeting' is defined but never used.
+extracted_js.js: line 1258, col 13, 'noiseGate' is defined but never used.
+extracted_js.js: line 1263, col 24, 'initNoiseFilter' is defined but never used.
+extracted_js.js: line 1314, col 18, 'canRestartRecognition' is defined but never used.
+extracted_js.js: line 1476, col 24, 'activateHologram' is defined but never used.
+extracted_js.js: line 1536, col 24, 'greetUser' is defined but never used.
+extracted_js.js: line 1602, col 15, 'PERPLEXITY_MODEL' is defined but never used.
+extracted_js.js: line 1682, col 18, 'openUploadModal' is defined but never used.
+extracted_js.js: line 1721, col 24, 'processUploadedDoc' is defined but never used.
+extracted_js.js: line 1809, col 13, 'currentLineWidth' is defined but never used.
+extracted_js.js: line 1843, col 18, 'closeDocPanel' is defined but never used.
+extracted_js.js: line 1939, col 18, 'setDrawColor' is defined but never used.
+extracted_js.js: line 1945, col 18, 'clearDrawing' is defined but never used.
+extracted_js.js: line 1951, col 24, 'saveDocument' is defined but never used.
+extracted_js.js: line 2035, col 24, 'openDocFromK1' is defined but never used.
+extracted_js.js: line 2132, col 18, 'needsWebSearch' is defined but never used.
+extracted_js.js: line 2153, col 18, 'openGoogleMaps' is defined but never used.
+extracted_js.js: line 2407, col 18, 'stopVADMonitoring' is defined but never used.
+extracted_js.js: line 2458, col 18, 'createRequestController' is defined but never used.
+extracted_js.js: line 2502, col 18, 'startNaturalBlink' is defined but never used.
+extracted_js.js: line 2521, col 18, 'stopNaturalBlink' is defined but never used.
+extracted_js.js: line 2544, col 18, 'randomLook' is defined but never used.
+extracted_js.js: line 2553, col 18, 'mapAnimations' is defined but never used.
+extracted_js.js: line 2717, col 18, 'setExpressionState' is defined but never used.
+extracted_js.js: line 2753, col 13, 'lipSyncMonitorActive' is defined but never used.
+extracted_js.js: line 2939, col 18, 'startLipSyncWithLatencyCompensation' is defined but never used.
+extracted_js.js: line 2954, col 13, 'audioSourceConnected' is defined but never used.
+extracted_js.js: line 3116, col 18, 'animateMouthWithAudio' is defined but never used.
+extracted_js.js: line 3356, col 18, 'stopSpeaking' is defined but never used.
+extracted_js.js: line 3854, col 24, 'startTranslator' is defined but never used.
+extracted_js.js: line 3932, col 18, 'stopTranslator' is defined but never used.
+extracted_js.js: line 4617, col 24, 'handleCameraCapture' is defined but never used.
+extracted_js.js: line 5053, col 13, 'currentMapDestination' is defined but never used.
+extracted_js.js: line 5077, col 18, 'navigateTo' is defined but never used.
+extracted_js.js: line 5084, col 18, 'openWaze' is defined but never used.
+
+65 errors
