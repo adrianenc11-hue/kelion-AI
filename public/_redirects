@@ -1,2 +1,3 @@
 /api/*  /.netlify/functions/:splat  200
 /health  /.netlify/functions/health  200
+/app.html  /chat.html  301
