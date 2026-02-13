@@ -58,7 +58,7 @@
             height: 700px;
             top: -200px;
             left: -250px;
-            background: rgba(0, 255, 255, 0.07);
+            background: rgba(0, 255, 255, 0.035);
             animation: orbF 22s ease-in-out infinite
         }
 
@@ -67,7 +67,7 @@
             height: 500px;
             bottom: -150px;
             right: -200px;
-            background: rgba(0, 100, 255, 0.07);
+            background: rgba(0, 100, 255, 0.035);
             animation: orbF 28s ease-in-out infinite reverse
         }
 
@@ -76,7 +76,7 @@
             height: 400px;
             top: 50%;
             left: 60%;
-            background: rgba(120, 0, 255, 0.05);
+            background: rgba(120, 0, 255, 0.025);
             animation: orbF 32s ease-in-out infinite 1s
         }
 
@@ -591,10 +591,9 @@
         .fc {
             padding: 24px;
             border-radius: 16px;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px) saturate(1.2);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all .4s cubic-bezier(.4, 0, .2, 1);
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all .4s;
             overflow: hidden;
             position: relative
         }
@@ -606,16 +605,16 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.15), transparent);
             opacity: 0;
             transition: opacity .4s
         }
 
         .fc:hover {
-            transform: translateY(-6px);
-            border-color: rgba(0, 255, 255, 0.15);
-            background: rgba(0, 255, 255, 0.025);
-            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 255, 255, 0.03)
+            transform: translateY(-4px);
+            border-color: rgba(0, 255, 255, 0.1);
+            background: rgba(0, 255, 255, 0.015);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3)
         }
 
         .fc:hover::after {
@@ -623,57 +622,50 @@
         }
 
         .fi {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
-            margin-bottom: 14px;
-            transition: all .3s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2)
-        }
-
-        .fc:hover .fi {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3)
+            font-size: 1.3rem;
+            margin-bottom: 14px
         }
 
         .fi.v1 {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05))
+            background: rgba(59, 130, 246, 0.1)
         }
 
         .fi.v2 {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(168, 85, 247, 0.05))
+            background: rgba(168, 85, 247, 0.1)
         }
 
         .fi.v3 {
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.12), rgba(0, 255, 255, 0.04))
+            background: rgba(0, 255, 255, 0.08)
         }
 
         .fi.v4 {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05))
+            background: rgba(245, 158, 11, 0.1)
         }
 
         .fi.v5 {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05))
+            background: rgba(239, 68, 68, 0.1)
         }
 
         .fi.v6 {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05))
+            background: rgba(16, 185, 129, 0.1)
         }
 
         .fi.v7 {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.05))
+            background: rgba(99, 102, 241, 0.1)
         }
 
         .fi.v8 {
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(236, 72, 153, 0.05))
+            background: rgba(236, 72, 153, 0.1)
         }
 
         .fi.v9 {
-            background: linear-gradient(135deg, rgba(107, 114, 128, 0.15), rgba(107, 114, 128, 0.05))
+            background: rgba(107, 114, 128, 0.1)
         }
 
         .fc h3 {
@@ -683,9 +675,9 @@
         }
 
         .fc p {
-            color: rgba(255, 255, 255, 0.40);
+            color: rgba(255, 255, 255, 0.35);
             font-size: .82rem;
-            line-height: 1.6
+            line-height: 1.5
         }
 
         .nt {
@@ -835,24 +827,21 @@
             padding: 26px 22px;
             border-radius: 18px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all .4s cubic-bezier(.4, 0, .2, 1);
-            position: relative;
-            overflow: hidden
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all .4s;
+            position: relative
         }
 
         .pc:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.10);
-            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.3)
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.08)
         }
 
         .pc.pop {
-            border-color: rgba(0, 255, 255, 0.25);
-            box-shadow: 0 0 50px rgba(0, 255, 255, 0.06), 0 8px 30px rgba(0, 0, 0, 0.2);
-            background: rgba(0, 255, 255, 0.02)
+            border-color: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.04);
+            background: rgba(0, 255, 255, 0.015)
         }
 
         .pc.pop::before {
@@ -863,34 +852,10 @@
             transform: translateX(-50%);
             background: linear-gradient(135deg, var(--c), var(--b));
             color: #000;
-            padding: 4px 16px;
+            padding: 3px 12px;
             border-radius: 8px;
-            font-size: .62rem;
-            font-weight: 700;
-            box-shadow: 0 4px 12px rgba(0, 255, 255, 0.2)
-        }
-
-        .pc.pop::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.03) 50%, transparent 60%);
-            animation: cardShine 4s ease-in-out infinite
-        }
-
-        @keyframes cardShine {
-
-            0%,
-            100% {
-                transform: translateX(-100%) rotate(25deg)
-            }
-
-            50% {
-                transform: translateX(100%) rotate(25deg)
-            }
+            font-size: .6rem;
+            font-weight: 700
         }
 
         .pc h3 {
@@ -1236,14 +1201,7 @@
 
         .av-panel:hover .av-name {
             color: #fff;
-            text-shadow:
-                0 1px 0 #ccc,
-                0 2px 0 #bbb,
-                0 3px 0 #aaa,
-                0 4px 0 #999,
-                0 5px 8px rgba(0, 0, 0, 0.4),
-                0 0 25px var(--av-glow);
-            animation: nameFlip3D 4s ease-in-out 1;
+            text-shadow: 0 0 20px var(--av-glow);
         }
 
         .av-panel.av-male {
@@ -1335,34 +1293,8 @@
             font-size: clamp(1.6rem, 3vw, 2.6rem);
             font-weight: 900;
             color: rgba(255, 255, 255, 0.7);
-            transition: color .3s, text-shadow .3s;
+            transition: all .3s;
             margin-bottom: 6px;
-            text-shadow:
-                0 1px 0 rgba(200, 200, 200, 0.3),
-                0 2px 0 rgba(180, 180, 180, 0.2),
-                0 3px 0 rgba(150, 150, 150, 0.15),
-                0 4px 6px rgba(0, 0, 0, 0.3);
-            letter-spacing: 3px;
-            perspective: 600px;
-            transform-style: preserve-3d;
-        }
-
-        @keyframes nameFlip3D {
-            0% {
-                transform: rotateY(0deg);
-            }
-
-            50% {
-                transform: rotateY(0deg);
-            }
-
-            75% {
-                transform: rotateY(360deg);
-            }
-
-            100% {
-                transform: rotateY(360deg);
-            }
         }
 
         .av-role {
@@ -1464,13 +1396,19 @@
             <p>Select your holographic assistant</p>
         </div>
         <div class="av-panel av-male" onclick="selectAvatar('kelion')">
-            <canvas id="av3d-male" class="av-img" width="400" height="400" style="border-radius:18px;"></canvas>
+            <img src="/hologram-512.png" alt="Kelion" class="av-img av-placeholder"
+                style="position:absolute;z-index:5;filter:drop-shadow(0 0 40px rgba(0,255,255,0.5));transition:opacity .6s;">
+            <canvas id="av3d-male" class="av-img" width="400" height="400"
+                style="border-radius:18px;opacity:0;transition:opacity .6s;"></canvas>
             <div class="av-name">Kelion</div>
             <div class="av-role">♂ Male AI</div>
         </div>
         <div class="av-divider">OR</div>
         <div class="av-panel av-female" onclick="selectAvatar('kira')">
-            <canvas id="av3d-female" class="av-img" width="400" height="400" style="border-radius:18px;"></canvas>
+            <img src="/hologram-512.png" alt="Kira" class="av-img av-placeholder"
+                style="position:absolute;z-index:5;filter:drop-shadow(0 0 40px rgba(232,67,147,0.5)) hue-rotate(280deg);transition:opacity .6s;">
+            <canvas id="av3d-female" class="av-img" width="400" height="400"
+                style="border-radius:18px;opacity:0;transition:opacity .6s;"></canvas>
             <div class="av-name">Kira</div>
             <div class="av-role">♀ Female AI</div>
         </div>
@@ -1614,7 +1552,10 @@
                         renderer.render(scene, camera);
                     })();
 
-                    // SUCCESS: Hide loader for this specific avatar
+                    // SUCCESS: Crossfade — show 3D canvas, hide placeholder
+                    canvas.style.opacity = '1';
+                    var placeholder = canvas.parentNode.querySelector('.av-placeholder');
+                    if (placeholder) placeholder.style.opacity = '0';
                     if (window.AVLoaderFix) window.AVLoaderFix.hide(loaderId);
 
                 }, undefined, function () {
@@ -1889,7 +1830,7 @@
                 <p class="sub">A living 3D hologram that speaks, sees, manages your email, tracks your family in
                     real-time, and runs your entire business — powered by 4 AI engines.</p>
                 <div class="hbtns">
-                    <a href="/chat.html" class="hb p">✨ Try K Free</a>
+                    <a href="/app.html" class="hb p">✨ Try K Free</a>
                     <a href="#features" class="hb s">See capabilities →</a>
                 </div>
             </div>
@@ -2107,7 +2048,7 @@
                     <li>3D Hologram</li>
                     <li>Basic voice</li>
                     <li>Gemini engine</li>
-                </ul><a href="/chat.html" class="pb o">Start Free</a>
+                </ul><a href="/app.html" class="pb o">Start Free</a>
             </div>
             <div class="pc pop">
                 <h3>Pro</h3>
@@ -2156,6 +2097,15 @@
         </div>
     </section>
 
+    <section class="cta rv">
+        <div class="cta-box">
+            <h2>Ready to meet <span class="glow"
+                    style="background:linear-gradient(135deg,var(--c),#a855f7,var(--b));background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s ease infinite">K</span>?
+            </h2>
+            <p>The future of AI is holographic. No card required.</p>
+            <a href="/app.html" class="hb p" style="display:inline-flex">✨ Launch K — It's Free</a>
+        </div>
+    </section>
 
     <!-- ═══ SPONSORS & PARTNERS ═══ -->
     <style>
@@ -2438,6 +2388,9 @@
         function selectAvatar(choice) {
             localStorage.setItem('k_avatar', choice);
             document.getElementById('avatarOverlay').classList.add('hidden');
+            setTimeout(function () {
+                window.location.href = '/subscribe.html?avatar=' + choice;
+            }, 400);
         }
         // Pre-highlight saved avatar
         (function () {

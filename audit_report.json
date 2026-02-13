@@ -1,176 +1,176 @@
 {
-  "timestamp": "2026-02-13T07:48:50.243Z",
+  "timestamp": "2026-02-13T05:24:58.780Z",
   "base_url": "https://kelionai.app",
   "total": 139,
   "ok": 137,
   "warn": 0,
   "fail": 0,
-  "elapsed_ms": 93272,
+  "elapsed_ms": 97867,
   "results": [
     {
       "status": 200,
-      "time_ms": 969,
+      "time_ms": 1295,
       "body_preview": "",
       "endpoint": "ab-testing",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 631,
+      "time_ms": 639,
       "body_preview": "",
       "endpoint": "admin-notify",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 622,
+      "time_ms": 619,
       "body_preview": "",
       "endpoint": "admin-panel",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 562,
+      "time_ms": 606,
       "body_preview": "",
       "endpoint": "admin-traffic",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 615,
+      "time_ms": 699,
       "body_preview": "",
       "endpoint": "age-adapter",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 623,
+      "time_ms": 694,
       "body_preview": "",
       "endpoint": "ai-credits",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 625,
+      "time_ms": 667,
       "body_preview": "",
       "endpoint": "analytics-dashboard",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 571,
+      "time_ms": 639,
       "body_preview": "",
       "endpoint": "api-gateway",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 598,
+      "time_ms": 777,
       "body_preview": "",
       "endpoint": "api-keys",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 607,
+      "time_ms": 730,
       "body_preview": "",
       "endpoint": "api-subscription",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 558,
+      "time_ms": 619,
       "body_preview": "",
       "endpoint": "audio-editor",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 679,
+      "time_ms": 822,
       "body_preview": "",
       "endpoint": "audit-log",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 668,
+      "time_ms": 674,
       "body_preview": "",
       "endpoint": "auth-forgot-password",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 705,
+      "time_ms": 741,
       "body_preview": "",
       "endpoint": "auth-login",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 732,
+      "time_ms": 715,
       "body_preview": "",
       "endpoint": "auth-logout",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 732,
+      "time_ms": 821,
       "body_preview": "",
       "endpoint": "auth-me",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 735,
+      "time_ms": 727,
       "body_preview": "",
       "endpoint": "auth-refresh",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 769,
+      "time_ms": 697,
       "body_preview": "",
       "endpoint": "auth-register",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 752,
+      "time_ms": 763,
       "body_preview": "",
       "endpoint": "auth-resend-verification",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 679,
+      "time_ms": 785,
       "body_preview": "",
       "endpoint": "auth-reset-password",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 655,
+      "time_ms": 713,
       "body_preview": "",
       "endpoint": "auth-verify-email",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 634,
+      "time_ms": 639,
       "body_preview": "",
       "endpoint": "auth",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 584,
+      "time_ms": 623,
       "body_preview": "",
       "endpoint": "auto-poster-api",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 743,
+      "time_ms": 646,
       "body_preview": "",
       "endpoint": "auto-poster-core",
       "method": "OPTIONS"
@@ -183,707 +183,707 @@
     },
     {
       "status": 200,
-      "time_ms": 589,
+      "time_ms": 624,
       "body_preview": "",
       "endpoint": "baby-monitor-mode",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 629,
+      "time_ms": 677,
       "body_preview": "",
       "endpoint": "backtesting-engine",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 632,
+      "time_ms": 709,
       "body_preview": "",
       "endpoint": "booking-system",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 655,
+      "time_ms": 815,
       "body_preview": "",
       "endpoint": "brain-memory",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 610,
+      "time_ms": 710,
       "body_preview": "",
       "endpoint": "browse-live",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 594,
+      "time_ms": 655,
       "body_preview": "",
       "endpoint": "buy-credits",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 671,
+      "time_ms": 642,
       "body_preview": "",
       "endpoint": "calendar",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 671,
+      "time_ms": 668,
       "body_preview": "",
       "endpoint": "canvas",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 1435,
+      "time_ms": 2422,
       "body_preview": "",
       "endpoint": "chart-generator-financial",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 534,
+      "time_ms": 647,
       "body_preview": "",
       "endpoint": "chart-generator",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 617,
+      "time_ms": 640,
       "body_preview": "",
       "endpoint": "chat",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 590,
+      "time_ms": 631,
       "body_preview": "",
       "endpoint": "check-user",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 1349,
+      "time_ms": 1307,
       "body_preview": "",
       "endpoint": "claude-audit",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 1077,
+      "time_ms": 1329,
       "body_preview": "",
       "endpoint": "claude-orchestrator",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 681,
+      "time_ms": 636,
       "body_preview": "",
       "endpoint": "code-interpreter",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 642,
+      "time_ms": 729,
       "body_preview": "",
       "endpoint": "cost-tracker",
       "method": "OPTIONS"
     },
     {
       "status": 204,
-      "time_ms": 722,
+      "time_ms": 707,
       "body_preview": "",
       "endpoint": "credit-codes",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 666,
+      "time_ms": 568,
       "body_preview": "",
       "endpoint": "cry-detector",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 613,
+      "time_ms": 644,
       "body_preview": "",
       "endpoint": "crypto-feed",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 594,
+      "time_ms": 608,
       "body_preview": "",
       "endpoint": "currency-converter",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 1090,
+      "time_ms": 1059,
       "body_preview": "",
       "endpoint": "dalle",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 602,
+      "time_ms": 661,
       "body_preview": "",
       "endpoint": "deep-research",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 1031,
+      "time_ms": 1125,
       "body_preview": "",
       "endpoint": "deepseek",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 571,
+      "time_ms": 587,
       "body_preview": "",
       "endpoint": "document-checker",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 570,
+      "time_ms": 669,
       "body_preview": "",
       "endpoint": "elevenlabs-tts",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 693,
+      "time_ms": 623,
       "body_preview": "",
       "endpoint": "email-alerts",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 639,
+      "time_ms": 706,
       "body_preview": "",
       "endpoint": "email-manager",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 627,
+      "time_ms": 735,
       "body_preview": "",
       "endpoint": "email-webhook",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 615,
+      "time_ms": 623,
       "body_preview": "",
       "endpoint": "engine-discovery",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 610,
+      "time_ms": 668,
       "body_preview": "",
       "endpoint": "engine-status",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 609,
+      "time_ms": 626,
       "body_preview": "{\"success\":true,\"configured\":\"3/10\",\"variables\":[{\"name\":\"OPENAI_API_KEY\",\"status\":\"MISSING\"},{\"name\":\"GEMINI_API_KEY\",\"status\":\"MISSING\"},{\"name\":\"DEEPSEEK_API_KEY\",\"status\":\"MISSING\"},{\"name\":\"DEEPG",
       "endpoint": "env-check",
       "method": "GET"
     },
     {
       "status": 200,
-      "time_ms": 548,
+      "time_ms": 582,
       "body_preview": "",
       "endpoint": "export-document",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 637,
+      "time_ms": 639,
       "body_preview": "",
       "endpoint": "file-upload",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 540,
+      "time_ms": 633,
       "body_preview": "",
       "endpoint": "financial-calculator",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 680,
+      "time_ms": 606,
       "body_preview": "",
       "endpoint": "free-trial",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 628,
+      "time_ms": 652,
       "body_preview": "",
       "endpoint": "gdpr-cleanup",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 1263,
+      "time_ms": 1009,
       "body_preview": "",
       "endpoint": "gemini-chat",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 618,
+      "time_ms": 629,
       "body_preview": "",
       "endpoint": "gemini-live-token",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 715,
+      "time_ms": 658,
       "body_preview": "",
       "endpoint": "generate-image",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 637,
+      "time_ms": 707,
       "body_preview": "",
       "endpoint": "generate-music",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 611,
+      "time_ms": 633,
       "body_preview": "",
       "endpoint": "generate-video",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 597,
+      "time_ms": 668,
       "body_preview": "",
       "endpoint": "get-porcupine-key",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 612,
+      "time_ms": 634,
       "body_preview": "",
       "endpoint": "get-secret",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 602,
+      "time_ms": 658,
       "body_preview": "",
       "endpoint": "group-chat",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 645,
+      "time_ms": 704,
       "body_preview": "",
       "endpoint": "group-location",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 598,
+      "time_ms": 634,
       "body_preview": "",
       "endpoint": "group-management",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 1168,
-      "body_preview": "{\"status\":\"healthy\",\"version\":\"v1.6\",\"timestamp\":\"2026-02-13T07:48:09.326Z\",\"responseTime\":\"582ms\",\"critical_checks\":{\"supabase\":{\"status\":\"ok\"},\"jwt\":{\"status\":\"ok\"},\"openai\":{\"status\":\"ok\"},\"supabas",
+      "time_ms": 1259,
+      "body_preview": "{\"status\":\"healthy\",\"version\":\"v1.6\",\"timestamp\":\"2026-02-13T05:24:16.939Z\",\"responseTime\":\"586ms\",\"critical_checks\":{\"supabase\":{\"status\":\"ok\"},\"jwt\":{\"status\":\"ok\"},\"openai\":{\"status\":\"ok\"},\"supabas",
       "endpoint": "health-check",
       "method": "GET"
     },
     {
       "status": 200,
-      "time_ms": 1336,
-      "body_preview": "{\"status\":\"healthy\",\"version\":\"v1.6\",\"timestamp\":\"2026-02-13T07:48:10.502Z\",\"responseTime\":\"555ms\",\"critical_checks\":{\"supabase\":{\"status\":\"ok\"},\"jwt\":{\"status\":\"ok\"},\"openai\":{\"status\":\"ok\"},\"supabas",
+      "time_ms": 1357,
+      "body_preview": "{\"status\":\"healthy\",\"version\":\"v1.6\",\"timestamp\":\"2026-02-13T05:24:18.303Z\",\"responseTime\":\"735ms\",\"critical_checks\":{\"supabase\":{\"status\":\"ok\"},\"jwt\":{\"status\":\"ok\"},\"openai\":{\"status\":\"ok\"},\"supabas",
       "endpoint": "health",
       "method": "GET"
     },
     {
       "status": 200,
-      "time_ms": 1186,
+      "time_ms": 725,
       "body_preview": "",
       "endpoint": "i18n",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 657,
+      "time_ms": 665,
       "body_preview": "",
       "endpoint": "image-editor",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 664,
+      "time_ms": 655,
       "body_preview": "",
       "endpoint": "integrity-check",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 637,
+      "time_ms": 614,
       "body_preview": "",
       "endpoint": "inventory-tracker",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 645,
+      "time_ms": 541,
       "body_preview": "",
       "endpoint": "invoice-generator",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 657,
+      "time_ms": 594,
       "body_preview": "",
       "endpoint": "k-analytics",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 627,
+      "time_ms": 672,
       "body_preview": "",
       "endpoint": "k-presentation",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 551,
+      "time_ms": 572,
       "body_preview": "",
       "endpoint": "k-security",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 700,
+      "time_ms": 739,
       "body_preview": "",
       "endpoint": "k-strategic-planner",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 768,
+      "time_ms": 770,
       "body_preview": "",
       "endpoint": "k-supreme-intelligence",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 644,
+      "time_ms": 662,
       "body_preview": "",
       "endpoint": "k-terminal",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 604,
+      "time_ms": 644,
       "body_preview": "",
       "endpoint": "legal-database-pension",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 945,
+      "time_ms": 570,
       "body_preview": "",
       "endpoint": "lullaby-generator",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 558,
+      "time_ms": 625,
       "body_preview": "",
       "endpoint": "maps-config",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 696,
+      "time_ms": 705,
       "body_preview": "",
       "endpoint": "market-data-feed",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 606,
+      "time_ms": 620,
       "body_preview": "",
       "endpoint": "memory-cleanup",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 652,
+      "time_ms": 670,
       "body_preview": "",
       "endpoint": "memory",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 686,
+      "time_ms": 654,
       "body_preview": "",
       "endpoint": "messenger-webhook",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 706,
+      "time_ms": 682,
       "body_preview": "",
       "endpoint": "neural-ai",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 639,
+      "time_ms": 702,
       "body_preview": "",
       "endpoint": "notes",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 602,
+      "time_ms": 638,
       "body_preview": "",
       "endpoint": "ocr",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 680,
+      "time_ms": 636,
       "body_preview": "",
       "endpoint": "order-executor",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 553,
+      "time_ms": 616,
       "body_preview": "",
       "endpoint": "page-tracking",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 584,
+      "time_ms": 627,
       "body_preview": "",
       "endpoint": "parent-dashboard",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 599,
+      "time_ms": 604,
       "body_preview": "",
       "endpoint": "paypal-admin",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 629,
+      "time_ms": 676,
       "body_preview": "",
       "endpoint": "paypal-webhook",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 616,
+      "time_ms": 609,
       "body_preview": "",
       "endpoint": "pension-calculator",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 602,
+      "time_ms": 654,
       "body_preview": "",
       "endpoint": "podcast",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 634,
+      "time_ms": 652,
       "body_preview": "",
       "endpoint": "portfolio-tracker",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 659,
+      "time_ms": 660,
       "body_preview": "",
       "endpoint": "push-notifications",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 607,
+      "time_ms": 653,
       "body_preview": "",
       "endpoint": "quiz-generator-kids",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 636,
+      "time_ms": 684,
       "body_preview": "",
       "endpoint": "realtime-session",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 644,
+      "time_ms": 653,
       "body_preview": "",
       "endpoint": "realtime-token",
       "method": "OPTIONS"
     },
     {
       "status": 204,
-      "time_ms": 658,
+      "time_ms": 674,
       "body_preview": "",
       "endpoint": "referral",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 588,
+      "time_ms": 658,
       "body_preview": "",
       "endpoint": "risk-calculator",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 626,
+      "time_ms": 980,
       "body_preview": "",
       "endpoint": "route-optimizer",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 606,
+      "time_ms": 839,
       "body_preview": "",
       "endpoint": "search-router",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 613,
+      "time_ms": 725,
       "body_preview": "",
       "endpoint": "search",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 722,
+      "time_ms": 686,
       "body_preview": "",
       "endpoint": "setup-admin",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 604,
+      "time_ms": 639,
       "body_preview": "",
       "endpoint": "setup-permanent-user",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 686,
+      "time_ms": 660,
       "body_preview": "",
       "endpoint": "setup-stripe-plans",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 776,
+      "time_ms": 746,
       "body_preview": "",
       "endpoint": "smart-brain",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 599,
+      "time_ms": 624,
       "body_preview": "",
       "endpoint": "social-media-monitor",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 619,
+      "time_ms": 664,
       "body_preview": "",
       "endpoint": "social-media-stats",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 618,
+      "time_ms": 710,
       "body_preview": "",
       "endpoint": "speak",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 564,
+      "time_ms": 592,
       "body_preview": "",
       "endpoint": "stable-diffusion",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 740,
+      "time_ms": 647,
       "body_preview": "",
       "endpoint": "story-generator",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 659,
+      "time_ms": 696,
       "body_preview": "",
       "endpoint": "stripe-checkout",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 686,
+      "time_ms": 657,
       "body_preview": "",
       "endpoint": "stripe-webhook",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 686,
+      "time_ms": 596,
       "body_preview": "",
       "endpoint": "tiktok-webhook",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 684,
+      "time_ms": 829,
       "body_preview": "",
       "endpoint": "trace-collector",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 736,
+      "time_ms": 690,
       "body_preview": "",
       "endpoint": "trading-alerts",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 646,
+      "time_ms": 615,
       "body_preview": "",
       "endpoint": "trading-bot-engine",
       "method": "OPTIONS"
@@ -896,84 +896,84 @@
     },
     {
       "status": 200,
-      "time_ms": 620,
+      "time_ms": 647,
       "body_preview": "",
       "endpoint": "trading-memory",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 602,
+      "time_ms": 655,
       "body_preview": "",
       "endpoint": "transcribe",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 580,
+      "time_ms": 647,
       "body_preview": "",
       "endpoint": "truth-detector",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 624,
+      "time_ms": 706,
       "body_preview": "",
       "endpoint": "usage-limiter",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 708,
+      "time_ms": 722,
       "body_preview": "",
       "endpoint": "user-data",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 623,
+      "time_ms": 660,
       "body_preview": "",
       "endpoint": "vector-store",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 625,
+      "time_ms": 693,
       "body_preview": "",
       "endpoint": "vision",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 589,
+      "time_ms": 650,
       "body_preview": "",
       "endpoint": "weather",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 664,
+      "time_ms": 660,
       "body_preview": "",
       "endpoint": "web-search",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 600,
+      "time_ms": 649,
       "body_preview": "",
       "endpoint": "webhook-monitor",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 695,
+      "time_ms": 640,
       "body_preview": "",
       "endpoint": "whisper",
       "method": "OPTIONS"
     },
     {
       "status": 200,
-      "time_ms": 596,
+      "time_ms": 650,
       "body_preview": "",
       "endpoint": "wolfram",
       "method": "OPTIONS"

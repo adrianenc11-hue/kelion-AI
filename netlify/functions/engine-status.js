@@ -156,7 +156,7 @@ exports.handler = async (event) => {
             const key = process.env.COHERE_API_KEY;
             if (!key) { results.cohere = { status: 'NO_KEY' }; }
             else {
-                const res = await fetch('https://api.cohere.com/v2/models', {
+                const res = await fetch('https://api.cohere.com/v1/check-api-key', {
                     headers: { 'Authorization': `Bearer ${key}` }
                 });
                 if (res.ok) {
@@ -194,7 +194,7 @@ exports.handler = async (event) => {
                 const res = await fetch('https://api.ai21.com/studio/v1/chat/completions', {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ model: 'jamba-large', messages: [{ role: 'user', content: 'hi' }], max_tokens: 5 })
+                    body: JSON.stringify({ model: 'jamba-1.5-large', messages: [{ role: 'user', content: 'hi' }], max_tokens: 5 })
                 });
                 if (res.ok) {
                     results.ai21 = { status: 'OK', balance: 'Pay-per-use (AI21 credit)', note: 'Key valid' };

@@ -2,15 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta name="description"
-        content="Chat with K, an advanced AI assistant with 10+ expert professions including Software Engineer, Cyber Security, Lawyer, and more. Real-time web search and browsing.">
+    <meta name="description" content="Chat with K, an advanced AI assistant with 10+ expert professions including Software Engineer, Cyber Security, Lawyer, and more. Real-time web search and browsing.">
     <meta name="keywords" content="AI chat, K assistant, AI professions, smart chatbot, multilingual AI">
     <meta name="author" content="Kelion AI">
     <meta name="robots" content="index, follow">
     <!-- Open Graph -->
     <meta property="og:title" content="K — Chat AI | Kelion AI">
-    <meta property="og:description"
-        content="Chat with K, an advanced AI assistant with 10+ expert professions including Software Engineer, Cyber Security, Lawyer, and more. Real-time web search and browsing.">
+    <meta property="og:description" content="Chat with K, an advanced AI assistant with 10+ expert professions including Software Engineer, Cyber Security, Lawyer, and more. Real-time web search and browsing.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kelionai.app/chat.html">
     <meta property="og:image" content="https://kelionai.app/hologram-512.png">
@@ -18,8 +16,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="K — Chat AI | Kelion AI">
-    <meta name="twitter:description"
-        content="Chat with K, an advanced AI assistant with 10+ expert professions including Software Engineer, Cyber Security, Lawyer, and more. Real-time web search and browsing.">
+    <meta name="twitter:description" content="Chat with K, an advanced AI assistant with 10+ expert professions including Software Engineer, Cyber Security, Lawyer, and more. Real-time web search and browsing.">
     <meta name="twitter:image" content="https://kelionai.app/hologram-512.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,7 +47,6 @@
             height: 100vh;
             display: flex;
             flex-direction: row;
-            overflow: hidden;
         }
 
         /* ═══ SPLIT LAYOUT — 40% Avatar / 60% Monitor+Doc ═══ */
@@ -60,7 +56,6 @@
             flex-direction: column;
             min-width: 0;
             max-width: 60%;
-            overflow: hidden;
         }
 
         .k-display-panel {
@@ -1159,8 +1154,7 @@
                 title="Open Google Maps with your location">📍 Locate</div>
             <a href="/" class="k-status-item" style="text-decoration:none;color:rgba(255,255,255,0.7);cursor:pointer"
                 title="Back to home">← Back</a>
-            <div class="k-status-item" id="kBrowseIndicator" style="cursor:pointer;opacity:0.5" onclick="toggleBrowse()"
-                title="K Browser Agent: Search & Browse Internet">🌐 Browse</div>
+            <div class="k-status-item" id="kBrowseIndicator" style="cursor:pointer;opacity:0.5" onclick="toggleBrowse()" title="K Browser Agent: Search & Browse Internet">🌐 Browse</div>
         </div>
         <!-- M/F Toggle -->
         <div class="k-gender-toggle" title="Change avatar & voice">
@@ -2027,213 +2021,145 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 30000);
     }
 });
-    </script>
+</script>
 
-</body>
-
-</html>`], { type: 'text/html' });
-downloadBlob(blob, `k-monitor-${Date.now()}.html`);
-addMsg('system', '💾 Monitor content saved.');
-}
-
-// ═══ SCREENSHOT — capture chat panel as image ═══
-function saveScreenshot() {
-document.getElementById('exportMenu').classList.remove('show');
-const chatPanel = document.querySelector('.chat-panel');
-if (!chatPanel) { addMsg('system', '⚠️ Nothing to capture.'); return; }
-
-// Use canvas to capture the chat panel
-const canvas = document.createElement('canvas');
-const rect = chatPanel.getBoundingClientRect();
-canvas.width = rect.width * 2; // 2x for retina
-canvas.height = rect.height * 2;
-const ctx = canvas.getContext('2d');
-ctx.scale(2, 2);
-
-// Draw a styled background
-ctx.fillStyle = '#0a0e1a';
-ctx.fillRect(0, 0, rect.width, rect.height);
-
-// Use foreignObject SVG trick to render HTML to canvas
-const svgData = `<svg xmlns="http://www.w3.org/2000/svg" width="${rect.width}" height="${rect.height}">
-    <foreignObject width="100%" height="100%">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Inter,sans-serif;color:#e2e8f0;padding:20px">
-            <h2 style="color:#6366f1;margin-bottom:10px">⚡ K — Chat Session</h2>
-            <p style="color:#64748b;font-size:12px;margin-bottom:16px">${new Date().toLocaleString()}</p>
-            <div style="background:#111827;border-radius:12px;padding:16px">
-                ${document.getElementById('kMonitorContent')?.innerHTML || '<p>No content</p>'}
-            </div>
-        </div>
-    </foreignObject>
-</svg>`;
-
-const img = new Image();
-const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-const url = URL.createObjectURL(svgBlob);
-img.onload = () => {
-ctx.drawImage(img, 0, 0);
-URL.revokeObjectURL(url);
-canvas.toBlob((blob) => {
-if (blob) {
-downloadBlob(blob, `k-screenshot-${Date.now()}.png`);
-addMsg('system', '📸 Screenshot saved.');
-}
-}, 'image/png');
-};
-img.onerror = () => {
-// Fallback: just save the text content
-const text = document.getElementById('kMonitorContent')?.innerText || 'No content';
-const blob = new Blob([`K Chat Screenshot — ${new Date().toLocaleString()}\n\n${text}`], { type: 'text/plain' });
-downloadBlob(blob, `k-screenshot-${Date.now()}.txt`);
-addMsg('system', '📸 Screenshot saved as text (image export not supported in this browser).');
-};
-img.src = url;
-}
-
-// ═══ CONVERSATION — export all messages as JSON ═══
-function saveConversation() {
-document.getElementById('exportMenu').classList.remove('show');
-const messages = document.getElementById('messages');
-if (!messages || messages.children.length === 0) {
-addMsg('system', '⚠️ No conversation to save.');
-return;
-}
-
-const conversation = [];
-for (const msg of messages.children) {
-const type = msg.classList.contains('user') ? 'user' :
-msg.classList.contains('ai') ? 'ai' : 'system';
-const model = msg.dataset?.model || null;
-conversation.push({
-type,
-text: msg.innerText.trim(),
-model,
-timestamp: new Date().toISOString()
-});
-}
-
-const exportData = {
-session: 'K Chat Session',
-exported: new Date().toISOString(),
-messageCount: conversation.length,
-messages: conversation
-};
-
-const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-downloadBlob(blob, `k-conversation-${Date.now()}.json`);
-addMsg('system', `💬 Conversation saved (${conversation.length} messages).`);
-}
-
-function toggleExportMenu() {
-document.getElementById('exportMenu').classList.toggle('show');
-}
-
-// Close export menu when clicking outside
-document.addEventListener('click', (e) => {
-if (!e.target.closest('.export-dropdown')) {
-const menu = document.getElementById('exportMenu');
-if (menu) menu.classList.remove('show');
-}
-});
-
-function exportAs(format) {
-document.getElementById('exportMenu').classList.remove('show');
-const monitor = document.getElementById('kMonitorContent');
-if (!monitor || !monitor.innerHTML.trim()) {
-addMsg('system', '⚠️ Nothing to export — K Monitor is empty.');
-return;
-}
-
-switch (format) {
-case 'html': {
-const blob = new Blob([`
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <title>K Monitor Export</title>
-    <style>
-        body {
-            font-family: Inter, sans-serif;
-            background: #0a0e1a;
-            color: #e2e8f0;
-            padding: 40px;
-            line-height: 1.7
+</body></html>`], { type: 'text/html' });
+            downloadBlob(blob, `k-monitor-${Date.now()}.html`);
+            addMsg('system', '💾 Monitor content saved.');
         }
 
-        pre {
-            background: #111;
-            padding: 14px;
-            border-radius: 8px;
-            color: #a5f3fc
+        // ═══ SCREENSHOT — capture chat panel as image ═══
+        function saveScreenshot() {
+            document.getElementById('exportMenu').classList.remove('show');
+            const chatPanel = document.querySelector('.chat-panel');
+            if (!chatPanel) { addMsg('system', '⚠️ Nothing to capture.'); return; }
+
+            // Use canvas to capture the chat panel
+            const canvas = document.createElement('canvas');
+            const rect = chatPanel.getBoundingClientRect();
+            canvas.width = rect.width * 2; // 2x for retina
+            canvas.height = rect.height * 2;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(2, 2);
+
+            // Draw a styled background
+            ctx.fillStyle = '#0a0e1a';
+            ctx.fillRect(0, 0, rect.width, rect.height);
+
+            // Use foreignObject SVG trick to render HTML to canvas
+            const svgData = `<svg xmlns="http://www.w3.org/2000/svg" width="${rect.width}" height="${rect.height}">
+                <foreignObject width="100%" height="100%">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Inter,sans-serif;color:#e2e8f0;padding:20px">
+                        <h2 style="color:#6366f1;margin-bottom:10px">⚡ K — Chat Session</h2>
+                        <p style="color:#64748b;font-size:12px;margin-bottom:16px">${new Date().toLocaleString()}</p>
+                        <div style="background:#111827;border-radius:12px;padding:16px">
+                            ${document.getElementById('kMonitorContent')?.innerHTML || '<p>No content</p>'}
+                        </div>
+                    </div>
+                </foreignObject>
+            </svg>`;
+
+            const img = new Image();
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svgBlob);
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0);
+                URL.revokeObjectURL(url);
+                canvas.toBlob((blob) => {
+                    if (blob) {
+                        downloadBlob(blob, `k-screenshot-${Date.now()}.png`);
+                        addMsg('system', '📸 Screenshot saved.');
+                    }
+                }, 'image/png');
+            };
+            img.onerror = () => {
+                // Fallback: just save the text content
+                const text = document.getElementById('kMonitorContent')?.innerText || 'No content';
+                const blob = new Blob([`K Chat Screenshot — ${new Date().toLocaleString()}\n\n${text}`], { type: 'text/plain' });
+                downloadBlob(blob, `k-screenshot-${Date.now()}.txt`);
+                addMsg('system', '📸 Screenshot saved as text (image export not supported in this browser).');
+            };
+            img.src = url;
         }
 
-        img {
-            max-width: 100%
-        }
-    </style>
-</head>
-
-<body>${monitor.innerHTML}</body>
-
-</html>`], { type: 'text/html' });
-downloadBlob(blob, `k-export-${Date.now()}.html`);
-break;
-}
-case 'txt': {
-const text = monitor.innerText;
-const blob = new Blob([text], { type: 'text/plain' });
-downloadBlob(blob, `k-export-${Date.now()}.txt`);
-break;
-}
-case 'pdf': {
-// Open print dialog for PDF export
-const printWin = window.open('', '_blank');
-printWin.document.write(`
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>K Monitor</title>
-    <style>
-        body {
-            font-family: Inter, sans-serif;
-            padding: 40px;
-            line-height: 1.7
-        }
-
-        pre {
-            background: #f5f5f5;
-            padding: 14px;
-            border-radius: 8px;
-            overflow-x: auto
-        }
-
-        img {
-            max-width: 100%
-        }
-
-        @media print {
-            body {
-                padding: 20px
+        // ═══ CONVERSATION — export all messages as JSON ═══
+        function saveConversation() {
+            document.getElementById('exportMenu').classList.remove('show');
+            const messages = document.getElementById('messages');
+            if (!messages || messages.children.length === 0) {
+                addMsg('system', '⚠️ No conversation to save.');
+                return;
             }
+
+            const conversation = [];
+            for (const msg of messages.children) {
+                const type = msg.classList.contains('user') ? 'user' :
+                    msg.classList.contains('ai') ? 'ai' : 'system';
+                const model = msg.dataset?.model || null;
+                conversation.push({
+                    type,
+                    text: msg.innerText.trim(),
+                    model,
+                    timestamp: new Date().toISOString()
+                });
+            }
+
+            const exportData = {
+                session: 'K Chat Session',
+                exported: new Date().toISOString(),
+                messageCount: conversation.length,
+                messages: conversation
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            downloadBlob(blob, `k-conversation-${Date.now()}.json`);
+            addMsg('system', `💬 Conversation saved (${conversation.length} messages).`);
         }
-    </style>
-</head>
 
-<body>${monitor.innerHTML}</body>
+        function toggleExportMenu() {
+            document.getElementById('exportMenu').classList.toggle('show');
+        }
 
-</html>`);
-printWin.document.close();
-setTimeout(() => { printWin.print(); }, 500);
-break;
-}
-case 'md': {
-// Simple HTML to Markdown conversion
-let md = monitor.innerHTML
-.replace(/
-<pre><code>(.*?)<\/code><\/pre>/gs, '```\n$1\n```')
+        // Close export menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.export-dropdown')) {
+                const menu = document.getElementById('exportMenu');
+                if (menu) menu.classList.remove('show');
+            }
+        });
+
+        function exportAs(format) {
+            document.getElementById('exportMenu').classList.remove('show');
+            const monitor = document.getElementById('kMonitorContent');
+            if (!monitor || !monitor.innerHTML.trim()) {
+                addMsg('system', '⚠️ Nothing to export — K Monitor is empty.');
+                return;
+            }
+
+            switch (format) {
+                case 'html': {
+                    const blob = new Blob([`<!DOCTYPE html><html><head><meta charset="utf-8"><title>K Monitor Export</title><style>body{font-family:Inter,sans-serif;background:#0a0e1a;color:#e2e8f0;padding:40px;line-height:1.7}pre{background:#111;padding:14px;border-radius:8px;color:#a5f3fc}img{max-width:100%}</style></head><body>${monitor.innerHTML}</body></html>`], { type: 'text/html' });
+                    downloadBlob(blob, `k-export-${Date.now()}.html`);
+                    break;
+                }
+                case 'txt': {
+                    const text = monitor.innerText;
+                    const blob = new Blob([text], { type: 'text/plain' });
+                    downloadBlob(blob, `k-export-${Date.now()}.txt`);
+                    break;
+                }
+                case 'pdf': {
+                    // Open print dialog for PDF export
+                    const printWin = window.open('', '_blank');
+                    printWin.document.write(`<!DOCTYPE html><html><head><title>K Monitor</title><style>body{font-family:Inter,sans-serif;padding:40px;line-height:1.7}pre{background:#f5f5f5;padding:14px;border-radius:8px;overflow-x:auto}img{max-width:100%}@media print{body{padding:20px}}</style></head><body>${monitor.innerHTML}</body></html>`);
+                    printWin.document.close();
+                    setTimeout(() => { printWin.print(); }, 500);
+                    break;
+                }
+                case 'md': {
+                    // Simple HTML to Markdown conversion
+                    let md = monitor.innerHTML
+                        .replace(/<pre><code>(.*?)<\/code><\/pre>/gs, '```\n$1\n```')
                         .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
                         .replace(/<em>(.*?)<\/em>/g, '*$1*')
                         .replace(/<br\s*\/?>/g, '\n')
@@ -2671,11 +2597,11 @@ let md = monitor.innerHTML
                 // Initial: face user
                 kCurrentModel.rotation.y = kTargetRotY;
                 if (loading) loading.style.display = 'none';
-                console.log(`✅ K 3D model loaded: ${ gender }`);
+                console.log(`✅ K 3D model loaded: ${gender}`);
             }, (progress) => {
                 if (loading && progress.total) {
                     const pct = Math.round((progress.loaded / progress.total) * 100);
-                    loading.textContent = `⏳ ${ gender === 'male' ? '♂' : '♀'} ${ pct }%`;
+                    loading.textContent = `⏳ ${gender === 'male' ? '♂' : '♀'} ${pct}%`;
                 }
             }, (error) => {
                 console.error('❌ K 3D load error:', error);
@@ -2790,13 +2716,13 @@ let md = monitor.innerHTML
             if (customs.length === 0) { wrapper.style.display = 'none'; return; }
             wrapper.style.display = 'block';
             container.innerHTML = customs.map(c => `
-            < div style = "display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:6px" >
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;margin-bottom:6px">
                     <div>
                         <span style="color:#d4af37;font-weight:600;font-size:.78rem">⭐ ${c.name}</span>
                         <span style="color:rgba(255,255,255,0.3);font-size:.65rem;margin-left:8px">${c.specialties.split('\n').length} specialties</span>
                     </div>
                     <button onclick="deleteCustomProfession('${c.id}')" style="background:none;border:none;color:rgba(255,100,100,0.6);cursor:pointer;font-size:.75rem" title="Delete">🗑️</button>
-                </div >
+                </div>
             `).join('');
         }
 
@@ -2820,7 +2746,7 @@ let md = monitor.innerHTML
 
         // ═══ Init: load custom professions on page load ═══
         populateCustomProfessions();
-
+    
         // ═══ K BROWSER AGENT ═══
         let kBrowseEnabled = localStorage.getItem('k_browse_enabled') === 'true';
         function toggleBrowse() {

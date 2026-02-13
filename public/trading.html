@@ -2,15 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta name="description"
-        content="AI-powered trading bot with real-time market analysis, automated strategies, and comprehensive dashboard. Built into Kelion AI platform.">
+    <meta name="description" content="AI-powered trading bot with real-time market analysis, automated strategies, and comprehensive dashboard. Built into Kelion AI platform.">
     <meta name="keywords" content="AI trading bot, automated trading, trading dashboard, cryptocurrency trading">
     <meta name="author" content="Kelion AI">
     <meta name="robots" content="index, follow">
     <!-- Open Graph -->
     <meta property="og:title" content="AI Trading Bot — Kelion AI">
-    <meta property="og:description"
-        content="AI-powered trading bot with real-time market analysis, automated strategies, and comprehensive dashboard. Built into Kelion AI platform.">
+    <meta property="og:description" content="AI-powered trading bot with real-time market analysis, automated strategies, and comprehensive dashboard. Built into Kelion AI platform.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kelionai.app/trading.html">
     <meta property="og:image" content="https://kelionai.app/hologram-512.png">
@@ -18,8 +16,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="AI Trading Bot — Kelion AI">
-    <meta name="twitter:description"
-        content="AI-powered trading bot with real-time market analysis, automated strategies, and comprehensive dashboard. Built into Kelion AI platform.">
+    <meta name="twitter:description" content="AI-powered trading bot with real-time market analysis, automated strategies, and comprehensive dashboard. Built into Kelion AI platform.">
     <meta name="twitter:image" content="https://kelionai.app/hologram-512.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -473,7 +470,7 @@
 <body>
     <div class="header">
         <div style="display:flex;align-items:center;">
-            <a href="/chat.html" class="back-link">← K</a>
+            <a href="/app.html" class="back-link">← K</a>
             <h1>🤖 Kelion <span>Trading Bot</span></h1>
         </div>
         <div class="header-actions">
@@ -754,109 +751,109 @@
     <!-- K-Brain Modular System (transplantable) -->
     <script src="/brain/brain-init.js"></script>
 
-    <!-- Push Notifications + i18n -->
-    <script>
-        // ═══ SERVICE WORKER + PUSH NOTIFICATIONS ═══
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').then(reg => {
-                console.log('[K] Service Worker registered');
-            }).catch(err => console.warn('[K] SW registration failed:', err));
-        }
+<!-- Push Notifications + i18n -->
+<script>
+// ═══ SERVICE WORKER + PUSH NOTIFICATIONS ═══
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+        console.log('[K] Service Worker registered');
+    }).catch(err => console.warn('[K] SW registration failed:', err));
+}
 
-        async function subscribePush() {
-            try {
-                if (!('PushManager' in window)) { alert('Push notifications not supported'); return; }
-
-                const reg = await navigator.serviceWorker.ready;
-                const existing = await reg.pushManager.getSubscription();
-                if (existing) { console.log('[K] Already subscribed'); return existing; }
-
-                // Get VAPID key from server
-                const r = await fetch('/.netlify/functions/push-notifications', {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'get_vapid_key' })
-                });
-                const { vapid_public_key } = await r.json();
-                if (!vapid_public_key) { console.warn('[K] No VAPID key'); return null; }
-
-                // Convert base64url to Uint8Array
-                const urlBase64ToUint8Array = (base64String) => {
-                    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-                    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-                    const rawData = atob(base64);
-                    return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
-                };
-
-                const sub = await reg.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey: urlBase64ToUint8Array(vapid_public_key)
-                });
-
-                // Send to server
-                const email = localStorage.getItem('k_email') || 'anonymous';
-                await fetch('/.netlify/functions/push-notifications', {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'subscribe', subscription: sub, user_email: email })
-                });
-
-                console.log('[K] Push subscribed!');
-                return sub;
-            } catch (e) { console.error('[K] Push subscribe error:', e); }
-        }
-
-        // ═══ i18n LANGUAGE SYSTEM ═══
-        const K_LANGS = { en: 'English', ro: 'Română', es: 'Español', fr: 'Français', de: 'Deutsch' };
-        let K_I18N = {};
-
-        function getLanguage() {
-            return localStorage.getItem('k_lang') || navigator.language?.split('-')[0] || 'en';
-        }
-
-        async function loadTranslations(lang) {
-            try {
-                const r = await fetch('/.netlify/functions/i18n', {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ lang: lang || getLanguage() })
-                });
-                const d = await r.json();
-                if (d.success) { K_I18N = d.translations; applyTranslations(); }
-            } catch (e) { console.warn('[K] i18n load error:', e); }
-        }
-
-        function t(key) { return K_I18N[key] || key; }
-
-        function applyTranslations() {
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (K_I18N[key]) {
-                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = K_I18N[key];
-                    else el.textContent = K_I18N[key];
-                }
-            });
-        }
-
-        function setLanguage(lang) {
-            localStorage.setItem('k_lang', lang);
-            loadTranslations(lang);
-        }
-
-        // Auto-load on page ready
-        document.addEventListener('DOMContentLoaded', () => {
-            loadTranslations();
-
-            // Auto-ask for push after 30s on first visit
-            if (!localStorage.getItem('k_push_asked')) {
-                setTimeout(() => {
-                    if (Notification.permission === 'default') {
-                        Notification.requestPermission().then(p => {
-                            if (p === 'granted') subscribePush();
-                            localStorage.setItem('k_push_asked', '1');
-                        });
-                    }
-                }, 30000);
-            }
+async function subscribePush() {
+    try {
+        if (!('PushManager' in window)) { alert('Push notifications not supported'); return; }
+        
+        const reg = await navigator.serviceWorker.ready;
+        const existing = await reg.pushManager.getSubscription();
+        if (existing) { console.log('[K] Already subscribed'); return existing; }
+        
+        // Get VAPID key from server
+        const r = await fetch('/.netlify/functions/push-notifications', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ action: 'get_vapid_key' })
         });
-    </script>
+        const { vapid_public_key } = await r.json();
+        if (!vapid_public_key) { console.warn('[K] No VAPID key'); return null; }
+        
+        // Convert base64url to Uint8Array
+        const urlBase64ToUint8Array = (base64String) => {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+            const rawData = atob(base64);
+            return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+        };
+        
+        const sub = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(vapid_public_key)
+        });
+        
+        // Send to server
+        const email = localStorage.getItem('k_email') || 'anonymous';
+        await fetch('/.netlify/functions/push-notifications', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ action: 'subscribe', subscription: sub, user_email: email })
+        });
+        
+        console.log('[K] Push subscribed!');
+        return sub;
+    } catch(e) { console.error('[K] Push subscribe error:', e); }
+}
+
+// ═══ i18n LANGUAGE SYSTEM ═══
+const K_LANGS = { en: 'English', ro: 'Română', es: 'Español', fr: 'Français', de: 'Deutsch' };
+let K_I18N = {};
+
+function getLanguage() {
+    return localStorage.getItem('k_lang') || navigator.language?.split('-')[0] || 'en';
+}
+
+async function loadTranslations(lang) {
+    try {
+        const r = await fetch('/.netlify/functions/i18n', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ lang: lang || getLanguage() })
+        });
+        const d = await r.json();
+        if (d.success) { K_I18N = d.translations; applyTranslations(); }
+    } catch(e) { console.warn('[K] i18n load error:', e); }
+}
+
+function t(key) { return K_I18N[key] || key; }
+
+function applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (K_I18N[key]) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = K_I18N[key];
+            else el.textContent = K_I18N[key];
+        }
+    });
+}
+
+function setLanguage(lang) {
+    localStorage.setItem('k_lang', lang);
+    loadTranslations(lang);
+}
+
+// Auto-load on page ready
+document.addEventListener('DOMContentLoaded', () => {
+    loadTranslations();
+    
+    // Auto-ask for push after 30s on first visit
+    if (!localStorage.getItem('k_push_asked')) {
+        setTimeout(() => {
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(p => {
+                    if (p === 'granted') subscribePush();
+                    localStorage.setItem('k_push_asked', '1');
+                });
+            }
+        }, 30000);
+    }
+});
+</script>
 
 </body>
 
