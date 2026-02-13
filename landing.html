@@ -1198,7 +1198,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
+            padding-bottom: 3vh;
             cursor: pointer;
             position: relative;
             transition: all .4s;
@@ -1589,7 +1590,13 @@
                         mirrorMat.depthWrite = false;
                         mirrorMat.transparent = true;
                         mirrorMat.opacity = 1.0;
-                        var mirrorMesh = new THREE.Mesh(mirrorGeo, mirrorMat);
+                        var mirrorMesh;
+                        if (origMesh.isSkinnedMesh && origMesh.skeleton) {
+                            mirrorMesh = new THREE.SkinnedMesh(mirrorGeo, mirrorMat);
+                            mirrorMesh.bind(origMesh.skeleton, origMesh.bindMatrix);
+                        } else {
+                            mirrorMesh = new THREE.Mesh(mirrorGeo, mirrorMat);
+                        }
                         mirrorMesh.renderOrder = 2;
                         mirrorMesh.name = origMesh.name + '_mirror';
                         mirrorMesh.frustumCulled = false;

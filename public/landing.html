@@ -1120,6 +1120,16 @@
             }
         }
 
+        @keyframes avSpin {
+            from {
+                transform: rotate(0deg)
+            }
+
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
         /* ═══ AVATAR SELECTION OVERLAY ═══ */
         .avatar-overlay {
             position: fixed;
@@ -1163,7 +1173,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
+            padding-bottom: 3vh;
             cursor: pointer;
             position: relative;
             transition: all .4s;
@@ -1396,8 +1407,12 @@
             <p>Select your holographic assistant</p>
         </div>
         <div class="av-panel av-male" onclick="selectAvatar('kelion')">
-            <img src="/hologram-512.png" alt="Kelion" class="av-img av-placeholder"
-                style="position:absolute;z-index:5;filter:drop-shadow(0 0 40px rgba(0,255,255,0.5));transition:opacity .6s;">
+            <div class="av-placeholder av-spinner"
+                style="position:absolute;z-index:5;display:flex;align-items:center;justify-content:center;width:100%;height:280px;transition:opacity .6s;">
+                <div
+                    style="width:60px;height:60px;border:3px solid rgba(0,255,255,0.2);border-top-color:#00ffff;border-radius:50%;animation:avSpin 1s linear infinite;">
+                </div>
+            </div>
             <canvas id="av3d-male" class="av-img" width="400" height="400"
                 style="border-radius:18px;opacity:0;transition:opacity .6s;"></canvas>
             <div class="av-name">Kelion</div>
@@ -1405,8 +1420,12 @@
         </div>
         <div class="av-divider">OR</div>
         <div class="av-panel av-female" onclick="selectAvatar('kira')">
-            <img src="/hologram-512.png" alt="Kira" class="av-img av-placeholder"
-                style="position:absolute;z-index:5;filter:drop-shadow(0 0 40px rgba(232,67,147,0.5)) hue-rotate(280deg);transition:opacity .6s;">
+            <div class="av-placeholder av-spinner"
+                style="position:absolute;z-index:5;display:flex;align-items:center;justify-content:center;width:100%;height:280px;transition:opacity .6s;">
+                <div
+                    style="width:60px;height:60px;border:3px solid rgba(232,67,147,0.2);border-top-color:#e84393;border-radius:50%;animation:avSpin 1s linear infinite;">
+                </div>
+            </div>
             <canvas id="av3d-female" class="av-img" width="400" height="400"
                 style="border-radius:18px;opacity:0;transition:opacity .6s;"></canvas>
             <div class="av-name">Kira</div>
@@ -1527,7 +1546,13 @@
                         mirrorMat.depthWrite = false;
                         mirrorMat.transparent = true;
                         mirrorMat.opacity = 1.0;
-                        var mirrorMesh = new THREE.Mesh(mirrorGeo, mirrorMat);
+                        var mirrorMesh;
+                        if (origMesh.isSkinnedMesh && origMesh.skeleton) {
+                            mirrorMesh = new THREE.SkinnedMesh(mirrorGeo, mirrorMat);
+                            mirrorMesh.bind(origMesh.skeleton, origMesh.bindMatrix);
+                        } else {
+                            mirrorMesh = new THREE.Mesh(mirrorGeo, mirrorMat);
+                        }
                         mirrorMesh.renderOrder = 2;
                         mirrorMesh.name = origMesh.name + '_mirror';
                         mirrorMesh.frustumCulled = false;
@@ -1559,16 +1584,13 @@
                     if (window.AVLoaderFix) window.AVLoaderFix.hide(loaderId);
 
                 }, undefined, function () {
-                    // ERROR: Fallback
+                    // ERROR: Fallback — show text, not blazon
                     canvas.style.display = 'none';
-                    var img = document.createElement('img');
-                    img.src = '/hologram-512.png';
-                    img.alt = canvasId.indexOf('male') !== -1 ? 'Kelion' : 'Kira';
-                    img.className = 'av-img';
-                    if (canvasId.indexOf('female') !== -1) img.style.filter = 'hue-rotate(280deg)';
-                    canvas.parentNode.insertBefore(img, canvas.nextSibling);
-
-                    // Also hide loader on error so we see the fallback image
+                    var placeholder = canvas.parentNode.querySelector('.av-placeholder');
+                    if (placeholder) {
+                        placeholder.innerHTML = '<div style="font-size:4rem;text-align:center;">🤖</div><div style="color:rgba(255,255,255,0.4);font-size:.75rem;text-align:center;margin-top:8px;">Loading model...</div>';
+                        placeholder.style.opacity = '1';
+                    }
                     if (window.AVLoaderFix) window.AVLoaderFix.hide(loaderId);
                 });
             }
@@ -1813,7 +1835,8 @@
 
     <nav>
         <a href="/" class="nb">
-            <div class="kl">K</div>Kelion AI
+            <div class="kl">K</div>Kelion AI <span
+                style="font-size:.6rem;color:#00ffff;opacity:.7;margin-left:6px;font-weight:400">Kira v1</span>
         </a>
         <div class="nl"><a href="#features">Features</a><a href="#compare">Compare</a><a href="#pricing">Pricing</a>
         </div>

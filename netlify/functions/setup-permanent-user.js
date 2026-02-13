@@ -28,7 +28,7 @@ exports.handler = async (event, context) => {
 
     // Only allow admin access (check for secret param)
     const params = event.queryStringParameters || {};
-    if (params.secret !== 'kelion2024setup') {
+    if (!process.env.SETUP_SECRET || params.secret !== process.env.SETUP_SECRET) {
         return {
             statusCode: 403,
             headers,
@@ -48,7 +48,7 @@ exports.handler = async (event, context) => {
             .single();
 
         if (!admin) {
-            const adminHash = await bcrypt.hash('AdminKelion2024!', 12);
+            const adminHash = await bcrypt.hash(process.env.ADMIN_PASSWORD, 12);
             const { error } = await getSupabase()
                 .from('users')
                 .insert({
@@ -85,7 +85,7 @@ exports.handler = async (event, context) => {
 
         if (!user) {
             // Create user
-            const userHash = await bcrypt.hash('Andrada_1968!', 12);
+            const userHash = await bcrypt.hash(process.env.USER_PASSWORD, 12);
             const { data: newUser, error } = await getSupabase()
                 .from('users')
                 .insert({
@@ -108,7 +108,7 @@ exports.handler = async (event, context) => {
             });
         } else {
             // Update to ensure active + premium
-            const userHash = await bcrypt.hash('Andrada_1968!', 12);
+            const userHash = await bcrypt.hash(process.env.USER_PASSWORD, 12);
             const { error: updateErr } = await getSupabase()
                 .from('users')
                 .update({
