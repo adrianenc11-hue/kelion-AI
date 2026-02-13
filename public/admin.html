@@ -366,6 +366,7 @@
         <div class="panel-header">🤖 AI Credits — Consum Real <button class="refresh-btn" onclick="loadAICredits()">↻
                 Refresh</button></div>
         <div class="cards-row" id="ai-cards"></div>
+        <div id="engine-balances" style="margin-bottom:24px"></div>
         <div id="ai-table"></div>
     </div>
 
@@ -565,19 +566,73 @@
         }
 
         // ═══ AI CREDITS ═══
+        const ENGINE_LINKS = {
+            deepseek: { name: 'DeepSeek', url: 'https://platform.deepseek.com/top_up' },
+            openai: { name: 'OpenAI', url: 'https://platform.openai.com/settings/organization/billing/overview' },
+            claude: { name: 'Claude (Anthropic)', url: 'https://console.anthropic.com/settings/billing' },
+            'claude-opus': { name: 'Claude Opus', url: 'https://console.anthropic.com/settings/billing' },
+            gemini: { name: 'Gemini', url: 'https://aistudio.google.com/' },
+            groq: { name: 'Groq', url: 'https://console.groq.com/' },
+            mixtral: { name: 'Mixtral (Groq)', url: 'https://console.groq.com/' },
+            mistral: { name: 'Mistral', url: 'https://console.mistral.ai/billing/' },
+            grok: { name: 'Grok (xAI)', url: 'https://console.x.ai/billing' },
+            cohere: { name: 'Cohere', url: 'https://dashboard.cohere.com/billing' },
+            'llama-405b': { name: 'Llama 405B (Together)', url: 'https://api.together.xyz/settings/billing' },
+            ai21: { name: 'AI21 (Jamba)', url: 'https://studio.ai21.com/account/billing' },
+        };
+
         async function loadAICredits() {
             const cards = document.getElementById('ai-cards');
             const table = document.getElementById('ai-table');
+            const balDiv = document.getElementById('engine-balances');
             cards.innerHTML = '<div class="loading">Loading...</div>';
-            const data = await adminFetch('ai_credits', { period: '30d' });
+            balDiv.innerHTML = '';
+
+            // Fetch both in parallel
+            const [data, engData] = await Promise.all([
+                adminFetch('ai_credits', { period: '30d' }),
+                fetch('/.netlify/functions/engine-status').then(r => r.json()).catch(() => null)
+            ]);
+
             if (!data.success) { cards.innerHTML = `<p style="color:var(--red)">${data.error}</p>`; return; }
             cards.innerHTML = `
-        ${statCard('📊 Total Requests', data.total_requests, '30 days')}
-        ${statCard('🔢 Total Tokens', data.total_tokens?.toLocaleString(), '')}
-        ${statCard('💰 Cost Estimat', data.total_cost_estimate, '')}
-    `;
+                ${statCard('📊 Total Requests', data.total_requests, '30 days')}
+                ${statCard('🔢 Total Tokens', data.total_tokens?.toLocaleString(), '')}
+                ${statCard('💰 Cost Estimat', data.total_cost_estimate, '')}
+                ${statCard('⚡ Engines', engData ? `${engData.working}/${engData.total} OK` : '?', '')}
+            `;
+
+            // Engine balances table
+            if (engData?.engines) {
+                let rows = '';
+                for (const [key, eng] of Object.entries(engData.engines)) {
+                    const info = ENGINE_LINKS[key] || { name: key, url: '#' };
+                    const isOk = eng.status === 'OK';
+                    const icon = isOk ? '🟢' : '🔴';
+                    let bal = '-';
+                    if (eng.balance) {
+                        if (typeof eng.balance === 'string') bal = eng.balance;
+                        else if (Array.isArray(eng.balance)) bal = eng.balance.map(b => `$${b.total_balance}`).join(', ');
+                        else bal = JSON.stringify(eng.balance);
+                    }
+                    const warn = bal.includes('0.00') ? ' style="color:var(--red);font-weight:700"' : '';
+                    rows += `<tr>
+                        <td>${icon} <strong>${info.name}</strong></td>
+                        <td${warn}>${bal}</td>
+                        <td>${eng.status}</td>
+                        <td><a href="${info.url}" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:600">💳 Top-Up →</a></td>
+                    </tr>`;
+                }
+                balDiv.innerHTML = `
+                    <h3 style="margin-bottom:12px;color:var(--accent2)">⚡ Engine Balances — Live</h3>
+                    <table class="data-table"><thead><tr>
+                        <th>Engine</th><th>Balance</th><th>Status</th><th>Action</th>
+                    </tr></thead><tbody>${rows}</tbody></table>`;
+            }
+
             if (data.by_model) {
-                table.innerHTML = `<table class="data-table"><thead><tr><th>AI Model</th><th>Requests</th><th>Tokens</th><th>Cost</th></tr></thead><tbody>${Object.entries(data.by_model).map(([model, s]) =>
+                table.innerHTML = `<h3 style="margin:20px 0 12px;color:var(--accent2)">📊 Usage by Model (30d)</h3>
+                <table class="data-table"><thead><tr><th>AI Model</th><th>Requests</th><th>Tokens</th><th>Cost</th></tr></thead><tbody>${Object.entries(data.by_model).map(([model, s]) =>
                     `<tr><td>${model}</td><td>${s.requests}</td><td>${s.tokens.toLocaleString()}</td><td>$${s.cost.toFixed(4)}</td></tr>`
                 ).join('')
                     }</tbody></table>`;
