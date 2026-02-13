@@ -411,9 +411,17 @@
             </div>
         </div>
 
-        <!-- RIGHT: LOGIN FORM -->
+        <!-- RIGHT: LOGIN/REGISTER FORM -->
         <div class="right-panel">
             <div class="login-card">
+
+                <!-- AVATAR BANNER (shown when coming from avatar selection) -->
+                <div id="avatar-banner"
+                    style="display:none;text-align:center;margin-bottom:20px;padding:12px;border-radius:12px;background:rgba(0,255,255,0.05);border:1px solid rgba(0,255,255,0.15);">
+                    <div style="font-size:1.5rem;margin-bottom:4px;" id="avatar-emoji">🤖</div>
+                    <div style="color:var(--c);font-weight:600;font-size:.9rem;" id="avatar-name-display">Avatar
+                        selected</div>
+                </div>
 
                 <!-- LOGIN FORM -->
                 <div id="login-block" class="form-mode">
@@ -461,10 +469,50 @@
                         Google
                     </button>
 
-
+                    <div class="links">
+                        Don't have an account?<a onclick="showSignup()" style="cursor:pointer;">Create Account</a>
+                    </div>
                     <div class="links" style="margin-top:8px;">
                         <a onclick="showRedeemCode()" style="cursor:pointer;color:var(--c);font-size:.85rem;">🎁 Have a
                             credit code?</a>
+                    </div>
+                </div>
+
+                <!-- SIGNUP / REGISTER FORM -->
+                <div id="signup-block" class="form-mode hidden">
+                    <div class="card-header">
+                        <div class="logo">KELION <span>AI</span></div>
+                        <div class="card-subtitle">Create your account to get started.</div>
+                    </div>
+
+                    <form id="signup-form">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" id="signup-name" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="signup-email" placeholder="name@example.com"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" id="signup-password"
+                                placeholder="Min 8 characters" minlength="8" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" class="form-input" id="signup-confirm" placeholder="Repeat password"
+                                required>
+                        </div>
+
+                        <button type="submit" class="btn-primary">Create Account</button>
+                    </form>
+
+                    <div id="signup-status" style="text-align:center;margin-top:12px;font-size:.85rem;"></div>
+
+                    <div class="links" style="margin-top:15px;">
+                        Already have an account?<a onclick="showLogin()" style="cursor:pointer;">Log In</a>
                     </div>
                 </div>
 
@@ -614,8 +662,100 @@
             }
         });
 
-        // NOTE: Signup form was removed — subscribe.html is LOGIN ONLY per document
-        // Registration happens after avatar selection flow (Etapa 2)
+        // ═══ SIGNUP FORM SUBMIT ═══
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const status = document.getElementById('signup-status');
+            const originalText = btn.textContent;
+            btn.textContent = 'Creating account...';
+            btn.disabled = true;
+            status.textContent = '';
+
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('signup-confirm').value;
+
+            if (password !== confirm) {
+                status.innerHTML = '<span style="color:#ff4444;">Passwords do not match</span>';
+                btn.textContent = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/auth-register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, displayName: name })
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    // Backend creates user with pending_verify status
+                    // No accessToken is returned — user must verify email first
+                    status.innerHTML = '<span style="color:#00e676;">✅ Account created! Check your email to verify your account.</span>';
+                    btn.textContent = '✅ Check your email!';
+
+                    // After 3 seconds, switch to login form
+                    setTimeout(() => {
+                        showLogin();
+                        const loginSubtitle = document.querySelector('#login-block .card-subtitle');
+                        if (loginSubtitle) loginSubtitle.textContent = 'Email sent! Verify, then log in.';
+                    }, 3000);
+                } else {
+                    status.innerHTML = `<span style="color:#ff4444;">❌ ${data.error || 'Registration failed'}</span>`;
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                console.error('Register error:', err);
+                status.innerHTML = '<span style="color:#ff4444;">Connection error. Please try again.</span>';
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        });
+
+        // ═══ TOGGLE LOGIN / SIGNUP ═══
+        function showSignup() {
+            document.getElementById('login-block').classList.add('hidden');
+            document.getElementById('signup-block').classList.remove('hidden');
+        }
+        function showLogin() {
+            document.getElementById('signup-block').classList.add('hidden');
+            document.getElementById('login-block').classList.remove('hidden');
+        }
+
+        // ═══ URL PARAM HANDLER — Auto-show register mode ═══
+        (function handleModeParam() {
+            const params = new URLSearchParams(window.location.search);
+            const mode = params.get('mode');
+            const avatar = params.get('avatar');
+
+            // Show avatar banner if avatar was selected
+            if (avatar) {
+                const banner = document.getElementById('avatar-banner');
+                const emojiEl = document.getElementById('avatar-emoji');
+                const nameEl = document.getElementById('avatar-name-display');
+                if (banner) {
+                    banner.style.display = 'block';
+                    if (avatar === 'kira') {
+                        emojiEl.textContent = '👩';
+                        nameEl.textContent = 'Kira selected';
+                    } else {
+                        emojiEl.textContent = '👨';
+                        nameEl.textContent = 'Kelion selected';
+                    }
+                }
+            }
+
+            // Show register form if mode=register
+            if (mode === 'register') {
+                showSignup();
+            }
+        })();
 
         const roles = [
             {
@@ -896,6 +1036,8 @@
             }
         })();
     </script>
+<script src="/components/back-button.js"></script>
+<script src="/components/visitor-tracker.js"></script>
 </body>
 
 </html>

@@ -14,7 +14,7 @@ const headers = {
     'Content-Type': 'application/json'
 };
 
-const ADMIN_EMAIL = 'admin@kelionai.app';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const VALIDITY_MAP = { '1w': 7, '1m': 30, '6m': 180, '1y': 365 };
 const VALIDITY_LABELS = { '1w': '1 Week', '1m': '1 Month', '6m': '6 Months', '1y': '1 Year' };
 

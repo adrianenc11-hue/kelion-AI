@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curs Cetățenie RO/EU — Kelion AI</title>
+    <meta name="description"
+        content="Pregătire completă pentru examenul de cetățenie română și europeană. Lecții interactive, teste practice și asistență AI.">
+    <link rel="icon" href="/img/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030311;
+            --surface: rgba(255, 255, 255, 0.02);
+            --border: rgba(255, 255, 255, 0.06);
+            --gold: #d4af37;
+            --gold2: #f4d47c;
+            --cyan: #00c8ff;
+            --green: #00ff64;
+            --dim: rgba(255, 255, 255, 0.3);
+            --text: #e8e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 30px 20px 80px;
+        }
+
+        /* Header */
+        .hero {
+            text-align: center;
+            padding: 50px 0 40px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 20px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            color: var(--gold);
+            font-size: .65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold), var(--gold2), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: var(--dim);
+            font-size: .9rem;
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Stats bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 24px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .stat-label {
+            font-size: .6rem;
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        /* Course Modules */
+        .module {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 14px;
+            cursor: pointer;
+            transition: all .3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module:hover {
+            border-color: rgba(212, 175, 55, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .module.locked {
+            opacity: .5;
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .module-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .module-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .module-icon.history {
+            background: rgba(212, 175, 55, 0.08);
+        }
+
+        .module-icon.geo {
+            background: rgba(0, 200, 255, 0.08);
+        }
+
+        .module-icon.law {
+            background: rgba(139, 92, 246, 0.08);
+        }
+
+        .module-icon.culture {
+            background: rgba(0, 255, 100, 0.08);
+        }
+
+        .module-icon.eu {
+            background: rgba(99, 102, 241, 0.08);
+        }
+
+        .module-icon.exam {
+            background: rgba(248, 113, 113, 0.08);
+        }
+
+        .module-title {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .module-desc {
+            font-size: .75rem;
+            color: var(--dim);
+            margin-top: 3px;
+        }
+
+        .module-badge {
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: .6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .module-badge.free {
+            background: rgba(0, 255, 100, 0.08);
+            color: var(--green);
+        }
+
+        .module-badge.pro {
+            background: rgba(212, 175, 55, 0.08);
+            color: var(--gold);
+        }
+
+        .module-badge.lessons {
+            background: rgba(0, 200, 255, 0.06);
+            color: var(--cyan);
+            font-weight: 500;
+        }
+
+        /* Expandable content */
+        .module-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s ease;
+        }
+
+        .module.open .module-content {
+            max-height: 600px;
+        }
+
+        .lesson-list {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .lesson {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            transition: background .2s;
+            cursor: pointer;
+        }
+
+        .lesson:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .lesson-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(212, 175, 55, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .7rem;
+            font-weight: 700;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .lesson-name {
+            font-size: .82rem;
+            font-weight: 500;
+        }
+
+        .lesson-duration {
+            margin-left: auto;
+            font-size: .65rem;
+            color: var(--dim);
+        }
+
+        /* AI Tutor Section */
+        .ai-section {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.04), rgba(0, 200, 255, 0.04));
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .ai-section h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .ai-section p {
+            color: var(--dim);
+            font-size: .8rem;
+            margin-bottom: 16px;
+        }
+
+        .ai-chat-input {
+            display: flex;
+            gap: 8px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .ai-chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: .85rem;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .ai-chat-input input:focus {
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .ai-chat-input button {
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--gold), #b8860b);
+            color: #000;
+            font-weight: 700;
+            font-size: .85rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .3s;
+        }
+
+        .ai-chat-input button:hover {
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .ai-response {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            text-align: left;
+            font-size: .82rem;
+            line-height: 1.7;
+            color: var(--dim);
+            display: none;
+            white-space: pre-wrap;
+        }
+
+        .ai-response.active {
+            display: block;
+        }
+
+        /* Back button */
+        .back {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--dim);
+            text-decoration: none;
+            font-size: .75rem;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            transition: all .3s;
+        }
+
+        .back:hover {
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        @media(max-width:600px) {
+            .stats-bar {
+                gap: 16px;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/" class="back">← Înapoi</a>
+
+    <div class="container">
+        <div class="hero">
+            <div class="hero-badge">📚 Curs Interactiv AI</div>
+            <h1>Cetățenie Română & Europeană</h1>
+            <p>Pregătire completă pentru examenul de cetățenie. Lecții interactive, teste practice și asistență AI
+                disponibilă 24/7.</p>
+
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-val">6</div>
+                    <div class="stat-label">Module</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val">42</div>
+                    <div class="stat-label">Lecții</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val">200+</div>
+                    <div class="stat-label">Întrebări Test</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val">AI</div>
+                    <div class="stat-label">Tutor 24/7</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 1: Istorie -->
+        <div class="module" onclick="toggleModule(this)">
+            <div class="module-header">
+                <div class="module-left">
+                    <div class="module-icon history">🏛️</div>
+                    <div>
+                        <div class="module-title">Istoria României</div>
+                        <div class="module-desc">De la Dacia antică la România modernă — cronologie completă</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="module-badge free">Gratuit</span>
+                    <span class="module-badge lessons">8 lecții</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <div class="lesson-list">
+                    <div class="lesson" onclick="startLesson(event, 'Dacia și romanizarea')">
+                        <div class="lesson-num">1</div>
+                        <div class="lesson-name">Dacia și romanizarea</div>
+                        <div class="lesson-duration">15 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Formarea poporului român')">
+                        <div class="lesson-num">2</div>
+                        <div class="lesson-name">Formarea poporului român</div>
+                        <div class="lesson-duration">12 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Principatele Române')">
+                        <div class="lesson-num">3</div>
+                        <div class="lesson-name">Principatele Române</div>
+                        <div class="lesson-duration">18 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Unirea de la 1859')">
+                        <div class="lesson-num">4</div>
+                        <div class="lesson-name">Unirea de la 1859</div>
+                        <div class="lesson-duration">10 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Marea Unire de la 1918')">
+                        <div class="lesson-num">5</div>
+                        <div class="lesson-name">Marea Unire de la 1918</div>
+                        <div class="lesson-duration">14 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Perioada interbelică')">
+                        <div class="lesson-num">6</div>
+                        <div class="lesson-name">Perioada interbelică</div>
+                        <div class="lesson-duration">12 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Comunismul în România')">
+                        <div class="lesson-num">7</div>
+                        <div class="lesson-name">Comunismul în România</div>
+                        <div class="lesson-duration">16 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Revoluția din 1989 și România modernă')">
+                        <div class="lesson-num">8</div>
+                        <div class="lesson-name">Revoluția din 1989 și România modernă</div>
+                        <div class="lesson-duration">14 min</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 2: Geografie -->
+        <div class="module" onclick="toggleModule(this)">
+            <div class="module-header">
+                <div class="module-left">
+                    <div class="module-icon geo">🗺️</div>
+                    <div>
+                        <div class="module-title">Geografie</div>
+                        <div class="module-desc">Relief, clima, județe, regiuni istorice, resurse naturale</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="module-badge free">Gratuit</span>
+                    <span class="module-badge lessons">6 lecții</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <div class="lesson-list">
+                    <div class="lesson" onclick="startLesson(event, 'Relieful României')">
+                        <div class="lesson-num">1</div>
+                        <div class="lesson-name">Relieful României</div>
+                        <div class="lesson-duration">12 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Clima și hidrografia')">
+                        <div class="lesson-num">2</div>
+                        <div class="lesson-name">Clima și hidrografia</div>
+                        <div class="lesson-duration">10 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Județele și regiunile istorice')">
+                        <div class="lesson-num">3</div>
+                        <div class="lesson-name">Județele și regiunile istorice</div>
+                        <div class="lesson-duration">14 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Capitalele și orașele importante')">
+                        <div class="lesson-num">4</div>
+                        <div class="lesson-name">Capitalele și orașele importante</div>
+                        <div class="lesson-duration">10 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Resurse naturale')">
+                        <div class="lesson-num">5</div>
+                        <div class="lesson-name">Resurse naturale</div>
+                        <div class="lesson-duration">8 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Patrimoniul UNESCO')">
+                        <div class="lesson-num">6</div>
+                        <div class="lesson-name">Patrimoniul UNESCO</div>
+                        <div class="lesson-duration">10 min</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 3: Constituția și legislația -->
+        <div class="module" onclick="toggleModule(this)">
+            <div class="module-header">
+                <div class="module-left">
+                    <div class="module-icon law">⚖️</div>
+                    <div>
+                        <div class="module-title">Constituția și Legislația</div>
+                        <div class="module-desc">Drepturile fundamentale, structura statului, instituțiile</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="module-badge pro">Pro</span>
+                    <span class="module-badge lessons">8 lecții</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <div class="lesson-list">
+                    <div class="lesson" onclick="startLesson(event, 'Constituția României — prezentare generală')">
+                        <div class="lesson-num">1</div>
+                        <div class="lesson-name">Constituția României — prezentare generală</div>
+                        <div class="lesson-duration">15 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Drepturile și libertățile fundamentale')">
+                        <div class="lesson-num">2</div>
+                        <div class="lesson-name">Drepturile și libertățile fundamentale</div>
+                        <div class="lesson-duration">18 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Presidente și Parlament')">
+                        <div class="lesson-num">3</div>
+                        <div class="lesson-name">Presidente și Parlament</div>
+                        <div class="lesson-duration">14 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Guvernul și administrația')">
+                        <div class="lesson-num">4</div>
+                        <div class="lesson-name">Guvernul și administrația</div>
+                        <div class="lesson-duration">12 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Sistemul judiciar')">
+                        <div class="lesson-num">5</div>
+                        <div class="lesson-name">Sistemul judiciar</div>
+                        <div class="lesson-duration">10 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Cetățenia română — drepturi și obligații')">
+                        <div class="lesson-num">6</div>
+                        <div class="lesson-name">Cetățenia română — drepturi și obligații</div>
+                        <div class="lesson-duration">16 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Procedura de dobândire a cetățeniei')">
+                        <div class="lesson-num">7</div>
+                        <div class="lesson-name">Procedura de dobândire a cetățeniei</div>
+                        <div class="lesson-duration">20 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Documente și acte necesare')">
+                        <div class="lesson-num">8</div>
+                        <div class="lesson-name">Documente și acte necesare</div>
+                        <div class="lesson-duration">12 min</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 4: Cultura și civilizație -->
+        <div class="module" onclick="toggleModule(this)">
+            <div class="module-header">
+                <div class="module-left">
+                    <div class="module-icon culture">🎭</div>
+                    <div>
+                        <div class="module-title">Cultură și Civilizație</div>
+                        <div class="module-desc">Tradiții, obiceiuri, personalități, patrimoniul cultural</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="module-badge free">Gratuit</span>
+                    <span class="module-badge lessons">7 lecții</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <div class="lesson-list">
+                    <div class="lesson" onclick="startLesson(event, 'Limba română — origine și particularități')">
+                        <div class="lesson-num">1</div>
+                        <div class="lesson-name">Limba română — origine și particularități</div>
+                        <div class="lesson-duration">10 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Personalități istorice')">
+                        <div class="lesson-num">2</div>
+                        <div class="lesson-name">Personalități istorice</div>
+                        <div class="lesson-duration">14 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Literatură și artă')">
+                        <div class="lesson-num">3</div>
+                        <div class="lesson-name">Literatură și artă</div>
+                        <div class="lesson-duration">12 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Muzică și dans tradițional')">
+                        <div class="lesson-num">4</div>
+                        <div class="lesson-name">Muzică și dans tradițional</div>
+                        <div class="lesson-duration">10 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Tradiții și obiceiuri')">
+                        <div class="lesson-num">5</div>
+                        <div class="lesson-name">Tradiții și obiceiuri</div>
+                        <div class="lesson-duration">12 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Gastronomie românească')">
+                        <div class="lesson-num">6</div>
+                        <div class="lesson-name">Gastronomie românească</div>
+                        <div class="lesson-duration">8 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Sport și realizări internaționale')">
+                        <div class="lesson-num">7</div>
+                        <div class="lesson-name">Sport și realizări internaționale</div>
+                        <div class="lesson-duration">10 min</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 5: Uniunea Europeană -->
+        <div class="module" onclick="toggleModule(this)">
+            <div class="module-header">
+                <div class="module-left">
+                    <div class="module-icon eu">🇪🇺</div>
+                    <div>
+                        <div class="module-title">Uniunea Europeană</div>
+                        <div class="module-desc">Instituții UE, drepturi ca cetățean european, Schengen</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="module-badge pro">Pro</span>
+                    <span class="module-badge lessons">6 lecții</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <div class="lesson-list">
+                    <div class="lesson" onclick="startLesson(event, 'Ce este Uniunea Europeană')">
+                        <div class="lesson-num">1</div>
+                        <div class="lesson-name">Ce este Uniunea Europeană</div>
+                        <div class="lesson-duration">12 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'România în UE')">
+                        <div class="lesson-num">2</div>
+                        <div class="lesson-name">România în UE</div>
+                        <div class="lesson-duration">10 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Instituțiile UE')">
+                        <div class="lesson-num">3</div>
+                        <div class="lesson-name">Instituțiile UE</div>
+                        <div class="lesson-duration">14 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Drepturile cetățenilor europeni')">
+                        <div class="lesson-num">4</div>
+                        <div class="lesson-name">Drepturile cetățenilor europeni</div>
+                        <div class="lesson-duration">12 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Spațiul Schengen')">
+                        <div class="lesson-num">5</div>
+                        <div class="lesson-name">Spațiul Schengen</div>
+                        <div class="lesson-duration">10 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Zona Euro și programe europene')">
+                        <div class="lesson-num">6</div>
+                        <div class="lesson-name">Zona Euro și programe europene</div>
+                        <div class="lesson-duration">10 min</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 6: Simulare Examen -->
+        <div class="module" onclick="toggleModule(this)">
+            <div class="module-header">
+                <div class="module-left">
+                    <div class="module-icon exam">📝</div>
+                    <div>
+                        <div class="module-title">Simulare Examen</div>
+                        <div class="module-desc">Teste practice cu întrebări din toate modulele — cronometrate</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="module-badge pro">Pro</span>
+                    <span class="module-badge lessons">7 teste</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <div class="lesson-list">
+                    <div class="lesson" onclick="startLesson(event, 'Test Istorie')">
+                        <div class="lesson-num">1</div>
+                        <div class="lesson-name">Test Istorie (30 întrebări)</div>
+                        <div class="lesson-duration">25 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Test Geografie')">
+                        <div class="lesson-num">2</div>
+                        <div class="lesson-name">Test Geografie (25 întrebări)</div>
+                        <div class="lesson-duration">20 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Test Constituție')">
+                        <div class="lesson-num">3</div>
+                        <div class="lesson-name">Test Constituție (30 întrebări)</div>
+                        <div class="lesson-duration">25 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Test Cultură')">
+                        <div class="lesson-num">4</div>
+                        <div class="lesson-name">Test Cultură (25 întrebări)</div>
+                        <div class="lesson-duration">20 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Test UE')">
+                        <div class="lesson-num">5</div>
+                        <div class="lesson-name">Test UE (20 întrebări)</div>
+                        <div class="lesson-duration">15 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Simulare Examen Final')">
+                        <div class="lesson-num">6</div>
+                        <div class="lesson-name">Simulare Examen Final (60 întrebări)</div>
+                        <div class="lesson-duration">45 min</div>
+                    </div>
+                    <div class="lesson" onclick="startLesson(event, 'Review greșeli')">
+                        <div class="lesson-num">7</div>
+                        <div class="lesson-name">Review greșeli + explicații AI</div>
+                        <div class="lesson-duration">∞</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Tutor -->
+        <div class="ai-section">
+            <h2>🤖 Tutor AI pentru Cetățenie</h2>
+            <p>Întreabă orice legat de istoria, geografia, cultura sau legislația României. K răspunde instant.</p>
+            <div class="ai-chat-input">
+                <input type="text" id="ai-question" placeholder="Ex: Ce drepturi am ca cetățean român?"
+                    onkeydown="if(event.key==='Enter')askAI()">
+                <button onclick="askAI()">Întreabă</button>
+            </div>
+            <div class="ai-response" id="ai-response"></div>
+        </div>
+    </div>
+
+    <script>
+        // Module toggle
+        function toggleModule(el) {
+            if (el.classList.contains('locked')) return;
+            el.classList.toggle('open');
+        }
+
+        // Start lesson — redirect to AI chat with lesson context
+        function startLesson(e, topic) {
+            e.stopPropagation();
+            // Store lesson context and redirect to chat
+            sessionStorage.setItem('k_lesson_topic', topic);
+            sessionStorage.setItem('k_lesson_context', 'cetatenie_ro');
+            window.location.href = `/chat.html?lesson=${encodeURIComponent(topic)}`;
+        }
+
+        // AI Tutor
+        async function askAI() {
+            const input = document.getElementById('ai-question');
+            const responseDiv = document.getElementById('ai-response');
+            const question = input.value.trim();
+            if (!question) return;
+
+            responseDiv.className = 'ai-response active';
+            responseDiv.textContent = '⏳ K se gândește...';
+
+            try {
+                const r = await fetch('/.netlify/functions/smart-brain', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `[TUTOR CETĂȚENIE RO] Răspunde în română, clar și educativ, ca un profesor de cetățenie:\n\n${question}`,
+                        context: 'citizenship_tutor'
+                    })
+                });
+                const d = await r.json();
+                responseDiv.textContent = d.reply || d.response || d.message || 'Nu am putut genera un răspuns.';
+            } catch (err) {
+                responseDiv.textContent = '❌ Eroare de conexiune. Te rog încearcă din nou.';
+            }
+        }
+    </script>
+    <script src="/components/back-button.js"></script>
+    <script src="/components/visitor-tracker.js"></script>
+</body>
+
+</html>

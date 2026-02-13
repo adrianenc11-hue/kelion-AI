@@ -51,7 +51,7 @@ exports.handler = async (event) => {
             // Normalize email fields
             const email = {
                 from: emailData.from || emailData.sender || emailData.envelope?.from || 'unknown',
-                to: emailData.to || emailData.recipient || emailData.envelope?.to || 'contact@kelionai.app',
+                to: emailData.to || emailData.recipient || emailData.envelope?.to || process.env.CONTACT_EMAIL || '',
                 subject: emailData.subject || emailData.Subject || '(no subject)',
                 body_text: emailData.text || emailData['body-plain'] || emailData.body || '',
                 body_html: emailData.html || emailData['body-html'] || '',

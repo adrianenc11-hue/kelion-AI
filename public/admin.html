@@ -345,7 +345,7 @@
             <button class="nav-btn" data-panel="social-media">📡 Social Media</button>
             <button class="nav-btn" data-panel="webhooks">🔗 Webhooks</button>
         </div>
-        <div class="admin-user">🔒 adrianenc11@gmail.com</div>
+        <div class="admin-user" id="admin-user-display">🔒 Admin</div>
     </nav>
 
     <!-- ═══ OVERVIEW ═══ -->
@@ -613,7 +613,7 @@
 
     <script>
         const API = '/.netlify/functions/admin-panel';
-        const ADMIN_EMAIL = 'adrianenc11@gmail.com';
+        const ADMIN_EMAIL = (JSON.parse(localStorage.getItem('kelion_user') || '{}').email || '');
 
         // ═══ NAVIGATION ═══
         document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -1272,6 +1272,8 @@
     <script async defer crossorigin="anonymous"
         src="https://connect.facebook.net/ro_RO/sdk.js#xfbml=1&version=v21.0&appId=1974565006737864"
         nonce="kelion"></script>
+<script src="/components/back-button.js"></script>
+<script src="/components/visitor-tracker.js"></script>
 </body>
 
 </html>

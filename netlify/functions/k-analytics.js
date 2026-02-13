@@ -47,7 +47,7 @@ exports.handler = async (event) => {
         // GET: Return analytics summary
         // Get function count from GitHub
         const token = process.env.GITHUB_TOKEN;
-        const repo = process.env.GITHUB_REPO || 'adrianenc11/kelionai';
+        const repo = process.env.GITHUB_REPO;
         let functionsCount = 0;
 
         try {

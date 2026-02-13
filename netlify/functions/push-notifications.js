@@ -82,7 +82,7 @@ exports.handler = async (event) => {
 
         const vapidPublic = process.env.VAPID_PUBLIC_KEY;
         const vapidPrivate = process.env.VAPID_PRIVATE_KEY;
-        const vapidEmail = process.env.VAPID_EMAIL || 'mailto:contact@kelionai.app';
+        const vapidEmail = process.env.VAPID_EMAIL || 'mailto:' + (process.env.ADMIN_EMAIL || '');
 
         const body = JSON.parse(event.body || '{}');
         const db = getDB();

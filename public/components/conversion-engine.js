@@ -448,7 +448,7 @@
         // ADMIN BYPASS — no conversion UI for admin
         try {
             const u = JSON.parse(localStorage.getItem('kelion_user') || '{}');
-            if (u.email === 'adrianenc11@gmail.com') {
+            if (u.role === 'admin') {
                 console.log('[Conversion] Admin detected — skipping all conversion UI');
                 state.isPremium = true;
                 return;

@@ -1,10 +1,10 @@
-// ═══ ADMIN PANEL — Backend for adrianenc11@gmail.com ═══
+// ═══ ADMIN PANEL — Backend for admin users ═══
 // Traffic, AI Credits, Trading Dashboard, Messenger Conversations, Social Media Management
 const { patchProcessEnv } = require('./get-secret');
 const { createClient } = require('@supabase/supabase-js');
 const headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type, Authorization', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Content-Type': 'application/json' };
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@kelionai.app';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 exports.handler = async (event) => {
     if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
@@ -14,10 +14,14 @@ exports.handler = async (event) => {
         const db = getDB();
         const body = JSON.parse(event.body || '{}');
 
-        // Auth check — only admin
+        // Auth check — only admin (role-based)
         const userEmail = body.email || body.user_email;
-        if (userEmail !== ADMIN_EMAIL) {
-            return respond(403, { error: 'Admin access only', required: ADMIN_EMAIL });
+        if (!userEmail) return respond(403, { error: 'Email required for admin auth' });
+
+        // Check user role in Supabase
+        const { data: userData } = await db.from('users').select('role').eq('email', userEmail).single();
+        if (!userData || userData.role !== 'admin') {
+            return respond(403, { error: 'Admin access only — requires admin role' });
         }
 
         switch (body.action) {

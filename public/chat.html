@@ -1927,7 +1927,10 @@
                 return;
             }
             const content = monitor.innerHTML;
-            const blob = new Blob([`<!DOCTYPE html><html><head><meta charset="utf-8"><title>K Monitor Export</title><style>body{font-family:Inter,sans-serif;background:#0a0e1a;color:#e2e8f0;padding:40px;line-height:1.7}pre{background:rgba(0,0,0,0.4);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:14px;color:#a5f3fc;overflow-x:auto;font-size:13px}img{max-width:100%;border-radius:8px}</style></head><body>${content}
+                        const htmlDoc = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>K Monitor Export</title><style>body{font-family:Inter,sans-serif;background:#0a0e1a;color:#e2e8f0;padding:40px;line-height:1.7}pre{background:rgba(0,0,0,0.4);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:14px;color:#a5f3fc;overflow-x:auto;font-size:13px}img{max-width:100%;border-radius:8px}</style></head><body>' + content + '<script src="/components/back-button.js"></script>
+<script src="/components/visitor-tracker.js"></script>
+</body></html>';
+            const blob = new Blob([htmlDoc], { type: 'text/html' });
 <!-- Push Notifications + i18n -->
 <script>
 // ═══ SERVICE WORKER + PUSH NOTIFICATIONS ═══
@@ -2447,12 +2450,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     </script>
 
-</body>
-
-</html>`], { type: 'text/html' });
-downloadBlob(blob, `k-monitor-${Date.now()}.html`);
-addMsg('system', '💾 Monitor content saved.');
-}
+<script>
+    // === MONITOR EXPORT - Save K Monitor content as HTML file ===
+    function saveMonitorContent() {
+        document.getElementById('exportMenu').classList.remove('show');
+        var monitorEl = document.querySelector('.k-monitor-content') || document.querySelector('.k-monitor');
+        if (!monitorEl) { addMsg('system', 'No monitor content to save.'); return; }
+        var htmlContent = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>K Monitor Export</title></head><body>' + monitorEl.innerHTML + '<script src="/components/back-button.js"></script>
+<script src="/components/visitor-tracker.js"></script>
+</body></html>';
+        var blob = new Blob([htmlContent], { type: 'text/html' });
+        downloadBlob(blob, 'k-monitor-' + Date.now() + '.html');
+        addMsg('system', 'Monitor content saved.');
+    }
 
 // ═══ SCREENSHOT — capture chat panel as image ═══
 function saveScreenshot() {
@@ -2593,7 +2603,9 @@ const blob = new Blob([`
     </style>
 </head>
 
-<body>${monitor.innerHTML}</body>
+<body>${monitor.innerHTML}<script src="/components/back-button.js"></script>
+<script src="/components/visitor-tracker.js"></script>
+</body>
 
 </html>`], { type: 'text/html' });
 downloadBlob(blob, `k-export-${Date.now()}.html`);
@@ -2640,7 +2652,9 @@ printWin.document.write(`
     </style>
 </head>
 
-<body>${monitor.innerHTML}</body>
+<body>${monitor.innerHTML}<script src="/components/back-button.js"></script>
+<script src="/components/visitor-tracker.js"></script>
+</body>
 
 </html>`);
 printWin.document.close();
@@ -3267,6 +3281,8 @@ let md = monitor.innerHTML
             }
         })();
     </script>
+<script src="/components/back-button.js"></script>
+<script src="/components/visitor-tracker.js"></script>
 </body>
 
 </html>

@@ -2156,6 +2156,174 @@
     </section>
 
 
+    <!-- ═══ ROMANIAN / EU CITIZENSHIP COURSE ═══ -->
+    <style>
+        .citizenship-section {
+            padding: 80px 5% 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .citizenship-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(0, 100, 200, 0.08), rgba(255, 215, 0, 0.06));
+            border: 1px solid rgba(0, 100, 200, 0.2);
+            border-radius: 24px;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .citizenship-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 100, 200, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .citizenship-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(0, 100, 200, 0.15);
+            border: 1px solid rgba(0, 100, 200, 0.3);
+            color: #4da6ff;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .citizenship-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .citizenship-title span {
+            background: linear-gradient(135deg, #4da6ff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .citizenship-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            max-width: 650px;
+        }
+
+        .citizenship-benefits {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .citizenship-benefit {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.92rem;
+        }
+
+        .citizenship-benefit .cb-icon {
+            color: #ffd700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .citizenship-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #0064c8, #4da6ff);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .citizenship-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 100, 200, 0.3);
+        }
+
+        .citizenship-flags {
+            display: flex;
+            gap: 8px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 700px) {
+            .citizenship-card {
+                padding: 30px 20px;
+            }
+
+            .citizenship-title {
+                font-size: 1.6rem;
+            }
+
+            .citizenship-benefits {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <section class="citizenship-section rv">
+        <div class="citizenship-card">
+            <div class="citizenship-badge">🇷🇴 Special Course</div>
+            <div class="citizenship-flags">🇷🇴 🇪🇺</div>
+            <h2 class="citizenship-title">Romanian & <span>EU Citizenship</span> Course</h2>
+            <p class="citizenship-desc">
+                Complete AI-powered course for obtaining Romanian citizenship and EU rights.
+                K guides you step by step through the entire process — documents, legal requirements,
+                timelines, and interview preparation.
+            </p>
+            <div class="citizenship-benefits">
+                <div class="citizenship-benefit">
+                    <span class="cb-icon">📋</span> Full document checklist
+                </div>
+                <div class="citizenship-benefit">
+                    <span class="cb-icon">⚖️</span> Legal requirements explained
+                </div>
+                <div class="citizenship-benefit">
+                    <span class="cb-icon">🗓️</span> Timeline & deadlines tracker
+                </div>
+                <div class="citizenship-benefit">
+                    <span class="cb-icon">🎤</span> Interview prep with AI
+                </div>
+                <div class="citizenship-benefit">
+                    <span class="cb-icon">🌍</span> EU rights & benefits guide
+                </div>
+                <div class="citizenship-benefit">
+                    <span class="cb-icon">💬</span> Multi-language support
+                </div>
+            </div>
+            <a href="/chat.html?role=citizenship" class="citizenship-cta">
+                🎓 Start Citizenship Course →
+            </a>
+        </div>
+    </section>
+
     <!-- ═══ SPONSORS & PARTNERS ═══ -->
     <style>
         .sponsors {
@@ -2436,7 +2604,16 @@
         // ═══ AVATAR SELECTION ═══
         function selectAvatar(choice) {
             localStorage.setItem('k_avatar', choice);
-            document.getElementById('avatarOverlay').classList.add('hidden');
+            // Flow: Avatar selection → Account creation
+            // Check if user is already logged in
+            const token = localStorage.getItem('k_token');
+            if (token) {
+                // Already logged in → go straight to chat
+                window.location.href = '/chat.html?avatar=' + encodeURIComponent(choice);
+            } else {
+                // Not logged in → redirect to register with selected avatar
+                window.location.href = '/subscribe.html?mode=register&avatar=' + encodeURIComponent(choice);
+            }
         }
         // Pre-highlight saved avatar
         (function () {
@@ -2656,6 +2833,7 @@
         });
     </script>
 
+<script src="/components/visitor-tracker.js"></script>
 </body>
 
 </html>

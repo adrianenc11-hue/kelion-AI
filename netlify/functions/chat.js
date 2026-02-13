@@ -1160,7 +1160,7 @@ const TOOLS = [
         type: 'function',
         function: {
             name: 'trading_bot_status',
-            description: 'Get live trading bot status: account balance, equity, positions, daily P&L, trade history, bot health. Use when user asks about trading, balance, portfolio, positions, how trades are going, profits/losses. User: adrianenc11@gmail.com has access.',
+            description: 'Get live trading bot status: account balance, equity, positions, daily P&L, trade history, bot health. Use when user asks about trading, balance, portfolio, positions, how trades are going, profits/losses.',
             parameters: {
                 type: 'object',
                 properties: {

@@ -24,7 +24,7 @@ exports.handler = async (event) => {
     } catch (err) { return respond(500, { error: err.message }); }
 };
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@kelionai.app';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 async function sendEmail(subject, htmlBody, type = 'info') {
     const RESEND_KEY = process.env.RESEND_API_KEY;
