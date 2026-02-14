@@ -146,7 +146,7 @@ function compress({ original_size_kb, quality = 80, format = 'webp' }) {
     };
 }
 
-function convertFormat({ from, to, size_kb }) {
+function convertFormat({ from, to, _size_kb }) {
     const formats = {
         jpg: { mime: 'image/jpeg', transparency: false, animation: false, quality: 'lossy' },
         png: { mime: 'image/png', transparency: true, animation: false, quality: 'lossless' },
@@ -181,7 +181,7 @@ function addWatermark({ text = 'Kelion AI', position = 'bottom-right', opacity =
     };
 }
 
-function generateThumbnail({ original_width = 1920, original_height = 1080, sizes = 'standard' }) {
+function generateThumbnail({ original_width = 1920, original_height = 1080, _sizes = 'standard' }) {
     const standard = [
         { name: 'xs', width: 150, height: Math.round(150 * original_height / original_width) },
         { name: 'sm', width: 300, height: Math.round(300 * original_height / original_width) },

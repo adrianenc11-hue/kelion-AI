@@ -24,7 +24,7 @@ function hashToken(token) {
     return crypto.createHash('sha256').update(token).digest('hex');
 }
 
-exports.handler = async (event, context) => {
+exports.handler = async (event, _context) => {
     const headers = {
         'Access-Control-Allow-Origin': 'https://kelionai.app',
         'Access-Control-Allow-Headers': 'Content-Type',

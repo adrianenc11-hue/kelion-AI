@@ -39,7 +39,7 @@ async function getAccessToken(config) {
     return data.access_token;
 }
 
-exports.handler = async (event, context) => {
+exports.handler = async (event, _context) => {
     const headers = {
         'Access-Control-Allow-Origin': 'https://kelionai.app',
         'Access-Control-Allow-Headers': 'Content-Type',

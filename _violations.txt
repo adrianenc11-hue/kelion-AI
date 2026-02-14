@@ -1,0 +1,26 @@
+1. [HIGH] MASK-008 | netlify\functions\api-subscription.js:119 | Error message replaced with success message | snippet: statusCode: 400,
+2. [CRITICAL] MASK-001 | netlify\functions\auto-poster.js:31 | Error-to-success status swap | snippet: } catch (e) {
+3. [HIGH] MASK-008 | netlify\functions\buy-credits.js:122 | Error message replaced with success message | snippet: return { statusCode: 400, headers, body: JSON.stringify({ error: 'Payment not completed', status: ca
+4. [CRITICAL] MASK-001 | netlify\functions\check-user.js:104 | Error-to-success status swap | snippet: } catch (error) {
+5. [HIGH] MASK-008 | netlify\functions\claude-audit.js:26 | Error message replaced with success message | snippet: statusCode: 503,
+6. [HIGH] MASK-008 | netlify\functions\claude-audit.js:49 | Error message replaced with success message | snippet: statusCode: 400,
+7. [HIGH] MASK-008 | netlify\functions\claude-audit.js:112 | Error message replaced with success message | snippet: statusCode: 500,
+8. [CRITICAL] MASK-001 | netlify\functions\code-interpreter.js:119 | Error-to-success status swap | snippet: } catch (error) {
+9. [CRITICAL] MASK-001 | netlify\functions\messenger-webhook.js:122 | Error-to-success status swap | snippet: } catch (e) {
+10. [CRITICAL] MASK-001 | netlify\functions\messenger-webhook.js:179 | Error-to-success status swap | snippet: } catch (e) {
+11. [CRITICAL] MASK-001 | netlify\functions\messenger-webhook.js:191 | Error-to-success status swap | snippet: } catch (err) {
+12. [HIGH] MASK-008 | netlify\functions\neural-ai.js:19 | Error message replaced with success message | snippet: return { statusCode: 405, headers: CORS, body: JSON.stringify({ ok: false, message: 'POST only' }) }
+13. [HIGH] MASK-008 | netlify\functions\neural-ai.js:26 | Error message replaced with success message | snippet: return { statusCode: 400, headers: CORS, body: JSON.stringify({ ok: false, error_code: 'invalid_json
+14. [HIGH] MASK-008 | netlify\functions\neural-ai.js:32 | Error message replaced with success message | snippet: statusCode: 400,
+15. [HIGH] MASK-008 | netlify\functions\neural-ai.js:49 | Error message replaced with success message | snippet: statusCode: 503,
+16. [HIGH] MASK-008 | netlify\functions\neural-ai.js:106 | Error message replaced with success message | snippet: statusCode: 500,
+17. [CRITICAL] MASK-001 | netlify\functions\paypal-webhook.js:274 | Error-to-success status swap | snippet: } catch (error) {
+18. [HIGH] MASK-002 | netlify\functions\smart-brain.js:20 | Empty catch block | snippet: } catch (e) { }
+19. [CRITICAL] MASK-001 | netlify\functions\tiktok-webhook.js:65 | Error-to-success status swap | snippet: } catch (err) {
+20. [CRITICAL] MASK-001 | netlify\functions\usage-limiter.js:136 | Error-to-success status swap | snippet: } catch (error) {
+21. [HIGH] MASK-002 | public\account.html:341 | Empty catch block | snippet: } catch (e) { }
+22. [HIGH] MASK-002 | public\app.html:38 | Empty catch block | snippet: } catch (e) { }
+23. [HIGH] MASK-002 | public\chat.html:1261 | Empty catch block | snippet: } catch (e) { }
+24. [HIGH] MASK-002 | public\components\subscription.js:134 | Empty catch block | snippet: } catch (e) { }
+25. [HIGH] MASK-002 | public\components\subscription.js:563 | Empty catch block | snippet: } catch (e) { }
+26. [HIGH] MASK-002 | public\premium.html:598 | Empty catch block | snippet: } catch (e) { }

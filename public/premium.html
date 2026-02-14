@@ -595,7 +595,7 @@
                         console.log('✅ Admin access granted');
                         return;
                     }
-                } catch (e) { }
+                } catch (e) { console.warn('Failed to parse user data:', e.message); }
             }
 
             const token = localStorage.getItem('kelion_access_token') || localStorage.getItem('kelion_auth_token');

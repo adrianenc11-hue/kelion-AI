@@ -1,8 +1,17 @@
 {
-  "timestamp": "2026-02-12T19:08:35.876Z",
-  "status": "INTEGRITY_VERIFIED",
-  "files_checked": 6,
-  "total_files": 6,
-  "all_layers_active": true,
-  "physical_verification_required": true
+  "timestamp": "2026-02-14T05:06:53.880Z",
+  "status": "INTEGRITY_VIOLATED",
+  "tampered": 1,
+  "passed": 5,
+  "violations": [
+    {
+      "file": "netlify/functions/smart-brain.js",
+      "issue": "TAMPERED",
+      "expected": "8e428f9d849f2b73e6bbb49791698ffbad29b3de3abeb6df0b5c2331436a4f9a",
+      "actual": "64c20cd97c3c427f94e2f23b5a3b4b6978f05e8dccc2b33c08e69a41f3f8188e",
+      "severity": "CRITICAL"
+    }
+  ],
+  "action_required": "RESTORE_ORIGINAL_FILES",
+  "rule": "FIX SOURCE CODE, NEVER MODIFY TESTS"
 }

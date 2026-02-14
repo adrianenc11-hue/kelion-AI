@@ -206,7 +206,7 @@ function generateXLSX(content, title = 'Sheet', data, columns) {
 <Worksheet ss:Name="${escapeXML(title)}">
 <Table>`;
 
-    rows.forEach((row, ri) => {
+    rows.forEach((row, _ri) => {
         xml += '<Row>';
         row.forEach(cell => {
             const val = String(cell);
@@ -280,7 +280,7 @@ color:white;padding:60px;box-sizing:border-box;border-radius:12px;page-break-aft
     html += `<div class="slide"><h1>${escapeXML(title)}</h1></div>`;
 
     // Content slides
-    slides.forEach((slide, i) => {
+    slides.forEach((slide, _i) => {
         const lines = slide.split('\n');
         const heading = lines[0];
         const body = lines.slice(1).join('<br>');

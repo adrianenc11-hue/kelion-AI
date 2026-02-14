@@ -16,7 +16,7 @@ function getSupabase() {
     return supabase;
 }
 
-exports.handler = async (event, context) => {
+exports.handler = async (event, _context) => {
     const headers = {
         'Access-Control-Allow-Origin': 'https://kelionai.app',
         'Content-Type': 'application/json',

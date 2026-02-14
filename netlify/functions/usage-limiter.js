@@ -135,7 +135,6 @@ exports.handler = async (event) => {
         };
     } catch (error) {
         console.error('Usage limiter error:', error);
-        // On error, allow (don't block users due to limiter bugs)
-        return { statusCode: 200, headers, body: JSON.stringify({ allowed: true, remaining: 999, error: error.message }) };
+        return { statusCode: 500, headers, body: JSON.stringify({ allowed: false, error: 'Usage limiter internal error', message: error.message }) };
     }
 };

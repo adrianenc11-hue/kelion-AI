@@ -48,7 +48,7 @@ async function updateLocation(db, { user_id, lat, lng, accuracy, label = '' }) {
     return { updated: true, location: data };
 }
 
-async function getGroupLocations(db, { group_id, user_id }) {
+async function getGroupLocations(db, { group_id, _user_id }) {
     if (!group_id) return { error: 'group_id required' };
 
     // Get group members

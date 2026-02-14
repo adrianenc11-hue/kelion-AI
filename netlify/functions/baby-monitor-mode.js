@@ -31,7 +31,7 @@ function startMonitor({ child_name = 'bebeluș', sensitivity = 'medium' }) {
     };
 }
 
-function getStatus({ session_start, duration_min = 120 }) {
+function getStatus({ _session_start, duration_min = 120 }) {
     return {
         status: '🟢 Activ',
         monitoring_duration: `${Math.floor(duration_min / 60)}h ${duration_min % 60}min`,

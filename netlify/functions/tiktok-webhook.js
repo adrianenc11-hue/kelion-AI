@@ -64,6 +64,7 @@ exports.handler = async (event) => {
         return { statusCode: 200, headers, body: JSON.stringify({ status: 'ok' }) };
     } catch (err) {
         console.error('TikTok webhook error:', err);
+        // MASK-001-EXEMPT: TikTok webhooks MUST return 200 per TikTok API spec.
         return { statusCode: 200, headers, body: JSON.stringify({ status: 'error', message: err.message }) };
     }
 };

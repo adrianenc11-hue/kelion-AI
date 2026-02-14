@@ -103,15 +103,12 @@ exports.handler = async (event) => {
 
     } catch (error) {
         console.error('Check user error:', error);
-        // On error, allow access to app with trial
         return {
-            statusCode: 200,
+            statusCode: 500,
             headers,
             body: JSON.stringify({
-                hasSubscription: false,
-                needsLogin: false,
-                trialBlocked: false,
-                error: error.message
+                error: 'Internal server error',
+                message: error.message
             })
         };
     }

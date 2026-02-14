@@ -1,7 +1,14 @@
 // Kelion Language Learning - Intelligent Language Detection & Memory
 // Prevents language mixing, remembers user preference
 
-import franc from 'franc-min';
+// franc-min loaded via CDN (see script tag in app.html)
+// Fallback: if franc not available, use navigator.language
+const franc = window.franc || function (text) {
+    console.warn('[LangLearn] franc not loaded, using browser language');
+    const lang = navigator.language?.split('-')[0] || 'en';
+    const map = { en: 'eng', ro: 'ron', fr: 'fra', es: 'spa', de: 'deu', it: 'ita' };
+    return Object.entries(map).find(([k, v]) => k === lang)?.[1] || 'eng';
+};
 
 class LanguageLearning {
     constructor() {

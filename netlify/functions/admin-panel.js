@@ -113,7 +113,7 @@ async function getTraffic(db, { period = '7d', page }) {
 
 async function getLiveVisitors(db) {
     const fiveMinAgo = new Date(Date.now() - 5 * 60000).toISOString();
-    const { data, count } = await db.from('page_views')
+    const { data, _count } = await db.from('page_views')
         .select('page, visitor_id, created_at', { count: 'exact' })
         .gte('created_at', fiveMinAgo);
 
@@ -485,7 +485,7 @@ async function getTrendingKeywords(db, { category = 'general', country = 'RO', l
 // ═══════════════════════════════════════════════════
 // USER REQUEST ANALYTICS — Classify requests from chat, messenger, email
 // ═══════════════════════════════════════════════════
-async function getUserRequestAnalytics(db, { period = '30d', source = 'all' }) {
+async function getUserRequestAnalytics(db, { period = '30d', _source = 'all' }) {
     const since = periodToDate(period);
 
     // 1. Chat requests from ai_usage_log

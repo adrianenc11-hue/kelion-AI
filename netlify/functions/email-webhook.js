@@ -120,7 +120,7 @@ exports.handler = async (event) => {
         if (event.httpMethod === 'GET') {
             if (!db) return { statusCode: 200, headers, body: JSON.stringify({ success: true, emails: [] }) };
 
-            const { data, error } = await db.from('emails_received')
+            const { data, _error } = await db.from('emails_received')
                 .select('id, from_email, to_email, subject, status, source, created_at')
                 .order('created_at', { ascending: false })
                 .limit(50);

@@ -147,7 +147,7 @@ async function getChangelog(db, { limit = 50 }) {
 }
 
 // ═══ CHECK UPGRADES — Auto-suggest (6.5) ═══
-async function checkUpgrades(db, { user_id, current_version }) {
+async function checkUpgrades(db, { _user_id, current_version }) {
     const userVersion = current_version || '1.0.0';
 
     // Get all versions newer than current

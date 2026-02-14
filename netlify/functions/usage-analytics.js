@@ -25,7 +25,7 @@ exports.handler = async (event) => {
     if (!supabase) return { statusCode: 503, headers, body: JSON.stringify({ error: 'DB not configured' }) };
 
     try {
-        const { action, period, key_prefix } = JSON.parse(event.body || '{}');
+        const { action, _period, _key_prefix } = JSON.parse(event.body || '{}');
 
         // ═══ USAGE BY HOUR (last 24h) ═══
         if (action === 'hourly') {

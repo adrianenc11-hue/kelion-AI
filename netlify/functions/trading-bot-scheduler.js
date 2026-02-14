@@ -12,7 +12,7 @@ try {
 }
 
 
-const botCycle = async (event) => {
+const botCycle = async (_event) => {
     const start = Date.now();
     console.log(`[TradingBot] Cron triggered at ${new Date().toISOString()}`);
 
@@ -120,7 +120,7 @@ const botCycle = async (event) => {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'status' })
                 });
-                const statusData = await positionsRes.json();
+                const _statusData = await positionsRes.json();
 
                 // B. Close all positions via Alpaca
                 const ALPACA_KEY = process.env.ALPACA_API_KEY;

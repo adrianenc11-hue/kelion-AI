@@ -116,7 +116,6 @@ exports.handler = async (event) => {
             const record = {
                 page: page.substring(0, 100),
                 action: action.substring(0, 50),
-                session_id: session_id?.substring(0, 64) || null,
                 user_id: user_id || null,
                 duration_ms: duration_ms ? parseInt(duration_ms, 10) : null,
                 scroll_depth: scroll_depth ? Math.min(100, Math.max(0, parseInt(scroll_depth, 10))) : null,
@@ -124,6 +123,8 @@ exports.handler = async (event) => {
                 ip_address: getClientIP(event),
                 user_agent: event.headers['user-agent']?.substring(0, 500) || null
             };
+            // Only add optional columns if they have values (avoids schema cache errors)
+            if (session_id) record.session_id = session_id.substring(0, 64);
 
             const { data, error } = await db
                 .from('page_views')

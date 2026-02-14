@@ -17,7 +17,8 @@ async function emitTrace(node, dir, label) {
     try {
         const db = _getTraceDb(); if (!db) return;
         await db.from('ai_trace').insert({ session_id: _tSess || '0', node, direction: dir, label, trace_type: 'text', metadata: { message: (_tMsg || '').substring(0, 100) } });
-    } catch (e) { }
+    } catch (e) { console.warn('[TRACE] emitTrace failed:', e.message); }
+    // intentionally empty
 }
 
 // ═══ CONTENT SAFETY FILTER ═══

@@ -35,7 +35,7 @@ function getDB() {
     return createClient(url, key);
 }
 
-async function sendCreditEmail(recipientEmail, code, validity, days) {
+async function sendCreditEmail(recipientEmail, code, validity, _days) {
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
     if (!RESEND_API_KEY) {
         console.warn('[CREDIT-CODES] Cannot send email: RESEND_API_KEY missing');

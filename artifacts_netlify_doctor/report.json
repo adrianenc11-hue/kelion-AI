@@ -1,0 +1,250 @@
+{
+  "meta": {
+    "started_at": "2026-02-14T05:01:10.090Z",
+    "root": "C:\\Users\\adria\\Downloads\\k new\\kelionat_clean",
+    "base_url": "https://kelionai.app",
+    "node": "v20.11.0",
+    "platform": "win32 10.0.26200",
+    "port": 8888
+  },
+  "steps": [
+    {
+      "name": "env",
+      "ok": true,
+      "detail": {
+        "node": "v20.11.0",
+        "base_url": "https://kelionai.app",
+        "looks_netlify": true,
+        "detected_scripts": {
+          "lint": null,
+          "typecheck": null,
+          "test": null,
+          "build": null,
+          "e2e": null
+        }
+      }
+    },
+    {
+      "name": "install",
+      "ok": true,
+      "skipped": true,
+      "reason": "SKIP_INSTALL=1"
+    },
+    {
+      "name": "lint",
+      "ok": true,
+      "skipped": true,
+      "reason": "No script in package.json"
+    },
+    {
+      "name": "typecheck",
+      "ok": true,
+      "skipped": true,
+      "reason": "No script in package.json"
+    },
+    {
+      "name": "unit_tests",
+      "ok": true,
+      "skipped": true,
+      "reason": "No script in package.json"
+    },
+    {
+      "name": "build",
+      "ok": true,
+      "skipped": true,
+      "reason": "No script in package.json"
+    },
+    {
+      "name": "start_netlify_dev",
+      "ok": true,
+      "skipped": true,
+      "reason": "SKIP_START=1 (assume already running)"
+    },
+    {
+      "name": "playwright_version",
+      "ok": true,
+      "code": 0,
+      "signal": null,
+      "ms": 1789,
+      "stdout": "Version 1.58.2\n",
+      "stderr": "",
+      "cmd": "npx playwright --version"
+    },
+    {
+      "name": "playwright_install",
+      "ok": true,
+      "code": 0,
+      "signal": null,
+      "ms": 1919,
+      "stdout": "",
+      "stderr": "",
+      "cmd": "npx playwright install"
+    },
+    {
+      "name": "e2e",
+      "ok": true,
+      "code": 0,
+      "signal": null,
+      "ms": 76147,
+      "stdout": "\nRunning 30 tests using 1 worker\n\n  ✓   1 [chromium] › tests\\example.spec.js:4:5 › has title (694ms)\n  ✓   2 [chromium] › tests\\example.spec.js:11:5 › get started link (840ms)\n  ✓   3 [chromium] › tests\\kelion-full.spec.js:12:5 › 1. Pagini — Load & Visual › index.html se incarca cu titlu corect (1.1s)\n  ✓   4 [chromium] › tests\\kelion-full.spec.js:22:5 › 1. Pagini — Load & Visual › app.html se incarca fara erori JS (7.4s)\n  ✓   5 [chromium] › tests\\kelion-full.spec.js:39:5 › 1. Pagini — Load & Visual › subscribe.html se incarca (922ms)\n  ✓   6 [chromium] › tests\\kelion-full.spec.js:44:5 › 1. Pagini — Load & Visual › terms.html se incarca (602ms)\n  ✓   7 [chromium] › tests\\kelion-full.spec.js:49:5 › 1. Pagini — Load & Visual › privacy.html se incarca (556ms)\n  ✓   8 [chromium] › tests\\kelion-full.spec.js:54:5 › 1. Pagini — Load & Visual › gdpr.html se incarca (826ms)\n  ✓   9 [chromium] › tests\\kelion-full.spec.js:65:5 › 2. API — Raspunsuri reale › health endpoint → 200 healthy (475ms)\n  ✓  10 [chromium] › tests\\kelion-full.spec.js:73:5 › 2. API — Raspunsuri reale › vault health → 45+ chei (948ms)\n  ✓  11 [chromium] › tests\\kelion-full.spec.js:83:5 › 2. API — Raspunsuri reale › env-check → 200 cu date (231ms)\n  ✓  12 [chromium] › tests\\kelion-full.spec.js:90:5 › 2. API — Raspunsuri reale › chat → raspuns AI real la intrebare (7.7s)\n  ✓  13 [chromium] › tests\\kelion-full.spec.js:101:5 › 2. API — Raspunsuri reale › smart-brain → raspuns AI real (2.6s)\n  ✓  14 [chromium] › tests\\kelion-full.spec.js:112:5 › 2. API — Raspunsuri reale › weather GPS → date meteo reale (1.2s)\n  ✓  15 [chromium] › tests\\kelion-full.spec.js:121:5 › 2. API — Raspunsuri reale › free-trial → status valid (562ms)\n  ✓  16 [chromium] › tests\\kelion-full.spec.js:137:5 › 3. Validare input — 400 pe date invalide › chat fara mesaj → 400 (198ms)\n  ✓  17 [chromium] › tests\\kelion-full.spec.js:142:5 › 3. Validare input — 400 pe date invalide › chat JSON invalid → 400 (197ms)\n  ✓  18 [chromium] › tests\\kelion-full.spec.js:150:5 › 3. Validare input — 400 pe date invalide › smart-brain fara intrebare → 400 (304ms)\n  ✓  19 [chromium] › tests\\kelion-full.spec.js:155:5 › 3. Validare input — 400 pe date invalide › dalle fara prompt → 400 (980ms)\n  ✓  20 [chromium] › tests\\kelion-full.spec.js:160:5 › 3. Validare input — 400 pe date invalide › whisper fara audio → 400 (983ms)\n  ✓  21 [chromium] › tests\\kelion-full.spec.js:165:5 › 3. Validare input — 400 pe date invalide › vision fara imagine → 400 (719ms)\n  ✓  22 [chromium] › tests\\kelion-full.spec.js:170:5 › 3. Validare input — 400 pe date invalide › elevenlabs-tts fara text → 400 (1.1s)\n  ✓  23 [chromium] › tests\\kelion-full.spec.js:181:5 › 4. Securitate › get-secret nu expune chei (513ms)\n  ✓  24 [chromium] › tests\\kelion-full.spec.js:190:5 › 4. Securitate › CORS headers prezente (317ms)\n  ✓  25 [chromium] › tests\\kelion-full.spec.js:195:5 › 4. Securitate › env-check nu afiseaza valori reale (488ms)\n  ✓  26 [chromium] › tests\\kelion-full.spec.js:209:5 › 5. Browser UI — Interactiuni vizuale › pagina principala are buton CTA (989ms)\n  ✓  27 [chromium] › tests\\kelion-full.spec.js:217:5 › 5. Browser UI — Interactiuni vizuale › app.html are chat input (2.9s)\n  ✓  28 [chromium] › tests\\kelion-full.spec.js:228:5 › 5. Browser UI — Interactiuni vizuale › subscribe.html are planuri de pret (1.6s)\n  ✓  29 [chromium] › tests\\kelion-full.spec.js:241:5 › 5. Browser UI — Interactiuni vizuale › no 404 resources on index (13.9s)\nNavigating to https://kelionai.app ...\n✅ Both Avatars are VISIBLE on the page.\n📸 Screenshot saved to avatar-monitor-proof.png\n  ✓  30 [chromium] › tests\\monitor-avatars.spec.js:3:1 › monitor avatars visibility (20.0s)\n\n  30 passed (1.2m)\n",
+      "stderr": "",
+      "cmd": "npx playwright test"
+    }
+  ],
+  "probes": [
+    {
+      "url": "https://kelionai.app/",
+      "ok": true,
+      "status": 200,
+      "ms": 210,
+      "bytes": 83601,
+      "sample": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Kelion AI — The First AI You Can See</title>\r\n    <meta name=\"description\"\r\n        content=\"K is a 3D holographic AI. Voice, vision, email, GPS — all in one living hologram.\">\r\n    <link rel=\"icon\" href=\"/favicon.ico\">\r\n    <link\r\n        href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cinzel:"
+    },
+    {
+      "url": "https://kelionai.app/landing.html",
+      "ok": true,
+      "status": 200,
+      "ms": 40,
+      "bytes": 83601,
+      "sample": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Kelion AI — The First AI You Can See</title>\r\n    <meta name=\"description\"\r\n        content=\"K is a 3D holographic AI. Voice, vision, email, GPS — all in one living hologram.\">\r\n    <link rel=\"icon\" href=\"/favicon.ico\">\r\n    <link\r\n        href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cinzel:"
+    },
+    {
+      "url": "https://kelionai.app/app.html",
+      "ok": true,
+      "status": 200,
+      "ms": 124,
+      "bytes": 117261,
+      "sample": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n\r\n<head>\r\n    <meta name=\"description\"\r\n        content=\"Chat with K, an advanced AI assistant with 10+ expert professions including Software Engineer, Cyber Security, Lawyer, and more. Real-time web search and browsing.\">\r\n    <meta name=\"keywords\" content=\"AI chat, K assistant, AI professions, smart chatbot, multilingual AI\">\r\n    <meta name=\"author\" content=\"Kelion AI\">\r\n    <meta name=\"robots\" content=\"index, follow\">\r\n    <!-- Open Graph -->\r\n    <meta pro"
+    },
+    {
+      "url": "https://kelionai.app/subscribe.html",
+      "ok": true,
+      "status": 200,
+      "ms": 34,
+      "bytes": 34871,
+      "sample": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Sign In - Kelion AI</title>\r\n    <meta name=\"description\" content=\"Access Kelion AI - Your intelligent personal assistant.\">\r\n\r\n    <!-- Fonts -->\r\n    <link\r\n        href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cinzel:wght@700&display=swap\"\r\n        rel=\"stylesheet\">\r\n\r\n    <!-- Icons (Luci"
+    },
+    {
+      "url": "https://kelionai.app/chat.html",
+      "ok": true,
+      "status": 200,
+      "ms": 33,
+      "bytes": 117261,
+      "sample": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n\r\n<head>\r\n    <meta name=\"description\"\r\n        content=\"Chat with K, an advanced AI assistant with 10+ expert professions including Software Engineer, Cyber Security, Lawyer, and more. Real-time web search and browsing.\">\r\n    <meta name=\"keywords\" content=\"AI chat, K assistant, AI professions, smart chatbot, multilingual AI\">\r\n    <meta name=\"author\" content=\"Kelion AI\">\r\n    <meta name=\"robots\" content=\"index, follow\">\r\n    <!-- Open Graph -->\r\n    <meta pro"
+    },
+    {
+      "url": "https://kelionai.app/reset-password.html",
+      "ok": true,
+      "status": 404,
+      "ms": 32,
+      "bytes": 3437,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Page not found</title>\n    <style>\n      :root {\n        --colorRgbFacetsTeal600: 2 128 125;\n        --colorTealAction: var(--colorRgbFacetsTeal600);\n        --colorRgbFacetsNeutralLight200: 233 235 237;\n        --colorHr: var(--colorRgbFacetsNeutralLight200);\n        --colorRgbFacetsNeutralLight700: 53 58 62;\n        --colorGrayDarkest: v"
+    },
+    {
+      "url": "https://kelionai.app/verify-email.html",
+      "ok": true,
+      "status": 404,
+      "ms": 38,
+      "bytes": 3437,
+      "sample": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Page not found</title>\n    <style>\n      :root {\n        --colorRgbFacetsTeal600: 2 128 125;\n        --colorTealAction: var(--colorRgbFacetsTeal600);\n        --colorRgbFacetsNeutralLight200: 233 235 237;\n        --colorHr: var(--colorRgbFacetsNeutralLight200);\n        --colorRgbFacetsNeutralLight700: 53 58 62;\n        --colorGrayDarkest: v"
+    },
+    {
+      "url": "https://kelionai.app/health",
+      "ok": true,
+      "status": 200,
+      "ms": 2095,
+      "bytes": 786,
+      "sample": "{\"status\":\"healthy\",\"version\":\"v1.6\",\"timestamp\":\"2026-02-14T05:01:13.353Z\",\"responseTime\":\"1197ms\",\"critical_checks\":{\"supabase\":{\"status\":\"ok\"},\"jwt\":{\"status\":\"ok\"},\"openai\":{\"status\":\"ok\"},\"supabase_url\":{\"status\":\"ok\"},\"supabase_key\":{\"status\":\"ok\"}},\"critical_failures\":0,\"optional_services\":{\"gemini\":{\"configured\":true,\"env_var\":\"GEMINI_API_KEY\"},\"deepgram\":{\"configured\":true,\"env_var\":\"DEEPGRAM_API_KEY\"},\"stripe\":{\"configured\":true,\"env_var\":\"STRIPE_SECRET_KEY\"},\"openweather\":{\"configured"
+    },
+    {
+      "url": "https://kelionai.app/.netlify/functions/health",
+      "ok": true,
+      "status": 200,
+      "ms": 341,
+      "bytes": 785,
+      "sample": "{\"status\":\"healthy\",\"version\":\"v1.6\",\"timestamp\":\"2026-02-14T05:01:13.711Z\",\"responseTime\":\"142ms\",\"critical_checks\":{\"supabase\":{\"status\":\"ok\"},\"jwt\":{\"status\":\"ok\"},\"openai\":{\"status\":\"ok\"},\"supabase_url\":{\"status\":\"ok\"},\"supabase_key\":{\"status\":\"ok\"}},\"critical_failures\":0,\"optional_services\":{\"gemini\":{\"configured\":true,\"env_var\":\"GEMINI_API_KEY\"},\"deepgram\":{\"configured\":true,\"env_var\":\"DEEPGRAM_API_KEY\"},\"stripe\":{\"configured\":true,\"env_var\":\"STRIPE_SECRET_KEY\"},\"openweather\":{\"configured\""
+    },
+    {
+      "url": "https://kelionai.app/.netlify/functions/search",
+      "ok": true,
+      "status": 405,
+      "ms": 586,
+      "bytes": 30,
+      "sample": "{\"error\":\"Method not allowed\"}"
+    },
+    {
+      "url": "https://kelionai.app/.netlify/functions/chat",
+      "ok": true,
+      "status": 405,
+      "ms": 599,
+      "bytes": 30,
+      "sample": "{\"error\":\"Method not allowed\"}"
+    },
+    {
+      "url": "https://kelionai.app/.netlify/functions/auth-login",
+      "ok": true,
+      "status": 405,
+      "ms": 745,
+      "bytes": 30,
+      "sample": "{\"error\":\"Method not allowed\"}"
+    },
+    {
+      "url": "https://kelionai.app/.netlify/functions/auth-register",
+      "ok": true,
+      "status": 405,
+      "ms": 814,
+      "bytes": 30,
+      "sample": "{\"error\":\"Method not allowed\"}"
+    },
+    {
+      "url": "https://kelionai.app/.netlify/functions/auth-forgot-password",
+      "ok": true,
+      "status": 405,
+      "ms": 689,
+      "bytes": 30,
+      "sample": "{\"error\":\"Method not allowed\"}"
+    },
+    {
+      "url": "https://kelionai.app/.netlify/functions/realtime-token",
+      "ok": true,
+      "status": 200,
+      "ms": 1636,
+      "bytes": 161,
+      "sample": "{\"success\":true,\"client_secret\":{\"value\":\"ek_6990019eabc481919cdd9ee8a2e40677\",\"expires_at\":1771045878},\"session_id\":\"sess_D924McUnFTqsqSntHrgca\",\"expires_at\":0}"
+    },
+    {
+      "url": "https://kelionai.app/.netlify/functions/vision",
+      "ok": true,
+      "status": 405,
+      "ms": 647,
+      "bytes": 30,
+      "sample": "{\"error\":\"Method not allowed\"}"
+    },
+    {
+      "url": "https://kelionai.app/.netlify/functions/env-check",
+      "ok": true,
+      "status": 200,
+      "ms": 994,
+      "bytes": 509,
+      "sample": "{\"success\":true,\"configured\":\"10/10\",\"vault_keys_loaded\":58,\"variables\":[{\"name\":\"OPENAI_API_KEY\",\"status\":\"SET\"},{\"name\":\"GEMINI_API_KEY\",\"status\":\"SET\"},{\"name\":\"DEEPSEEK_API_KEY\",\"status\":\"SET\"},{\"name\":\"DEEPGRAM_API_KEY\",\"status\":\"SET\"},{\"name\":\"SUPABASE_URL\",\"status\":\"SET\"},{\"name\":\"SUPABASE_SERVICE_KEY\",\"status\":\"SET\"},{\"name\":\"OPENWEATHER_API_KEY\",\"status\":\"SET\"},{\"name\":\"TAVILY_API_KEY\",\"status\":\"SET\"},{\"name\":\"STRIPE_SECRET_KEY\",\"status\":\"SET\"},{\"name\":\"JWT_SECRET\",\"status\":\"SET\"}],\"mis"
+    }
+  ],
+  "summary": {
+    "ok": true,
+    "failures": 0
+  },
+  "notes_for_ai_fix": [],
+  "artifacts": [
+    "artifacts_netlify_doctor/doctor.log",
+    "artifacts_netlify_doctor/report.md",
+    "artifacts_netlify_doctor/report.json"
+  ],
+  "auto_fixes": [
+    {
+      "id": "missing_page_404",
+      "diagnosis": "Pages not found (404): https://kelionai.app/reset-password.html, https://kelionai.app/verify-email.html",
+      "fixApplied": false,
+      "fixResult": null
+    }
+  ]
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - Kelion AI</title>
+    <link rel="icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            max-width: 480px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #888;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .status {
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .status.loading {
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            color: #00e5ff;
+        }
+
+        .status.success {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            color: #4ade80;
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #00e5ff, #0080ff);
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.2);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 229, 255, 0.3);
+            border-top-color: #00e5ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="icon" id="icon">📧</div>
+        <h1 id="title">Verifying Your Email</h1>
+        <p id="desc">Please wait while we verify your email address...</p>
+        <div class="status loading" id="status"><span class="spinner"></span> Verifying...</div>
+        <div id="action" style="display:none;"></div>
+    </div>
+
+    <script>
+        const API_BASE = '/.netlify/functions';
+
+        async function verifyEmail() {
+            const params = new URLSearchParams(window.location.search);
+            const token = params.get('token');
+            const icon = document.getElementById('icon');
+            const title = document.getElementById('title');
+            const desc = document.getElementById('desc');
+            const status = document.getElementById('status');
+            const action = document.getElementById('action');
+
+            if (!token) {
+                icon.textContent = '❌';
+                title.textContent = 'Invalid Link';
+                desc.textContent = 'This verification link is invalid or incomplete.';
+                status.className = 'status error';
+                status.textContent = 'No verification token found in the URL.';
+                action.style.display = 'block';
+                action.innerHTML = '<a href="/subscribe.html" class="btn">Go to Login</a>';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/auth-verify-email`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token })
+                });
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    icon.textContent = '✅';
+                    title.textContent = 'Email Verified!';
+                    desc.textContent = 'Your email has been successfully verified. You can now log in.';
+                    status.className = 'status success';
+                    status.textContent = '✅ ' + (data.message || 'Verification successful!');
+                    action.style.display = 'block';
+                    action.innerHTML = '<a href="/subscribe.html" class="btn">Log In Now</a>';
+                } else {
+                    icon.textContent = '⚠️';
+                    title.textContent = 'Verification Failed';
+                    desc.textContent = data.error || 'The verification link may have expired or already been used.';
+                    status.className = 'status error';
+                    status.textContent = '❌ ' + (data.error || 'Verification failed');
+
+                    let actions = '<a href="/subscribe.html" class="btn">Go to Login</a>';
+                    if (data.code === 'TOKEN_EXPIRED') {
+                        desc.textContent = 'This verification link has expired. Please request a new one.';
+                    }
+                    action.style.display = 'block';
+                    action.innerHTML = actions;
+                }
+            } catch (err) {
+                icon.textContent = '🔌';
+                title.textContent = 'Connection Error';
+                desc.textContent = 'Could not reach the server. Please check your internet connection and try again.';
+                status.className = 'status error';
+                status.textContent = '❌ Connection failed';
+                action.style.display = 'block';
+                action.innerHTML = '<button class="btn" onclick="location.reload()">Retry</button>';
+            }
+        }
+
+        // Auto-verify on page load
+        verifyEmail();
+    </script>
+</body>
+
+</html>

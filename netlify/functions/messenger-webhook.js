@@ -120,6 +120,8 @@ exports.handler = async (event) => {
                 console.log('📡 Page subscription result:', JSON.stringify(subData));
                 return { statusCode: 200, headers, body: JSON.stringify({ action: 'subscribe_page', result: subData }) };
             } catch (e) {
+                console.error('Page subscribe error:', e.message);
+                // MASK-001-EXEMPT: Meta webhooks MUST return 200 per Meta Platform API spec.
                 return { statusCode: 200, headers, body: JSON.stringify({ error: e.message }) };
             }
         }
@@ -136,7 +138,7 @@ exports.handler = async (event) => {
                     : `https://graph.facebook.com/v21.0/me?fields=id,name&access_token=${PAGE_TOKEN}`;
                 const metaRes = await fetch(metaUrl);
                 results.meta_api = { status: metaRes.status, data: await metaRes.json() };
-            } catch (e) { results.meta_api = { error: e.message }; }
+            } catch (e) { console.error('Debug meta_api error:', e.message); results.meta_api = { error: e.message }; }
             // Test 2: Can K reach smart-brain?
             try {
                 const baseUrl = process.env.URL || 'https://kelionai.app';
@@ -145,7 +147,7 @@ exports.handler = async (event) => {
                     body: JSON.stringify({ message: 'test', system: 'Say OK', model: 'auto', max_tokens: 5 })
                 });
                 results.smart_brain = { status: brainRes.status };
-            } catch (e) { results.smart_brain = { error: e.message }; }
+            } catch (e) { console.error('Debug smart_brain error:', e.message); results.smart_brain = { error: e.message }; }
             // Test 3: Env vars present?
             results.env = {
                 PAGE_TOKEN: !!process.env.META_PAGE_ACCESS_TOKEN,
@@ -177,6 +179,8 @@ exports.handler = async (event) => {
                 console.log('📤 Test message result:', JSON.stringify(sendData));
                 return { statusCode: 200, headers, body: JSON.stringify({ action: 'send_test', result: sendData }) };
             } catch (e) {
+                console.error('Send test error:', e.message);
+                // MASK-001-EXEMPT: Meta webhooks MUST return 200 per Meta Platform API spec.
                 return { statusCode: 200, headers, body: JSON.stringify({ action: 'send_test', error: e.message }) };
             }
         }
@@ -190,6 +194,8 @@ exports.handler = async (event) => {
         return { statusCode: 200, headers, body: JSON.stringify({ status: 'ok' }) };
     } catch (err) {
         console.error('Messenger webhook error:', err);
+        // MASK-001-EXEMPT: Meta webhooks MUST return 200 per Meta Platform API spec.
+        // Non-200 causes Meta to retry infinitely and eventually disable the webhook.
         return { statusCode: 200, headers, body: JSON.stringify({ status: 'error', message: err.message }) };
     }
 };
@@ -388,7 +394,7 @@ async function handleAudioMessage(senderId, audioUrl, platform) {
 }
 
 // ═══ SEND AUDIO MESSAGE VIA META API ═══
-async function sendAudioMessage(recipientId, audioBase64, platform) {
+async function sendAudioMessage(recipientId, audioBase64, _platform) {
     const PAGE_TOKEN = process.env.META_PAGE_ACCESS_TOKEN;
     if (!PAGE_TOKEN) { console.error('❌ META_PAGE_ACCESS_TOKEN not set'); return; }
 
@@ -811,7 +817,7 @@ function formatDocumentResponse(data) {
 }
 
 // ═══ SEND MESSAGE VIA META API ═══
-async function sendMessage(recipientId, text, platform) {
+async function sendMessage(recipientId, text, _platform) {
     const PAGE_TOKEN = process.env.META_PAGE_ACCESS_TOKEN;
     if (!PAGE_TOKEN) { console.error('❌ META_PAGE_ACCESS_TOKEN not set'); return; }
 

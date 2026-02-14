@@ -38,7 +38,7 @@ Rules:
 - If source language is auto-detect, identify it first`;
 
         let translated = '';
-        let detectedLang = sourceLang;
+        let _detectedLang = sourceLang;
 
         if (useGemini) {
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {

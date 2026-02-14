@@ -1,7 +1,14 @@
 // Kelion Professional VAD - Silero Integration
 // Replaces basic OpenAI VAD with ML-based detection
 
-import { MicVAD } from '@ricky0123/vad-web';
+// vad-web loaded via CDN (see script tag in app.html)
+// Fallback: if MicVAD not available, use a stub
+const MicVAD = window.vad?.MicVAD || class MicVADStub {
+    static async new() { console.warn('[VAD] vad-web not loaded — voice detection disabled'); return new MicVADStub(); }
+    start() { }
+    pause() { }
+    destroy() { }
+};
 
 class KelionAdvancedVAD {
     constructor() {

@@ -7,7 +7,7 @@ const { patchProcessEnv } = require('./get-secret');
 
 const { createClient } = require('@supabase/supabase-js');
 
-exports.handler = async (event) => {
+exports.handler = async (_event) => {
     const headers = {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'

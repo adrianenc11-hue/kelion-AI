@@ -303,7 +303,7 @@ function getChecklist(country, pensionType, params) {
     return result;
 }
 
-function getTemplates(country, pensionType) {
+function getTemplates(_country, _pensionType) {
     return {
         country: 'Romania',
         templates: TEMPLATES.Romania,

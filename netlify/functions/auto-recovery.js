@@ -122,7 +122,7 @@ async function healthCheck() {
 }
 
 // ═══ RECOVER FAILED — Re-ping failed endpoints ═══
-async function recoverFailed(db) {
+async function recoverFailed(_db) {
     const check = await healthCheck();
     const failedEndpoints = check.endpoints.filter(e => e.status !== '✅ OK');
 

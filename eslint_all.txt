@@ -1,0 +1,315 @@
+=== admin-panel.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\admin-panel.js
+  116:19  warning  'count' is assigned a value but never used   no-unused-vars
+  488:62  warning  'source' is assigned a value but never used  no-unused-vars
+
+Ô£û 2 problems (0 errors, 2 warnings)
+
+
+=== age-adapter.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\age-adapter.js
+  20:39  warning  'type' is assigned a value but never used  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== api-subscription.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\api-subscription.js
+  42:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auth-forgot-password.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auth-forgot-password.js
+  26:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auth-login.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auth-login.js
+  46:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auth-logout.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auth-logout.js
+  37:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auth-me.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auth-me.js
+  33:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auth-refresh.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auth-refresh.js
+  29:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auth-register.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auth-register.js
+  30:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auth-resend-verification.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auth-resend-verification.js
+  27:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auth-reset-password.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auth-reset-password.js
+  23:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auth-verify-email.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auth-verify-email.js
+  20:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auth.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auth.js
+  41:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auto-poster.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auto-poster.js
+  15:26  warning  'event' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== auto-recovery.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\auto-recovery.js
+  125:30  warning  'db' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== avatar-versioning.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\avatar-versioning.js
+  150:36  warning  'user_id' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== baby-monitor-mode.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\baby-monitor-mode.js
+  34:22  warning  'session_start' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== code-interpreter.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\code-interpreter.js
+  104:20  error  The Function constructor is eval  no-new-func
+
+Ô£û 1 problem (1 error, 0 warnings)
+
+
+=== credit-codes.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\credit-codes.js
+  38:64  warning  'days' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== document-checker.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\document-checker.js
+  306:23  warning  'country' is defined but never used. Allowed unused args must match /^_/u      no-unused-vars
+  306:32  warning  'pensionType' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 2 problems (0 errors, 2 warnings)
+
+
+=== email-webhook.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\email-webhook.js
+  123:27  warning  'error' is assigned a value but never used  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== export-document.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\export-document.js
+  209:24  warning  'ri' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+  283:28  warning  'i' is defined but never used. Allowed unused args must match /^_/u   no-unused-vars
+
+Ô£û 2 problems (0 errors, 2 warnings)
+
+
+=== group-location.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\group-location.js
+  51:50  warning  'user_id' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== health.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\health.js
+  10:26  warning  'event' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== i18n.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\i18n.js
+  7:9  warning  'patchProcessEnv' is assigned a value but never used  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== image-editor.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\image-editor.js
+  149:36  warning  'size_kb' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+  184:77  warning  'sizes' is assigned a value but never used                                 no-unused-vars
+
+Ô£û 2 problems (0 errors, 2 warnings)
+
+
+=== k-supreme-intelligence.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\k-supreme-intelligence.js
+  156:30  error  The Function constructor is eval  no-new-func
+
+Ô£û 1 problem (1 error, 0 warnings)
+
+
+=== messenger-webhook.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\messenger-webhook.js
+  391:59  warning  'platform' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+  814:47  warning  'platform' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 2 problems (0 errors, 2 warnings)
+
+
+=== paypal-admin.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\paypal-admin.js
+  126:23  warning  'result' is assigned a value but never used  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== setup-permanent-user.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\setup-permanent-user.js
+  19:33  warning  'context' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== smart-brain.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\smart-brain.js
+  20:17  warning  Empty block statement  no-empty
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== social-media-monitor.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\social-media-monitor.js
+  368:34  warning  'payment_id' is assigned a value but never used  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== social-media-stats.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\social-media-stats.js
+  51:22  warning  'body' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== trading-alerts.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\trading-alerts.js
+  96:90  warning  'positions_open' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== trading-bot-engine.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\trading-bot-engine.js
+  676:37  warning  'atr' is defined but never used. Allowed unused args must match /^_/u      no-unused-vars
+  676:42  warning  'volumes' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+  958:30  warning  'key' is defined but never used. Allowed unused args must match /^_/u      no-unused-vars
+  958:35  warning  'secret' is defined but never used. Allowed unused args must match /^_/u   no-unused-vars
+  979:37  warning  'losses' is assigned a value but never used                                no-unused-vars
+
+Ô£û 5 problems (0 errors, 5 warnings)
+
+
+=== trading-bot-scheduler.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\trading-bot-scheduler.js
+   15:25  warning  'event' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+  123:23  warning  'statusData' is assigned a value but never used                          no-unused-vars
+
+Ô£û 2 problems (0 errors, 2 warnings)
+
+
+=== translate.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\translate.js
+  41:13  warning  'detectedLang' is assigned a value but never used  no-unused-vars
+
+Ô£û 1 problem (0 errors, 1 warning)
+
+
+=== usage-analytics.js ===
+
+C:\Users\adria\Downloads\k new\kelionat_clean\netlify\functions\usage-analytics.js
+  28:25  warning  'period' is assigned a value but never used      no-unused-vars
+  28:33  warning  'key_prefix' is assigned a value but never used  no-unused-vars
+
+Ô£û 2 problems (0 errors, 2 warnings)
+
+

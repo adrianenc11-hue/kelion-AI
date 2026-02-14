@@ -273,7 +273,9 @@ exports.handler = async (event) => {
 
     } catch (error) {
         console.error('Webhook Error:', error);
-        // Return 200 anyway to prevent PayPal from retrying
+        // MASK-001-EXEMPT: PayPal webhooks MUST return 200 per PayPal API spec.
+        // Non-200 responses cause PayPal to retry the webhook infinitely.
+        // Error is fully logged above via console.error.
         return {
             statusCode: 200,
             body: JSON.stringify({ received: true, error: error.message })

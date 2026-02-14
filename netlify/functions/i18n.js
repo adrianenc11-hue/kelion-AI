@@ -4,7 +4,7 @@
  * Called from frontend to get translations for UI elements
  */
 
-const { patchProcessEnv } = require('./get-secret');
+const { _patchProcessEnv } = require('./get-secret');
 
 // ═══ TRANSLATION DATABASE ═══
 const translations = {

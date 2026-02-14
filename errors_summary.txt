@@ -1,0 +1,27 @@
+TOTAL ERRORS: 13
+
+1. [ERROR] [https://kelionai.app] HTTP 500 https://kelionai.app/.netlify/functions/page-tracking
+
+2. [ERROR] [https://kelionai.app] Console Error: Failed to load resource: the server responded with a status of 500 ()
+
+3. [ERROR] [https://kelionai.app/app] Uncaught: Unexpected end of input
+
+4. [ERROR] [https://kelionai.app/app] HTTP 500 https://kelionai.app/.netlify/functions/page-tracking
+
+5. [ERROR] [https://kelionai.app/app] Console Error: Failed to load resource: the server responded with a status of 500 ()
+
+6. [ERROR] [https://kelionai.app/app] HTTP 500 https://kelionai.app/.netlify/functions/page-tracking
+
+7. [ERROR] [https://kelionai.app/app] Console Error: Failed to load resource: the server responded with a status of 500 ()
+
+8. [ERROR] [https://kelionai.app/gdpr] HTTP 500 https://kelionai.app/.netlify/functions/page-tracking
+
+9. [ERROR] [https://kelionai.app/gdpr] Console Error: Failed to load resource: the server responded with a status of 500 ()
+
+10. [ERROR] [https://kelionai.app/chat] Console Error: Error: <svg> attribute width: Expected length, "${rect.width}".
+
+11. [ERROR] [https://kelionai.app/chat] Console Error: Error: <svg> attribute height: Expected length, "${rect.height}".
+
+12. [ERROR] [https://kelionai.app/landing] HTTP 500 https://kelionai.app/.netlify/functions/page-tracking
+
+13. [ERROR] [https://kelionai.app/landing] Console Error: Failed to load resource: the server responded with a status of 500 ()

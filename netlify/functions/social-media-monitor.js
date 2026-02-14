@@ -365,7 +365,7 @@ async function handleLiveRequest(body) {
 
 // ═══ PAYMENT CONFIRMATION ═══
 async function handlePaymentConfirm(body) {
-    const { sender_id, platform, payment_id } = body;
+    const { sender_id, platform, _payment_id } = body;
     const baseUrl = process.env.URL || 'https://kelionai.app';
 
     try {

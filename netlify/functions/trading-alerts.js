@@ -93,7 +93,7 @@ async function sendSignalAlert({ symbol, signal, confidence, indicators }) {
 }
 
 // ═══ Rezumat zilnic — simplu, clar ═══
-async function sendDailySummary({ date, total_pnl, trades_count, wins, losses, win_rate, positions_open, equity, symbols_detail, observations, recommendations }) {
+async function sendDailySummary({ date, total_pnl, trades_count, wins, losses, win_rate, _positions_open, equity, symbols_detail, observations, recommendations }) {
     const pnl = parseFloat(String(total_pnl || 0).replace('$', ''));
     const gained = pnl >= 0 ? pnl.toFixed(2) : '0.00';
     const lost = pnl < 0 ? Math.abs(pnl).toFixed(2) : '0.00';

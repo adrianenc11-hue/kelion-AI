@@ -101,6 +101,7 @@ function executeJS(code) {
 
         // Create safe function
         const safeCode = `"use strict";\n${code}`;
+        // eslint-disable-next-line no-new-func -- sandboxed code execution required
         const fn = new Function(...Object.keys(sandbox), safeCode);
         fn(...Object.values(sandbox));
 
@@ -116,6 +117,8 @@ function executeJS(code) {
             })
         };
     } catch (error) {
+        // MASK-001-EXEMPT: User code runtime error is NOT a server error.
+        // The interpreter ran successfully but the user's code threw an exception.
         return {
             statusCode: 200, headers,
             body: JSON.stringify({

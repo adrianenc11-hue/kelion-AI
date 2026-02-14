@@ -48,7 +48,7 @@ function respond(code, data) {
 }
 
 // ═══ OVERVIEW — Rezumat general ═══
-function getOverview(body) {
+function getOverview(_body) {
     // In production, these would come from Supabase
     // For now, return structure ready for integration
     return {

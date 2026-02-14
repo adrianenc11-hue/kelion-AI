@@ -35,7 +35,7 @@
                         const user = JSON.parse(userData);
                         return user.role === 'admin' || user.role === 'superadmin';
                     }
-                } catch (e) { }
+                } catch (e) { console.warn('Failed to parse user data:', e.message); }
                 return false;
             }
 
@@ -2327,130 +2327,133 @@ Be very brief (1-2 sentences). Always respond in the SAME language the user spok
                     break;
                 case 'docx':
                     // DOCX export as rich text HTML
-                    const htmlContent = `<html><head><meta charset="utf-8"><title>${filename}</title></head><body><h1>${processedDocContent.filename} - Raport AI</h1><p>Generat: ${processedDocContent.timestamp}</p><hr><pre>${escapeHtml(content)}</pre>
-<!-- Push Notifications + i18n -->
-<script>
-// ═══ SERVICE WORKER + PUSH NOTIFICATIONS ═══
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').then(reg => {
-        console.log('[K] Service Worker registered');
-    }).catch(err => console.warn('[K] SW registration failed:', err));
-}
-
-async function subscribePush() {
-    try {
-        if (!('PushManager' in window)) { alert('Push notifications not supported'); return; }
-        
-        const reg = await navigator.serviceWorker.ready;
-        const existing = await reg.pushManager.getSubscription();
-        if (existing) { console.log('[K] Already subscribed'); return existing; }
-        
-        // Get VAPID key from server
-        const r = await fetch('/.netlify/functions/push-notifications', {
-            method: 'POST', headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({ action: 'get_vapid_key' })
-        });
-        const { vapid_public_key } = await r.json();
-        if (!vapid_public_key) { console.warn('[K] No VAPID key'); return null; }
-        
-        // Convert base64url to Uint8Array
-        const urlBase64ToUint8Array = (base64String) => {
-            const padding = '='.repeat((4 - base64String.length % 4) % 4);
-            const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-            const rawData = atob(base64);
-            return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
-        };
-        
-        const sub = await reg.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(vapid_public_key)
-        });
-        
-        // Send to server
-        const email = localStorage.getItem('k_email') || 'anonymous';
-        await fetch('/.netlify/functions/push-notifications', {
-            method: 'POST', headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({ action: 'subscribe', subscription: sub, user_email: email })
-        });
-        
-        console.log('[K] Push subscribed!');
-        return sub;
-    } catch(e) { console.error('[K] Push subscribe error:', e); }
-}
-
-// ═══ i18n LANGUAGE SYSTEM ═══
-const K_LANGS = { en: 'English', ro: 'Română', es: 'Español', fr: 'Français', de: 'Deutsch' };
-let K_I18N = {};
-
-function getLanguage() {
-    return localStorage.getItem('k_lang') || navigator.language?.split('-')[0] || 'en';
-}
-
-async function loadTranslations(lang) {
-    try {
-        const r = await fetch('/.netlify/functions/i18n', {
-            method: 'POST', headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({ lang: lang || getLanguage() })
-        });
-        const d = await r.json();
-        if (d.success) { K_I18N = d.translations; applyTranslations(); }
-    } catch(e) { console.warn('[K] i18n load error:', e); }
-}
-
-function t(key) { return K_I18N[key] || key; }
-
-function applyTranslations() {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (K_I18N[key]) {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = K_I18N[key];
-            else el.textContent = K_I18N[key];
-        }
-    });
-}
-
-function setLanguage(lang) {
-    localStorage.setItem('k_lang', lang);
-    loadTranslations(lang);
-}
-
-// Auto-load on page ready
-document.addEventListener('DOMContentLoaded', () => {
-    loadTranslations();
-    
-    // Auto-ask for push after 30s on first visit
-    if (!localStorage.getItem('k_push_asked')) {
-        setTimeout(() => {
-            if (Notification.permission === 'default') {
-                Notification.requestPermission().then(p => {
-                    if (p === 'granted') subscribePush();
-                    localStorage.setItem('k_push_asked', '1');
-                });
+                    const htmlContent = `<html><head><meta charset="utf-8"><title>${filename}</title></head><body><h1>${processedDocContent.filename} - Raport AI</h1><p>Generat: ${processedDocContent.timestamp}</p><hr><pre>${escapeHtml(content)}</pre></body></html>`;
+                    downloadTextFile(htmlContent, filename + '.html', 'text/html');
+                    break;
+                case 'xlsx':
+                    // CSV export (Excel-compatible)
+                    const csvContent = content.split('\n').map(line => `"${line.replace(/"/g, '""')}"`).join('\n');
+                    downloadTextFile('\uFEFF' + csvContent, filename + '.csv', 'text/csv;charset=utf-8');
+                    break;
+                case 'zip':
+                    // Export all formats as individual downloads
+                    downloadTextFile(content, filename + '.txt', 'text/plain');
+                    setTimeout(() => exportToPDF(content, filename), 500);
+                    break;
             }
-        }, 30000);
-    }
-});
+
+            document.getElementById('upload-status').textContent = `✅ Exportat ca ${format.toUpperCase()}!`;
+        }
+
+    </script>
+    <!-- Push Notifications + i18n -->
+    <script>
+        // ═══ SERVICE WORKER + PUSH NOTIFICATIONS ═══
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(reg => {
+                console.log('[K] Service Worker registered');
+            }).catch(err => console.warn('[K] SW registration failed:', err));
+        }
+
+        async function subscribePush() {
+            try {
+                if (!('PushManager' in window)) { alert('Push notifications not supported'); return; }
+
+                const reg = await navigator.serviceWorker.ready;
+                const existing = await reg.pushManager.getSubscription();
+                if (existing) { console.log('[K] Already subscribed'); return existing; }
+
+                // Get VAPID key from server
+                const r = await fetch('/.netlify/functions/push-notifications', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'get_vapid_key' })
+                });
+                const { vapid_public_key } = await r.json();
+                if (!vapid_public_key) { console.warn('[K] No VAPID key'); return null; }
+
+                // Convert base64url to Uint8Array
+                const urlBase64ToUint8Array = (base64String) => {
+                    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+                    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+                    const rawData = atob(base64);
+                    return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+                };
+
+                const sub = await reg.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(vapid_public_key)
+                });
+
+                // Send to server
+                const email = localStorage.getItem('k_email') || 'anonymous';
+                await fetch('/.netlify/functions/push-notifications', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'subscribe', subscription: sub, user_email: email })
+                });
+
+                console.log('[K] Push subscribed!');
+                return sub;
+            } catch (e) { console.error('[K] Push subscribe error:', e); }
+        }
+
+        // ═══ i18n LANGUAGE SYSTEM ═══
+        const K_LANGS = { en: 'English', ro: 'Română', es: 'Español', fr: 'Français', de: 'Deutsch' };
+        let K_I18N = {};
+
+        function getLanguage() {
+            return localStorage.getItem('k_lang') || navigator.language?.split('-')[0] || 'en';
+        }
+
+        async function loadTranslations(lang) {
+            try {
+                const r = await fetch('/.netlify/functions/i18n', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ lang: lang || getLanguage() })
+                });
+                const d = await r.json();
+                if (d.success) { K_I18N = d.translations; applyTranslations(); }
+            } catch (e) { console.warn('[K] i18n load error:', e); }
+        }
+
+        function t(key) { return K_I18N[key] || key; }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (K_I18N[key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = K_I18N[key];
+                    else el.textContent = K_I18N[key];
+                }
+            });
+        }
+
+        function setLanguage(lang) {
+            localStorage.setItem('k_lang', lang);
+            loadTranslations(lang);
+        }
+
+        // Auto-load on page ready
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTranslations();
+
+            // Auto-ask for push after 30s on first visit
+            if (!localStorage.getItem('k_push_asked')) {
+                setTimeout(() => {
+                    if (Notification.permission === 'default') {
+                        Notification.requestPermission().then(p => {
+                            if (p === 'granted') subscribePush();
+                            localStorage.setItem('k_push_asked', '1');
+                        });
+                    }
+                }, 30000);
+            }
+        });
     </script>
 
 </body>
 
-</html>`;
-downloadTextFile(htmlContent, filename + '.html', 'text/html');
-break;
-case 'xlsx':
-// CSV export (Excel-compatible)
-const csvContent = content.split('\n').map(line => `"${line.replace(/"/g, '""')}"`).join('\n');
-downloadTextFile('\uFEFF' + csvContent, filename + '.csv', 'text/csv;charset=utf-8');
-break;
-case 'zip':
-// Export all formats as individual downloads
-downloadTextFile(content, filename + '.txt', 'text/plain');
-setTimeout(() => exportToPDF(content, filename), 500);
-break;
-}
+</html>
 
-document.getElementById('upload-status').textContent = `✅ Exportat ca ${format.toUpperCase()}!`;
-}
 
 // Helper: download text file
 function downloadTextFile(content, filename, mimeType) {
@@ -2543,7 +2546,7 @@ const file = event.target.files[0];
 if (file) {
 pendingUploadFile = file;
 document.getElementById('selected-file-name').textContent = '📎 ' + file.name + ' (' + (file.size / 1024).toFixed(1) + '
-KB)';
+KB) ';
 document.getElementById('selected-file-info').style.display = 'block';
 document.getElementById('export-options').style.display = 'block';
 document.getElementById('btn-process-doc').style.display = 'inline-block';
@@ -3088,9 +3091,9 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
             FUNCTIONS============// These functions allow realtime-voice.js to control mouth animation let
             isSpeakingNow=false; // Bridge: Set speaking state from realtime-voice.js window.setSpeaking=function
             (speaking) { isSpeakingNow=speaking; isSpeaking=speaking; // Update global state console.log('🎭 Speaking
-            state:', speaking ? 'ON' : 'OFF' ); if (!speaking) { // Force close mouth when not speaking
+            state: ', speaking ? ' ON' : 'OFF' ); if (!speaking) { // Force close mouth when not speaking
             setMorphInfluence('Smile', 0); if (mouthAction) { mouthAction.stop(); mouthAction.paused=true; } } }; //
-            Bridge: Update mouth volume from realtime-voice.js window.updateMouthVolume=function (volume) { if
+            Bridge: Update mouth volume from realtime - voice.js window.updateMouthVolume=function (volume) { if
             (!isSpeakingNow) return; // Control mouth opening based on audio volume const mouthOpen=Math.min(1, volume *
             2.5); // Amplify for visibility setMorphInfluence('Smile', mouthOpen); // Update animation speed if
             available if (mouthAction) { mouthAction.timeScale=0.5 + volume * 2; if (mouthAction.paused && mouthOpen>
@@ -3272,10 +3275,10 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
             // Calculate average volume from frequency data
             let sum = 0;
             for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } const average=sum / dataArray.length;
-                return average / 255; // Normalize to 0-1 } //============END LIP SYNC SYSTEM============//
-                Text-to-Speech function using Deepgram (via backend) async function speak(text) { // GUARD: Skip legacy
-                TTS when realtime WebRTC is active (prevents voice overlap) // K1 PATCH (VOICE): mode-based routing
-                (AUTO/REALTIME/TTS) — prevents total mute when realtime is active const __k1_mode=(window.K1_VOICE_MODE
+                return average / 255; // Normalize to 0-1 } //============END LIP SYNC SYSTEM============// Text - to -
+                Speech function using Deepgram(via backend) async function speak(text) { // GUARD: Skip legacy TTS when
+                realtime WebRTC is active(prevents voice overlap) // K1 PATCH (VOICE): mode-based routing (AUTO /
+                REALTIME / TTS) — prevents total mute when realtime is active const __k1_mode=(window.K1_VOICE_MODE
                 || "auto" ).toLowerCase(); const __k1_rt=window.kelionRealtime; // REALTIME-only mode: force realtime
                 speak, do not fallback if (__k1_mode==="realtime" ) { if (__k1_rt && typeof
                 __k1_rt.isActive==="function" && __k1_rt.isActive()) { const __k1_res=await
@@ -3302,7 +3305,7 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
                 (devData.audio) { const binaryStr=atob(devData.audio); const bytes=new Uint8Array(binaryStr.length); for
                 (let i=0; i < binaryStr.length; i++) bytes[i]=binaryStr.charCodeAt(i); audioBlob=new Blob([bytes], {
                 type: 'audio/mpeg' }); } else { throw new Error('No audio in Deepgram response'); } } else { //
-                Production: OpenAI TTS via speak.js (primary TTS) try { const response=await fetch(TTS_ENDPOINT, {
+                Production: OpenAI TTS via speak.js(primary TTS) try { const response=await fetch(TTS_ENDPOINT, {
                 method: 'POST' , headers: { 'Content-Type' : 'application/json' }, body: JSON.stringify({ text: text,
                 voice: 'alloy' }) }); if (!response.ok) throw new Error(`TTS API error: ${response.status}`); const
                 data=await response.json(); if (data.audio) { // speak.js returns {audio: base64, format: 'mp3' } const
@@ -3452,47 +3455,47 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
                 const eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
                     camera.position.z=startZ + (targetZ - startZ) * eased; if (progress < 1) {
                     requestAnimationFrame(animateZoom); } } animateZoom(); console.log('📷 Soft zoom to Z=' + targetZ);
-            };
+                                            };
 
-            // Soft pan - animate camera X/Y position
-            window.softPan = function (targetX, targetY, durationMs = 1000) {
-                const startX = camera.position.x;
-                const startY = camera.position.y;
-                const startTime = Date.now();
+                                            // Soft pan - animate camera X/Y position
+                                            window.softPan = function (targetX, targetY, durationMs = 1000) {
+                                                const startX = camera.position.x;
+                                                const startY = camera.position.y;
+                                                const startTime = Date.now();
 
-                function animatePan() {
-                    const elapsed = Date.now() - startTime;
-                    const progress = Math.min(elapsed / durationMs, 1);
-                    const eased = progress < 0.5
-                        ? 2 * progress * progress
-                        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-                    camera.position.x = startX + (targetX - startX) * eased;
-                    camera.position.y = startY + (targetY - startY) * eased;
+                                                function animatePan() {
+                                                    const elapsed = Date.now() - startTime;
+                                                    const progress = Math.min(elapsed / durationMs, 1);
+                                                    const eased = progress < 0.5
+                                                        ? 2 * progress * progress
+                                                        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+                                                    camera.position.x = startX + (targetX - startX) * eased;
+                                                    camera.position.y = startY + (targetY - startY) * eased;
 
-                    if (progress < 1) {
-                        requestAnimationFrame(animatePan);
-                    }
-                }
-                animatePan();
-                console.log(' 📷 Soft pan to X=' + targetX + ' , Y=' + targetY);
-            };
+                                                    if (progress < 1) {
+                                                        requestAnimationFrame(animatePan);
+                                                    }
+                                                }
+                                                animatePan();
+                                                console.log(' 📷 Soft pan to X=' + targetX + ' , Y=' + targetY);
+                                            };
 
-            // Reset camera to default
-            window.resetCamera = function (durationMs = 800) {
-                window.softPan(0, 0, durationMs);
-                window.softZoom(3, durationMs);
-                console.log(' 📷 Camera reset'); }; // Zoom in closer window.zoomIn=function () {
-                    window.softZoom(camera.position.z - 0.5); }; // Zoom out farther window.zoomOut=function () {
-                    window.softZoom(camera.position.z + 0.5); }; //============END PROGRAMMATIC CAMERA
-                    CONTROL============// Lights const ambientLight=new THREE.AmbientLight(0xffffff, 0.5);
-                    scene.add(ambientLight); const directionalLight=new THREE.DirectionalLight(0xffffff, 1);
+                                            // Reset camera to default
+                                            window.resetCamera = function (durationMs = 800) {
+                                                window.softPan(0, 0, durationMs);
+                                                window.softZoom(3, durationMs);
+                                                console.log(' 📷 Camera reset'); }; // Zoom in closer
+                    window.zoomIn=function () { window.softZoom(camera.position.z - 0.5); }; // Zoom out farther
+                    window.zoomOut=function () { window.softZoom(camera.position.z + 0.5); }; //============END
+                    PROGRAMMATIC CAMERA CONTROL============// Lights const ambientLight=new THREE.AmbientLight(0xffffff,
+                    0.5); scene.add(ambientLight); const directionalLight=new THREE.DirectionalLight(0xffffff, 1);
                     directionalLight.position.set(5, 5, 5); scene.add(directionalLight); const directionalLight2=new
                     THREE.DirectionalLight(0x00ffff, 0.5); directionalLight2.position.set(-5, -5, -5);
                     scene.add(directionalLight2); // Point lights for hologram effect const pointLight1=new
                     THREE.PointLight(0x00ffff, 0.5, 10); pointLight1.position.set(2, 2, 2); scene.add(pointLight1);
                     const pointLight2=new THREE.PointLight(0xff00ff, 0.3, 10); pointLight2.position.set(-2, -2, 2);
                     scene.add(pointLight2); // Load the model const loader=new THREE.GLTFLoader();
-                    loader.load( 'Realistic_Male_Head_3D_Model_Animated_with_Facial_Expressions/RealisticMaleHead3DModelAnimatedWithFacialExpressions.glb'
+                    loader.load('Realistic_Male_Head_3D_Model_Animated_with_Facial_Expressions/RealisticMaleHead3DModelAnimatedWithFacialExpressions.glb'
                     , function (gltf) { model=gltf.scene; // Center and scale the model const box=new
                     THREE.Box3().setFromObject(model); const center=box.getCenter(new THREE.Vector3()); const
                     size=box.getSize(new THREE.Vector3()); const maxDim=Math.max(size.x, size.y, size.z); const scale=2
@@ -3929,8 +3932,9 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                     messages: [
-                    { role: 'system', content: 'You are a Python expert. Generate clean, working Python code based on
-                    the user request. Output ONLY the Python code, no explanations.' },
+                    {
+                    role: 'system', content: 'You are a Python expert. Generate clean, working Python code based on
+                    the user request.Output ONLY the Python code, no explanations.' },
                     { role: 'user', content: message }
                     ]
                     })
@@ -4603,148 +4607,148 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
 
                     <!-- AI Selector JS Logic -->
                     <script>
-        // All 12 engine IDs in alphabetical order
-        const ALL_ENGINE_IDS = ['ai21', 'claude', 'claude-opus', 'cohere', 'deepseek', 'gemini', 'grok', 'groq', 'llama-405b', 'mistral', 'mixtral', 'openai'];
+                        // All 12 engine IDs in alphabetical order
+                        const ALL_ENGINE_IDS = ['ai21', 'claude', 'claude-opus', 'cohere', 'deepseek', 'gemini', 'grok', 'groq', 'llama-405b', 'mistral', 'mixtral', 'openai'];
 
-        // Track which engines are active (multi-select)
-        window.activeAIEngines = [];
+                        // Track which engines are active (multi-select)
+                        window.activeAIEngines = [];
 
-        function toggleAIEngine(btn) {
-            const engine = btn.dataset.engine;
-            btn.classList.toggle('active');
+                        function toggleAIEngine(btn) {
+                            const engine = btn.dataset.engine;
+                            btn.classList.toggle('active');
 
-            // Deactivate ALL button if individual toggled
-            const allBtn = document.querySelector('.ai-sel-btn[data-engine="all"]');
-            if (allBtn && allBtn.classList.contains('active')) {
-                allBtn.classList.remove('active');
-            }
+                            // Deactivate ALL button if individual toggled
+                            const allBtn = document.querySelector('.ai-sel-btn[data-engine="all"]');
+                            if (allBtn && allBtn.classList.contains('active')) {
+                                allBtn.classList.remove('active');
+                            }
 
-            // Rebuild active list from DOM
-            window.activeAIEngines = [];
-            document.querySelectorAll('.ai-sel-btn.active').forEach(b => {
-                if (b.dataset.engine !== 'all') window.activeAIEngines.push(b.dataset.engine);
-            });
-            window.activeAIEngines.sort();
+                            // Rebuild active list from DOM
+                            window.activeAIEngines = [];
+                            document.querySelectorAll('.ai-sel-btn.active').forEach(b => {
+                                if (b.dataset.engine !== 'all') window.activeAIEngines.push(b.dataset.engine);
+                            });
+                            window.activeAIEngines.sort();
 
-            // If all 12 individually selected, auto-activate ALL button
-            if (window.activeAIEngines.length === 12 && allBtn) {
-                allBtn.classList.add('active');
-            }
+                            // If all 12 individually selected, auto-activate ALL button
+                            if (window.activeAIEngines.length === 12 && allBtn) {
+                                allBtn.classList.add('active');
+                            }
 
-            showAILabel();
-        }
-
-        function toggleAllEngines(allBtn) {
-            allBtn.classList.toggle('active');
-            const isOn = allBtn.classList.contains('active');
-
-            // Toggle all individual buttons
-            document.querySelectorAll('.ai-sel-btn').forEach(b => {
-                if (b.dataset.engine !== 'all') {
-                    if (isOn) b.classList.add('active');
-                    else b.classList.remove('active');
-                }
-            });
-
-            window.activeAIEngines = isOn ? [...ALL_ENGINE_IDS] : [];
-            showAILabel();
-        }
-
-        function showAILabel() {
-            const label = document.getElementById('ai-sel-label');
-            if (window.activeAIEngines.length > 0) {
-                const names = window.activeAIEngines.length === 12 ? 'ALL (12 engines)' :
-                    window.activeAIEngines.map(e => e.charAt(0).toUpperCase() + e.slice(1)).join(', ');
-                label.textContent = '🧠 Active: ' + names;
-            } else {
-                label.textContent = '🔄 Mod Auto (cascade)';
-            }
-            label.classList.add('visible');
-            clearTimeout(window._aiLabelTimeout);
-            window._aiLabelTimeout = setTimeout(() => label.classList.remove('visible'), 2500);
-            console.log('🧠 AI Engines active:', window.activeAIEngines);
-        }
-
-        // Call a specific engine through smart-brain with forced engine param
-        async function callForcedEngine(engineId, message) {
-            const res = await fetch('/.netlify/functions/smart-brain', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    question: message,
-                    engine: engineId,
-                    user_email: 'adrianenc11@gmail.com'
-                })
-            });
-            const data = await res.json();
-            if (!res.ok || !data.success) {
-                throw new Error(data.error || `${ engineId } error`);
-            }
-            return data;
-        }
-
-        // Process message through selected AI engines (sequential, alphabetical)
-        async function processWithSelectedEngines(message) {
-            const engines = [...window.activeAIEngines].sort();
-            const results = [];
-
-            for (const engineId of engines) {
-                try {
-                    const engineLabel = engineId.charAt(0).toUpperCase() + engineId.slice(1);
-                    addChatMessage(`⏳ ${ engineLabel } se gândește...`, 'system');
-                    const data = await callForcedEngine(engineId, message);
-                    // Remove thinking indicator
-                    const msgs = document.getElementById('chat-messages');
-                    const lastMsg = msgs?.lastElementChild;
-                    if (lastMsg && lastMsg.textContent.includes('se gândește')) lastMsg.remove();
-
-                    const reply = data.answer || data.reply || data.response || 'No response';
-                    addChatMessage(`🤖[${ engineLabel }]: ${ reply } `, 'assistant');
-                    results.push({ engine: engineId, reply });
-                } catch (err) {
-                    console.error(`Engine ${ engineId } error: `, err);
-                    const msgs = document.getElementById('chat-messages');
-                    const lastMsg = msgs?.lastElementChild;
-                    if (lastMsg && lastMsg.textContent.includes('se gândește')) lastMsg.remove();
-                    addChatMessage(`❌[${ engineId }]: ${ err.message } `, 'system');
-                }
-            }
-            return results;
-        }
-
-        // Helper: add message to chat panel
-        function addChatMessage(text, role) {
-            const messagesDiv = document.getElementById('chat-messages');
-            if (!messagesDiv) return;
-            const bubble = document.createElement('div');
-            bubble.style.cssText = role === 'system' ? 'text-align:center;margin:4px 0;' :
-                role === 'assistant' ? 'text-align:left;margin:8px 0;' : 'text-align:right;margin:8px 0;';
-            const bgColor = role === 'system' ? 'rgba(255,255,255,0.05)' :
-                role === 'assistant' ? '#222' : '#00aaff';
-            const txtColor = role === 'system' ? 'rgba(255,255,255,0.5)' :
-                role === 'assistant' ? '#e0e0e0' : '#fff';
-            bubble.innerHTML = `< span style = "background:${bgColor};color:${txtColor};padding:8px 14px;border-radius:16px;display:inline-block;max-width:80%;word-wrap:break-word;font-size:0.9rem;" > ${ text }</span >`;
-            messagesDiv.appendChild(bubble);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-
-        // Auto-show AI bar for admin and activate ALL
-        (function initAIBar() {
-            const kelionUser = localStorage.getItem('kelion_user');
-            if (kelionUser === 'adrianenc11@gmail.com') {
-                const bar = document.getElementById('ai-selector-bar');
-                if (bar) {
-                    bar.style.display = 'flex';
-                    // Auto-activate ALL
-                    setTimeout(() => {
-                        const allBtn = document.querySelector('.ai-sel-btn[data-engine="all"]');
-                        if (allBtn && !allBtn.classList.contains('active')) {
-                            toggleAllEngines(allBtn);
+                            showAILabel();
                         }
-                    }, 500);
-                }
-            }
-        })();
+
+                        function toggleAllEngines(allBtn) {
+                            allBtn.classList.toggle('active');
+                            const isOn = allBtn.classList.contains('active');
+
+                            // Toggle all individual buttons
+                            document.querySelectorAll('.ai-sel-btn').forEach(b => {
+                                if (b.dataset.engine !== 'all') {
+                                    if (isOn) b.classList.add('active');
+                                    else b.classList.remove('active');
+                                }
+                            });
+
+                            window.activeAIEngines = isOn ? [...ALL_ENGINE_IDS] : [];
+                            showAILabel();
+                        }
+
+                        function showAILabel() {
+                            const label = document.getElementById('ai-sel-label');
+                            if (window.activeAIEngines.length > 0) {
+                                const names = window.activeAIEngines.length === 12 ? 'ALL (12 engines)' :
+                                    window.activeAIEngines.map(e => e.charAt(0).toUpperCase() + e.slice(1)).join(', ');
+                                label.textContent = '🧠 Active: ' + names;
+                            } else {
+                                label.textContent = '🔄 Mod Auto (cascade)';
+                            }
+                            label.classList.add('visible');
+                            clearTimeout(window._aiLabelTimeout);
+                            window._aiLabelTimeout = setTimeout(() => label.classList.remove('visible'), 2500);
+                            console.log('🧠 AI Engines active:', window.activeAIEngines);
+                        }
+
+                        // Call a specific engine through smart-brain with forced engine param
+                        async function callForcedEngine(engineId, message) {
+                            const res = await fetch('/.netlify/functions/smart-brain', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    question: message,
+                                    engine: engineId,
+                                    user_email: 'adrianenc11@gmail.com'
+                                })
+                            });
+                            const data = await res.json();
+                            if (!res.ok || !data.success) {
+                                throw new Error(data.error || `${engineId} error`);
+                            }
+                            return data;
+                        }
+
+                        // Process message through selected AI engines (sequential, alphabetical)
+                        async function processWithSelectedEngines(message) {
+                            const engines = [...window.activeAIEngines].sort();
+                            const results = [];
+
+                            for (const engineId of engines) {
+                                try {
+                                    const engineLabel = engineId.charAt(0).toUpperCase() + engineId.slice(1);
+                                    addChatMessage(`⏳ ${engineLabel} se gândește...`, 'system');
+                                    const data = await callForcedEngine(engineId, message);
+                                    // Remove thinking indicator
+                                    const msgs = document.getElementById('chat-messages');
+                                    const lastMsg = msgs?.lastElementChild;
+                                    if (lastMsg && lastMsg.textContent.includes('se gândește')) lastMsg.remove();
+
+                                    const reply = data.answer || data.reply || data.response || 'No response';
+                                    addChatMessage(`🤖[${engineLabel}]: ${reply} `, 'assistant');
+                                    results.push({ engine: engineId, reply });
+                                } catch (err) {
+                                    console.error(`Engine ${engineId} error: `, err);
+                                    const msgs = document.getElementById('chat-messages');
+                                    const lastMsg = msgs?.lastElementChild;
+                                    if (lastMsg && lastMsg.textContent.includes('se gândește')) lastMsg.remove();
+                                    addChatMessage(`❌[${engineId}]: ${err.message} `, 'system');
+                                }
+                            }
+                            return results;
+                        }
+
+                        // Helper: add message to chat panel
+                        function addChatMessage(text, role) {
+                            const messagesDiv = document.getElementById('chat-messages');
+                            if (!messagesDiv) return;
+                            const bubble = document.createElement('div');
+                            bubble.style.cssText = role === 'system' ? 'text-align:center;margin:4px 0;' :
+                                role === 'assistant' ? 'text-align:left;margin:8px 0;' : 'text-align:right;margin:8px 0;';
+                            const bgColor = role === 'system' ? 'rgba(255,255,255,0.05)' :
+                                role === 'assistant' ? '#222' : '#00aaff';
+                            const txtColor = role === 'system' ? 'rgba(255,255,255,0.5)' :
+                                role === 'assistant' ? '#e0e0e0' : '#fff';
+                            bubble.innerHTML = `< span style="background:${bgColor};color:${txtColor};padding:8px 14px;border-radius:16px;display:inline-block;max-width:80%;word-wrap:break-word;font-size:0.9rem;" > ${text}</span >`;
+                            messagesDiv.appendChild(bubble);
+                            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                        }
+
+                        // Auto-show AI bar for admin and activate ALL
+                        (function initAIBar() {
+                            const kelionUser = localStorage.getItem('kelion_user');
+                            if (kelionUser === 'adrianenc11@gmail.com') {
+                                const bar = document.getElementById('ai-selector-bar');
+                                if (bar) {
+                                    bar.style.display = 'flex';
+                                    // Auto-activate ALL
+                                    setTimeout(() => {
+                                        const allBtn = document.querySelector('.ai-sel-btn[data-engine="all"]');
+                                        if (allBtn && !allBtn.classList.contains('active')) {
+                                            toggleAllEngines(allBtn);
+                                        }
+                                    }, 500);
+                                }
+                            }
+                        })();
                     </script>
 
                     <div class="ticker-bar">
@@ -4759,57 +4763,57 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
 
                     <!-- Script to show admin button for adrianenc11@gmail.com -->
                     <script>
-        function checkAndShowAdminButton() {
-            const userData = localStorage.getItem('kelion_user');
-            const adminBtn = document.getElementById('ae-admin-btn');
-            const aiBar = document.getElementById('ai-selector-bar');
-            const brainTracerBtn = document.getElementById('brain-tracer-btn');
+                        function checkAndShowAdminButton() {
+                            const userData = localStorage.getItem('kelion_user');
+                            const adminBtn = document.getElementById('ae-admin-btn');
+                            const aiBar = document.getElementById('ai-selector-bar');
+                            const brainTracerBtn = document.getElementById('brain-tracer-btn');
 
-            if (userData && adminBtn) {
-                try {
-                    const user = JSON.parse(userData);
+                            if (userData && adminBtn) {
+                                try {
+                                    const user = JSON.parse(userData);
 
-                    if (user.email === 'adrianenc11@gmail.com') {
-                        adminBtn.style.display = 'block';
-                        if (aiBar) aiBar.style.display = 'flex';
-                        if (brainTracerBtn) brainTracerBtn.style.display = 'block';
+                                    if (user.email === 'adrianenc11@gmail.com') {
+                                        adminBtn.style.display = 'block';
+                                        if (aiBar) aiBar.style.display = 'flex';
+                                        if (brainTracerBtn) brainTracerBtn.style.display = 'block';
 
-                        adminBtn.onclick = function (e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            window.location.href = '/admin.html';
-                        };
+                                        adminBtn.onclick = function (e) {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            window.location.href = '/admin.html';
+                                        };
 
-                        adminBtn.onmouseover = () => {
-                            adminBtn.style.background = 'linear-gradient(135deg, #d4af37, #b8860b)';
-                            adminBtn.style.color = '#000';
-                            adminBtn.style.transform = 'translateY(-1px)';
-                        };
-                        adminBtn.onmouseout = () => {
-                            adminBtn.style.background = 'linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(184, 134, 11, 0.3))';
-                            adminBtn.style.color = '#d4af37';
-                            adminBtn.style.transform = 'translateY(0)';
-                        };
-                    } else {
-                        adminBtn.style.display = 'none';
-                        if (aiBar) aiBar.style.display = 'none';
-                        if (brainTracerBtn) brainTracerBtn.style.display = 'none';
-                    }
-                } catch (e) {
-                    console.warn('User data parse error:', e);
-                }
-            }
-        }
+                                        adminBtn.onmouseover = () => {
+                                            adminBtn.style.background = 'linear-gradient(135deg, #d4af37, #b8860b)';
+                                            adminBtn.style.color = '#000';
+                                            adminBtn.style.transform = 'translateY(-1px)';
+                                        };
+                                        adminBtn.onmouseout = () => {
+                                            adminBtn.style.background = 'linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(184, 134, 11, 0.3))';
+                                            adminBtn.style.color = '#d4af37';
+                                            adminBtn.style.transform = 'translateY(0)';
+                                        };
+                                    } else {
+                                        adminBtn.style.display = 'none';
+                                        if (aiBar) aiBar.style.display = 'none';
+                                        if (brainTracerBtn) brainTracerBtn.style.display = 'none';
+                                    }
+                                } catch (e) {
+                                    console.warn('User data parse error:', e);
+                                }
+                            }
+                        }
 
-        // Check once on load, then only on storage changes (login/logout)
-        setTimeout(checkAndShowAdminButton, 500);
-        window.addEventListener('storage', checkAndShowAdminButton);
+                        // Check once on load, then only on storage changes (login/logout)
+                        setTimeout(checkAndShowAdminButton, 500);
+                        window.addEventListener('storage', checkAndShowAdminButton);
                     </script>
                     <script>
-        const msgsMain = ['✧ Crafted with vision by AE Creative Studio • Where imagination meets innovation ✧', '★ Powered by the most brilliant AI minds • Google Gemini • OpenAI • Deepgram ★', '◆ Project KELION • Bridging dimensions through technology ◆'];
-        let miMain = 0; const ttMain = document.getElementById('ticker-text-main');
-        function updateTickerMain() { ttMain.style.opacity = '0'; setTimeout(() => { ttMain.textContent = msgsMain[miMain] + ' • ' + msgsMain[miMain]; ttMain.style.opacity = '1'; miMain = (miMain + 1) % msgsMain.length; }, 300); }
-        updateTickerMain(); setInterval(updateTickerMain, 10000);
+                        const msgsMain = ['✧ Crafted with vision by AE Creative Studio • Where imagination meets innovation ✧', '★ Powered by the most brilliant AI minds • Google Gemini • OpenAI • Deepgram ★', '◆ Project KELION • Bridging dimensions through technology ◆'];
+                        let miMain = 0; const ttMain = document.getElementById('ticker-text-main');
+                        function updateTickerMain() { ttMain.style.opacity = '0'; setTimeout(() => { ttMain.textContent = msgsMain[miMain] + ' • ' + msgsMain[miMain]; ttMain.style.opacity = '1'; miMain = (miMain + 1) % msgsMain.length; }, 300); }
+                        updateTickerMain(); setInterval(updateTickerMain, 10000);
                     </script>
                     <!-- K1 Premium Features Client -->
                     <script src="/components/k1-client.js"></script>
@@ -4824,11 +4828,11 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
                     <script src="/components/k-workspace-panel.js"></script>
                     <script src="/components/k-presentation-workspace.js"></script>
                     <script src="/components/smart-functions.js"></script>
-                    <script src="/components/language-learning.js" type="module"></script>
-                    <script src="/components/advanced-vad.js" type="module"></script>
+                    <script src="/components/language-learning.js"></script>
+                    <script src="/components/advanced-vad.js"></script>
                     <script src="/components/realtime-voice.js"></script>
                     <script src="/components/face-security.js"></script>
-                    <script src="/components/subscription.js"></script>
+                    <!-- subscription.js already loaded above (line ~1388) — duplicate removed -->
                     <script src="/components/k-multitask.js"></script>
                     <script src="/components/k-dev-tools.js"></script>
                     <script src="/components/k-onboarding.js"></script>
@@ -4840,11 +4844,11 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
                         onclick="handleCameraCapture()">📷</button>
 
                     <script>
-        // Show capture button only if logged in
-        if (localStorage.getItem('kelion_auth_token')) {
-            const captureBtn = document.getElementById('camera-capture-btn');
-            if (captureBtn) captureBtn.style.display = 'flex';
-        }
+                        // Show capture button only if logged in
+                        if (localStorage.getItem('kelion_auth_token')) {
+                            const captureBtn = document.getElementById('camera-capture-btn');
+                            if (captureBtn) captureBtn.style.display = 'flex';
+                        }
 
                     </script>
 
@@ -4870,99 +4874,99 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
                     <script src="components/mediapipe-gestures.js"></script>
 
                     <script>
-        // Start vision, face security, visual memory, ambient sound, and gestures when K is revealed
-        // NOTE: realtime.start() is called by subscription.js revealK() - don't duplicate here
-        const originalRevealK = window.revealKAfterLogin;
-        window.revealKAfterLogin = function () {
-            if (originalRevealK) originalRevealK();
+                        // Start vision, face security, visual memory, ambient sound, and gestures when K is revealed
+                        // NOTE: realtime.start() is called by subscription.js revealK() - don't duplicate here
+                        const originalRevealK = window.revealKAfterLogin;
+                        window.revealKAfterLogin = function () {
+                            if (originalRevealK) originalRevealK();
 
-            // Start all AI features after K appears
-            setTimeout(() => {
-                // Start vision compliments
-                if (window.kelionVision && !window.kelionVision.isEnabled()) {
-                    console.log('👁️ Auto-starting vision compliments...');
-                    window.kelionVision.init();
-                }
+                            // Start all AI features after K appears
+                            setTimeout(() => {
+                                // Start vision compliments
+                                if (window.kelionVision && !window.kelionVision.isEnabled()) {
+                                    console.log('👁️ Auto-starting vision compliments...');
+                                    window.kelionVision.init();
+                                }
 
-                // Start face security
-                if (window.kelionFaceSecurity && !window.kelionFaceSecurity.isActive()) {
-                    console.log('🔐 Auto-starting face security...');
-                    window.kelionFaceSecurity.init();
-                }
+                                // Start face security
+                                if (window.kelionFaceSecurity && !window.kelionFaceSecurity.isActive()) {
+                                    console.log('🔐 Auto-starting face security...');
+                                    window.kelionFaceSecurity.init();
+                                }
 
-                // Start Visual Memory (persistent object recognition)
-                if (window.kelionVisualMemory && !window.kelionVisualMemory.isRunning()) {
-                    console.log('🧠 Auto-starting visual memory...');
-                    const video = document.querySelector('video');
-                    window.kelionVisualMemory.start(video);
-                }
+                                // Start Visual Memory (persistent object recognition)
+                                if (window.kelionVisualMemory && !window.kelionVisualMemory.isRunning()) {
+                                    console.log('🧠 Auto-starting visual memory...');
+                                    const video = document.querySelector('video');
+                                    window.kelionVisualMemory.start(video);
+                                }
 
-                // Start Ambient Sound AI (environmental sound detection)
-                if (window.kelionAmbientSound && !window.kelionAmbientSound.isRunning()) {
-                    console.log('🔊 Auto-starting ambient sound detection...');
-                    window.kelionAmbientSound.start();
-                }
+                                // Start Ambient Sound AI (environmental sound detection)
+                                if (window.kelionAmbientSound && !window.kelionAmbientSound.isRunning()) {
+                                    console.log('🔊 Auto-starting ambient sound detection...');
+                                    window.kelionAmbientSound.start();
+                                }
 
-                // Start Gesture Control (MediaPipe hand tracking)
-                if (window.KelionGestures) {
-                    console.log('🤚 Gesture control ready — activate with kelionGestures.start()');
-                    // Note: gestures not auto-started to avoid camera conflicts
-                    // User can enable via settings or voice command
-                }
-            }, 1500);
-        };
+                                // Start Gesture Control (MediaPipe hand tracking)
+                                if (window.KelionGestures) {
+                                    console.log('🤚 Gesture control ready — activate with kelionGestures.start()');
+                                    // Note: gestures not auto-started to avoid camera conflicts
+                                    // User can enable via settings or voice command
+                                }
+                            }, 1500);
+                        };
 
-        // ═══ EVENT LISTENERS — K speaks when features detect something ═══
+                        // ═══ EVENT LISTENERS — K speaks when features detect something ═══
 
-        // Visual Memory events
-        window.addEventListener('kelion:visual-memory', (e) => {
-            const { commentary } = e.detail;
-            if (commentary && typeof speak === 'function') {
-                console.log('🧠 Visual Memory:', commentary);
-                speak(commentary);
-            }
-        });
+                        // Visual Memory events
+                        window.addEventListener('kelion:visual-memory', (e) => {
+                            const { commentary } = e.detail;
+                            if (commentary && typeof speak === 'function') {
+                                console.log('🧠 Visual Memory:', commentary);
+                                speak(commentary);
+                            }
+                        });
 
-        // Ambient Sound events
-        window.addEventListener('kelion:ambient-sound', (e) => {
-            const { sound, comment } = e.detail;
-            if (comment && typeof speak === 'function') {
-                console.log(`🔊 Ambient Sound[${ sound }]: `, comment);
-                speak(comment);
-            }
-        });
+                        // Ambient Sound events
+                        window.addEventListener('kelion:ambient-sound', (e) => {
+                            const { sound, comment } = e.detail;
+                            if (comment && typeof speak === 'function') {
+                                console.log(`🔊 Ambient Sound[${sound}]: `, comment);
+                                speak(comment);
+                            }
+                        });
 
-        // Gesture events
-        window.addEventListener('kelion:gesture', (e) => {
-            const { gesture, action } = e.detail || {};
-            if (action && typeof speak === 'function') {
-                console.log(`🤚 Gesture[${ gesture }]:`, action);
-                speak(action);
-            }
-        });
+                        // Gesture events
+                        window.addEventListener('kelion:gesture', (e) => {
+                            const { gesture, action } = e.detail || {};
+                            if (action && typeof speak === 'function') {
+                                console.log(`🤚 Gesture[${gesture}]:`, action);
+                                speak(action);
+                            }
+                        });
                     </script>
 
                     <!-- Responsive Viewport Script -->
                     <script>
-        (function () {
-            const root = document.documentElement;
-            let scheduled = false;
-            function setVars(vw, vh) {
-                root.style.setProperty('--vvw', vw + 'px'); root.style.setProperty('--vvh', vh + 'px');
-            }
-            function updateViewportVars() {
-                const vv = window.visualViewport;
-                if (vv) { setVars(Math.round(vv.width), Math.round(vv.height)); }
-                else { setVars(Math.round(window.innerWidth), Math.round(window.innerHeight)); }
-            }
-            function scheduleUpdate() { if (scheduled) return; scheduled = true; requestAnimationFrame(() => { scheduled = false; updateViewportVars(); }); }
-            updateViewportVars();
-            window.addEventListener('resize', scheduleUpdate, { passive: true });
-            window.addEventListener('orientationchange', scheduleUpdate, { passive: true });
-            if (window.visualViewport) { window.visualViewport.addEventListener('resize', scheduleUpdate, { passive: true }); window.visualViewport.addEventListener('scroll', scheduleUpdate, { passive: true }); }
-            const mqH = window.matchMedia?.('(horizontal-viewport-segments: 2)'); const mqV = window.matchMedia?.('(vertical-viewport-segments: 2)');
-            mqH?.addEventListener?.('change', scheduleUpdate); mqV?.addEventListener?.('change', scheduleUpdate);
-        })();
+                        (function () {
+                            const root = document.documentElement;
+                            let scheduled = false;
+                            function setVars(vw, vh) {
+                                root.style.setProperty('--vvw', vw + 'px'); root.style.setProperty('--vvh', vh + 'px');
+                            }
+                            function updateViewportVars() {
+                                const vv = window.visualViewport;
+                                if (vv) { setVars(Math.round(vv.width), Math.round(vv.height)); }
+                                else { setVars(Math.round(window.innerWidth), Math.round(window.innerHeight)); }
+                            }
+                            function scheduleUpdate() { if (scheduled) return; scheduled = true; requestAnimationFrame(() => { scheduled = false; updateViewportVars(); }); }
+                            updateViewportVars();
+                            window.addEventListener('resize', scheduleUpdate, { passive: true });
+                            window.addEventListener('orientationchange', scheduleUpdate, { passive: true });
+                            if (window.visualViewport) { window.visualViewport.addEventListener('resize', scheduleUpdate, { passive: true }); window.visualViewport.addEventListener('scroll', scheduleUpdate, { passive: true }); }
+                            const mqH = window.matchMedia?.('(horizontal-viewport-segments: 2)'); const mqV = window.matchMedia?.('(vertical-viewport-segments: 2)');
+                            mqH?.addEventListener?.('change', scheduleUpdate); mqV?.addEventListener?.('change', scheduleUpdate);
+                        })();
                     </script>
 
                     <!-- K Workspace Panel - Opens automatically when K has content to display -->
@@ -4970,528 +4974,528 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
 
                     <!-- K Workspace Integration: Auto-detect requests and show content -->
                     <script>
-        // K will ask "Do you need me to open and show in detail?" when presenting content
-        // If user says "yes", workspace opens
+                        // K will ask "Do you need me to open and show in detail?" when presenting content
+                        // If user says "yes", workspace opens
 
-        window.kWorkspaceIntegration = {
-            pendingContent: null,
-            pendingType: null,
+                        window.kWorkspaceIntegration = {
+                            pendingContent: null,
+                            pendingType: null,
 
-            // Called when K has content to potentially show
-            offerToShowDetail: async function (content, type, title = '') {
-                this.pendingContent = content;
-                this.pendingType = type;
-                this.pendingTitle = title;
+                            // Called when K has content to potentially show
+                            offerToShowDetail: async function (content, type, title = '') {
+                                this.pendingContent = content;
+                                this.pendingType = type;
+                                this.pendingTitle = title;
 
-                // NO AUTO VOICE - just wait silently
+                                // NO AUTO VOICE - just wait silently
 
-                // Listen for "yes" response
-                this.awaitingResponse = true;
-            },
+                                // Listen for "yes" response
+                                this.awaitingResponse = true;
+                            },
 
-            // Called when user responds
-            handleResponse: function (response) {
-                if (!this.awaitingResponse) return false;
+                            // Called when user responds
+                            handleResponse: function (response) {
+                                if (!this.awaitingResponse) return false;
 
-                const lowerResp = response.toLowerCase();
-                const yesWords = ['yes', 'da', 'sure', 'ok', 'okay', 'show', 'open', 'arata', 'deschide', 'hai', 'sigur'];
+                                const lowerResp = response.toLowerCase();
+                                const yesWords = ['yes', 'da', 'sure', 'ok', 'okay', 'show', 'open', 'arata', 'deschide', 'hai', 'sigur'];
 
-                if (yesWords.some(word => lowerResp.includes(word))) {
-                    // User said yes - open workspace
-                    this.awaitingResponse = false;
+                                if (yesWords.some(word => lowerResp.includes(word))) {
+                                    // User said yes - open workspace
+                                    this.awaitingResponse = false;
 
-                    if (window.kWorkspace && this.pendingContent) {
-                        window.kWorkspace.displayContent(
-                            this.pendingContent,
-                            this.pendingType,
-                            this.pendingTitle
-                        );
-                    }
-                    return true; // Handled
-                }
+                                    if (window.kWorkspace && this.pendingContent) {
+                                        window.kWorkspace.displayContent(
+                                            this.pendingContent,
+                                            this.pendingType,
+                                            this.pendingTitle
+                                        );
+                                    }
+                                    return true; // Handled
+                                }
 
-                const noWords = ['no', 'nu', 'nope', 'cancel', 'skip', 'later'];
-                if (noWords.some(word => lowerResp.includes(word))) {
-                    this.awaitingResponse = false;
-                    this.pendingContent = null;
-                    // NO AUTO VOICE - silent
-                    return true; // Handled
-                }
+                                const noWords = ['no', 'nu', 'nope', 'cancel', 'skip', 'later'];
+                                if (noWords.some(word => lowerResp.includes(word))) {
+                                    this.awaitingResponse = false;
+                                    this.pendingContent = null;
+                                    // NO AUTO VOICE - silent
+                                    return true; // Handled
+                                }
 
-                return false; // Not a response to workspace offer
-            },
+                                return false; // Not a response to workspace offer
+                            },
 
-            // Direct open (for generated images, search results, etc.)
-            showContent: function (content, type, title = '') {
-                if (window.kWorkspace) {
-                    window.kWorkspace.displayContent(content, type, title);
-                }
-            },
+                            // Direct open (for generated images, search results, etc.)
+                            showContent: function (content, type, title = '') {
+                                if (window.kWorkspace) {
+                                    window.kWorkspace.displayContent(content, type, title);
+                                }
+                            },
 
-            // Show GPS location
-            showLocation: function (lat, lng, label = 'Your Location') {
-                window.showMap(lat, lng, label);
-            },
+                            // Show GPS location
+                            showLocation: function (lat, lng, label = 'Your Location') {
+                                window.showMap(lat, lng, label);
+                            },
 
-            // Show map with coordinates
-            showMap: function (lat, lng, label) {
-                window.showMap(lat, lng, label);
-            }
-        };
+                            // Show map with coordinates
+                            showMap: function (lat, lng, label) {
+                                window.showMap(lat, lng, label);
+                            }
+                        };
 
-        // ============ GOOGLE MAPS FUNCTIONS ============
-        let GMAPS_KEY = null;
-        (async function loadMapsKey() {
-            try {
-                const res = await fetch('/.netlify/functions/maps-config');
-                if (res.ok) { const d = await res.json(); GMAPS_KEY = d.key; }
-            } catch (e) { console.warn('Maps config unavailable:', e.message); }
-        })();
+                        // ============ GOOGLE MAPS FUNCTIONS ============
+                        let GMAPS_KEY = null;
+                        (async function loadMapsKey() {
+                            try {
+                                const res = await fetch('/.netlify/functions/maps-config');
+                                if (res.ok) { const d = await res.json(); GMAPS_KEY = d.key; }
+                            } catch (e) { console.warn('Maps config unavailable:', e.message); }
+                        })();
 
-        // Show Google Maps with coordinates
-        window.showMap = function (lat, lon, label = 'Location') {
-            console.log('🗺️ Opening Google Maps:', lat, lon, label);
+                        // Show Google Maps with coordinates
+                        window.showMap = function (lat, lon, label = 'Location') {
+                            console.log('🗺️ Opening Google Maps:', lat, lon, label);
 
-            const panel = document.getElementById('map-panel');
-            const overlay = document.getElementById('map-overlay');
-            const iframe = document.getElementById('map-iframe');
-            const title = document.getElementById('map-title');
+                            const panel = document.getElementById('map-panel');
+                            const overlay = document.getElementById('map-overlay');
+                            const iframe = document.getElementById('map-iframe');
+                            const title = document.getElementById('map-title');
 
-            if (!panel || !iframe) {
-                console.error('🗺️ Map panel elements not found');
-                return;
-            }
+                            if (!panel || !iframe) {
+                                console.error('🗺️ Map panel elements not found');
+                                return;
+                            }
 
-            // Set title
-            if (title) title.textContent = `📍 ${ label } `;
+                            // Set title
+                            if (title) title.textContent = `📍 ${label} `;
 
-            // Fallback to OpenStreetMap if Google Maps key unavailable
-            const fallbackUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - 0.01},${lat - 0.01},${lon + 0.01},${lat + 0.01}&layer=mapnik&marker=${lat},${lon}`;
+                            // Fallback to OpenStreetMap if Google Maps key unavailable
+                            const fallbackUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - 0.01},${lat - 0.01},${lon + 0.01},${lat + 0.01}&layer=mapnik&marker=${lat},${lon}`;
 
-                    // Google Maps Embed URL - detailed satellite view
-                    const mapUrl = GMAPS_KEY ? `https://www.google.com/maps/embed/v1/view?key=${GMAPS_KEY}&center=${lat},${lon}&zoom=15&maptype=satellite` : fallbackUrl;
+                            // Google Maps Embed URL - detailed satellite view
+                            const mapUrl = GMAPS_KEY ? `https://www.google.com/maps/embed/v1/view?key=${GMAPS_KEY}&center=${lat},${lon}&zoom=15&maptype=satellite` : fallbackUrl;
 
-                    // Try Google Maps first
-                    iframe.src = mapUrl;
+                            // Try Google Maps first
+                            iframe.src = mapUrl;
 
-                    // Handle errors - fallback to OpenStreetMap
-                    iframe.onerror = function () {
-                        console.log('🗺️ Google Maps failed, using OpenStreetMap');
-                        iframe.src = fallbackUrl;
-                    };
+                            // Handle errors - fallback to OpenStreetMap
+                            iframe.onerror = function () {
+                                console.log('🗺️ Google Maps failed, using OpenStreetMap');
+                                iframe.src = fallbackUrl;
+                            };
 
-                    // Show panel and overlay
-                    panel.style.display = 'block';
-                    if (overlay) overlay.style.display = 'block';
+                            // Show panel and overlay
+                            panel.style.display = 'block';
+                            if (overlay) overlay.style.display = 'block';
 
-                    // Save coordinates for navigation buttons
-                    window.currentMapCoords = { lat: lat, lon: lon };
+                            // Save coordinates for navigation buttons
+                            window.currentMapCoords = { lat: lat, lon: lon };
 
-                    console.log('🗺️ Map panel opened');
-            };
+                            console.log('🗺️ Map panel opened');
+                        };
 
-            // Close map panel
-            window.closeMapPanel = function () {
-                const panel = document.getElementById('map-panel');
-                const overlay = document.getElementById('map-overlay');
-                const iframe = document.getElementById('map-iframe');
+                        // Close map panel
+                        window.closeMapPanel = function () {
+                            const panel = document.getElementById('map-panel');
+                            const overlay = document.getElementById('map-overlay');
+                            const iframe = document.getElementById('map-iframe');
 
-                if (panel) panel.style.display = 'none';
-                if (overlay) overlay.style.display = 'none';
-                if (iframe) iframe.src = ''; // Clear iframe
+                            if (panel) panel.style.display = 'none';
+                            if (overlay) overlay.style.display = 'none';
+                            if (iframe) iframe.src = ''; // Clear iframe
 
-                console.log('🗺️ Map panel closed');
-            };
+                            console.log('🗺️ Map panel closed');
+                        };
 
-            // Listen for weather map events from realtime voice
-            window.addEventListener('kelion-show-weather-map', (e) => {
-                const { lat, lon, info } = e.detail;
-                console.log('🗺️ Weather map event received:', lat, lon, info);
-                if (lat && lon) {
-                    window.showMap(lat, lon, info || 'Weather Location');
-                }
-            });
+                        // Listen for weather map events from realtime voice
+                        window.addEventListener('kelion-show-weather-map', (e) => {
+                            const { lat, lon, info } = e.detail;
+                            console.log('🗺️ Weather map event received:', lat, lon, info);
+                            if (lat && lon) {
+                                window.showMap(lat, lon, info || 'Weather Location');
+                            }
+                        });
 
-            // Expose global function for fallback
-            window.showWorkspaceMap = function (lat, lon, info) {
-                window.showMap(lat, lon, info || 'Location');
-            };
+                        // Expose global function for fallback
+                        window.showWorkspaceMap = function (lat, lon, info) {
+                            window.showMap(lat, lon, info || 'Location');
+                        };
 
-            // Store current map coordinates for navigation
-            window.currentMapCoords = { lat: null, lon: null };
+                        // Store current map coordinates for navigation
+                        window.currentMapCoords = { lat: null, lon: null };
 
-            // Navigate to destination with different modes
-            window.navigateTo = function (mode) {
-                const dest = window.currentMapCoords;
-                if (!dest.lat || !dest.lon) {
-                    console.warn('🧭 No destination coordinates set');
-                    alert('No destination set. Ask K about a location first.');
-                    return;
-                }
+                        // Navigate to destination with different modes
+                        window.navigateTo = function (mode) {
+                            const dest = window.currentMapCoords;
+                            if (!dest.lat || !dest.lon) {
+                                console.warn('🧭 No destination coordinates set');
+                                alert('No destination set. Ask K about a location first.');
+                                return;
+                            }
 
-                // Get user's current location from cache
-                if (window.kelionLocation) {
-                    const lat = window.kelionLocation.lat || window.kelionLocation.latitude;
-                    const lon = window.kelionLocation.lon || window.kelionLocation.longitude;
-                    const origin = `${lat},${lon}`;
-                    const destination = `${dest.lat},${dest.lon}`;
+                            // Get user's current location from cache
+                            if (window.kelionLocation) {
+                                const lat = window.kelionLocation.lat || window.kelionLocation.latitude;
+                                const lon = window.kelionLocation.lon || window.kelionLocation.longitude;
+                                const origin = `${lat},${lon}`;
+                                const destination = `${dest.lat},${dest.lon}`;
 
-                    // Open Google Maps with directions
-                    const url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=${mode}`;
-                    window.open(url, '_blank');
-                    console.log(`🧭 Opening Google Maps: ${mode} from ${origin} to ${destination}`);
-                } else {
-                    // No cached GPS - open destination only
-                    const url = `https://www.google.com/maps/dir/?api=1&destination=${dest.lat},${dest.lon}&travelmode=${mode}`;
-                    window.open(url, '_blank');
-                    console.warn('🧭 GPS cache not available, opening destination only');
-                }
-            };
+                                // Open Google Maps with directions
+                                const url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=${mode}`;
+                                window.open(url, '_blank');
+                                console.log(`🧭 Opening Google Maps: ${mode} from ${origin} to ${destination}`);
+                            } else {
+                                // No cached GPS - open destination only
+                                const url = `https://www.google.com/maps/dir/?api=1&destination=${dest.lat},${dest.lon}&travelmode=${mode}`;
+                                window.open(url, '_blank');
+                                console.warn('🧭 GPS cache not available, opening destination only');
+                            }
+                        };
 
-            // Open Waze for navigation
-            window.openWaze = function () {
-                const dest = window.currentMapCoords;
-                if (!dest.lat || !dest.lon) {
-                    console.warn('🧭 No destination coordinates set');
-                    alert('No destination set. Ask K about a location first.');
-                    return;
-                }
+                        // Open Waze for navigation
+                        window.openWaze = function () {
+                            const dest = window.currentMapCoords;
+                            if (!dest.lat || !dest.lon) {
+                                console.warn('🧭 No destination coordinates set');
+                                alert('No destination set. Ask K about a location first.');
+                                return;
+                            }
 
-                // Waze deep link - works on mobile and web
-                const wazeUrl = `https://waze.com/ul?ll=${dest.lat},${dest.lon}&navigate=yes`;
-                window.open(wazeUrl, '_blank');
-                console.log(`🧭 Opening Waze: ${dest.lat}, ${dest.lon}`);
-            };
+                            // Waze deep link - works on mobile and web
+                            const wazeUrl = `https://waze.com/ul?ll=${dest.lat},${dest.lon}&navigate=yes`;
+                            window.open(wazeUrl, '_blank');
+                            console.log(`🧭 Opening Waze: ${dest.lat}, ${dest.lon}`);
+                        };
 
-            console.log('🔗 K Workspace Integration loaded');
+                        console.log('🔗 K Workspace Integration loaded');
 
-            // ============ BOTTOM BAR FUNCTIONS ============
+                        // ============ BOTTOM BAR FUNCTIONS ============
 
-            // Toggle Chat Panel
-            window.toggleChatPanel = function () {
-                const chatPanel = document.getElementById('chat-panel');
-                if (chatPanel) {
-                    chatPanel.classList.toggle('open');
-                    console.log('💬 Chat panel:', chatPanel.classList.contains('open') ? 'OPEN' : 'CLOSED');
-                }
-            };
+                        // Toggle Chat Panel
+                        window.toggleChatPanel = function () {
+                            const chatPanel = document.getElementById('chat-panel');
+                            if (chatPanel) {
+                                chatPanel.classList.toggle('open');
+                                console.log('💬 Chat panel:', chatPanel.classList.contains('open') ? 'OPEN' : 'CLOSED');
+                            }
+                        };
 
-            // Toggle Microphone ON/OFF
-            window.toggleMicrophone = function () {
-                const btn = document.getElementById('init-btn');
+                        // Toggle Microphone ON/OFF
+                        window.toggleMicrophone = function () {
+                            const btn = document.getElementById('init-btn');
 
-                if (window.kelionRealtime) {
-                    if (window.kelionRealtime.isActive()) {
-                        // Oprește microfonul
-                        window.kelionRealtime.stop();
-                        if (btn) {
-                            btn.style.background = 'linear-gradient(135deg, #666 0%, #444 100%)';
-                            btn.style.boxShadow = '0 0 20px rgba(100, 100, 100, 0.3)';
+                            if (window.kelionRealtime) {
+                                if (window.kelionRealtime.isActive()) {
+                                    // Oprește microfonul
+                                    window.kelionRealtime.stop();
+                                    if (btn) {
+                                        btn.style.background = 'linear-gradient(135deg, #666 0%, #444 100%)';
+                                        btn.style.boxShadow = '0 0 20px rgba(100, 100, 100, 0.3)';
+                                    }
+                                    console.log('🎙️ Microphone OFF');
+                                } else {
+                                    // Pornește microfonul
+                                    window.kelionRealtime.start();
+                                    if (btn) {
+                                        btn.style.background = 'linear-gradient(135deg, #00ff88 0%, #00cc66 100%)';
+                                        btn.style.boxShadow = '0 0 20px rgba(0, 255, 136, 0.3)';
+                                    }
+                                    console.log('🎙️ Microphone ON');
+                                }
+                            } else {
+                                console.warn('🎙️ Realtime voice not loaded yet');
+                            }
+                        };
+
+                        // Detectare și păstrare limbă utilizator
+                        window.kelionUserLanguage = localStorage.getItem('kelion_user_language') || null;
+
+                        // Funcție pentru detectare limbă din primul mesaj
+                        window.detectAndSaveLanguage = function (text) {
+                            if (window.kelionUserLanguage) return; // Deja detectată
+
+                            // Detectare simplă bazată pe caractere și cuvinte comune
+                            const roWords = /\b(și|să|ce|nu|da|bună|salut|mulțumesc|te|este|sunt|pentru|limba|română)\b/i;
+                            const enWords = /\b(the|is|are|and|you|what|how|hello|hi|thanks|thank|please)\b/i;
+                            const esWords = /\b(el|la|los|las|que|hola|gracias|por|favor|cómo)\b/i;
+                            const frWords = /\b(le|la|les|de|et|bonjour|merci|comment|vous|je)\b/i;
+                            const deWords = /\b(der|die|das|und|ist|hallo|danke|wie|ich|du)\b/i;
+
+                            let lang = 'en'; // Default
+                            if (roWords.test(text)) lang = 'ro';
+                            else if (esWords.test(text)) lang = 'es';
+                            else if (frWords.test(text)) lang = 'fr';
+                            else if (deWords.test(text)) lang = 'de';
+                            else if (enWords.test(text)) lang = 'en';
+
+                            window.kelionUserLanguage = lang;
+                            localStorage.setItem('kelion_user_language', lang);
+                            console.log('🌐 Limba detectată și salvată:', lang);
+                        };
+
+                        // Adaugă mesaj sistem în chat
+                        function addSystemMessage(text) {
+                            const chatMessages = document.getElementById('chat-messages');
+                            if (!chatMessages) return;
+
+                            const msgDiv = document.createElement('div');
+                            msgDiv.className = 'chat-message system';
+                            msgDiv.innerHTML = `<p>${text}</p>`;
+                            chatMessages.appendChild(msgDiv);
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
                         }
-                        console.log('🎙️ Microphone OFF');
-                    } else {
-                        // Pornește microfonul
-                        window.kelionRealtime.start();
-                        if (btn) {
-                            btn.style.background = 'linear-gradient(135deg, #00ff88 0%, #00cc66 100%)';
-                            btn.style.boxShadow = '0 0 20px rgba(0, 255, 136, 0.3)';
+
+                        // Resetare limbă la logout (apelat din subscription.js)
+                        window.resetUserLanguage = function () {
+                            localStorage.removeItem('kelion_user_language');
+                            window.kelionUserLanguage = null;
+                            console.log('🌐 Limba utilizator resetată la logout');
+                        };
+
+                        console.log('✅ Bottom bar functions loaded');
+
+                        // ============ MAP PANEL FUNCTIONS ============
+                        let currentMapLat = null;
+                        let currentMapLon = null;
+
+                        function closeMapPanel() {
+                            document.getElementById('map-panel').style.display = 'none';
+                            document.getElementById('map-overlay').style.display = 'none';
                         }
-                        console.log('🎙️ Microphone ON');
-                    }
-                } else {
-                    console.warn('🎙️ Realtime voice not loaded yet');
-                }
-            };
 
-            // Detectare și păstrare limbă utilizator
-            window.kelionUserLanguage = localStorage.getItem('kelion_user_language') || null;
+                        function showLocationMap(lat, lon, address) {
+                            console.log('📍 Showing location map:', lat, lon, address);
+                            currentMapLat = lat;
+                            currentMapLon = lon;
 
-            // Funcție pentru detectare limbă din primul mesaj
-            window.detectAndSaveLanguage = function (text) {
-                if (window.kelionUserLanguage) return; // Deja detectată
+                            // Update title
+                            document.getElementById('map-title').innerHTML = '📍 ' + (address || 'Your Location');
 
-                // Detectare simplă bazată pe caractere și cuvinte comune
-                const roWords = /\b(și|să|ce|nu|da|bună|salut|mulțumesc|te|este|sunt|pentru|limba|română)\b/i;
-                const enWords = /\b(the|is|are|and|you|what|how|hello|hi|thanks|thank|please)\b/i;
-                const esWords = /\b(el|la|los|las|que|hola|gracias|por|favor|cómo)\b/i;
-                const frWords = /\b(le|la|les|de|et|bonjour|merci|comment|vous|je)\b/i;
-                const deWords = /\b(der|die|das|und|ist|hallo|danke|wie|ich|du)\b/i;
+                            // Update iframe with Google Maps embed
+                            const iframe = document.getElementById('map-iframe');
+                            iframe.src = GMAPS_KEY ? `https://www.google.com/maps/embed/v1/place?key=${GMAPS_KEY}&q=${lat},${lon}&zoom=15&maptype=roadmap` : `https://www.openstreetmap.org/export/embed.html?bbox=${lon - 0.01},${lat - 0.01},${lon + 0.01},${lat + 0.01}&layer=mapnik&marker=${lat},${lon}`;
 
-                let lang = 'en'; // Default
-                if (roWords.test(text)) lang = 'ro';
-                else if (esWords.test(text)) lang = 'es';
-                else if (frWords.test(text)) lang = 'fr';
-                else if (deWords.test(text)) lang = 'de';
-                else if (enWords.test(text)) lang = 'en';
-
-                window.kelionUserLanguage = lang;
-                localStorage.setItem('kelion_user_language', lang);
-                console.log('🌐 Limba detectată și salvată:', lang);
-            };
-
-            // Adaugă mesaj sistem în chat
-            function addSystemMessage(text) {
-                const chatMessages = document.getElementById('chat-messages');
-                if (!chatMessages) return;
-
-                const msgDiv = document.createElement('div');
-                msgDiv.className = 'chat-message system';
-                msgDiv.innerHTML = `<p>${text}</p>`;
-                chatMessages.appendChild(msgDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            // Resetare limbă la logout (apelat din subscription.js)
-            window.resetUserLanguage = function () {
-                localStorage.removeItem('kelion_user_language');
-                window.kelionUserLanguage = null;
-                console.log('🌐 Limba utilizator resetată la logout');
-            };
-
-            console.log('✅ Bottom bar functions loaded');
-
-            // ============ MAP PANEL FUNCTIONS ============
-            let currentMapLat = null;
-            let currentMapLon = null;
-
-            function closeMapPanel() {
-                document.getElementById('map-panel').style.display = 'none';
-                document.getElementById('map-overlay').style.display = 'none';
-            }
-
-            function showLocationMap(lat, lon, address) {
-                console.log('📍 Showing location map:', lat, lon, address);
-                currentMapLat = lat;
-                currentMapLon = lon;
-
-                // Update title
-                document.getElementById('map-title').innerHTML = '📍 ' + (address || 'Your Location');
-
-                // Update iframe with Google Maps embed
-                const iframe = document.getElementById('map-iframe');
-                iframe.src = GMAPS_KEY ? `https://www.google.com/maps/embed/v1/place?key=${GMAPS_KEY}&q=${lat},${lon}&zoom=15&maptype=roadmap` : `https://www.openstreetmap.org/export/embed.html?bbox=${lon - 0.01},${lat - 0.01},${lon + 0.01},${lat + 0.01}&layer=mapnik&marker=${lat},${lon}`;
-
-                // Show panels
-                document.getElementById('map-overlay').style.display = 'block';
-                document.getElementById('map-panel').style.display = 'block';
-            }
+                            // Show panels
+                            document.getElementById('map-overlay').style.display = 'block';
+                            document.getElementById('map-panel').style.display = 'block';
+                        }
 
 
 
-            // Listener pentru event kelion-show-location-map din realtime-voice.js
-            window.addEventListener('kelion-show-location-map', function (e) {
-                const { lat, lon, address } = e.detail;
-                showLocationMap(lat, lon, address);
-            });
+                        // Listener pentru event kelion-show-location-map din realtime-voice.js
+                        window.addEventListener('kelion-show-location-map', function (e) {
+                            const { lat, lon, address } = e.detail;
+                            showLocationMap(lat, lon, address);
+                        });
 
-            // Listener pentru event kelion-show-weather-map din realtime-voice.js  
-            window.addEventListener('kelion-show-weather-map', function (e) {
-                const { lat, lon, info } = e.detail;
-                showLocationMap(lat, lon, info || 'Weather Location');
-            });
+                        // Listener pentru event kelion-show-weather-map din realtime-voice.js  
+                        window.addEventListener('kelion-show-weather-map', function (e) {
+                            const { lat, lon, info } = e.detail;
+                            showLocationMap(lat, lon, info || 'Weather Location');
+                        });
 
-            // Expose globally
-            window.showLocationMap = showLocationMap;
-            window.showWorkspaceMap = showLocationMap;
-            window.closeMapPanel = closeMapPanel;
+                        // Expose globally
+                        window.showLocationMap = showLocationMap;
+                        window.showWorkspaceMap = showLocationMap;
+                        window.closeMapPanel = closeMapPanel;
 
-            console.log('✅ Map panel functions loaded');
+                        console.log('✅ Map panel functions loaded');
 
-            // ============ WORKSPACE CONTENT PANEL ============
-            // Crează panoul de workspace dacă nu există
-            function createWorkspacePanel() {
-                if (document.getElementById('workspace-panel')) return;
+                        // ============ WORKSPACE CONTENT PANEL ============
+                        // Crează panoul de workspace dacă nu există
+                        function createWorkspacePanel() {
+                            if (document.getElementById('workspace-panel')) return;
 
-                const panel = document.createElement('div');
-                panel.id = 'workspace-panel';
-                panel.style.cssText = `
-                display: none;
-                position: fixed;
-                top: 80px;
-                right: 20px;
-                width: 380px;
-                max-height: 70vh;
-                background: linear-gradient(135deg, rgba(20, 25, 40, 0.98), rgba(10, 15, 30, 0.98));
-                backdrop-filter: blur(20px);
-                border: 2px solid rgba(0, 255, 255, 0.5);
-                border-radius: 20px;
-                z-index: 1500;
-                box-shadow: 0 10px 50px rgba(0, 255, 255, 0.2);
-                overflow: hidden;
-                font-family: 'Segoe UI', sans-serif;
+                            const panel = document.createElement('div');
+                            panel.id = 'workspace-panel';
+                            panel.style.cssText = `
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 380px;
+            max-height: 70vh;
+            background: linear-gradient(135deg, rgba(20, 25, 40, 0.98), rgba(10, 15, 30, 0.98));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            border-radius: 20px;
+            z-index: 1500;
+            box-shadow: 0 10px 50px rgba(0, 255, 255, 0.2);
+            overflow: hidden;
+            font-family: 'Segoe UI', sans-serif;
             `;
 
-                panel.innerHTML = `
-                <div id="workspace-header" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(0, 128, 255, 0.2)); border-bottom: 1px solid rgba(0, 255, 255, 0.3);">
-                    <span id="workspace-title" style="color: #00ffff; font-weight: bold; font-size: 1.1rem;">🧠 Brain Output</span>
-                    <button onclick="closeWorkspacePanel()" style="background: none; border: none; color: #ff6b6b; font-size: 1.5rem; cursor: pointer; padding: 0;">✕</button>
-                </div>
-                <div id="workspace-content" style="padding: 20px; color: #fff; max-height: calc(70vh - 60px); overflow-y: auto; font-size: 0.95rem; line-height: 1.6;"></div>
+                            panel.innerHTML = `
+            <div id="workspace-header" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(0, 128, 255, 0.2)); border-bottom: 1px solid rgba(0, 255, 255, 0.3);">
+                <span id="workspace-title" style="color: #00ffff; font-weight: bold; font-size: 1.1rem;">🧠 Brain Output</span>
+                <button onclick="closeWorkspacePanel()" style="background: none; border: none; color: #ff6b6b; font-size: 1.5rem; cursor: pointer; padding: 0;">✕</button>
+            </div>
+            <div id="workspace-content" style="padding: 20px; color: #fff; max-height: calc(70vh - 60px); overflow-y: auto; font-size: 0.95rem; line-height: 1.6;"></div>
             `;
 
-                document.body.appendChild(panel);
-            }
-
-            // Inițializează panoul
-            createWorkspacePanel();
-
-            // Funcția principală pentru afișare conținut
-            function showWorkspaceContent(type, data) {
-                console.log('📋 Workspace showing:', type, data);
-
-                const panel = document.getElementById('workspace-panel');
-                const title = document.getElementById('workspace-title');
-                const content = document.getElementById('workspace-content');
-
-                if (!panel || !content) {
-                    console.error('Workspace panel not found');
-                    return;
-                }
-
-                // Setează titlul și iconița bazat pe tip
-                const titles = {
-                    weather: '🌤️ Vremea Acum',
-                    search: '🔍 Rezultate Căutare',
-                    location: '📍 Locația Ta',
-                    navigate: '🧭 Navigație',
-                    verify: '✓ Verificare',
-                    general: '🧠 Brain Output'
-                };
-
-                title.innerHTML = titles[type] || titles.general;
-
-                // Formatează conținutul
-                let html = '';
-                if (typeof data === 'string') {
-                    // Formatează Plain text cu styling
-                    html = `<div style="white-space: pre-wrap; word-wrap: break-word;">${data}</div>`;
-                } else if (typeof data === 'object') {
-                    // Formatează obiect JSON
-                    html = `<pre style="white-space: pre-wrap; word-wrap: break-word; color: #00ff88; font-family: monospace; font-size: 0.85rem;">${JSON.stringify(data, null, 2)}</pre>`;
-                }
-
-                content.innerHTML = html;
-
-                // Afișează panoul
-                panel.style.display = 'block';
-            }
-
-            function closeWorkspacePanel() {
-                const panel = document.getElementById('workspace-panel');
-                if (panel) panel.style.display = 'none';
-            }
-
-            // Expose globally pentru Brain Orchestrator
-            window.showWorkspaceContent = showWorkspaceContent;
-            window.closeWorkspacePanel = closeWorkspacePanel;
-
-            console.log('✅ Workspace content panel loaded');
-
-            // ============ PAGE TRACKING ============
-            (function initPageTracking() {
-                const sessionId = sessionStorage.getItem('kelion_session') ||
-                    'session_' + Date.now() + '_' + Array.from(crypto.getRandomValues(new Uint8Array(5)), b => b.toString(36)).join('').substr(0, 9);
-                sessionStorage.setItem('kelion_session', sessionId);
-
-                const userId = localStorage.getItem('kelion_user_id') || null;
-                const page = window.location.pathname || '/';
-                const startTime = Date.now();
-
-                // Extended device fingerprint (alternative to MAC address)
-                function generateFingerprint() {
-                    try {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        ctx.textBaseline = 'top';
-                        ctx.font = '14px Arial';
-                        ctx.fillStyle = '#f60';
-                        ctx.fillRect(125, 1, 62, 20);
-                        ctx.fillStyle = '#069';
-                        ctx.fillText('Kelion FP', 2, 15);
-                        const canvasHash = canvas.toDataURL().slice(-40);
-
-                        const gl = document.createElement('canvas').getContext('webgl');
-                        const renderer = gl ? gl.getParameter(gl.RENDERER) : 'none';
-                        const vendor = gl ? gl.getParameter(gl.VENDOR) : 'none';
-
-                        const raw = [
-                            canvasHash,
-                            renderer,
-                            vendor,
-                            screen.width + 'x' + screen.height,
-                            screen.colorDepth,
-                            navigator.language,
-                            navigator.hardwareConcurrency || 0,
-                            navigator.deviceMemory || 0,
-                            Intl.DateTimeFormat().resolvedOptions().timeZone,
-                            navigator.platform
-                        ].join('|');
-
-                        // Simple hash
-                        let hash = 0;
-                        for (let i = 0; i < raw.length; i++) {
-                            hash = ((hash << 5) - hash) + raw.charCodeAt(i);
-                            hash |= 0;
+                            document.body.appendChild(panel);
                         }
-                        return 'fp_' + Math.abs(hash).toString(36);
-                    } catch (e) {
-                        return 'fp_unknown';
-                    }
-                }
 
-                const fingerprint = generateFingerprint();
+                        // Inițializează panoul
+                        createWorkspacePanel();
 
-                // Extra metadata
-                const metadata = {
-                    screen_width: screen.width,
-                    screen_height: screen.height,
-                    viewport_width: window.innerWidth,
-                    viewport_height: window.innerHeight,
-                    color_depth: screen.colorDepth,
-                    pixel_ratio: window.devicePixelRatio || 1,
-                    language: navigator.language,
-                    languages: (navigator.languages || []).join(','),
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    referrer: document.referrer || 'direct',
-                    platform: navigator.platform,
-                    cores: navigator.hardwareConcurrency || 0,
-                    memory_gb: navigator.deviceMemory || 0,
-                    online: navigator.onLine,
-                    fingerprint: fingerprint,
-                    touch: 'ontouchstart' in window
-                };
+                        // Funcția principală pentru afișare conținut
+                        function showWorkspaceContent(type, data) {
+                            console.log('📋 Workspace showing:', type, data);
 
-                // Track page enter
-                fetch('/.netlify/functions/page-tracking', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        page: page,
-                        action: 'enter',
-                        session_id: sessionId,
-                        user_id: userId,
-                        metadata: metadata
-                    })
-                }).catch(e => console.warn('📊 Tracking enter failed:', e.message));
+                            const panel = document.getElementById('workspace-panel');
+                            const title = document.getElementById('workspace-title');
+                            const content = document.getElementById('workspace-content');
 
-                // Track page exit with duration
-                window.addEventListener('beforeunload', () => {
-                    const duration = Date.now() - startTime;
-                    const scrollDepth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100) || 0;
+                            if (!panel || !content) {
+                                console.error('Workspace panel not found');
+                                return;
+                            }
 
-                    navigator.sendBeacon('/.netlify/functions/page-tracking', JSON.stringify({
-                        page: page,
-                        action: 'exit',
-                        session_id: sessionId,
-                        user_id: userId,
-                        duration_ms: duration,
-                        scroll_depth: scrollDepth,
-                        metadata: metadata
-                    }));
-                });
+                            // Setează titlul și iconița bazat pe tip
+                            const titles = {
+                                weather: '🌤️ Vremea Acum',
+                                search: '🔍 Rezultate Căutare',
+                                location: '📍 Locația Ta',
+                                navigate: '🧭 Navigație',
+                                verify: '✓ Verificare',
+                                general: '🧠 Brain Output'
+                            };
 
-                console.log('📊 Page tracking initialized —', page, '— FP:', fingerprint);
-            })();
+                            title.innerHTML = titles[type] || titles.general;
+
+                            // Formatează conținutul
+                            let html = '';
+                            if (typeof data === 'string') {
+                                // Formatează Plain text cu styling
+                                html = `<div style="white-space: pre-wrap; word-wrap: break-word;">${data}</div>`;
+                            } else if (typeof data === 'object') {
+                                // Formatează obiect JSON
+                                html = `<pre style="white-space: pre-wrap; word-wrap: break-word; color: #00ff88; font-family: monospace; font-size: 0.85rem;">${JSON.stringify(data, null, 2)}</pre>`;
+                            }
+
+                            content.innerHTML = html;
+
+                            // Afișează panoul
+                            panel.style.display = 'block';
+                        }
+
+                        function closeWorkspacePanel() {
+                            const panel = document.getElementById('workspace-panel');
+                            if (panel) panel.style.display = 'none';
+                        }
+
+                        // Expose globally pentru Brain Orchestrator
+                        window.showWorkspaceContent = showWorkspaceContent;
+                        window.closeWorkspacePanel = closeWorkspacePanel;
+
+                        console.log('✅ Workspace content panel loaded');
+
+                        // ============ PAGE TRACKING ============
+                        (function initPageTracking() {
+                            const sessionId = sessionStorage.getItem('kelion_session') ||
+                                'session_' + Date.now() + '_' + Array.from(crypto.getRandomValues(new Uint8Array(5)), b => b.toString(36)).join('').substr(0, 9);
+                            sessionStorage.setItem('kelion_session', sessionId);
+
+                            const userId = localStorage.getItem('kelion_user_id') || null;
+                            const page = window.location.pathname || '/';
+                            const startTime = Date.now();
+
+                            // Extended device fingerprint (alternative to MAC address)
+                            function generateFingerprint() {
+                                try {
+                                    const canvas = document.createElement('canvas');
+                                    const ctx = canvas.getContext('2d');
+                                    ctx.textBaseline = 'top';
+                                    ctx.font = '14px Arial';
+                                    ctx.fillStyle = '#f60';
+                                    ctx.fillRect(125, 1, 62, 20);
+                                    ctx.fillStyle = '#069';
+                                    ctx.fillText('Kelion FP', 2, 15);
+                                    const canvasHash = canvas.toDataURL().slice(-40);
+
+                                    const gl = document.createElement('canvas').getContext('webgl');
+                                    const renderer = gl ? gl.getParameter(gl.RENDERER) : 'none';
+                                    const vendor = gl ? gl.getParameter(gl.VENDOR) : 'none';
+
+                                    const raw = [
+                                        canvasHash,
+                                        renderer,
+                                        vendor,
+                                        screen.width + 'x' + screen.height,
+                                        screen.colorDepth,
+                                        navigator.language,
+                                        navigator.hardwareConcurrency || 0,
+                                        navigator.deviceMemory || 0,
+                                        Intl.DateTimeFormat().resolvedOptions().timeZone,
+                                        navigator.platform
+                                    ].join('|');
+
+                                    // Simple hash
+                                    let hash = 0;
+                                    for (let i = 0; i < raw.length; i++) {
+                                        hash = ((hash << 5) - hash) + raw.charCodeAt(i);
+                                        hash |= 0;
+                                    }
+                                    return 'fp_' + Math.abs(hash).toString(36);
+                                } catch (e) {
+                                    return 'fp_unknown';
+                                }
+                            }
+
+                            const fingerprint = generateFingerprint();
+
+                            // Extra metadata
+                            const metadata = {
+                                screen_width: screen.width,
+                                screen_height: screen.height,
+                                viewport_width: window.innerWidth,
+                                viewport_height: window.innerHeight,
+                                color_depth: screen.colorDepth,
+                                pixel_ratio: window.devicePixelRatio || 1,
+                                language: navigator.language,
+                                languages: (navigator.languages || []).join(','),
+                                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                                referrer: document.referrer || 'direct',
+                                platform: navigator.platform,
+                                cores: navigator.hardwareConcurrency || 0,
+                                memory_gb: navigator.deviceMemory || 0,
+                                online: navigator.onLine,
+                                fingerprint: fingerprint,
+                                touch: 'ontouchstart' in window
+                            };
+
+                            // Track page enter
+                            fetch('/.netlify/functions/page-tracking', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    page: page,
+                                    action: 'enter',
+                                    session_id: sessionId,
+                                    user_id: userId,
+                                    metadata: metadata
+                                })
+                            }).catch(e => console.warn('📊 Tracking enter failed:', e.message));
+
+                            // Track page exit with duration
+                            window.addEventListener('beforeunload', () => {
+                                const duration = Date.now() - startTime;
+                                const scrollDepth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100) || 0;
+
+                                navigator.sendBeacon('/.netlify/functions/page-tracking', JSON.stringify({
+                                    page: page,
+                                    action: 'exit',
+                                    session_id: sessionId,
+                                    user_id: userId,
+                                    duration_ms: duration,
+                                    scroll_depth: scrollDepth,
+                                    metadata: metadata
+                                }));
+                            });
+
+                            console.log('📊 Page tracking initialized —', page, '— FP:', fingerprint);
+                        })();
                     </script>
 
                     <!-- CRITICAL: Load Realtime Voice & Task Workspace Components -->
@@ -5515,133 +5519,133 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
 
                     <!-- Voice System Auto-Initialize (Gemini Only) -->
                     <script>
-            (async function initVoiceSystem() {
-                'use strict';
+                        (async function initVoiceSystem() {
+                            'use strict';
 
-                console.log('🎙️ Initializing Gemini 2.0 Live voice system...');
+                            console.log('🎙️ Initializing Gemini 2.0 Live voice system...');
 
-                // Wait for K hologram reveal event
-                window.addEventListener('k-hologram-ready', async () => {
-                    console.log('🚀 K Hologram ready - starting Gemini voice pipeline');
+                            // Wait for K hologram reveal event
+                            window.addEventListener('k-hologram-ready', async () => {
+                                console.log('🚀 K Hologram ready - starting Gemini voice pipeline');
 
-                    try {
-                        if (window.GeminiLiveVoice) {
-                            const geminiVoice = new window.GeminiLiveVoice();
-                            await geminiVoice.initialize();
+                                try {
+                                    if (window.GeminiLiveVoice) {
+                                        const geminiVoice = new window.GeminiLiveVoice();
+                                        await geminiVoice.initialize();
 
-                            console.log('✅ Voice System: GEMINI 2.0 LIVE ACTIVE');
-                            console.log('💰 Cost: $0.006/min | Latency: ~600ms');
-                            console.log('🎯 ONLY Provider: Gemini - No fallback');
+                                        console.log('✅ Voice System: GEMINI 2.0 LIVE ACTIVE');
+                                        console.log('💰 Cost: $0.006/min | Latency: ~600ms');
+                                        console.log('🎯 ONLY Provider: Gemini - No fallback');
 
-                            // Store active system reference
-                            window.activeVoiceSystem = 'gemini';
-                            window.voiceInstance = geminiVoice;
+                                        // Store active system reference
+                                        window.activeVoiceSystem = 'gemini';
+                                        window.voiceInstance = geminiVoice;
 
-                        } else {
-                            throw new Error('GeminiLiveVoice class not loaded');
-                        }
+                                    } else {
+                                        throw new Error('GeminiLiveVoice class not loaded');
+                                    }
 
-                    } catch (error) {
-                        console.error('❌ CRITICAL: Gemini voice system failed!');
-                        console.error('Error:', error.message);
+                                } catch (error) {
+                                    console.error('❌ CRITICAL: Gemini voice system failed!');
+                                    console.error('Error:', error.message);
 
-                        // Show user-friendly error
-                        alert('Voice system unavailable. Please refresh the page or contact support.');
-                    }
-                });
+                                    // Show user-friendly error
+                                    alert('Voice system unavailable. Please refresh the page or contact support.');
+                                }
+                            });
 
-                console.log('🎙️ Gemini voice system initializer loaded');
-            })();
+                            console.log('🎙️ Gemini voice system initializer loaded');
+                        })();
                     </script>
 
 
                     <!-- /* K1_VOICE_PATCH_INJECTED */ -->
                     <script>
-            /**
-             * K1 VOICE PATCH — injected by k1-voice-fix.js
-             * Provides:
-             * - window.K1_VOICE_MODE (auto|realtime|tts) persisted in localStorage
-             * - window.K1_setVoiceMode(mode)
-             * - window.K1_tryRealtimeSpeak(text) best-effort realtime speaker
-             * - Small UI toggle bottom-right
-             */
-            (function () {
-                const KEY = "K1_VOICE_MODE";
-                const saved = (localStorage.getItem(KEY) || "").trim().toLowerCase();
-                const mode = (saved === "realtime" || saved === "tts" || saved === "auto") ? saved : "realtime";
+                        /**
+                         * K1 VOICE PATCH — injected by k1-voice-fix.js
+                         * Provides:
+                         * - window.K1_VOICE_MODE (auto|realtime|tts) persisted in localStorage
+                         * - window.K1_setVoiceMode(mode)
+                         * - window.K1_tryRealtimeSpeak(text) best-effort realtime speaker
+                         * - Small UI toggle bottom-right
+                         */
+                        (function () {
+                            const KEY = "K1_VOICE_MODE";
+                            const saved = (localStorage.getItem(KEY) || "").trim().toLowerCase();
+                            const mode = (saved === "realtime" || saved === "tts" || saved === "auto") ? saved : "realtime";
 
-                window.K1_VOICE_MODE = mode;
-                window.K1_setVoiceMode = function (m) {
-                    const v = (m === "realtime" || m === "tts" || m === "auto") ? m : "auto";
-                    window.K1_VOICE_MODE = v;
-                    localStorage.setItem(KEY, v);
-                    try { const el = document.getElementById("k1-voice-mode-value"); if (el) el.textContent = v.toUpperCase(); } catch { }
-                    console.log("🔊 Voice mode set to:", v);
-                };
+                            window.K1_VOICE_MODE = mode;
+                            window.K1_setVoiceMode = function (m) {
+                                const v = (m === "realtime" || m === "tts" || m === "auto") ? m : "auto";
+                                window.K1_VOICE_MODE = v;
+                                localStorage.setItem(KEY, v);
+                                try { const el = document.getElementById("k1-voice-mode-value"); if (el) el.textContent = v.toUpperCase(); } catch { }
+                                console.log("🔊 Voice mode set to:", v);
+                            };
 
-                window.K1_tryRealtimeSpeak = async function (text) {
-                    try {
-                        const rt = window.kelionRealtime;
-                        if (!rt || typeof rt.isActive !== "function" || !rt.isActive()) {
-                            return { ok: false, reason: "realtime_not_active" };
-                        }
-                        if (typeof rt.speak === "function") {
-                            await rt.speak(text);
-                            return { ok: true, method: "speak" };
-                        }
-                        if (typeof rt.sendText === "function") {
-                            await rt.sendText(text);
-                            return { ok: true, method: "sendText" };
-                        }
-                        if (typeof rt.send === "function") {
-                            await rt.send({ type: "speak", text: text });
-                            return { ok: true, method: "send" };
-                        }
-                        return { ok: false, reason: "realtime_no_speak_method" };
-                    } catch (e) {
-                        return { ok: false, reason: "realtime_exception", error: String(e && e.message ? e.message : e) };
-                    }
-                };
+                            window.K1_tryRealtimeSpeak = async function (text) {
+                                try {
+                                    const rt = window.kelionRealtime;
+                                    if (!rt || typeof rt.isActive !== "function" || !rt.isActive()) {
+                                        return { ok: false, reason: "realtime_not_active" };
+                                    }
+                                    if (typeof rt.speak === "function") {
+                                        await rt.speak(text);
+                                        return { ok: true, method: "speak" };
+                                    }
+                                    if (typeof rt.sendText === "function") {
+                                        await rt.sendText(text);
+                                        return { ok: true, method: "sendText" };
+                                    }
+                                    if (typeof rt.send === "function") {
+                                        await rt.send({ type: "speak", text: text });
+                                        return { ok: true, method: "send" };
+                                    }
+                                    return { ok: false, reason: "realtime_no_speak_method" };
+                                } catch (e) {
+                                    return { ok: false, reason: "realtime_exception", error: String(e && e.message ? e.message : e) };
+                                }
+                            };
 
-                // Inject UI toggle (bottom-right) once
-                function ensureUI() {
-                    if (document.getElementById("k1-voice-toggle")) return;
+                            // Inject UI toggle (bottom-right) once
+                            function ensureUI() {
+                                if (document.getElementById("k1-voice-toggle")) return;
 
-                    const wrap = document.createElement("div");
-                    wrap.id = "k1-voice-toggle";
-                    wrap.style.cssText =
-                        "position:fixed;bottom:12px;right:12px;z-index:99999;display:none;" +
-                        "font-family:system-ui,Segoe UI,Arial; font-size:12px;" +
-                        "background:rgba(0,0,0,0.72); color:#fff; padding:10px 10px;" +
-                        "border:1px solid rgba(255,255,255,0.25); border-radius:12px;" +
-                        "backdrop-filter: blur(8px); box-shadow:0 10px 30px rgba(0,0,0,0.35);";
+                                const wrap = document.createElement("div");
+                                wrap.id = "k1-voice-toggle";
+                                wrap.style.cssText =
+                                    "position:fixed;bottom:12px;right:12px;z-index:99999;display:none;" +
+                                    "font-family:system-ui,Segoe UI,Arial; font-size:12px;" +
+                                    "background:rgba(0,0,0,0.72); color:#fff; padding:10px 10px;" +
+                                    "border:1px solid rgba(255,255,255,0.25); border-radius:12px;" +
+                                    "backdrop-filter: blur(8px); box-shadow:0 10px 30px rgba(0,0,0,0.35);";
 
-                    wrap.innerHTML =
-                        "<div style='display:flex;align-items:center;gap:8px;margin-bottom:8px;'>" +
-                        "<div style='font-weight:600;'>Voice:</div>" +
-                        "<div id='k1-voice-mode-value' style='padding:2px 8px;border:1px solid rgba(255,255,255,0.3);border-radius:999px;'>" +
-                        (window.K1_VOICE_MODE || "auto").toUpperCase() +
-                        "</div>" +
-                        "</div>" +
-                        "<div style='display:flex;gap:6px;'>" +
-                        "<button id='k1-vm-auto' type='button' style='cursor:pointer;padding:6px 8px;border-radius:10px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);color:#fff;'>AUTO</button>" +
-                        "<button id='k1-vm-rt' type='button' style='cursor:pointer;padding:6px 8px;border-radius:10px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);color:#fff;'>REALTIME</button>" +
-                        "<button id='k1-vm-tts' type='button' style='cursor:pointer;padding:6px 8px;border-radius:10px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);color:#fff;'>TTS</button>" +
-                        "</div>";
+                                wrap.innerHTML =
+                                    "<div style='display:flex;align-items:center;gap:8px;margin-bottom:8px;'>" +
+                                    "<div style='font-weight:600;'>Voice:</div>" +
+                                    "<div id='k1-voice-mode-value' style='padding:2px 8px;border:1px solid rgba(255,255,255,0.3);border-radius:999px;'>" +
+                                    (window.K1_VOICE_MODE || "auto").toUpperCase() +
+                                    "</div>" +
+                                    "</div>" +
+                                    "<div style='display:flex;gap:6px;'>" +
+                                    "<button id='k1-vm-auto' type='button' style='cursor:pointer;padding:6px 8px;border-radius:10px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);color:#fff;'>AUTO</button>" +
+                                    "<button id='k1-vm-rt' type='button' style='cursor:pointer;padding:6px 8px;border-radius:10px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);color:#fff;'>REALTIME</button>" +
+                                    "<button id='k1-vm-tts' type='button' style='cursor:pointer;padding:6px 8px;border-radius:10px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);color:#fff;'>TTS</button>" +
+                                    "</div>";
 
-                    document.body.appendChild(wrap);
+                                document.body.appendChild(wrap);
 
-                    document.getElementById("k1-vm-auto").onclick = () => window.K1_setVoiceMode("auto");
-                    document.getElementById("k1-vm-rt").onclick = () => window.K1_setVoiceMode("realtime");
-                    document.getElementById("k1-vm-tts").onclick = () => window.K1_setVoiceMode("tts");
-                }
+                                document.getElementById("k1-vm-auto").onclick = () => window.K1_setVoiceMode("auto");
+                                document.getElementById("k1-vm-rt").onclick = () => window.K1_setVoiceMode("realtime");
+                                document.getElementById("k1-vm-tts").onclick = () => window.K1_setVoiceMode("tts");
+                            }
 
-                if (document.readyState === "loading") {
-                    document.addEventListener("DOMContentLoaded", ensureUI);
-                } else {
-                    ensureUI();
-                }
-            })();
+                            if (document.readyState === "loading") {
+                                document.addEventListener("DOMContentLoaded", ensureUI);
+                            } else {
+                                ensureUI();
+                            }
+                        })();
                     </script>
 
                     <!-- K1_PHASE4_WIRING_INJECTED -->
@@ -5655,20 +5659,20 @@ for (let i = 0; i < dataArray.length; i++) { sum +=dataArray[i]; } return sum / 
                     <script src="/components/agent-dashboard.js"></script>
                     <script src="/components/evolution-dashboard.js"></script>
                     <script>
-                            (function () {
-                                // If components attach to window themselves, this does nothing.
-                                // If they export functions (ES modules), you must attach window.* inside those modules.
-                                // Here we create HARD FAIL stubs so missing wiring is impossible to hide.
-                                const req = ["executeCode", "openFileBrowser", "navigateToURL", "takeScreenshot", "executeComplexTask", "openToolCreator", "executeMultiAgentTask", "openEvolutionDashboard"];
-                                for (const k of req) {
-                                    if (typeof window[k] !== "function") {
-                                        window[k] = function () {
-                                            throw new Error("K1_PHASE4_NOT_WIRED: window." + k + " is not wired. Component loaded but did not attach to window.");
-                                        };
-                                    }
+                        (function () {
+                            // If components attach to window themselves, this does nothing.
+                            // If they export functions (ES modules), you must attach window.* inside those modules.
+                            // Here we create HARD FAIL stubs so missing wiring is impossible to hide.
+                            const req = ["executeCode", "openFileBrowser", "navigateToURL", "takeScreenshot", "executeComplexTask", "openToolCreator", "executeMultiAgentTask", "openEvolutionDashboard"];
+                            for (const k of req) {
+                                if (typeof window[k] !== "function") {
+                                    window[k] = function () {
+                                        throw new Error("K1_PHASE4_NOT_WIRED: window." + k + " is not wired. Component loaded but did not attach to window.");
+                                    };
                                 }
-                                console.log("✅ K1 Phase 4 wiring shim active.");
-                            })();
+                            }
+                            console.log("✅ K1 Phase 4 wiring shim active.");
+                        })();
                     </script>
 
 

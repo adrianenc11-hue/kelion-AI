@@ -338,7 +338,7 @@
                     if (user.role === 'admin' || user.role === 'superadmin') {
                         document.getElementById('admin-back-link').style.display = 'inline-flex';
                     }
-                } catch (e) { }
+                } catch (e) { console.warn('Failed to parse kelion_user:', e.message); }
             }
 
             const token = localStorage.getItem('kelion_access_token');

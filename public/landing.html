@@ -1161,7 +1161,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
+            padding-bottom: 60px;
             cursor: pointer;
             position: relative;
             transition: all .4s;
@@ -1403,21 +1404,32 @@
                         if (!child.isMesh) return;
                         if (child.material) child.material.side = THREE.DoubleSide;
 
-                        /* ── FIX EYEBROW Z-FIGHTING ──
-                           Push each brow/lash vertex outward along its normal
-                           so it sits above the skin mesh everywhere */
+                        /* ── FIX EYEBROW / EYELID Z-FIGHTING ──
+                           Push each brow/lash/lid vertex outward along its normal
+                           so it sits visibly above the skin mesh everywhere.
+                           Also set renderOrder + polygonOffset for GPU-level fix. */
                         var nm = (child.name || '').toLowerCase();
-                        if (nm.indexOf('brow') !== -1 || nm.indexOf('lash') !== -1) {
+                        var isFacial = nm.indexOf('brow') !== -1 || nm.indexOf('lash') !== -1 || nm.indexOf('lid') !== -1 || nm.indexOf('eyelid') !== -1;
+                        if (isFacial) {
+                            // Geometry offset (push vertices along normals)
                             var geo = child.geometry;
                             var pos = geo.attributes.position;
                             var nrm = geo.attributes.normal;
                             if (pos && nrm) {
                                 for (var i = 0; i < pos.count; i++) {
-                                    pos.setX(i, pos.getX(i) + nrm.getX(i) * 0.0008);
-                                    pos.setY(i, pos.getY(i) + nrm.getY(i) * 0.0008);
-                                    pos.setZ(i, pos.getZ(i) + nrm.getZ(i) * 0.0008);
+                                    pos.setX(i, pos.getX(i) + nrm.getX(i) * 0.003);
+                                    pos.setY(i, pos.getY(i) + nrm.getY(i) * 0.003);
+                                    pos.setZ(i, pos.getZ(i) + nrm.getZ(i) * 0.003);
                                 }
                                 pos.needsUpdate = true;
+                            }
+                            // GPU-level render priority
+                            child.renderOrder = 10;
+                            if (child.material) {
+                                child.material.depthWrite = true;
+                                child.material.polygonOffset = true;
+                                child.material.polygonOffsetFactor = -4;
+                                child.material.polygonOffsetUnits = -4;
                             }
                         }
                     });

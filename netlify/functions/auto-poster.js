@@ -12,7 +12,7 @@
 const { autoPost } = require('./auto-poster-core');
 
 // ═══ HANDLER — Cron only ═══
-exports.handler = async (event) => {
+exports.handler = async (_event) => {
     console.log('[auto-poster] Cron trigger fired at', new Date().toISOString());
 
     try {
@@ -31,7 +31,7 @@ exports.handler = async (event) => {
     } catch (e) {
         console.error('[auto-poster] FATAL cron error:', e.message, e.stack);
         return {
-            statusCode: 200,
+            statusCode: 500,
             body: JSON.stringify({ success: false, error: e.message })
         };
     }

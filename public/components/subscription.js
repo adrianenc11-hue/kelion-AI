@@ -131,7 +131,7 @@ const KelionSubscription = {
                     console.log('✅ Premium user authenticated from localStorage:', userData.email, 'Subscription:', userData.subscription);
                     return;
                 }
-            } catch (e) { }
+            } catch (e) { console.warn('Failed to parse kelion_user for auth:', e.message); }
         }
 
         if (!token) {
@@ -560,7 +560,7 @@ const KelionSubscription = {
                 try {
                     const userData = JSON.parse(userDataStr);
                     isAdmin = userData.role === 'admin' || userData.role === 'superadmin';
-                } catch (e) { }
+                } catch (e) { console.warn('Failed to parse user data for admin check:', e.message); }
             }
 
             if (isAdmin) {

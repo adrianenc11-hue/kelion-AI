@@ -673,7 +673,7 @@ function calcOBV(closes, volumes) {
 // ═══════════════════════════════════════════════════
 // MARKET REGIME DETECTION — trending/ranging/volatile
 // ═══════════════════════════════════════════════════
-function detectMarketRegime(closes, atr, volumes) {
+function detectMarketRegime(closes, _atr, _volumes) {
     const len = closes.length;
     if (len < 20) return { regime: 'unknown', confidence: 0 };
 
@@ -955,7 +955,7 @@ async function getAdjustedWeights(db, baseWeights) {
 // Analyzes past trades, learns what works, adjusts strategy weights
 // ═══════════════════════════════════════════════════
 
-async function autoLearn(db, key, secret) {
+async function autoLearn(db, _key, _secret) {
     if (!db) return { learned: false, reason: 'No database' };
 
     const results = { learned: false, adjustments: [], patterns_saved: 0, analysis: {} };
@@ -976,7 +976,7 @@ async function autoLearn(db, key, secret) {
 
         // 2. Analyze performance by strategy
         const byStrategy = {};
-        let totalPnL = 0, wins = 0, losses = 0;
+        let totalPnL = 0, wins = 0, _losses = 0;
 
         trades.forEach(t => {
             const strategy = t.strategy || 'unknown';

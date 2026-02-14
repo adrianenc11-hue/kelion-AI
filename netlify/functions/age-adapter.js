@@ -17,7 +17,7 @@ exports.handler = async (event) => {
 
 function respond(c, d) { return { statusCode: c, headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify({ success: c === 200, ...d }) }; }
 
-function adaptContent({ content, age, type = 'text' }) {
+function adaptContent({ content, age, _type = 'text' }) {
     const group = age <= 2 ? 'toddler' : age <= 5 ? 'preschool' : age <= 8 ? 'early_school' : 'school';
     const rules = {
         toddler: { max_words: 20, vocabulary: 'basic', emoji: true, images: true, font_size: '24px', colors: 'bright', interaction: 'tap/swipe' },

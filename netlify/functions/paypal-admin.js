@@ -123,7 +123,7 @@ exports.handler = async (event) => {
                     return { statusCode: 400, headers, body: JSON.stringify({ error: 'plan_id and new_price required' }) };
                 }
 
-                const result = await paypalAPI(token, `billing/plans/${plan_id}/update-pricing-schemes`, 'POST', {
+                const _result = await paypalAPI(token, `billing/plans/${plan_id}/update-pricing-schemes`, 'POST', {
                     pricing_schemes: [{
                         billing_cycle_sequence: 1,
                         pricing_scheme: {
